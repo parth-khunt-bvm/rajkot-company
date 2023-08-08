@@ -6,30 +6,65 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Agent\Agent;
 use Session;
+use Route;
+use DB;
+
 class Audittrails extends Model
 {
     use HasFactory;
     protected $table = 'audit_trails';
 
-
-    public function add_audit($evet , $url , $data,$module){
+    public function add_audit($event , $data, $module){
 
         $agent = new Agent();
         $browser = $agent->browser();
-
+        $currentRoute = Route::current()->getName();
+        if($event == 'U'){
+            $activity = 'Update';
+        }elseif($event == 'I'){
+            $activity = 'Insert';
+        }elseif($event == 'A'){
+            $activity = 'Active Records';
+        }elseif($event == 'DA'){
+            $activity = 'Deactive Records';
+        }elseif($event == 'D'){
+            $activity = 'Delete Records';
+        }else{
+            $activity = 'Unknow Activity';
+        }
+        unset($data['_token']);
         $loginUser = Session::all();
         $objAudittrails = new Audittrails();
         $objAudittrails->user_id = $loginUser['logindata'][0]['id'];
-        $objAudittrails->event = $evet;
+        $objAudittrails->event = $activity;
         $objAudittrails->module = $module;
-        $objAudittrails->data = $data;
-        $objAudittrails->url = $url;
+        $objAudittrails->data = json_encode($data);
+        $objAudittrails->url = str_replace(".", "/", $currentRoute);
         $objAudittrails->ip = $_SERVER['REMOTE_ADDR'];
         $objAudittrails->agent = $browser;
         $objAudittrails->created_at = date("Y-m-d H:i:s");
         $objAudittrails->updated_at = date("Y-m-d H:i:s");
         return $objAudittrails->save();
     }
+
+    // public function add_audit($evet , $url , $data,$module){
+
+    //     $agent = new Agent();
+    //     $browser = $agent->browser();
+
+    //     $loginUser = Session::all();
+    //     $objAudittrails = new Audittrails();
+    //     $objAudittrails->user_id = $loginUser['logindata'][0]['id'];
+    //     $objAudittrails->event = $evet;
+    //     $objAudittrails->module = $module;
+    //     $objAudittrails->data = $data;
+    //     $objAudittrails->url = $url;
+    //     $objAudittrails->ip = $_SERVER['REMOTE_ADDR'];
+    //     $objAudittrails->agent = $browser;
+    //     $objAudittrails->created_at = date("Y-m-d H:i:s");
+    //     $objAudittrails->updated_at = date("Y-m-d H:i:s");
+    //     return $objAudittrails->save();
+    // }
 
     public function getdatatable()
     {
