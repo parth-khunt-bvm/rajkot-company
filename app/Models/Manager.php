@@ -5,24 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use App\Models\Audittrails;
+use Route;
+use Session;
+use Hash;
 
-class Branch extends Model
+class Manager extends Model
 {
     use HasFactory;
-    protected $table= "branch";
+
+    protected $table = "manager";
 
     public function getdatatable()
     {
         $requestData = $_REQUEST;
         $columns = array(
-            0 => 'branch.id',
-            1 => 'branch.branch_name',
-            5 => DB::raw('(CASE WHEN branch.status = "A" THEN "Actived" ELSE "Deactived" END)'),
-
+            0 => 'manager.id',
+            1 => 'manager.manager_name',
+            2 => DB::raw('(CASE WHEN manager.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
-        $query = Branch::from('branch')
-            ->where("branch.is_deleted", "=", "N");
+        $query = Manager::from('manager')
+            ->where("manager.is_deleted", "=", "N");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -49,16 +51,15 @@ class Branch extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'branch.id', 'branch.branch_name', 'branch.status')
+            ->select('manager.id', 'manager.manager_name','manager.status')
             ->get();
 
         $data = array();
         $i = 0;
 
         foreach ($resultArr as $row) {
-
-            $actionhtml  = '';
-            $actionhtml .= '<a href="' . route('admin.branch.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            $actionhtml = '';
+            $actionhtml .= '<a href="' . route('admin.manager.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['status'] == 'A') {
                 $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
@@ -67,11 +68,11 @@ class Branch extends Model
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
-
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = $row['branch_name'];
+            // $nestedData[] = $row['id'];
+            $nestedData[] = $row['manager_name'];
             $nestedData[] = $status;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -85,92 +86,54 @@ class Branch extends Model
         return $json_data;
     }
 
-    public function saveAdd($requestData){
-        $checkBranchName = Branch::from('branch')
-                    ->where('branch.branch_name', $requestData['branch_name'])
-                    ->where('branch.is_deleted', 'N')
-                    ->count();
+    public function saveAdd($requestData)
+    {
+        $checkManagerName = Manager::from('manager')
+            ->where('manager.manager_name', $requestData['manager_name'])
+            ->where('manager.is_deleted', 'N')
+            ->count();
 
-        if($checkBranchName == 0){
-            $objBranch = new Branch();
-            $objBranch->branch_name = $requestData['branch_name'];
-            $objBranch->status = $requestData['status'];
-            $objBranch->is_deleted = 'N';
-            $objBranch->created_at = date('Y-m-d H:i:s');
-            $objBranch->updated_at = date('Y-m-d H:i:s');
-            if($objBranch->save()){
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Branch');
+        if ($checkManagerName == 0) {
+            $objManager = new Manager();
+            $objManager->manager_name = $requestData['manager_name'];
+            $objManager->created_at = date('Y-m-d H:i:s');
+            $objManager->updated_at = date('Y-m-d H:i:s');
+            if ($objManager->save()) {
                 return 'added';
-            }else{
+            } else {
                 return 'wrong';
             }
         }
-        return 'branch_name_exists';
-    }
-
-    public function get_branch_details($branchId){
-        return Branch::from('branch')
-                ->where("branch.id", $branchId)
-                ->select('branch.id', 'branch.branch_name', 'branch.status')
-                ->first();
+        return 'manager_name_exists';
     }
 
     public function saveEdit($requestData){
-        $checkBranchName = Branch::from('branch')
-                    ->where('branch.branch_name', $requestData['branch_name'])
-                    ->where('branch.is_deleted', 'N')
-                    ->where('branch.id', '!=', $requestData['branch_Id'])
-                    ->count();
+        $checkManagerName = Manager::from('manager')
+            ->where('manager.manager_name', $requestData['manager_name'])
+            ->where('manager.is_deleted', 'N')
+            ->where('manager.id', '!=', $requestData['manager_Id'])
+            ->count();
 
-        if($checkBranchName == 0){
-            $objBranch = Branch::find($requestData['branch_Id']);
-            $objBranch->branch_name = $requestData['branch_name'];
-            $objBranch->status = $requestData['status'];
-            $objBranch->updated_at = date('Y-m-d H:i:s');
-            if($objBranch->save()){
+        if($checkManagerName == 0) {
+            $objManager = Manager::find($requestData['editId']);
+            $objManager->manager_name = $requestData['manager_name'];
+            $objManager->status = $requestData['status'];
+            $objManager->updated_at = date('Y-m-d H:i:s');
+            if ($objManager->save()) {
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'Branch');
+                $objAudittrails->add_audit("I", $requestData, 'Manager');
                 return 'updated';
-            }else{
+            } else {
                 return 'wrong';
             }
         }
-        return 'branch_name_exists';
+        return 'manager_name_exists';
     }
 
-    public function common_activity($requestData){
-
-        $objBranch = Branch::find($requestData['id']);
-        if($requestData['activity'] == 'delete-records'){
-            $objBranch->is_deleted = "Y";
-            $event = 'D';
-        }
-
-        if($requestData['activity'] == 'active-records'){
-            $objBranch->status = "A";
-            $event = 'A';
-        }
-
-        if($requestData['activity'] == 'deactive-records'){
-            $objBranch->status = "I";
-            $event = 'DA';
-        }
-
-        $objBranch->updated_at = date("Y-m-d H:i:s");
-        if($objBranch->save()){
-            $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'Branch');
-            return true;
-        }else{
-            return false ;
-        }
-    }
-
-    public function get_admin_branch_details(){
-        return Manager::from('branch')
-            ->select('branch.id', 'branch.branch_name')
-            ->where('branch.id')
-            ->get()->toArray();
+    public function get_manager_details($managerId){
+        return Manager::from('manager')
+            ->where("manager.id", $managerId)
+            ->select('manager.id', 'manager.manager_name', 'manager.status')
+            ->first();
     }
 }
