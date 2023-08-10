@@ -20,9 +20,9 @@ class Salary extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'salary.id',
-            1 => 'manager.manager_id',
-            2 => 'manager.branch_id',
-            3 => 'manager.technology_id',
+            1 => 'manager.manager_name',
+            2 => 'branch.branch_name',
+            3 => 'technology.technology_name',
             4 => 'salary.date',
             5 => 'salary.month_of',
             6 => 'salary.remarks',
@@ -61,7 +61,7 @@ class Salary extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('salary.id', 'manager.manager_id', 'branch.branch_id', 'technology.technology_id','salary.date', 'salary.month_of', 'salary.remarks', 'salary.amount', 'salary.status')
+            ->select('salary.id', 'manager.manager_name', 'branch.branch_name', 'technology.technology_name','salary.date', 'salary.month_of', 'salary.remarks', 'salary.amount', 'salary.status')
             ->get();
 
         $data = array();

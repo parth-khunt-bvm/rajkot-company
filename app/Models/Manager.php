@@ -134,9 +134,9 @@ class Manager extends Model
         return 'manager_name_exists';
     }
 
-    public function get_manager_details($managerId){
+    public function get_manager_details(){
         return Manager::from('manager')
-            ->where("manager.id", $managerId)
+            ->where("manager.id")
             ->select('manager.id', 'manager.manager_name', 'manager.status')
             ->first();
     }

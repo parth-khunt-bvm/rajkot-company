@@ -132,11 +132,11 @@ class Technology extends Model
         }
     }
 
-    public function get_admin_technology_details($technologyId)
+    public function get_admin_technology_details()
     {
         return Technology::from('technology')
             ->select('technology.id', 'technology.technology_name', 'technology.status')
-            ->where('technology.id', $technologyId)
+            ->where('technology.id')
             ->first();
     }
 

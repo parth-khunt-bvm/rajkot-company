@@ -54,14 +54,11 @@ class SalaryController extends Controller
 
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        $data['manager']  = Manager::orderBy('id','DESC')->get();
 
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
+        $data['branch'] = Branch::orderBy('id','DESC')->get();
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        $data['technology'] = Technology::orderBy('id','DESC')->get();
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";

@@ -12,7 +12,8 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <!--begin::Form-->
-                        <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">@csrf
+                        <form class="form" id="add-salary" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">
+                            @csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -22,9 +23,11 @@
                                             </label>
                                             <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
                                                 <option value="">Please select Manager Name</option>
-                                                @foreach ($manager  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['manager_id'] }}</option>
-                                                @endforeach
+                                                @if (is_array($manager) || is_object($manager))
+                                                    @foreach ($manager  as $key => $value )
+                                                        <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -33,11 +36,13 @@
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
-                                                <option value="">Please select Manager Name</option>
-                                                @foreach ($manager  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['manager_id'] }}</option>
-                                                @endforeach
+                                            <select class="form-control select2 manager_id" id="branch_id"  name="branch_id">
+                                                <option value="">Please select Branch Name</option>
+                                                @if (is_array($branch) || is_object($branch))
+                                                    @foreach ($branch  as $key => $value )
+                                                        <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -45,14 +50,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Manager Name
+                                            <label>Technology Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
-                                                <option value="">Please select Manager Name</option>
-                                                @foreach ($manager  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['manager_id'] }}</option>
-                                                @endforeach
+                                            <select class="form-control select2 manager_id" id="technology_id"  name="technology_id">
+                                                <option value="">Please select Technology Name</option>
+                                                @if (is_array($technology) || is_object($technology))
+                                                    @foreach ($technology  as $key => $value )
+                                                        <option value="{{ $value['id'] }}">{{ $value['technology_name'] }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -61,7 +68,7 @@
                                             <label>Date
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="Enter phone number" autocomplete="off">
+                                            <input type="date" name="date" class="form-control" placeholder="Enter Date" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +78,7 @@
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" autocomplete="off">
+                                            <input type="month" name="month_of" class="form-control" placeholder="Enter Month Of" autocomplete="off">
                                         </div>
                                     </div>
 
@@ -80,7 +87,7 @@
                                             <label>amount
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="password" name="new_confirm_password" class="form-control" placeholder="Enter Confirm Password" autocomplete="off">
+                                            <input type="number" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +97,7 @@
                                             <label>remarks
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" autocomplete="off">
+                                            <input type="text" name="remarks" class="form-control" placeholder="Enter remarks" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>

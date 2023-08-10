@@ -92,24 +92,24 @@ var Salary = function(){
     }
     var addSalary= function(){
         $('.select2').select2();
-        var form = $('#add-salary-users');
+        var form = $('#add-salary');
         var rules = {
-            manager_id: {required: true},
-            branch_id: {required: true},
-            technology_id: {required: true},
+            manager_name: {required: true},
+            branch_name: {required: true},
+            technology_name: {required: true},
             date: {required: true},
             month_of: {required: true},
             remarks: {required: true},
             amount: {required: true},
         };
         var message = {
-            manager_id :{
+            manager_name :{
                 required : "Please select manager name",
             },
-            branch_id : {
+            branch_name : {
                 required : "Please select branch name"
             },
-            technology_id : {
+            technology_name : {
                 required : "Please select technology name"
             },
             date : {
@@ -133,22 +133,22 @@ var Salary = function(){
         $('.select2').select2();
         var form = $('#edit-salary-users');
         var rules = {
-            manager_id: {required: true},
-            branch_id: {required: true},
-            technology_id: {required: true},
+            manager_name: {required: true},
+            branch_name: {required: true},
+            technology_name: {required: true},
             date: {required: true},
             month_of: {required: true},
             remarks: {required: true},
             amount: {required: true},
         };
         var message = {
-            manager_id :{
+            manager_name :{
                 required : "Please select manager name",
             },
-            branch_id : {
+            branch_name : {
                 required : "Please select branch name"
             },
-            technology_id : {
+            technology_name : {
                 required : "Please select technology name"
             },
             date : {
