@@ -28,7 +28,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/branch/add', [BranchController::class, 'add'])->name('admin.branch.add');
     Route::post('admin/branch/save-add-branch', [BranchController::class, 'saveAdd'])->name('admin.branch.save-add-branch');
 
-    Route::get('admin/branch/edit', [BranchController::class, 'edit'])->name('admin.branch.edit');
+    Route::get('admin/branch/edit/{id}', [BranchController::class, 'edit'])->name('admin.branch.edit');
     Route::post('admin/branch/save-edit-branch', [BranchController::class, 'saveEdit'])->name('admin.branch.save-edit-branch');
 
     Route::post('admin/branch/ajaxcall', [BranchController::class, 'ajaxcall'])->name('admin.branch.ajaxcall');

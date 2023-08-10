@@ -82,17 +82,17 @@ class BranchController extends Controller
     }
 
     public function saveAdd(Request $request){
-        $objBranch = new Slug();
+        $objBranch = new Branch();
         $result = $objBranch->saveAdd($request);
         if ($result == "added") {
             $return['status'] = 'success';
              $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Slug details successfully added.';
-            $return['redirect'] = route('slug.list');
-        } elseif ($result == "slug_exists") {
-            $return['status'] = 'error';
+            $return['message'] = 'Branch details successfully added.';
+            $return['redirect'] = route('admin.branch.list');
+        } elseif ($result == "branch_name_exists") {
+            $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Slug has already exists.';
+            $return['message'] = 'Branch has already exists.';
         }  else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -102,17 +102,13 @@ class BranchController extends Controller
         exit;
     }
 
-    public function edit ($editId){
+    public function edit ($branchId){
 
-        $objBranchcategory = new Slugcategory();
-        $data['slug_category'] = $objBranchcategory->get_slug_category();
-
-        $objBranch = new Slug();
-        $data['slug_details'] = $objBranch->get_slug_details($editId);
-
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Slug";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Slug";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Slug";
+        $objBranch = new Branch();
+        $data['branch_details'] = $objBranch->get_branch_details($branchId);
+        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
+        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
+        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -127,34 +123,34 @@ class BranchController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'slug.js',
+            'branch.js',
         );
         $data['funinit'] = array(
-            'Slug.edit()'
+            'Branch.edit()'
         );
         $data['header'] = array(
-            'title' => 'Edit slug',
+            'title' => 'Edit Branch',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Slug List' => route('slug.list'),
-                'Edit slug' => 'Edit slug',
+                'Branch List' => route('admin.branch.list'),
+                'Edit Branch' => 'Edit Branch',
             )
         );
-        return view('backend.pages.slugs.edit', $data);
+        return view('backend.pages.branch.edit', $data);
     }
 
     public function saveEdit(Request $request){
-        $objBranch = new Slug();
+        $objBranch = new Branch();
         $result = $objBranch->saveEdit($request);
-        if ($result == "added") {
+        if ($result == "updated") {
             $return['status'] = 'success';
              $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Slug details successfully updated.';
-            $return['redirect'] = route('slug.list');
-        } elseif ($result == "slug_exists") {
-            $return['status'] = 'error';
+            $return['message'] = 'Branch details successfully updated.';
+            $return['redirect'] = route('admin.branch.list');
+        } elseif ($result == "branch_name_exists") {
+            $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Slug has already exists.';
+            $return['message'] = 'Branch has already exists.';
         }  else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

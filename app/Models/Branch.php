@@ -85,7 +85,61 @@ class Branch extends Model
         return $json_data;
     }
 
-     public function common_activity($requestData){
+    public function saveAdd($requestData){
+        $checkBranchName = Branch::from('branch')
+                    ->where('branch.branch_name', $requestData['branch_name'])
+                    ->where('branch.is_deleted', 'N')
+                    ->count();
+
+        if($checkBranchName == 0){
+            $objBranch = new Branch();
+            $objBranch->branch_name = $requestData['branch_name'];
+            $objBranch->status = $requestData['status'];
+            $objBranch->is_deleted = 'N';
+            $objBranch->created_at = date('Y-m-d H:i:s');
+            $objBranch->updated_at = date('Y-m-d H:i:s');
+            if($objBranch->save()){
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("I", $requestData, 'Branch');
+                return 'added';
+            }else{
+                return 'wrong';
+            }
+        }
+        return 'branch_name_exists';
+    }
+
+    public function get_branch_details($branchId){
+        return Branch::from('branch')
+                ->where("branch.id", $branchId)
+                ->select('branch.id', 'branch.branch_name', 'branch.status')
+                ->first();
+    }
+
+    public function saveEdit($requestData){
+        $checkBranchName = Branch::from('branch')
+                    ->where('branch.branch_name', $requestData['branch_name'])
+                    ->where('branch.is_deleted', 'N')
+                    ->where('branch.id', '!=', $requestData['branch_Id'])
+                    ->count();
+
+        if($checkBranchName == 0){
+            $objBranch = Branch::find($requestData['branch_Id']);
+            $objBranch->branch_name = $requestData['branch_name'];
+            $objBranch->status = $requestData['status'];
+            $objBranch->updated_at = date('Y-m-d H:i:s');
+            if($objBranch->save()){
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("U", $requestData, 'Branch');
+                return 'updated';
+            }else{
+                return 'wrong';
+            }
+        }
+        return 'branch_name_exists';
+    }
+
+    public function common_activity($requestData){
 
         $objBranch = Branch::find($requestData['id']);
         if($requestData['activity'] == 'delete-records'){

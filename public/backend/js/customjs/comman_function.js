@@ -320,7 +320,12 @@ function handleFormValidateWithMsg(form, rules, messages, submitCallback, showTo
                 element = $("#select2-" + elem.attr("id") + "-container").parent();
                 error.insertAfter(element);
             } else {
-                error.insertAfter(element);
+                if (elem.hasClass("radio-btn")) {
+                    element = elem.parent().parent();
+                    error.insertAfter(element);
+                } else {
+                    error.insertAfter(element);
+                }
             }
         },
     });
@@ -972,6 +977,3 @@ $("body").on("change","#empDepartment",function(){
         }
     });
 });
-
-
-

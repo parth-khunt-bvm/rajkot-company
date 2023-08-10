@@ -91,18 +91,32 @@ var Branch = function(){
     var addBranch = function(){
         var form = $('#add-branch');
         var rules = {
-            branch_name : {required: true}
+            branch_name : {required: true},
+            status : {required: true}
         };
 
         var message = {
             branch_name : {required: "Please enter branch name"},
+            status : {required: "Please select status"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
     }
     var editBranch = function(){
-        alert('editBranch');
+        var form = $('#edit-branch');
+        var rules = {
+            branch_name : {required: true},
+            status : {required: true}
+        };
+
+        var message = {
+            branch_name : {required: "Please enter branch name"},
+            status : {required: "Please select status"},
+        }
+        handleFormValidateWithMsg(form, rules,message, function(form) {
+            handleAjaxFormSubmit(form,true);
+        });
     }
     return {
         init:function(){

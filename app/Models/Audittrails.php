@@ -15,7 +15,7 @@ class Audittrails extends Model
     protected $table = 'audit_trails';
 
     public function add_audit($event , $data, $module){
-
+        ccd($data);
         $agent = new Agent();
         $browser = $agent->browser();
         $currentRoute = Route::current()->getName();
@@ -150,6 +150,6 @@ class Audittrails extends Model
 
 
     public function get_view_data($data){
-        return Audittrails::select('data')->where('id',$data['id'])->get();
+        return Audittrails::select('data')->where('id', $data['id']) ->get();
     }
 }
