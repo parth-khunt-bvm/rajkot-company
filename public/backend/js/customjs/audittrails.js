@@ -24,7 +24,7 @@ var Audittrails = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url: baseurl + "masteradmin/audit-trails/ajaxcall",
+                url: baseurl + "audittrails/audit-trails-ajaxcall",
                 data: { 'action': 'viewdata', 'data': data },
                 success: function(data) {
                     var html = '';

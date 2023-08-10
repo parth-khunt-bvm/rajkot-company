@@ -96,9 +96,13 @@ class Manager extends Model
         if ($checkManagerName == 0) {
             $objManager = new Manager();
             $objManager->manager_name = $requestData['manager_name'];
+            $objManager->status = $requestData['status'];
+            $objManager->is_deleted = 'N';
             $objManager->created_at = date('Y-m-d H:i:s');
             $objManager->updated_at = date('Y-m-d H:i:s');
             if ($objManager->save()) {
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("I", $requestData, 'Manager');
                 return 'added';
             } else {
                 return 'wrong';
@@ -115,13 +119,13 @@ class Manager extends Model
             ->count();
 
         if($checkManagerName == 0) {
-            $objManager = Manager::find($requestData['editId']);
+            $objManager = Manager::find($requestData['manager_Id']);
             $objManager->manager_name = $requestData['manager_name'];
             $objManager->status = $requestData['status'];
             $objManager->updated_at = date('Y-m-d H:i:s');
             if ($objManager->save()) {
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Manager');
+                $objAudittrails->add_audit("U", $requestData, 'Manager');
                 return 'updated';
             } else {
                 return 'wrong';
@@ -135,5 +139,32 @@ class Manager extends Model
             ->where("manager.id", $managerId)
             ->select('manager.id', 'manager.manager_name', 'manager.status')
             ->first();
+    }
+
+    public function common_activity($requestData){
+        $objBranch = Manager::find($requestData['id']);
+        if($requestData['activity'] == 'delete-records'){
+            $objBranch->is_deleted = "Y";
+            $event = 'D';
+        }
+
+        if($requestData['activity'] == 'active-records'){
+            $objBranch->status = "A";
+            $event = 'A';
+        }
+
+        if($requestData['activity'] == 'deactive-records'){
+            $objBranch->status = "I";
+            $event = 'DA';
+        }
+
+        $objBranch->updated_at = date("Y-m-d H:i:s");
+        if($objBranch->save()){
+            $objAudittrails = new Audittrails();
+            $res = $objAudittrails->add_audit($event, $requestData, 'Manager');
+            return true;
+        }else{
+            return false ;
+        }
     }
 }

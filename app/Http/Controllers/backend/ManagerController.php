@@ -82,7 +82,7 @@ class ManagerController extends Controller
 
     public function saveAdd(Request $request){
         $objManager = new Manager();
-        $result = $objManager->saveAdd($request);
+        $result = $objManager->saveAdd($request->all());
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -130,8 +130,8 @@ class ManagerController extends Controller
             'title' => 'Edit manager',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Admin users' => route('admin.manager.list'),
-                'Edit admin users' => 'Edit admin users',
+                'Managers' => route('admin.manager.list'),
+                'Edit Managers' => 'Edit Managers',
             )
         );
         return view('backend.pages.manager.edit', $data);
@@ -139,8 +139,8 @@ class ManagerController extends Controller
 
     public function saveEdit(Request $request){
         $objManager = new Manager();
-        $result = $objManager->saveEdit($request);
-        if ($result == "added") {
+        $result = $objManager->saveEdit($request->all());
+        if ($result == "updated") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Manager details successfully updated.';
@@ -177,11 +177,11 @@ class ManagerController extends Controller
                 if ($result) {
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
-                        $return['message'] = "Admin user's details successfully deleted.";
+                        $return['message'] = "Manager's details successfully deleted.";
                     }elseif($data['activity'] == 'active-records'){
-                        $return['message'] = "Admin user's details successfully actived.";
+                        $return['message'] = "Manager's details successfully actived.";
                     }else{
-                        $return['message'] = "Admin user's details successfully deactived.";
+                        $return['message'] = "Manager's details successfully deactived.";
                     }
                     $return['redirect'] = route('admin.manager.list');
                 } else {

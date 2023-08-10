@@ -149,6 +149,6 @@ class Audittrails extends Model
 
 
     public function get_view_data($data){
-        return Audittrails::select('data')->where('id', $data['id']) ->get();
+        return Audittrails::select('data')->where('id',$data['id'])->get();
     }
 }
