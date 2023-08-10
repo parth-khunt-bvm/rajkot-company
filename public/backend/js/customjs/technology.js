@@ -8,8 +8,8 @@ var Technology = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 4],
-            'noSearchApply': [0, 4],
+            'noSortingApply': [0, 3],
+            'noSearchApply': [0, 3],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth

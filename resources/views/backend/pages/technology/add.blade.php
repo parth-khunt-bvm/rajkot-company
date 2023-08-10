@@ -18,12 +18,27 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Manager Name
+                                            <label>Technology Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" name="technology_name"  class="form-control" placeholder="Enter Technology name" autocomplete="off">
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status <span class="text-danger">*</span></label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success" >
+                                                <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
+                                                <span></span>Active</label>
+                                                <label class="radio radio-lg radio-danger" >
+                                                <input type="radio" name="status" class="radio-btn" value="I"/>
+                                                <span></span>Inactive</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 

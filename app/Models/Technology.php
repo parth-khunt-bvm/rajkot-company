@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use Route;
-use Session;
-use Hash;
+use App\Models\Audittrails;
 
 class Technology extends Model
 {
@@ -73,7 +71,6 @@ class Technology extends Model
             $nestedData[] = $i;
             // $nestedData[] = $row['id'];
             $nestedData[] = $row['technology_name'];
-            $nestedData[] = $row['created_date'];
             $nestedData[] = $status;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -89,35 +86,84 @@ class Technology extends Model
 
     public function saveAdd($requestData)
     {
-        $objTechnology = new Technology();
-        $objTechnology->technology_name = $requestData['technology_name'];
-        $objTechnology->created_at = date('Y-m-d H:i:s');
-        $objTechnology->updated_at = date('Y-m-d H:i:s');
-        if ($objTechnology->save()) {
-            return 'added';
-        } else {
-            return 'wrong';
+        $checkManagerName = Technology::from('technology')
+            ->where('technology.technology_name', $requestData['technology_name'])
+            ->where('technology.is_deleted', 'N')
+            ->count();
+
+        if ($checkManagerName == 0) {
+            $objTechnology = new Technology();
+            $objTechnology->technology_name = $requestData['technology_name'];
+            $objTechnology->status = $requestData['status'];
+            $objTechnology->is_deleted = 'N';
+            $objTechnology->created_at = date('Y-m-d H:i:s');
+            $objTechnology->updated_at = date('Y-m-d H:i:s');
+            if ($objTechnology->save()) {
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("I", $requestData, 'Technology');
+                return 'added';
+            } else {
+                return 'wrong';
+            }
         }
+        return 'technology_name_exists';
     }
 
     public function saveEdit($requestData)
     {
-        $objTechnology = Technology::find($requestData['editId']);
-        $objTechnology->technology_name = $requestData['technology_name'];
-        $objTechnology->created_at = date('Y-m-d H:i:s');
-        $objTechnology->updated_at = date('Y-m-d H:i:s');
-        if ($objTechnology->save()) {
-            return 'added';
-        } else {
-            return 'wrong';
+        $checkManagerName = Technology::from('technology')
+        ->where('technology.technology_name', $requestData['technology_name'])
+        ->where('technology.is_deleted', 'N')
+        ->where('technology.id', '!=', $requestData['technologyId'])
+        ->count();
+
+        if($checkManagerName == 0) {
+            $objTechnology = Technology::find($requestData['technologyId']);
+            $objTechnology->technology_name = $requestData['technology_name'];
+            $objTechnology->status = $requestData['status'];
+            $objTechnology->updated_at = date('Y-m-d H:i:s');
+            if ($objTechnology->save()) {
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("U", $requestData, 'Technology');
+                return 'updated';
+            } else {
+                return 'wrong';
+            }
         }
     }
 
-    public function get_admin_technology_details()
+    public function get_admin_technology_details($technologyId)
     {
         return Technology::from('technology')
-            ->select('technology.id', 'technology.technology_name')
-            ->where('technology.id')
-            ->get()->toArray();
+            ->select('technology.id', 'technology.technology_name', 'technology.status')
+            ->where('technology.id', $technologyId)
+            ->first();
+    }
+
+    public function common_activity($requestData){
+        $objBranch = Technology::find($requestData['id']);
+        if($requestData['activity'] == 'delete-records'){
+            $objBranch->is_deleted = "Y";
+            $event = 'D';
+        }
+
+        if($requestData['activity'] == 'active-records'){
+            $objBranch->status = "A";
+            $event = 'A';
+        }
+
+        if($requestData['activity'] == 'deactive-records'){
+            $objBranch->status = "I";
+            $event = 'DA';
+        }
+
+        $objBranch->updated_at = date("Y-m-d H:i:s");
+        if($objBranch->save()){
+            $objAudittrails = new Audittrails();
+            $res = $objAudittrails->add_audit($event, $requestData, 'Technology');
+            return true;
+        }else{
+            return false ;
+        }
     }
 }

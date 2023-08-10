@@ -71,7 +71,7 @@ class ManagerController extends Controller
             'Manager.add()'
         );
         $data['header'] = array(
-            'title' => 'Manager List',
+            'title' => 'Add Manager',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'Manager List' => 'Manager List',

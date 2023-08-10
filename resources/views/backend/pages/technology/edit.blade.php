@@ -22,8 +22,22 @@
                                             <label>Technology Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="hidden" name="editId"  class="form-control" placeholder="Enter first name" value="{{ $user_details[0]['id']}}">
-                                            <input type="text" name="technology_name"  class="form-control" placeholder="Enter technology name" value="{{ $user_details[0]['technology_name']}}">
+                                            <input type="hidden" name="technologyId"  class="form-control" placeholder="Enter first name" value="{{ $user_details->id }}">
+                                            <input type="text" name="technology_name"  class="form-control" placeholder="Enter technology name" value="{{ $user_details->technology_name }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status <span class="text-danger">*</span></label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success" >
+                                                <input type="radio" name="status" class="radio-btn" value="A" {{ $user_details->status == 'A' ? 'checked="checked"' : '' }} />
+                                                <span></span>Active</label>
+                                                <label class="radio radio-lg radio-danger" >
+                                                <input type="radio" name="status" class="radio-btn" value="I" {{ $user_details->status == 'I'  ? 'checked="checked"' : '' }} />
+                                                <span></span>Inactive</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

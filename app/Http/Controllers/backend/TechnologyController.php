@@ -72,7 +72,7 @@ class TechnologyController extends Controller
             'Technology.add()'
         );
         $data['header'] = array(
-            'title' => 'Technology List',
+            'title' => 'Add Technology',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'Technology List' => 'Technology List',
@@ -84,13 +84,17 @@ class TechnologyController extends Controller
     public function saveAdd(Request $request)
     {
         $objTechnology = new Technology();
-        $result = $objTechnology->saveAdd($request);
+        $result = $objTechnology->saveAdd($request->all());
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Technology details successfully added.';
             $return['redirect'] = route('admin.technology.list');
-        } else {
+        }  elseif ($result == "technology_name_exists") {
+            $return['status'] = 'warning';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Technology has already exists.';
+        } else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
@@ -99,10 +103,10 @@ class TechnologyController extends Controller
         exit;
     }
 
-    public function edit($id)
+    public function edit($technologyId)
     {
         $objTechnology = new Technology();
-        $data['user_details'] = $objTechnology->get_admin_technology_details($id);
+        $data['user_details'] = $objTechnology->get_admin_technology_details($technologyId);
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
@@ -138,13 +142,17 @@ class TechnologyController extends Controller
     public function saveEdit(Request $request)
     {
         $objTechnology = new Technology();
-        $result = $objTechnology->saveEdit($request);
-        if ($result == "added") {
+        $result = $objTechnology->saveEdit($request->all());
+        if ($result == "updated") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Technology details successfully updated.';
+            $return['message'] = 'Technology details successfully added.';
             $return['redirect'] = route('admin.technology.list');
-        } else {
+        }  elseif ($result == "technology_name_exists") {
+            $return['status'] = 'warning';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Technology has already exists.';
+        } else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
