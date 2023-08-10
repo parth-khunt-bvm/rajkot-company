@@ -15,7 +15,6 @@ class Audittrails extends Model
     protected $table = 'audit_trails';
 
     public function add_audit($event , $data, $module){
-        ccd($data);
         $agent = new Agent();
         $browser = $agent->browser();
         $currentRoute = Route::current()->getName();
