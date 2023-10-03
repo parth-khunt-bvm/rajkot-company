@@ -33,6 +33,7 @@
 
             </div>
             <div class="card-body">
+                {{-- <form action=""> --}}
                 <div class="row">
                     <div class="col-md-5">
                         <div class="row">
@@ -96,9 +97,10 @@
                         </div>
                     </div>
                     <div class="col-md-2 mt-5">
-                        <button class="btn btn-primary mt-3 search">Search</button>
+                        <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                     </div>
                 </div>
+                {{-- </form> --}}
 
                 <div class="salary-list">
                     <!--begin: Datatable-->

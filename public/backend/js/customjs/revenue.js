@@ -107,6 +107,10 @@ var Revenue = function(){
 
         });
 
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
     }
     var addRevenue= function(){
         $('.select2').select2();

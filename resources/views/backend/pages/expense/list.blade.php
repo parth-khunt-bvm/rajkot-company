@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col-md-2 mt-5">
-                        <button class="btn btn-primary mt-3 search">Search</button>
+                        <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                     </div>
                 </div>
                 <div class="expense-list">

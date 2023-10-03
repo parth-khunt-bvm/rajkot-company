@@ -102,6 +102,10 @@ var Salary = function(){
             getDataTable(arrList);
         })
 
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
     }
     var addSalary= function(){
         $('.select2').select2();

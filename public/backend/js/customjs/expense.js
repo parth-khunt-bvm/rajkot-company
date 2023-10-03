@@ -103,8 +103,10 @@ var Expense = function(){
             };
             getDataTable(arrList);
 
+        });
 
-
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
         });
     }
     var addExpense= function(){
