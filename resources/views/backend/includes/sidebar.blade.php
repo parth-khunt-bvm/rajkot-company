@@ -154,6 +154,7 @@ $currentRoute = Route::current()->getName();
                     </div>
                 </li>
 
+
                 {{-- salary Menu --}}
                     <li class="menu-item  {{ ( $currentRoute  ==  "admin.salary.list" || $currentRoute  ==  "admin.salary.add" || $currentRoute  ==  "admin.salary.edit" || $currentRoute  ==  "admin.salary.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                         <a href="{{ route('admin.salary.list') }}" class="menu-link">
