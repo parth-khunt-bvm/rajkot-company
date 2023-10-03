@@ -16,10 +16,10 @@ class CreateRevenueTable extends Migration
         Schema::create('revenue', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('received_month');
-            $table->smallInteger('month_of');
+            $table->integer('received_month');
+            $table->integer('month_of');
             $table->string('remarks');
-            $table->decimal('amount', 8,4);
+            $table->decimal('amount', 16,4);
             $table->integer('manager_id');
             $table->integer('technology_id');
             $table->string('bank_name');

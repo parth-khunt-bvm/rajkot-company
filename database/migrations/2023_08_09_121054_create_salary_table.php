@@ -19,9 +19,9 @@ class CreateSalaryTable extends Migration
             $table->integer('branch_id');
             $table->integer('technology_id');
             $table->date('date');
-            $table->string('month_of');
+            $table->integer('month_of');
             $table->string('remarks');
-            $table->string('amount');
+            $table->decimal('amount', 16,4);
             $table->enum('is_deleted',['Y','N'])->default("N")->comment("Y for deleted, N for not deleted");
             $table->timestamps();
         });

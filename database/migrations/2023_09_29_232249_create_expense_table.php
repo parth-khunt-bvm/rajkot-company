@@ -16,9 +16,9 @@ class CreateExpenseTable extends Migration
         Schema::create('expense', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('month');
+            $table->integer('month');
             $table->string('remarks');
-            $table->decimal('amount', 8,4);
+            $table->decimal('amount', 16,4);
             $table->integer('type_id');
             $table->integer('branch_id');
             $table->integer('manager_id');
