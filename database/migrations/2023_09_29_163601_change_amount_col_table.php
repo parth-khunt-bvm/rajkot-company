@@ -14,7 +14,7 @@ class ChangeAmountColTable extends Migration
     public function up()
     {
         Schema::table('salary', function (Blueprint $table) {
-            $table->decimal('amount', 8,4)->change();
+            $table->decimal('amount', 16,4)->change();
         });
     }
 
