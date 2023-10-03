@@ -132,7 +132,7 @@ class Technology extends Model
         }
     }
 
-    public function get_admin_technology_details($technologyId)
+    public function get_technology_details($technologyId)
     {
         return Technology::from('technology')
             ->select('technology.id', 'technology.technology_name', 'technology.status')
@@ -166,4 +166,13 @@ class Technology extends Model
             return false ;
         }
     }
+
+        public function get_admin_technology_details(){
+        return Technology::from('technology')
+            ->select('technology.id','technology.technology_name','technology.status')
+            ->get();
+    }
+
+
+
 }

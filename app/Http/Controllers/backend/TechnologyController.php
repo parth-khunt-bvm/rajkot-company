@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Imports\TechnologyImport;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
@@ -29,10 +30,14 @@ class TechnologyController extends Controller
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
             'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js'
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+
         );
         $data['js'] = array(
             'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
             'technology.js',
         );
         $data['funinit'] = array(
@@ -106,7 +111,7 @@ class TechnologyController extends Controller
     public function edit($technologyId)
     {
         $objTechnology = new Technology();
-        $data['user_details'] = $objTechnology->get_admin_technology_details($technologyId);
+        $data['user_details'] = $objTechnology->get_technology_details($technologyId);
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
@@ -196,5 +201,17 @@ class TechnologyController extends Controller
                 echo json_encode($return);
                 exit;
         }
+    }
+    public function save_import(Request $request){
+
+
+        $path = $request->file('file')->store('temp');
+        $data = \Excel::import(new TechnologyImport($request->file('file')),$path);
+        $return['status'] = 'success';
+        $return['message'] = 'Technology added successfully.';
+        $return['redirect'] = route('admin.technology.list');
+
+        echo json_encode($return);
+        exit;
     }
 }

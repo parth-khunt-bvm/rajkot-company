@@ -14,9 +14,9 @@
                 </div>
 
                 <div class="card-toolbar">
-                    <button data-toggle="modal" data-target="#importSalary" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Salary</button>
+                    <button data-toggle="modal" data-target="#importRevenue" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Revenue</button>
                     <!--begin::Button-->
-                    <a href="{{ route('admin.salary.add') }}" class="btn btn-primary font-weight-bolder">
+                    <a href="{{ route('admin.revenue.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -27,7 +27,7 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon-->
-                    </span>Add Salary</a>
+                    </span>Add Revenue</a>
                     <!--end::Button-->
                 </div>
 
@@ -39,7 +39,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Manager Name</label>
-                                    <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id" >
+                                    <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id">
                                         <option value="">Please select Manager Name</option>
                                         @foreach ($manager  as $key => $value )
                                             <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -47,21 +47,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Branch Name</label>
-                                    <select class="form-control select2 branch change" id="branch_id"  name="branch_id">
-                                        <option value="">Please select Branch Name</option>
-                                        @foreach ($branch  as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Technology Name</label>
@@ -73,10 +58,34 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Received Month</label>
+                                    <select class="form-control select2 month change" id="received_month"  name="received_month">
+                                        <option value="">Select Month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Month Of</label>
-                                    <select class="form-control select2 month_of change" id="month_of"  name="month_of">
+                                    <select class="form-control select2 month change" id="month_of"  name="month_of">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -98,29 +107,32 @@
                     <div class="col-md-2 mt-5">
                         <button class="btn btn-primary mt-3 search">Search</button>
                     </div>
-                </div>
 
-                <div class="salary-list">
-                    <!--begin: Datatable-->
-                    <table class="table table-bordered table-checkable" id="admin-salary-list">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Manager Name</th>
-                                <th>Branch Name</th>
-                                <th>Technology Name</th>
-                                <th>Date</th>
-                                <th>Month_Of</th>
-                                <th>Amount</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                    <!--end: Datatable-->
                 </div>
+                <div class="revenue-list">
+                <!--begin: Datatable-->
+                <table class="table table-bordered table-checkable" id="admin-revenue-list">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Manager Name</th>
+                            <th>Technology Name</th>
+                            <th>Date</th>
+                            <th>Received Month  </th>
+                            <th>Month_Of</th>
+                            <th>Amount</th>
+                            <th>Bank Name</th>
+                            <th>Holder Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <!--end: Datatable-->
+            </div>
+
             </div>
         </div>
         <!--end::Card-->

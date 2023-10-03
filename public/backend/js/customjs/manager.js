@@ -88,6 +88,18 @@ var Manager = function(){
                 }
             });
         });
+
+        var importform = $('#import-manager');
+        var rules = {
+            file : {required: true},
+        };
+
+        var message = {
+            file : {required: "Please select file"},
+        }
+        handleFormValidateWithMsg(importform, rules,message, function(importform) {
+            handleAjaxFormSubmit(importform,true);
+        });
     }
     var addManager = function(){
         var form = $('#add-manager');

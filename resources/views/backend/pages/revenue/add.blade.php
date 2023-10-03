@@ -12,7 +12,7 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <!--begin::Form-->
-                        <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">@csrf
+                        <form class="form" id="add-revenue-users" method="POST" action="{{ route('admin.revenue.save-add-revenue') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -30,21 +30,6 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Branch Name
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="form-control select2 branch" id="branch"  name="branch_id">
-                                                <option value="">Please select Branch Name</option>
-                                                @foreach ($branch  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
                                             <label>Technology Name
                                                 <span class="text-danger">*</span>
                                             </label>
@@ -56,12 +41,36 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Received Month
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 received_month" id="received_month"  name="received_month">
+                                                <option value="">Received Month</option>
+                                                <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -83,6 +92,25 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="number" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Bank Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Enter Bank Name" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Holder Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" name="holder_name" id="holder_name" class="form-control" placeholder="Enter Holder Name" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>

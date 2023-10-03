@@ -88,6 +88,18 @@ var Technology = function(){
                 }
             });
         });
+
+        var importform = $('#import-technology');
+        var rules = {
+            file : {required: true},
+        };
+
+        var message = {
+            file : {required: "Please select file"},
+        }
+        handleFormValidateWithMsg(importform, rules,message, function(importform) {
+            handleAjaxFormSubmit(importform,true);
+        });
     }
     var addTechnology = function(){
         var form = $('#add-technology-users');

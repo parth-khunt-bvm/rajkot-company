@@ -1,15 +1,16 @@
-var Salary = function(){
+var Expense = function(){
     var list= function(){
+
         var manager = $('#manager_id').val();
         var branch = $("#branch_id").val();
-        var technology = $("#technology_id").val();
-        var monthOf = $('#month_of').val();
+        var type = $("#type_id").val();
+        var month = $('#month').val();
 
-        var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf };
+        var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#admin-salary-list',
-            'ajaxURL': baseurl + "admin/salary/ajaxcall",
+            'tableID': '#admin-expense-list',
+            'ajaxURL': baseurl + "admin/expense/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
@@ -36,7 +37,7 @@ var Salary = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/salary/ajaxcall",
+                url:baseurl + "admin/expense/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -46,7 +47,8 @@ var Salary = function(){
         });
 
         $('.select2').select2();
-        var importform = $('#import-salary');
+
+        var importform = $('#import-expense');
         var rules = {
             file : {required: true},
         };
@@ -58,18 +60,18 @@ var Salary = function(){
             handleAjaxFormSubmit(importform,true);
         });
 
-        $("body").on("change", ".change", function() {
+        $('body').on('change', '.change', function() {
 
             var html = '';
-            html = '<table class="table table-bordered table-checkable" id="admin-salary-list">'+
+            html = '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
             '<thead>'+
             '<tr>'+
             '<th>#</th>'+
             '<th>Manager Name</th>'+
             '<th>Branch Name</th>'+
-            '<th>Technology Name</th>'+
+            '<th>Type Name</th>'+
             '<th>Date</th>'+
-            '<th>Month_Of</th>'+
+            '<th>Month</th>'+
             '<th>Amount</th>'+
             '<th>Action</th>'+
             '</tr>'+
@@ -78,18 +80,18 @@ var Salary = function(){
             '</tbody>'+
             '</table>';
 
-            $(".salary-list").html(html);
+            $('.expense-list').html(html);
 
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
-            var technology = $("#technology_id").val();
-            var monthOf = $('#month_of').val();
+            var type = $("#type_id").val();
+            var month = $('#month').val();
 
-            var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf };
+            var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
-                'tableID': '#admin-salary-list',
-                'ajaxURL': baseurl + "admin/salary/ajaxcall",
+                'tableID': '#admin-expense-list',
+                'ajaxURL': baseurl + "admin/expense/ajaxcall",
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
@@ -100,18 +102,20 @@ var Salary = function(){
                 'setColumnWidth': columnWidth
             };
             getDataTable(arrList);
-        })
 
+
+
+        });
     }
-    var addSalary= function(){
+    var addExpense= function(){
         $('.select2').select2();
-        var form = $('#add-salary-users');
+        var form = $('#add-expense-users');
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
-            technology_id: {required: true},
+            type_id: {required: true},
             date: {required: true},
-            month_of: {required: true},
+            month: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -121,13 +125,13 @@ var Salary = function(){
             branch_id : {
                 required : "Please select branch name"
             },
-            technology_id : {
-                required : "Please select technology name"
+            type_id : {
+                required : "Please select type name"
             },
             date : {
                 required : "Please enter date"
             },
-            month_of : {
+            month : {
                 required : "Please select month"
             },
             amount : {
@@ -150,12 +154,12 @@ var Salary = function(){
             var html = '<option value="">Month of salary</option>';
 
             if(selecteddate == '' || selecteddate == null){
-                $('.month_of').prop("disabled", true);
+                $('.month').prop("disabled", true);
             }else{
                 var months = { '1' : "January", '2' :"February", '3' : "March", '4' :"April", '5' : "May", '6' : "June", '7' : "July", '8' : "August", '9' : "September", '10' : "October", '11' : "November", '12' :"December"};
                 var date = new Date(selecteddate);
                 var month = date.getMonth();
-                $('.month_of').prop("disabled", false);
+                $('.month').prop("disabled", false);
                 $.each(months, function( index, value ) {
                     if(month == index){
                         html = html + '<option value="'+ index +'" selected="selected">'+ value +'</option>';
@@ -164,11 +168,11 @@ var Salary = function(){
                     }
                 });
             }
-            $("#month_of").html(html);
+            $("#month").html(html);
         });
     }
 
-    var editSalary= function(){
+    var editExpense= function(){
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -181,12 +185,12 @@ var Salary = function(){
             var html = '<option value="">Month of salary</option>';
 
             if(selecteddate == '' || selecteddate == null){
-                $('.month_of').prop("disabled", true);
+                $('.month').prop("disabled", true);
             }else{
                 var months = { '1' : "January", '2' :"February", '3' : "March", '4' :"April", '5' : "May", '6' : "June", '7' : "July", '8' : "August", '9' : "September", '10' : "October", '11' : "November", '12' :"December"};
                 var date = new Date(selecteddate);
                 var month = date.getMonth();
-                $('.month_of').prop("disabled", false);
+                $('.month').prop("disabled", false);
                 $.each(months, function( index, value ) {
                     if(month == index){
                         html = html + '<option value="'+ index +'" selected="selected">'+ value +'</option>';
@@ -195,17 +199,17 @@ var Salary = function(){
                     }
                 });
             }
-            $("#month_of").html(html);
+            $("#month").html(html);
         });
 
         $('.select2').select2();
-        var form = $('#edit-salary-users');
+        var form = $('#edit-expense-users');
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
             technology_id: {required: true},
             date: {required: true},
-            month_of: {required: true},
+            month: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -221,7 +225,7 @@ var Salary = function(){
             date : {
                 required : "Please enter date"
             },
-            month_of : {
+            month : {
                 required : "Please enter month"
             },
             amount : {
@@ -237,10 +241,10 @@ var Salary = function(){
             list();
         },
         add:function(){
-            addSalary();
+            addExpense();
         },
         edit:function(){
-            editSalary();
+            editExpense();
         },
     }
 }();

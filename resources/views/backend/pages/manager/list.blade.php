@@ -14,6 +14,8 @@
                 </div>
 
                 <div class="card-toolbar">
+
+                    <button data-toggle="modal" data-target="#importManager" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Manager</button>
                     <!--begin::Button-->
                     <a href="{{ route('admin.manager.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">

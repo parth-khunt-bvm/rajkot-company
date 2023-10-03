@@ -15,6 +15,9 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
+
+                    <button data-toggle="modal" data-target="#importBranch" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Branch</button>
+
                     <a href="{{ route('admin.branch.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->

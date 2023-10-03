@@ -5,7 +5,9 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Branch;
+use App\Imports\BranchImport;
 use Config;
+use Excel;
 
 class BranchController extends Controller
 {
@@ -28,10 +30,13 @@ class BranchController extends Controller
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
             'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js'
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
         );
         $data['js'] = array(
             'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
             'branch.js',
         );
         $data['funinit'] = array(
@@ -193,5 +198,49 @@ class BranchController extends Controller
                 echo json_encode($return);
                 exit;
         }
+    }
+
+    public function import(){
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' ||Import Branch';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' ||Import Branch';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Import List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'branch.js',
+        );
+        $data['funinit'] = array(
+            'Branch.import()'
+        );
+        $data['header'] = array(
+            'title' => 'Import Branch',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Branch List' => route('admin.branch.list'),
+                'Import Branch' => 'Import Branch',
+            )
+        );
+        return view('backend.pages.branch.import', $data);
+    }
+
+    public function save_import(Request $request){
+        $path = $request->file('file')->store('temp');
+        $data = \Excel::import(new BranchImport($request->file('file')),$path);
+        $return['status'] = 'success';
+        $return['message'] = 'Branch added successfully.';
+        $return['redirect'] = route('admin.branch.list');
+
+        echo json_encode($return);
+        exit;
     }
 }

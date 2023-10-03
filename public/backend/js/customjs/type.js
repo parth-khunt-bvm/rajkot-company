@@ -1,10 +1,10 @@
-var Branch = function(){
+var Type = function(){
     var list = function(){
         var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#branch-list',
-            'ajaxURL': baseurl + "admin/branch/ajaxcall",
+            'tableID': '#type-list',
+            'ajaxURL': baseurl + "admin/type/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
@@ -15,7 +15,6 @@ var Branch = function(){
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
-
         $("body").on("click", ".delete-records", function() {
             var id = $(this).data('id');
             setTimeout(function() {
@@ -31,7 +30,7 @@ var Branch = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url: baseurl + "admin/branch/ajaxcall",
+                url: baseurl + "admin/type/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -55,7 +54,7 @@ var Branch = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url: baseurl + "admin/branch/ajaxcall",
+                url: baseurl + "admin/type/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -79,7 +78,7 @@ var Branch = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url: baseurl + "admin/branch/ajaxcall",
+                url: baseurl + "admin/type/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -87,7 +86,7 @@ var Branch = function(){
                 }
             });
         });
-        var importform = $('#import-branch');
+        var importform = $('#import-type');
         var rules = {
             file : {required: true},
         };
@@ -98,31 +97,33 @@ var Branch = function(){
         handleFormValidateWithMsg(importform, rules,message, function(importform) {
             handleAjaxFormSubmit(importform,true);
         });
+
+
     }
-    var addBranch = function(){
-        var form = $('#add-branch');
+    var addType = function(){
+        var form = $('#add-type');
         var rules = {
-            branch_name : {required: true},
+            type_name : {required: true},
             status : {required: true}
         };
 
         var message = {
-            branch_name : {required: "Please enter branch name"},
+            type_name : {required: "Please enter Type name"},
             status : {required: "Please select status"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
     }
-    var editBranch = function(){
-        var form = $('#edit-branch');
+    var editType = function(){
+        var form = $('#edit-type');
         var rules = {
-            branch_name : {required: true},
+            type_name : {required: true},
             status : {required: true}
         };
 
         var message = {
-            branch_name : {required: "Please enter branch name"},
+            type_name : {required: "Please enter Type name"},
             status : {required: "Please select status"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
@@ -134,10 +135,10 @@ var Branch = function(){
             list();
         },
         add:function(){
-            addBranch();
+            addType();
         },
         edit:function(){
-            editBranch();
+            editType();
         },
     }
 }();

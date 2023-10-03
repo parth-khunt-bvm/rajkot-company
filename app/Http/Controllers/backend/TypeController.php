@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Imports\ManagerImport;
+use App\Imports\TypeImport;
+use App\Models\Type;
 use Illuminate\Http\Request;
-use App\Models\Manager;
 use Config;
 
-class ManagerController extends Controller
+class TypeController extends Controller
 {
     function __construct()
     {
@@ -17,9 +17,9 @@ class ManagerController extends Controller
 
     public function list(Request $request){
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Type List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Type List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Type List';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -36,26 +36,25 @@ class ManagerController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'manager.js',
+            'type.js',
         );
         $data['funinit'] = array(
-            'Manager.init()',
+            'Type.init()'
         );
         $data['header'] = array(
-            'title' => 'Manager List',
+            'title' => 'Type List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Manager List' => 'Manager List',
+                'Type List' => 'Type List',
             )
         );
-        return view('backend.pages.manager.list', $data);
-
+        return view('backend.pages.type.list', $data);
     }
 
     public function add (){
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
+        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
+        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
+        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -63,40 +62,41 @@ class ManagerController extends Controller
         );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
+            'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'manager.js',
+            'type.js',
         );
         $data['funinit'] = array(
-            'Manager.add()'
+            'Type.add()'
         );
         $data['header'] = array(
-            'title' => 'Add Manager',
+            'title' => 'Add Type',
             'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Manager List' => 'Manager List',
+                'My Dashboard' => route('my-dashboard'),
+                'Type List' => route('admin.type.list'),
+                'Add Type' => 'Add Type',
             )
         );
-        return view('backend.pages.manager.add', $data);
+        return view('backend.pages.type.add', $data);
     }
-
     public function saveAdd(Request $request){
-        $objManager = new Manager();
-        $result = $objManager->saveAdd($request->all());
+        $objType = new Type();
+        $result = $objType->saveAdd($request);
         if ($result == "added") {
             $return['status'] = 'success';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager details successfully added.';
-            $return['redirect'] = route('admin.manager.list');
-        }  elseif ($result == "manager_name_exists") {
+             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Type details successfully added.';
+            $return['redirect'] = route('admin.type.list');
+        } elseif ($result == "type_name_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager has already exists.';
-        } else{
+            $return['message'] = 'Type has already exists.';
+        }  else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
@@ -105,13 +105,13 @@ class ManagerController extends Controller
         exit;
     }
 
-    public function edit($managerId){
-        $objManager = new Manager();
-        $data['manager_details'] = $objManager->get_manager_details($managerId);
+    public function edit ($typeId){
 
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
+        $objType = new Type();
+        $data['type_details'] = $objType->get_type_details($typeId);
+        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
+        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
+        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -119,41 +119,42 @@ class ManagerController extends Controller
         );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
+            'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'manager.js',
+            'type.js',
         );
         $data['funinit'] = array(
-            'Manager.edit()'
+            'Type.edit()'
         );
         $data['header'] = array(
-            'title' => 'Edit manager',
+            'title' => 'Edit Type',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Managers' => route('admin.manager.list'),
-                'Edit Managers' => 'Edit Managers',
+                'type List' => route('admin.type.list'),
+                'Edit type' => 'Edit Type',
             )
         );
-        return view('backend.pages.manager.edit', $data);
+        return view('backend.pages.type.edit', $data);
     }
 
     public function saveEdit(Request $request){
-        $objManager = new Manager();
-        $result = $objManager->saveEdit($request->all());
+        $objType = new Type();
+        $result = $objType->saveEdit($request);
         if ($result == "updated") {
             $return['status'] = 'success';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager details successfully updated.';
-            $return['redirect'] = route('admin.manager.list');
-        } elseif ($result == "manager_name_exists") {
+             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Type details successfully updated.';
+            $return['redirect'] = route('admin.type.list');
+        } elseif ($result == "type_name_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager has already exists.';
-        } else{
+            $return['message'] = 'Type has already exists.';
+        }  else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
@@ -166,28 +167,26 @@ class ManagerController extends Controller
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
-                $objManager = new Manager();
-                $list = $objManager->getdatatable();
+                $objType = new Type();
+                $list = $objType->getdatatable();
 
                 echo json_encode($list);
                 break;
 
-
-
             case 'common-activity':
-                $objManager = new Manager();
+                $objType = new Type();
                 $data = $request->input('data');
-                $result = $objManager->common_activity($data);
+                $result = $objType->common_activity($data);
                 if ($result) {
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
-                        $return['message'] = "Manager's details successfully deleted.";
+                        $return['message'] = 'Type details successfully deleted.';;
                     }elseif($data['activity'] == 'active-records'){
-                        $return['message'] = "Manager's details successfully actived.";
+                        $return['message'] = 'Type details successfully actived.';;
                     }else{
-                        $return['message'] = "Manager's details successfully deactived.";
+                        $return['message'] = 'Type details successfully deactived.';;
                     }
-                    $return['redirect'] = route('admin.manager.list');
+                    $return['redirect'] = route('admin.type.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -199,16 +198,12 @@ class ManagerController extends Controller
         }
     }
 
-
-
     public function save_import(Request $request){
-
-
         $path = $request->file('file')->store('temp');
-        $data = \Excel::import(new ManagerImport($request->file('file')),$path);
+        $data = \Excel::import(new TypeImport($request->file('file')),$path);
         $return['status'] = 'success';
-        $return['message'] = 'Manager added successfully.';
-        $return['redirect'] = route('admin.manager.list');
+        $return['message'] = 'Type added successfully.';
+        $return['redirect'] = route('admin.type.list');
 
         echo json_encode($return);
         exit;

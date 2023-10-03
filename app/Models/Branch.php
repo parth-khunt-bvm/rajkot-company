@@ -18,7 +18,7 @@ class Branch extends Model
         $columns = array(
             0 => 'branch.id',
             1 => 'branch.branch_name',
-            5 => DB::raw('(CASE WHEN branch.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            2 => DB::raw('(CASE WHEN branch.status = "A" THEN "Actived" ELSE "Deactived" END)'),
 
         );
         $query = Branch::from('branch')
@@ -167,10 +167,10 @@ class Branch extends Model
         }
     }
 
+
     public function get_admin_branch_details(){
-        return Manager::from('branch')
-            ->select('branch.id', 'branch.branch_name')
-            ->where('branch.id')
-            ->get()->toArray();
+        return Branch::from('branch')
+            ->select('branch.id','branch.branch_name','branch.status')
+            ->get();
     }
 }

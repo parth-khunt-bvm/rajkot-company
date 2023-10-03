@@ -12,7 +12,7 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <!--begin::Form-->
-                        <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">@csrf
+                        <form class="form" id="add-expense-users" method="POST" action="{{ route('admin.expense.save-add-expense') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -45,13 +45,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Technology Name
+                                            <label>Type Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 technology" id="technology"  name="technology_id">
-                                                <option value="">Please select Technology Name</option>
-                                                @foreach ($technology  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['technology_name'] }}</option>
+                                            <select class="form-control select2 type" id="type"  name="type_id">
+                                                <option value="">Please select Type Name</option>
+                                                @foreach ($type  as $key => $value )
+                                                    <option value="{{ $value['id'] }}">{{ $value['type_name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -68,10 +68,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Month Of
+                                            <label>Month
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 month_of" id="month_of"  name="month_of" disabled="disabled">
+                                            <select class="form-control select2 month" id="month"  name="month" disabled="disabled">
                                                 <option value="">Month of salary</option>
                                             </select>
                                         </div>

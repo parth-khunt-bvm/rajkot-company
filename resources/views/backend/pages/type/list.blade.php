@@ -1,6 +1,5 @@
 @extends('backend.layout.app')
 @section('section')
-
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -14,10 +13,11 @@
                 </div>
 
                 <div class="card-toolbar">
-                <button data-toggle="modal" data-target="#importTechnology" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Technology</button>
-
                     <!--begin::Button-->
-                    <a href="{{ route('admin.technology.add') }}" class="btn btn-primary font-weight-bolder">
+
+                    <button data-toggle="modal" data-target="#importType" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Type</button>
+
+                    <a href="{{ route('admin.type.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -28,18 +28,18 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon-->
-                    </span>Add Technology</a>
+                    </span>Add Type</a>
                     <!--end::Button-->
                 </div>
 
             </div>
             <div class="card-body">
                 <!--begin: Datatable-->
-                <table class="table table-bordered table-checkable" id="admin-technology-list">
+                <table class="table table-bordered table-checkable" id="type-list">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Manager Name</th>
+                            <th>Type Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
