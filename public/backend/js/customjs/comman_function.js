@@ -51,7 +51,6 @@ if (typeof CKEDITOR !== 'undefined') {
 
 function ajaxcall(url, data, callback) {
     //  App.startPageLoading();
-
     $.ajax({
         type: 'POST',
         url: url,
@@ -65,12 +64,12 @@ function ajaxcall(url, data, callback) {
 }
 
 function handleAjaxFormSubmit(form, type) {
-
     if (typeof type === 'undefined') {
         ajaxcall($(form).attr('action'), $(form).serialize(), function(output) {
             handleAjaxResponse(output);
         });
-    } else if (type === true) {
+    }
+     else if (type === true) {
         // App.startPageLoading();
         var options = {
             resetForm: false, // reset the form after successful submit
@@ -84,6 +83,7 @@ function handleAjaxFormSubmit(form, type) {
     return false;
 }
 function handleAjaxFormMySubmit(form, type) {
+
     $(".submitbtn:visible").attr("disabled", "disabled");
     $("#loader").show();
 
@@ -126,53 +126,6 @@ function showToster(status, message) {
     }
 }
 
-function handleAjaxResponse(output) {
-
-    output = JSON.parse(output);
-    $('#deleteModel').removeClass('show');
-    $("#deleteModel").css({ 'display': 'none' });
-    var html = "";
-
-
-
-
-    if (output.status == 'success') {
-        html = '<div class="alert alert-custom alert-notice alert-light-success fade show mb-5" role="alert">' +
-            '<div class="alert-icon">' +
-            '<i class="fa fa-check-circle-o"></i>' +
-            '</div>' +
-            '<div class="alert-text">' + output.message + '</div>' +
-
-            '</div>';
-    }
-    if (output.status == 'error') {
-        html = '<div class="alert alert-custom alert-notice alert-light-danger fade show mb-5" role="alert">' +
-            '<div class="alert-icon">' +
-            '<i class="fa fa-close"></i>' +
-            '</div>' +
-            '<div class="alert-text">' + output.message + '</div>' +
-            '</div>';
-    }
-    if (output.status == 'warning') {
-        html = '<div class="alert alert-custom alert-notice alert-light-warning fade show mb-5" role="alert">' +
-            '<div class="alert-icon">' +
-            '<i class="fa fa-exclamation-triangle"></i>' +
-            '</div>' +
-            '<div class="alert-text">A simple warning alert—check it out!</div>' +
-            '</div>';
-    }
-    $("#alertDiv").html(html);
-    if (typeof output.redirect !== 'undefined' && output.redirect != '') {
-        setTimeout(function() {
-            window.location.href = output.redirect;
-        }, 2000);
-    }
-
-    if (typeof output.jscode !== 'undefined' && output.jscode != '') {
-        eval(output.jscode);
-    }
-
-}
 
 function handleAjaxResponse(output) {
 
@@ -193,6 +146,8 @@ function handleAjaxResponse(output) {
         eval(output.jscode);
     }
 }
+
+
 
 function _fn_getQueryStringValue(name) {
     var regex = new RegExp("[\\?&]" + name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]") + "=([^&#]*)"),
@@ -757,7 +712,6 @@ function getCookie(cname) {
 /* Start manage datatable with Ajax & hide/show column dynamic */
 
 function getDataTable(arr) {
-
     var dataTable = $(arr.tableID).DataTable({
         "scrollX": true,
         "processing": true,
@@ -881,8 +835,54 @@ function hideShowDatatableColumn(dataTable) {
 }
 
 
+function refreshTable(coloumList, dataArr1, columnWidth1, tableID, ajaxURL, hideColumnList, noSortingApply, noSearchApply, defaultSortColumn, defaultSortOrder, replaceIdClass){
+    var html = '';
+    html = '<table class="table table-bordered table-checkable" id="'+ tableID +'">'+
+    '<thead>' +
+    '<tr>' ;
 
+    $.each( coloumList, function( key, value ) {
+        html = html + '<th>'+ value +'</th>';
+    });
+    html = html +  '</tr>'+
+    '</thead>'+
+    '<tbody>' +
+    '</tbody>'+
+    '</table>';
 
+    $(replaceIdClass).html(html);
+
+    var dataArr = {};
+    var columnWidth = { "width": "5%", "targets": 0 };
+    // var arrList = {
+    //     'tableID': '#type-list',
+    //     'ajaxURL': baseurl + "admin/type/ajaxcall",
+    //     'ajaxAction': 'getdatatable',
+    //     'postData': dataArr,
+    //     'hideColumnList': [],
+    //     'noSortingApply': [0, 3],
+    //     'noSearchApply': [0, 3],
+    //     'defaultSortColumn': [0],
+    //     'defaultSortOrder': 'DESC',
+    //     'setColumnWidth': columnWidth
+    // };
+    //console.log(arrList);
+
+    var arrList = {
+        'tableID': tableID,
+        'ajaxURL': ajaxURL,
+        'ajaxAction': 'getdatatable',
+        'postData': dataArr,
+        'hideColumnList': hideColumnList,
+        'noSortingApply': noSortingApply,
+        'noSearchApply': noSearchApply,
+        'defaultSortColumn': defaultSortColumn,
+        'defaultSortOrder': defaultSortOrder,
+        'setColumnWidth': columnWidth
+    };
+    getDataTable(arrList);
+
+}
 
 
 $(".onlyNumber").keypress(function(e) {

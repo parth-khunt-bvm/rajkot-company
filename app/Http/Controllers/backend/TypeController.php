@@ -39,7 +39,8 @@ class TypeController extends Controller
             'type.js',
         );
         $data['funinit'] = array(
-            'Type.init()'
+            'Type.init()',
+            'Type.add()'
         );
         $data['header'] = array(
             'title' => 'Type List',
@@ -84,6 +85,7 @@ class TypeController extends Controller
         );
         return view('backend.pages.type.add', $data);
     }
+
     public function saveAdd(Request $request){
         $objType = new Type();
         $result = $objType->saveAdd($request);

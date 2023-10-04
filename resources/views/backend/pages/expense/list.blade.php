@@ -33,6 +33,104 @@
 
             </div>
             <div class="card-body">
+
+                <form class="form" id="add-expense-users" method="POST" action="{{ route('admin.expense.save-add-expense') }}" autocomplete="off">@csrf
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Manager Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
+                                        <option value="">Please select Manager Name</option>
+                                        @foreach ($manager  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Branch Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control select2 branch" id="branch"  name="branch_id">
+                                        <option value="">Please select Branch Name</option>
+                                        @foreach ($branch  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Type Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control select2 type" id="type"  name="type_id">
+                                        <option value="">Please select Type Name</option>
+                                        @foreach ($type  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['type_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Date
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Month
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control select2 month" id="month"  name="month" disabled="disabled">
+                                        <option value="">Month of salary</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>amount
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>remarks
+                                    </label>
+                                    <textarea class="form-control" id="" cols="20" rows="5" name="remarks" id="remarks"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 mt-28">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                    <button type="reset" class="btn btn-secondary"><a href="{{route('admin.expense.list')}}">Cancel</a></button>
+                                </div>
+                            </div>
+                        </div>
+
+                </form>
+
+
+
+
+
+
                 <div class="row">
                     <div class="col-md-5">
                         <div class="row">
@@ -111,6 +209,7 @@
                             <th>Date</th>
                             <th>Month</th>
                             <th>Amount</th>
+                            <th>Remark</th>
                             <th>Action</th>
                         </tr>
                     </thead>

@@ -48,7 +48,8 @@ class ExpenseController extends Controller
             'expense.js',
         );
         $data['funinit'] = array(
-            'Expense.init()'
+            'Expense.init()',
+            'Expense.add()'
         );
         $data['header'] = array(
             'title' => 'Expense list',

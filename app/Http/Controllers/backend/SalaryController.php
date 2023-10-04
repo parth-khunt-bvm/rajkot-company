@@ -38,6 +38,7 @@ class SalaryController extends Controller
         );
         $data['plugincss'] = array(
             'plugins/custom/datatables/datatables.bundle.css'
+
         );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
@@ -53,7 +54,8 @@ class SalaryController extends Controller
             'salary.js',
         );
         $data['funinit'] = array(
-            'Salary.init()'
+            'Salary.init()',
+            'Salary.add()'
         );
         $data['header'] = array(
             'title' => 'Salary list',

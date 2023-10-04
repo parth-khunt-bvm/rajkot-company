@@ -26,6 +26,7 @@ class Salary extends Model
             4 => 'salary.date',
             5 => DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01"))'),
             6 => 'salary.amount',
+            7 => 'salary.remarks',
         );
 
         $query = Salary::from('salary')
@@ -75,12 +76,12 @@ class Salary extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('salary.id', 'manager.manager_name', 'branch.branch_name', 'technology.technology_name','salary.date', 'salary.month_of', DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01")) as month_name'), 'salary.amount')
+            ->select('salary.id', 'manager.manager_name', 'branch.branch_name', 'technology.technology_name','salary.date', 'salary.month_of', DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01")) as month_name'), 'salary.amount','salary.remarks')
             ->get();
 
         $data = array();
         $i = 0;
-
+        $max_length = 30;
         foreach ($resultArr as $row) {
 
             $actionhtml = '';
@@ -98,6 +99,11 @@ class Salary extends Model
             $monthName = $row['month_name'];
             $nestedData[] = $monthName;
             $nestedData[] = numberformat($row['amount']);
+            if (strlen($row['remarks']) > $max_length) {
+                $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
+            }else {
+                $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
+            }
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }

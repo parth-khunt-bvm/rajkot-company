@@ -35,6 +35,39 @@
 
             </div>
             <div class="card-body">
+
+                <form class="form" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Branch name
+                                    <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" name="branch_name" class="form-control" placeholder="Enter branch name" >
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Status <span class="text-danger">*</span></label>
+                                    <div class="radio-inline" style="margin-top:10px">
+                                        <label class="radio radio-lg radio-success" >
+                                        <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
+                                        <span></span>Active</label>
+                                        <label class="radio radio-lg radio-danger" >
+                                        <input type="radio" name="status" class="radio-btn" value="I"/>
+                                        <span></span>Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5  mt-8">
+                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                </form>
+
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="branch-list">
                     <thead>
