@@ -1,5 +1,6 @@
 @extends('backend.layout.app')
 @section('section')
+
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -34,7 +35,42 @@
 
             </div>
             <div class="card-body">
+                <form class="form" id="add-type" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Type name
+                                <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="type_name" class="form-control" placeholder="Enter type name" >
+                                <input type="hidden" name="add_type" class="form-control" placeholder="Enter type name" value="direct">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Status <span class="text-danger">*</span></label>
+                                <div class="radio-inline" style="margin-top:10px">
+                                    <label class="radio radio-lg radio-success" >
+                                    <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
+                                    <span></span>Active</label>
+                                    <label class="radio radio-lg radio-danger" >
+                                    <input type="radio" name="status" class="radio-btn" value="I"/>
+                                    <span></span>Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 mt-8">
+                            <div class="form-group">
+                            <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                            <button type="reset" class="btn btn-secondary" >Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <!--begin: Datatable-->
+                <div class="type-list-div">
                 <table class="table table-bordered table-checkable" id="type-list">
                     <thead>
                         <tr>
@@ -49,6 +85,7 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+                </div>
             </div>
         </div>
         <!--end::Card-->

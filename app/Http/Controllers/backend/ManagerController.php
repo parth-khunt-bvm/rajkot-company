@@ -40,6 +40,7 @@ class ManagerController extends Controller
         );
         $data['funinit'] = array(
             'Manager.init()',
+            'Manager.add()'
         );
         $data['header'] = array(
             'title' => 'Manager List',

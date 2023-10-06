@@ -76362,7 +76362,7 @@ code {
 }
 
 select.select2 {
-  opacity: 0;
+  opacity: 1;
 }
 
 .select2 > select.form-control {

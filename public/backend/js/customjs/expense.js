@@ -108,6 +108,36 @@ var Expense = function(){
         $("body").on("click", ".reset", function(){
             location.reload(true);
         });
+
+
+        $("#datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+
+        $('body').on('change', '.date', function(){
+            var selecteddate = $(this).val();
+            var html = '<option value="">Month of salary</option>';
+
+            if(selecteddate == '' || selecteddate == null){
+                $('.month').prop("disabled", true);
+            }else{
+                var months = { '1' : "January", '2' :"February", '3' : "March", '4' :"April", '5' : "May", '6' : "June", '7' : "July", '8' : "August", '9' : "September", '10' : "October", '11' : "November", '12' :"December"};
+                var date = new Date(selecteddate);
+                var month = date.getMonth();
+                $('.month').prop("disabled", false);
+                $.each(months, function( index, value ) {
+                    if(month == index){
+                        html = html + '<option value="'+ index +'" selected="selected">'+ value +'</option>';
+                    }else{
+                        html = html + '<option value="'+ index +'">'+ value +'</option>';
+                    }
+                });
+            }
+            $("#month").html(html);
+        });
     }
     var addExpense= function(){
         $('.select2').select2();
