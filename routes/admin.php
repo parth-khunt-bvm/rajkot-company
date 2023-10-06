@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
 use App\Http\Controllers\backend\AuditTrailsController;
 use App\Http\Controllers\backend\BranchController;
+use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\ManagerController;
 use App\Http\Controllers\backend\TechnologyController;
 use App\Http\Controllers\backend\SalaryController;
@@ -114,6 +115,15 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/revenue/ajaxcall', [RevenueController::class, 'ajaxcall'])->name('admin.revenue.ajaxcall');
     Route::get('admin/revenue/view/{id}', [RevenueController::class, 'view'])->name('admin.revenue.view');
     Route::post('admin/revenue/save-import-revenue', [RevenueController::class, 'save_import'])->name('admin.revenue.save-import-revenue');
+
+    Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');
+    Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
+    Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
+    Route::get('admin/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('admin.employee.edit');
+    Route::post('admin/employee/save-edit-employee', [EmployeeController::class, 'saveEdit'])->name('admin.employee.save-edit-employee');
+    Route::post('admin/employee/ajaxcall', [EmployeeController::class, 'ajaxcall'])->name('admin.employee.ajaxcall');
+    Route::get('admin/employee/view/{id}', [EmployeeController::class, 'view'])->name('admin.employee.view');
+    Route::post('admin/employee/save-import-employee', [EmployeeController::class, 'save_import'])->name('admin.employee.save-import-employee');
 
 
 

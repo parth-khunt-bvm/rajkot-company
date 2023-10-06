@@ -45,9 +45,6 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                     </div>
                                 </div>
 
-
-
-
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Email
@@ -55,8 +52,6 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                         <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ $data['email'] }}">
                                     </div>
                                 </div>
-
-
 
                                 <div class="col-md-12">
                                     <div class="form-group">
