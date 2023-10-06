@@ -37,9 +37,9 @@
 
                 <form class="form" id="add-revenue-users" method="POST" action="{{ route('admin.revenue.save-add-revenue') }}" autocomplete="off">@csrf
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Manager Name
+                                    <label>Manager
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
@@ -50,10 +50,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Technology Name
-                                        <span class="text-danger">*</span>
+                                    <label>Technology
+                                        {{-- <span class="text-danger">*</span> --}}
                                     </label>
                                     <select class="form-control select2 technology" id="technology"  name="technology_id">
                                         <option value="">Please select Technology Name</option>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
                                     <label>Date
                                         <span class="text-danger">*</span>
@@ -72,7 +72,7 @@
                                     <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Received Month
                                         <span class="text-danger">*</span>
@@ -94,9 +94,8 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
+
+                            <div class="col-md-1">
                                 <div class="form-group">
                                     <label>Month Of
                                         <span class="text-danger">*</span>
@@ -107,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
                                     <label>amount
                                         <span class="text-danger">*</span>
@@ -116,35 +115,33 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
                                     <label>Bank Name
-                                        <span class="text-danger">*</span>
+                                        {{-- <span class="text-danger">*</span> --}}
                                     </label>
                                     <input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Enter Bank Name" autocomplete="off">
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Holder Name
-                                        <span class="text-danger">*</span>
+                                    <label>HolderName
+                                        {{-- <span class="text-danger">*</span> --}}
                                     </label>
                                     <input type="text" name="holder_name" id="holder_name" class="form-control" placeholder="Enter Holder Name" autocomplete="off">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10">
+
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>remarks
-                                    </label>
-                                    <textarea class="form-control" id="" cols="5" rows="3" name="remarks" id="remarks"></textarea>
+                                    <label>Remarks</label>
+                                    <textarea class="form-control" id="remarks" cols="5" rows="1" name="remarks"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-2">
-                                <div class="form-group mt-18">
+                                <div class="form-group mt-10">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
                                     <button type="reset" class="btn btn-secondary"><a href="{{route('admin.revenue.list')}}">Cancel</a></button>
                                 </div>
