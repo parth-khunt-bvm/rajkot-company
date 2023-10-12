@@ -41,7 +41,8 @@ class TechnologyController extends Controller
             'technology.js',
         );
         $data['funinit'] = array(
-            'Technology.init()'
+            'Technology.init()',
+            'Technology.add()'
         );
         $data['header'] = array(
             'title' => 'Technology List',

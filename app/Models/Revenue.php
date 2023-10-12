@@ -26,6 +26,7 @@ class Revenue extends Model
             6 => 'revenue.amount',
             7 => 'revenue.bank_name',
             8 => 'revenue.holder_name',
+            9 => 'revenue.remarks',
         );
 
         $query = Revenue::from('revenue')
@@ -74,11 +75,12 @@ class Revenue extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")) as month_name'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name')
+            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")) as month_name'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
             ->get();
 
         $data = array();
         $i = 0;
+        $max_length = 30;
 
         foreach ($resultArr as $row) {
 
@@ -98,6 +100,11 @@ class Revenue extends Model
             $nestedData[] = numberformat($row['amount']);
             $nestedData[] = $row['bank_name'];
             $nestedData[] = $row['holder_name'];
+            if (strlen($row['remarks']) > $max_length) {
+                $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
+            }else {
+                $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
+            }
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }

@@ -40,7 +40,8 @@ class BranchController extends Controller
             'branch.js',
         );
         $data['funinit'] = array(
-            'Branch.init()'
+            'Branch.init()',
+            'Branch.add()'
         );
         $data['header'] = array(
             'title' => 'Branch List',

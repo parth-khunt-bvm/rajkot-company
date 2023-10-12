@@ -112,7 +112,7 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <button type="reset" class="btn btn-secondary"><a href="{{route('admin.expense.list')}}">Cancel</a></button>
                             </div>
                         </form>
                         <!--end::Form-->

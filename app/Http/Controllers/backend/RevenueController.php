@@ -52,7 +52,8 @@ class RevenueController extends Controller
             'revenue.js',
         );
         $data['funinit'] = array(
-            'Revenue.init()'
+            'Revenue.init()',
+            'Revenue.add()'
         );
         $data['header'] = array(
             'title' => 'Revenue list',
