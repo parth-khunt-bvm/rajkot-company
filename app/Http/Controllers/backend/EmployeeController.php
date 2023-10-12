@@ -107,7 +107,7 @@ class EmployeeController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Employee details successfully added.';
             $return['redirect'] = route('admin.employee.list');
-        } elseif ($result == "employee_name_exists") {
+        } elseif ($result == "Employee_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'employee has already exists.';

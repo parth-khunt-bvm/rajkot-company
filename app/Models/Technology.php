@@ -130,6 +130,7 @@ class Technology extends Model
                 return 'wrong';
             }
         }
+        return 'technology_name_exists';
     }
 
     public function get_technology_details($technologyId)

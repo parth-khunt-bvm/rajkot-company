@@ -115,13 +115,8 @@ class Revenue extends Model
         $countRevenue = Revenue::from('revenue')
             ->where('revenue.manager_id', $requestData['manager_id'])
             ->where('revenue.technology_id', $requestData['technology_id'])
-            ->where('revenue.date', $requestData['date'])
             ->where('revenue.received_month', $requestData['received_month'])
             ->where('revenue.month_of', $requestData['month_of'])
-            ->where('revenue.remarks', $requestData['remarks'])
-            ->where('revenue.amount', $requestData['amount'])
-            ->where('revenue.bank_name', $requestData['bank_name'])
-            ->where('revenue.holder_name', $requestData['holder_name'])
             ->where('revenue.is_deleted', 'N')
             ->count();
 
@@ -147,7 +142,7 @@ class Revenue extends Model
             }
             return 'wrong';
         }
-        return 'revenue_name_exists';
+        return 'revenue_exists';
     }
 
     public function saveEdit($requestData)
@@ -155,13 +150,8 @@ class Revenue extends Model
             $countRevenue = Revenue::from('revenue')
             ->where('revenue.manager_id', $requestData['manager_id'])
             ->where('revenue.technology_id', $requestData['technology_id'])
-            ->where('revenue.date', $requestData['date'])
             ->where('revenue.received_month', $requestData['received_month'])
             ->where('revenue.month_of', $requestData['month_of'])
-            ->where('revenue.remarks', $requestData['remarks'])
-            ->where('revenue.amount', $requestData['amount'])
-            ->where('revenue.bank_name', $requestData['bank_name'])
-            ->where('revenue.holder_name', $requestData['holder_name'])
             ->where('revenue.is_deleted', 'N')
             ->where('revenue.id', "!=", $requestData['editId'])
             ->count();
@@ -185,7 +175,7 @@ class Revenue extends Model
             }
             return 'wrong';
         }
-        return 'revenue_name_exists';
+        return 'revenue_exists';
     }
 
     public function get_revenue_details($revenueid)
@@ -223,9 +213,7 @@ class Revenue extends Model
             $currentRoute = Route::current()->getName();
             unset($requestData['_token']);
             $objAudittrails = new Audittrails();
-            // $res = $objAudittrails->add_audit($event, str_replace(".", "/", $currentRoute), json_encode($requestData), 'Revenue');
             $res = $objAudittrails->add_audit($event, $requestData, 'Revenue');
-
             return true;
         } else {
             return false;

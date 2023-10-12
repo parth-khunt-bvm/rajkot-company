@@ -185,11 +185,11 @@ class TechnologyController extends Controller
                 if ($result) {
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
-                        $return['message'] = "Admin user's details successfully deleted.";
+                        $return['message'] = "Technology details successfully deleted.";
                     } elseif ($data['activity'] == 'active-records') {
-                        $return['message'] = "Admin user's details successfully actived.";
+                        $return['message'] = "Technology details successfully actived.";
                     } else {
-                        $return['message'] = "Admin user's details successfully deactived.";
+                        $return['message'] = "Technology details successfully deactived.";
                     }
                     $return['redirect'] = route('admin.technology.list');
                 } else {
