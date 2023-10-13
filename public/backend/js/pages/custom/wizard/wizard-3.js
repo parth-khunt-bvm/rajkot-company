@@ -176,7 +176,7 @@ var KTWizard3 = function () {
 								message: 'Please enter account number'
 							},
 							digits: {
-								message: 'The value added is not valid'
+								message: 'input type must be an integer. Please enter a valid integer value.'
 							}
 						}
 					},
@@ -193,7 +193,17 @@ var KTWizard3 = function () {
 								message: 'Please enter aadhar card number'
 							},
 							digits: {
-								message: 'The value added is not valid'
+								message: 'input type must be an integer. Please enter a valid integer value.'
+							}
+						}
+					},
+                    google_pay: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter google pay number'
+							},
+							digits: {
+								message: 'input type must be an integer. Please enter a valid integer value.'
 							}
 						}
 					}

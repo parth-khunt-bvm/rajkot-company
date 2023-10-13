@@ -80,7 +80,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Department</th>
+                            <th>Technology</th>
                             <th>Date of Joining</th>
                             <th>Gmail</th>
                             <th>Emergency Contact</th>

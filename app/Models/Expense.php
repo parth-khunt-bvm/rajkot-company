@@ -121,10 +121,7 @@ class Expense extends Model
             ->where('expense.manager_id', $requestData['manager_id'])
             ->where('expense.branch_id', $requestData['branch_id'])
             ->where('expense.type_id', $requestData['type_id'])
-            ->where('expense.date', $requestData['date'])
             ->where('expense.month', $requestData['month'])
-            ->where('expense.remarks', $requestData['remarks'])
-            ->where('expense.amount', $requestData['amount'])
             ->where('expense.is_deleted', 'N')
             ->count();
 
@@ -157,10 +154,7 @@ class Expense extends Model
             ->where('expense.manager_id', $requestData['manager_id'])
             ->where('expense.branch_id', $requestData['branch_id'])
             ->where('expense.type_id', $requestData['type_id'])
-            ->where('expense.date', $requestData['date'])
             ->where('expense.month', $requestData['month'])
-            ->where('expense.remarks', $requestData['remarks'])
-            ->where('expense.amount', $requestData['amount'])
             ->where('expense.is_deleted', 'N')
             ->where('expense.id', "!=", $requestData['editId'])
             ->count();

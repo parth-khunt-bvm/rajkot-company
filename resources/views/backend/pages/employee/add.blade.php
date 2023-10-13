@@ -203,7 +203,7 @@
                                                                     <div class="form-group">
                                                                         <label>Pan Number
                                                                         </label>
-																		<input type="string" class="form-control" name="pan_number" id="pan_number" placeholder="Pan Number" autocomplete="off"/>
+																		<input type="text" class="form-control" name="pan_number" id="pan_number" placeholder="Pan Number" autocomplete="off"/>
                                                                     </div>
                                                                 </div>
 																<div class="col-xl-6">
@@ -211,7 +211,7 @@
                                                                         <label>Aadhar Card Number
                                                                             <span class="text-danger">*</span>
                                                                         </label>
-																		<input type="string" class="form-control" name="aadhar_card_number" id="aadhar_card_number" placeholder="Aadhar Card Number" autocomplete="off"/>
+																		<input type="text" class="form-control" name="aadhar_card_number" id="aadhar_card_number" placeholder="Aadhar Card Number" autocomplete="off"/>
                                                                     </div>
                                                                 </div>
 															</div>
@@ -221,7 +221,7 @@
                                                                         <label>Google Pay Number
                                                                             <span class="text-danger">*</span>
                                                                         </label>
-																		<input type="string" class="form-control" name="google_pay" id="google_pay" placeholder="Google Pay Number" autocomplete="off"/>
+																		<input type="text" class="form-control" name="google_pay" id="google_pay" placeholder="Google Pay Number" autocomplete="off"/>
                                                                     </div>
                                                                 </div>
 															</div>

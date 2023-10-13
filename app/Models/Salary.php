@@ -122,10 +122,7 @@ class Salary extends Model
             ->where('salary.manager_id', $requestData['manager_id'])
             ->where('salary.branch_id', $requestData['branch_id'])
             ->where('salary.technology_id', $requestData['technology_id'])
-            ->where('salary.date', $requestData['date'])
             ->where('salary.month_of', $requestData['month_of'])
-            ->where('salary.remarks', $requestData['remarks'])
-            ->where('salary.amount', $requestData['amount'])
             ->where('salary.is_deleted', 'N')
             ->count();
 
@@ -158,10 +155,7 @@ class Salary extends Model
             ->where('salary.manager_id', $requestData['manager_id'])
             ->where('salary.branch_id', $requestData['branch_id'])
             ->where('salary.technology_id', $requestData['technology_id'])
-            ->where('salary.date', $requestData['date'])
             ->where('salary.month_of', $requestData['month_of'])
-            ->where('salary.remarks', $requestData['remarks'])
-            ->where('salary.amount', $requestData['amount'])
             ->where('salary.is_deleted', 'N')
             ->where('salary.id', "!=", $requestData['editId'])
             ->count();

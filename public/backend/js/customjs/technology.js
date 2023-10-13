@@ -117,7 +117,6 @@ var Technology = function(){
         });
     }
     var editTechnology = function(){
-        console.log('test')
         var form = $('#edit-technology-users');
         var rules = {
             technology_name: {required: true},

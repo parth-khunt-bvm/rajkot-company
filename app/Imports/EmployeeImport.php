@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Employee;
 use App\Models\Employeer;
+use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
@@ -21,9 +22,10 @@ class EmployeeImport implements ToModel, WithStartRow
         $objEmployee = new Employee();
         $objEmployee->first_name = $row[0] ?? '-';
         $objEmployee->last_name = $row[1]  ?? '-';
-        $objEmployee->department = $row[2]  ?? '-';
+        $departmentID = Technology::where('technology_name', $row[2])->value('id');
+        $objEmployee->department =  $departmentID;
         $objEmployee->DOJ = date('Y-m-d', strtotime($row[3]))  ?? '-';
-        $objEmployee->gmail = $row[4]  ?? '-';
+        $objEmployee->gmail = $row[4]  ?? rand().'gmail.com';
         $objEmployee->password = $row[5]  ?? '-';
         $objEmployee->slack_password = $row[6]  ?? '-';
         $objEmployee->DOB = date('Y-m-d', strtotime($row[7]))  ?? '-';

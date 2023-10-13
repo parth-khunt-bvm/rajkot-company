@@ -21,7 +21,6 @@ class Users extends Model
                         ->count();
 
         if($countUser == 0){
-
             $objUsers = Users::find($request->input('edit_id'));
             $objUsers->first_name = $request->input('first_name');
             $objUsers->last_name = $request->input('last_name');
@@ -48,7 +47,6 @@ class Users extends Model
             }else{
                 return "false";
             }
-
         }else{
             return "email_exist";
         }
@@ -56,7 +54,6 @@ class Users extends Model
 
     public function changepassword($request)
     {
-
         if (Hash::check($request->input('old_password'), $request->input('user_old_password'))) {
             $countUser = Users::where("id",'=',$request->input('editid'))->count();
             if($countUser == 1){
