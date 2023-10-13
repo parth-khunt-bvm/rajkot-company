@@ -35,7 +35,7 @@ class CreateEmployeeTable extends Migration
             $table->string('google_pay_number')->nullable();
             $table->string('emergency_number')->nullable();
             $table->text('address');
-            $table->decimal('experience', 2,2);
+            $table->decimal('experience', 16,4);
             $table->string('hired_by');
             $table->decimal('salary', 16,4);
             $table->date('stipend_from')->nullable();

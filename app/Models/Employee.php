@@ -286,5 +286,11 @@ class Employee extends Model
         }
     }
 
+    public function get_admin_employee_details(){
+        return Employee::from('employee')
+            ->select('employee.id','employee.first_name','employee.last_name')
+            ->get();
+      }
+
 
 }

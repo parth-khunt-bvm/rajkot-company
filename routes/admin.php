@@ -12,6 +12,7 @@ use App\Http\Controllers\backend\SalaryController;
 use App\Http\Controllers\backend\TypeController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\RevenueController;
+use App\Http\Controllers\backend\CounterController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -116,6 +117,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/revenue/view/{id}', [RevenueController::class, 'view'])->name('admin.revenue.view');
     Route::post('admin/revenue/save-import-revenue', [RevenueController::class, 'save_import'])->name('admin.revenue.save-import-revenue');
 
+    // Employee
     Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');
     Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
@@ -125,8 +127,14 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/employee/view/{id}', [EmployeeController::class, 'view'])->name('admin.employee.view');
     Route::post('admin/employee/save-import-employee', [EmployeeController::class, 'save_import'])->name('admin.employee.save-import-employee');
 
-
-
-
+    // Counter
+    Route::get('admin/counter/list', [CounterController::class, 'list'])->name('admin.counter.list');
+    Route::get('admin/counter/add', [CounterController::class, 'add'])->name('admin.counter.add');
+    Route::post('admin/counter/save-add-counter', [CounterController::class, 'saveAdd'])->name('admin.counter.save-add-counter');
+    Route::get('admin/counter/edit/{id}', [CounterController::class, 'edit'])->name('admin.counter.edit');
+    Route::post('admin/counter/save-edit-counter', [CounterController::class, 'saveEdit'])->name('admin.counter.save-edit-counter');
+    Route::post('admin/counter/ajaxcall', [CounterController::class, 'ajaxcall'])->name('admin.counter.ajaxcall');
+    Route::get('admin/counter/view/{id}', [CounterController::class, 'view'])->name('admin.counter.view');
+    Route::post('admin/counter/save-import-counter', [CounterController::class, 'save_import'])->name('admin.counter.save-import-counter');
 
 });

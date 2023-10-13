@@ -172,7 +172,7 @@ class Technology extends Model
         return Technology::from('technology')
             ->select('technology.id','technology.technology_name','technology.status')
             ->get();
-    }
+      }
 
 
 
