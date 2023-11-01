@@ -1,11 +1,11 @@
-var Counter = function(){
-    var list= function(){
+var Counter = function () {
+    var list = function () {
         var month = $('#month').val();
         var year = $("#year").val();
         var employee = $("#employee_id").val();
         var technology = $('#technology_id').val();
 
-        var dataArr = { 'month': month, 'year':year, 'employee':employee, 'technology':technology };
+        var dataArr = { 'month': month, 'year': year, 'employee': employee, 'technology': technology };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-counter-list',
@@ -21,14 +21,63 @@ var Counter = function(){
         };
         getDataTable(arrList);
 
-        $("body").on("click", ".delete-records", function() {
+
+        $("body").on("click", ".salary-not-counted", function () {
             var id = $(this).data('id');
-            setTimeout(function() {
+            setTimeout(function () {
+                $('.yes-sure-not-counted:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure-not-counted', function () {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'salary-not-counted', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/counter/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function (data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+        $("body").on("click", ".salary-counted", function () {
+            var id = $(this).data('id');
+            setTimeout(function () {
+                $('.yes-sure-counted:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure-counted', function () {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'salary-counted', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/counter/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function (data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+        $("body").on("click", ".delete-records", function () {
+            var id = $(this).data('id');
+            setTimeout(function () {
                 $('.yes-sure:visible').attr('data-id', id);
             }, 500);
         })
 
-        $('body').on('click', '.yes-sure', function() {
+        $('body').on('click', '.yes-sure', function () {
             var id = $(this).attr('data-id');
             var data = { id: id, 'activity': 'delete-records', _token: $('#_token').val() };
             $.ajax({
@@ -36,9 +85,9 @@ var Counter = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/counter/ajaxcall",
+                url: baseurl + "admin/counter/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
-                success: function(data) {
+                success: function (data) {
                     $("#loader").show();
                     handleAjaxResponse(data);
                 }
@@ -48,40 +97,40 @@ var Counter = function(){
         $('.select2').select2();
         var importform = $('#import-counter');
         var rules = {
-            file : {required: true},
-            month : {required: true},
-            year : {required: true},
+            file: { required: true },
+            month: { required: true },
+            year: { required: true },
         };
 
         var message = {
-            file : {required: "Please select file"},
-            month : {required: "Please select month"},
-            year : {required: "Please select year"},
+            file: { required: "Please select file" },
+            month: { required: "Please select month" },
+            year: { required: "Please select year" },
         }
-        handleFormValidateWithMsg(importform, rules,message, function(importform) {
-            handleAjaxFormSubmit(importform,true);
+        handleFormValidateWithMsg(importform, rules, message, function (importform) {
+            handleAjaxFormSubmit(importform, true);
         });
 
-        $("body").on("change", ".change", function() {
+        $("body").on("change", ".change", function () {
             var html = '';
-            html =  '<table class="table table-bordered table-checkable" id="admin-counter-list">'+
-            '<thead>'+
-                '<tr>'+
-                '<th>#</th>'+
-                '<th>Month</th>'+
-                '<th>Year</th>'+
-                '<th>Employee Name</th>'+
-                '<th>Department</th>'+
-                '<th>Present Day</th>'+
-                '<th>Half Leaves</th>'+
-                '<th>Full Leaves</th>'+
-                '<th>Paid Leave Details</th>'+
-                '<th>Total Days</th>'+
-                '<th>Action</th>'+
-                '</tr>'+
-                '</thead>'+
-                '<tbody>'+
-                ' </tbody>'+
+            html = '<table class="table table-bordered table-checkable" id="admin-counter-list">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>#</th>' +
+                '<th>Month</th>' +
+                '<th>Year</th>' +
+                '<th>Employee Name</th>' +
+                '<th>Department</th>' +
+                '<th>Present Day</th>' +
+                '<th>Half Leaves</th>' +
+                '<th>Full Leaves</th>' +
+                '<th>Paid Leave Details</th>' +
+                '<th>Total Days</th>' +
+                '<th>Action</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                ' </tbody>' +
                 '</table>';
 
             $(".counter-list").html(html);
@@ -91,7 +140,7 @@ var Counter = function(){
             var employee = $("#employee_id").val();
             var technology = $('#technology_id').val();
 
-            var dataArr = { 'month': month, 'year':year, 'employee':employee, 'technology':technology };
+            var dataArr = { 'month': month, 'year': year, 'employee': employee, 'technology': technology };
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-counter-list',
@@ -108,7 +157,7 @@ var Counter = function(){
             getDataTable(arrList);
         })
 
-        $("body").on("click", ".reset", function(){
+        $("body").on("click", ".reset", function () {
             location.reload(true);
         });
 
@@ -119,47 +168,47 @@ var Counter = function(){
             orientation: "bottom auto"
         });
     }
-    var addCounter= function(){
+    var addCounter = function () {
         $('.select2').select2();
         var form = $('#add-counter-users');
         var rules = {
-            month: {required: true},
-            year: {required: true},
-            employee_id: {required: true},
-            technology_id: {required: true},
-            present_day: {required: true},
-            half_leaves: {required: true},
-            full_leaves: {required: true},
-            paid_leaves_details: {required: true},
+            month: { required: true },
+            year: { required: true },
+            employee_id: { required: true },
+            technology_id: { required: true },
+            present_day: { required: true },
+            half_leaves: { required: true },
+            full_leaves: { required: true },
+            paid_leaves_details: { required: true },
         };
         var message = {
-            month :{
-                required : "Please select month",
+            month: {
+                required: "Please select month",
             },
-            year : {
-                required : "Please enter year"
+            year: {
+                required: "Please enter year"
             },
-            technology_id : {
-                required : "Please select technology name"
+            technology_id: {
+                required: "Please select technology name"
             },
-            employee_id : {
-                required : "Please select employee name"
+            employee_id: {
+                required: "Please select employee name"
             },
-            present_day : {
-                required : "Please enter present day"
+            present_day: {
+                required: "Please enter present day"
             },
-            half_leaves : {
-                required : "Please enter half leave"
+            half_leaves: {
+                required: "Please enter half leave"
             },
-            full_leaves : {
-                required : "Please enter full leave"
+            full_leaves: {
+                required: "Please enter full leave"
             },
-            paid_leaves_details : {
-                required : "Please enter paid leave detail"
+            paid_leaves_details: {
+                required: "Please enter paid leave detail"
             }
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
 
         $("#datepicker_date").datepicker({
@@ -170,7 +219,7 @@ var Counter = function(){
         });
     }
 
-    var editCounter= function(){
+    var editCounter = function () {
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -181,53 +230,53 @@ var Counter = function(){
         $('.select2').select2();
         var form = $('#edit-counter-users');
         var rules = {
-            month: {required: true},
-            year: {required: true},
-            employee_id: {required: true},
-            technology_id: {required: true},
-            present_day: {required: true},
-            half_leaves: {required: true},
-            full_leaves: {required: true},
-            paid_leaves_details: {required: true},
+            month: { required: true },
+            year: { required: true },
+            employee_id: { required: true },
+            technology_id: { required: true },
+            present_day: { required: true },
+            half_leaves: { required: true },
+            full_leaves: { required: true },
+            paid_leaves_details: { required: true },
         };
         var message = {
-            month :{
-                required : "Please select month",
+            month: {
+                required: "Please select month",
             },
-            year : {
-                required : "Please enter year"
+            year: {
+                required: "Please enter year"
             },
-            technology_id : {
-                required : "Please select technology name"
+            technology_id: {
+                required: "Please select technology name"
             },
-            employee_id : {
-                required : "Please select employee name"
+            employee_id: {
+                required: "Please select employee name"
             },
-            present_day : {
-                required : "Please enter present day"
+            present_day: {
+                required: "Please enter present day"
             },
-            half_leaves : {
-                required : "Please enter half leave"
+            half_leaves: {
+                required: "Please enter half leave"
             },
-            full_leaves : {
-                required : "Please enter full leave"
+            full_leaves: {
+                required: "Please enter full leave"
             },
-            paid_leaves_details : {
-                required : "Please enter paid leave detail"
+            paid_leaves_details: {
+                required: "Please enter paid leave detail"
             }
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
     }
     return {
-        init:function(){
+        init: function () {
             list();
         },
-        add:function(){
+        add: function () {
             addCounter();
         },
-        edit:function(){
+        edit: function () {
             editCounter();
         },
     }

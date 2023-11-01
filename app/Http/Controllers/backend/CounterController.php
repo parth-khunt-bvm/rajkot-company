@@ -195,7 +195,6 @@ class CounterController extends Controller
 
     public function ajaxcall(Request $request)
     {
-        // dd($request->input('data'));
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
@@ -213,10 +212,10 @@ class CounterController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Counter detail successfully deleted.";
-                    } elseif ($data['activity'] == 'active-records') {
-                        $return['message'] = "Counter detail successfully actived.";
+                    } elseif ($data['activity'] == 'salary-counted') {
+                        $return['message'] = "Salary detail successfully counted.";
                     } else {
-                        $return['message'] = "Counter detail successfully deactived.";
+                        $return['message'] = "Salary detail successfully not counted.";
                     }
                     $return['redirect'] = route('admin.counter.list');
                 } else {
