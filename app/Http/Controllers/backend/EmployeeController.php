@@ -69,13 +69,11 @@ class EmployeeController extends Controller
             'toastr/toastr.min.css'
         );
         $data['plugincss'] = array(
-            'css/pages/wizard/wizard-3.css'
         );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
             'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
-            'pages/custom/wizard/wizard-3.js',
             'pages/crud/file-upload/image-input.js'
         );
         $data['js'] = array(
@@ -136,13 +134,13 @@ class EmployeeController extends Controller
             'toastr/toastr.min.css'
         );
         $data['plugincss'] = array(
-            'css/pages/wizard/wizard-3.css',
+            // 'css/pages/wizard/wizard-3.css',
         );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
             'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
-            'pages/custom/wizard/wizard-3.js',
+            // 'pages/custom/wizard/wizard-3.js',
             'pages/crud/file-upload/image-input.js',
         );
         $data['js'] = array(

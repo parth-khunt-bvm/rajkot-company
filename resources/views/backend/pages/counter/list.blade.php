@@ -114,6 +114,7 @@
                                 <th>Full Leaves</th>
                                 <th>Paid Leave Details</th>
                                 <th>Total Days</th>
+                                <th>Salary Counted</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

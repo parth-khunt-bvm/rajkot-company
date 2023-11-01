@@ -43,6 +43,8 @@ class Counter extends Model
             7 => 'counter.full_leaves',
             8 => 'counter.paid_leaves_details',
             9 => 'counter.total_days',
+            10 => DB::raw('(CASE WHEN counter.salary_counted = "Y" THEN "Yes" ELSE "No" END)'),
+
         );
 
         $query = Counter::from('counter')
@@ -94,7 +96,7 @@ class Counter extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('counter.id', DB::raw('CONCAT(first_name, " ", last_name) as fullname'), DB::raw('MONTHNAME(CONCAT("2023-", counter.month, "-01")) as month_name'), 'employee.first_name', 'technology.technology_name', 'counter.present_days', 'counter.half_leaves', 'counter.full_leaves', 'counter.paid_leaves_details', 'counter.total_days', 'counter.month', 'counter.year')
+            ->select('counter.id', DB::raw('CONCAT(first_name, " ", last_name) as fullname'), DB::raw('MONTHNAME(CONCAT("2023-", counter.month, "-01")) as month_name'), 'employee.first_name', 'technology.technology_name', 'counter.present_days', 'counter.half_leaves', 'counter.full_leaves', 'counter.paid_leaves_details', 'counter.total_days', 'counter.month', 'counter.year', 'counter.salary_counted')
             ->get();
 
         $data = array();
@@ -105,6 +107,13 @@ class Counter extends Model
             $actionhtml = '';
             $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
             $actionhtml .= '<a href="' . route('admin.counter.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            if ($row['salary_counted'] == 'Y') {
+                $salaryCounted = '<span class="label label-lg label-light-success label-inline">Yes</span>';
+                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryNotCounted" class="btn btn-icon  salary-not-counted" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+            } else {
+                $salaryCounted = '<span class="label label-lg label-light-danger  label-inline">No</span>';
+                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryCounted" class="btn btn-icon  salary-counted" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+            }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -119,6 +128,7 @@ class Counter extends Model
             $nestedData[] = $row['full_leaves'];
             $nestedData[] = $row['paid_leaves_details'];
             $nestedData[] = numberformat($row['total_days'], 0);
+            $nestedData[] = $salaryCounted;
             $nestedData[] = $actionhtml;
 
             if (strlen($row['remarks']) > $max_length) {
@@ -225,21 +235,20 @@ class Counter extends Model
 
     public function common_activity($requestData)
     {
-
         $objCounter = Counter::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objCounter->is_deleted = "Y";
             $event = 'Delete Records';
         }
 
-        if ($requestData['activity'] == 'active-records') {
-            $objCounter->status = "A";
-            $event = 'Active Records';
+        if ($requestData['activity'] == 'salary-counted') {
+            $objCounter->salary_counted = "Y";
+            $event = 'Salary Counted';
         }
 
-        if ($requestData['activity'] == 'deactive-records') {
-            $objCounter->status = "I";
-            $event = 'Deactive Records';
+        if ($requestData['activity'] == 'salary-not-counted') {
+            $objCounter->salary_counted = "N";
+            $event = 'Salary Not Counted';
         }
 
         $objCounter->updated_at = date("Y-m-d H:i:s");

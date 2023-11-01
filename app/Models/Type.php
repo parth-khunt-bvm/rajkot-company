@@ -10,7 +10,12 @@ use App\Models\Audittrails;
 class Type extends Model
 {
     use HasFactory;
-    protected $table= "type";
+    protected $table = "type";
+
+    protected $fillable = [
+        'type_name',
+        'status'
+    ];
 
     public function getdatatable()
     {
@@ -48,7 +53,7 @@ class Type extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'type.id', 'type.type_name', 'type.status')
+            ->select('type.id', 'type.type_name', 'type.status')
             ->get();
 
         $data = array();
@@ -84,91 +89,97 @@ class Type extends Model
         return $json_data;
     }
 
-    public function saveAdd($requestData){
+    public function saveAdd($requestData)
+    {
         $checktypeName = Type::from('type')
-                    ->where('type.type_name', $requestData['type_name'])
-                    ->where('type.is_deleted', 'N')
-                    ->count();
+            ->where('type.type_name', $requestData['type_name'])
+            ->where('type.is_deleted', 'N')
+            ->count();
 
-        if($checktypeName == 0){
-            $objtype = new Type();
-            $objtype->type_name = $requestData['type_name'];
-            $objtype->status = $requestData['status'];
-            $objtype->is_deleted = 'N';
-            $objtype->created_at = date('Y-m-d H:i:s');
-            $objtype->updated_at = date('Y-m-d H:i:s');
-            if($objtype->save()){
+        if ($checktypeName == 0) {
+            if ($requestData->type_name) {
+                foreach ($requestData->type_name as $typeNameKey => $value) {
+                    $objtype = new Type();
+                    $objtype->type_name = $value;
+                    $objtype->status = $requestData['status'];
+                    $objtype->is_deleted = 'N';
+                    $objtype->created_at = date('Y-m-d H:i:s');
+                    $objtype->updated_at = date('Y-m-d H:i:s');
+                    $objtype->save();
+                }
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit("I", $requestData, 'type');
-                return 'added';
-            }else{
-                return 'wrong';
+                return true;
             }
         }
         return 'type_name_exists';
     }
 
-    public function get_type_details($typeId){
+    public function get_type_details($typeId)
+    {
         return Type::from('type')
-                ->where("type.id", $typeId)
-                ->select('type.id', 'type.type_name', 'type.status')
-                ->first();
+            ->where("type.id", $typeId)
+            ->select('type.id', 'type.type_name', 'type.status')
+            ->first();
     }
 
-    public function saveEdit($requestData){
+    public function saveEdit($requestData)
+    {
         $checktypeName = type::from('type')
-                    ->where('type.type_name', $requestData['type_name'])
-                    ->where('type.is_deleted', 'N')
-                    ->where('type.id', '!=', $requestData['type_Id'])
-                    ->count();
+            ->where('type.type_name', $requestData['type_name'])
+            ->where('type.is_deleted', 'N')
+            ->where('type.id', '!=', $requestData['type_Id'])
+            ->count();
 
-        if($checktypeName == 0){
+        if ($checktypeName == 0) {
             $objtype = Type::find($requestData['type_Id']);
             $objtype->type_name = $requestData['type_name'];
             $objtype->status = $requestData['status'];
             $objtype->updated_at = date('Y-m-d H:i:s');
-            if($objtype->save()){
+            if ($objtype->save()) {
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit("U", $requestData, 'type');
                 return 'updated';
-            }else{
+            } else {
                 return 'wrong';
             }
         }
         return 'type_name_exists';
     }
 
-    public function common_activity($requestData){
+    public function common_activity($requestData)
+    {
 
         $objtype = Type::find($requestData['id']);
-        if($requestData['activity'] == 'delete-records'){
+        if ($requestData['activity'] == 'delete-records') {
             $objtype->is_deleted = "Y";
             $event = 'D';
         }
 
-        if($requestData['activity'] == 'active-records'){
+        if ($requestData['activity'] == 'active-records') {
             $objtype->status = "A";
             $event = 'A';
         }
 
-        if($requestData['activity'] == 'deactive-records'){
+        if ($requestData['activity'] == 'deactive-records') {
             $objtype->status = "I";
             $event = 'DA';
         }
 
         $objtype->updated_at = date("Y-m-d H:i:s");
-        if($objtype->save()){
+        if ($objtype->save()) {
             $objAudittrails = new Audittrails();
             $res = $objAudittrails->add_audit($event, $requestData, 'type');
             return true;
-        }else{
-            return false ;
+        } else {
+            return false;
         }
     }
 
-    public function get_admin_type_details(){
+    public function get_admin_type_details()
+    {
         return Type::from('type')
-            ->select('type.id', 'type.type_name','type.status')
+            ->select('type.id', 'type.type_name', 'type.status')
             ->get();
     }
 }

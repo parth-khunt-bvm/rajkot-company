@@ -1,9 +1,10 @@
-var Employee = function(){
-    var list = function(){
+var Employee = function () {
+    var list = function () {
         var technology = $("#technology_id").val();
         var startDate = $("#start_date").val();
         var endDate = $("#end_date").val();
-        var dataArr = {'technology': technology,'startDate': startDate,'endDate': endDate
+        var dataArr = {
+            'technology': technology, 'startDate': startDate, 'endDate': endDate
         };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -20,14 +21,14 @@ var Employee = function(){
         };
         getDataTable(arrList);
 
-        $("body").on("click", ".delete-records", function() {
+        $("body").on("click", ".delete-records", function () {
             var id = $(this).data('id');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.yes-sure:visible').attr('data-id', id);
             }, 500);
         })
 
-        $('body').on('click', '.yes-sure', function() {
+        $('body').on('click', '.yes-sure', function () {
             var id = $(this).attr('data-id');
             var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
             $.ajax({
@@ -37,21 +38,21 @@ var Employee = function(){
                 },
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
-                success: function(data) {
+                success: function (data) {
                     $("#loader").show();
                     handleAjaxResponse(data);
                 }
             });
         });
 
-        $("body").on("click", ".deactive-records", function() {
+        $("body").on("click", ".deactive-records", function () {
             var id = $(this).data('id');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.yes-sure-deactive:visible').attr('data-id', id);
             }, 500);
         })
 
-        $('body').on('click', '.yes-sure-deactive', function() {
+        $('body').on('click', '.yes-sure-deactive', function () {
             var id = $(this).attr('data-id');
             var data = { 'id': id, 'activity': 'deactive-records', _token: $('#_token').val() };
             $.ajax({
@@ -61,21 +62,21 @@ var Employee = function(){
                 },
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
-                success: function(data) {
+                success: function (data) {
                     $("#loader").show();
                     handleAjaxResponse(data);
                 }
             });
         });
 
-        $("body").on("click", ".active-records", function() {
+        $("body").on("click", ".active-records", function () {
             var id = $(this).data('id');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.yes-sure-active:visible').attr('data-id', id);
             }, 500);
         })
 
-        $('body').on('click', '.yes-sure-active', function() {
+        $('body').on('click', '.yes-sure-active', function () {
             var id = $(this).attr('data-id');
             var data = { 'id': id, 'activity': 'active-records', _token: $('#_token').val() };
             $.ajax({
@@ -85,22 +86,25 @@ var Employee = function(){
                 },
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
-                success: function(data) {
+                success: function (data) {
                     $("#loader").show();
                     handleAjaxResponse(data);
                 }
             });
         });
+
+
+
         var importform = $('#import-employee');
         var rules = {
-            file : {required: true},
+            file: { required: true },
         };
 
         var message = {
-            file : {required: "Please select file"},
+            file: { required: "Please select file" },
         }
-        handleFormValidateWithMsg(importform, rules,message, function(importform) {
-            handleAjaxFormSubmit(importform,true);
+        handleFormValidateWithMsg(importform, rules, message, function (importform) {
+            handleAjaxFormSubmit(importform, true);
         });
         $('.select2').select2();
         $(".datepicker_date").datepicker({
@@ -110,28 +114,28 @@ var Employee = function(){
             orientation: "bottom auto",
         });
 
-        $('body').on('change', '.change-fillter', function() {
+        $('body').on('change', '.change-fillter', function () {
             var html = '';
 
-            html = '<table class="table table-bordered table-checkable" id="employee-list">'+
-            '<thead>'+
-            '<tr>'+
-            '<th>#</th>'+
-            '<th>Name</th>'+
-            '<th>Department</th>'+
-            '<th>Date of Joining</th>'+
-            '<th>Gmail</th>'+
-            '<th>Emergency Contact</th>'+
-            '<th>G Pay Number</th>'+
-            '<th>Experience</th>'+
-            '<th>Status</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
-            '</thead>'+
-            '<tbody>'+
+            html = '<table class="table table-bordered table-checkable" id="employee-list">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>#</th>' +
+                '<th>Name</th>' +
+                '<th>Department</th>' +
+                '<th>Date of Joining</th>' +
+                '<th>Gmail</th>' +
+                '<th>Emergency Contact</th>' +
+                '<th>G Pay Number</th>' +
+                '<th>Experience</th>' +
+                '<th>Status</th>' +
+                '<th>Action</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
 
-            '</tbody>'+
-            '</table>';
+                '</tbody>' +
+                '</table>';
 
             $(".employee-list").html(html);
 
@@ -139,70 +143,238 @@ var Employee = function(){
             var technology = $("#technology_id").val();
             var startDate = $("#start_date").val();
             var endDate = $("#end_date").val();
-            var dataArr = {'technology': technology,'startDate': startDate,'endDate': endDate
+            var dataArr = {
+                'technology': technology, 'startDate': startDate, 'endDate': endDate
             };
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
-            'tableID': '#employee-list',
-            'ajaxURL': baseurl + "admin/employee/ajaxcall",
-            'ajaxAction': 'getdatatable',
-            'postData': dataArr,
-            'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
-            'defaultSortColumn': [0],
-            'defaultSortOrder': 'DESC',
-            'setColumnWidth': columnWidth
-        };
-         getDataTable(arrList);
+                'tableID': '#employee-list',
+                'ajaxURL': baseurl + "admin/employee/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 9],
+                'noSearchApply': [0, 9],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
 
         });
 
     }
-       var addEmployee = function(){
-        $('.select2').select2();
-        var form = $('#kt_form');
+    var addEmployee = function () {
+
+        var form = $('#add-employee-form');
+
         var rules = {
-            first_name : {required: true},
-            last_name : {required: true},
-            technology : {required: true},
-            dob : {required: true},
-            doj : {required: true},
-            bank_name : {required: true},
-            acc_holder_name : {required: true},
-            account_number : {required: true},
-            ifsc_code : {required: true},
-            aadhar_card_number : {required: true},
-            parent_name : {required: true},
-            address : {required: true},
-            experience  : {required: true},
-            hired_by : {required: true},
-            salary : {required: true},
-            status : {required: true}
+            experience: { required: true },
+            hired_by: { required: true },
+            salary: { required: true },
+            status: { required: true }
         };
 
         var message = {
-            first_name : {required: "Please enter first name"},
-            last_name : {required: "Please enter last name"},
-            technology : {required: "Please select technology"},
-            dob : {required: "Please enter date of birth"},
-            doj : {required: "Please enter date of joining"},
-            bank_name : {required: "Please enter bank name"},
-            acc_holder_name : {required: "Please enter account holder name"},
-            account_number : {required: "Please enter account number"},
-            ifsc_code : {required: "Please enter ifsc code"},
-            aadhar_card_number : {required: "Please enter aadhar card number"},
-            parent_name : {required: "Please enter parent name"},
-            address : {required: "Please enter address"},
-            experience  : {required: "Please enter experience"},
-            hired_by : {required: "Please enter hired by"},
-            salary : {required: "Please enter salary"},
-            status : {required: "Please select status"}
+            experience: { required: "Please enter experience" },
+            hired_by: { required: "Please enter hired by" },
+            salary: { required: "Please enter salary" },
+            status: { required: "Please select status" }
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
 
+        var validation = {
+            first_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter first name'},
+                    textonly: { message: 'Please enter valid first name'}
+                }
+            },
+            last_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter last name'},
+                    textonly: { message: 'Please enter valid last name'}
+                }
+            },
+            technology : {
+                validators: {
+                    notEmpty: { message: 'Please select technology'},
+                }
+            },
+            dob : {
+                validators: {
+                    notEmpty: { message: 'Please enter date of birth'},
+                }
+            },
+            doj : {
+                validators: {
+                    notEmpty: { message: 'Please enter date of joining'},
+                }
+            },
+            personal_email : {
+                validators: {
+                    notEmpty: { message: 'Please enter personal email'},
+                    emailonly: { message: 'Please enter a valid email'},
+                }
+            },
+            bank_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter bank name'},
+                    textonly: { message: 'Please enter valid bank name'}
+                }
+            },
+            acc_holder_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter account holder name'},
+                    textonly: { message: 'Please enter valid account holder name'}
+                }
+            },
+            account_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter account number'},
+                    // numberonly: { message: 'Please enter a valid account number'},
+                }
+            },
+            ifsc_code : {
+                validators: {
+                    notEmpty: { message: 'Please enter ifsc code'},
+                }
+            },
+            aadhar_card_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter aadhar card number'},
+                    numberonly: { message: 'Please enter a valid account number'},
+                }
+            },
+            google_pay : {
+                validators: {
+                    notEmpty: { message: 'Please enter g-pay number'},
+                    numberonly: { message: 'Please enter a valid g-pay number'},
+                }
+            },
+            parent_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter parent name'},
+                    textonly: { message: 'Please enter valid parent name'}
+                }
+            },
+            address : {
+                validators: {
+                    notEmpty: { message: 'Please enter address'},
+                }
+            },
+             experience : {
+                validators: {
+                    notEmpty: { message: 'Please enter experience'},
+                }
+            },
+            hired_by : {
+                validators: {
+                    notEmpty: { message: 'Please enter hired by'},
+                }
+            },
+            salary : {
+                validators: {
+                    notEmpty: { message: 'Please enter salary'},
+                }
+            },
+            status : {
+                validators: {
+                    notEmpty: { message: 'Please select status'},
+                }
+            }
+
+        };
+
+        function checkValidation(validationType , message, value){
+
+            switch (validationType) {
+                case 'notEmpty':
+                    if (value.trim() === '') {
+                        return false;
+                    }
+                    break;
+
+                case 'textonly':
+                    if (!isValidTextOnly(value)) {
+                        return false;
+                    }
+                    break;
+
+                case 'emailonly':
+                    if (!validateEmail(value)) {
+                        return false;
+                    }
+                    break;
+
+                case 'numberonly':
+                    if (!validateNumber(value)) {
+                        return false;
+                    }
+                    break;
+             }
+            return true;
+        }
+
+        function isValidTextOnly(value) {
+            return /^[A-Za-z\s]+$/.test(value);
+        }
+
+        function validateEmail(email) {
+            var regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+            return regex.test(email);
+        }
+
+        function validateNumber(e) {
+            const pattern = /^[0-9]+$/;
+
+            return pattern.test(e);
+        }
+
+        $("body").on("click", ".prev-step", function(){
+            var prevPageNo  = $(this).data('prev-page');
+            var currentPageNo  = $(this).data('current-page');
+
+            $("#step"+currentPageNo).css('display', 'none');
+            $("#step"+prevPageNo).css('display', 'block');
+        });
+
+        $("body").on("click", ".next-step", function () {
+            var nextPageNo  = $(this).data('next-page');
+            var currentPageNo  = $(this).data('current-page');
+            var customValid = true;
+            $('.input-name').each(function () {
+                if ($(this).is(':visible')) {
+                    var element = $(this);
+                    var inputName = element.attr('name');
+                    var errorElement = element.parent().find('.type_error');
+                    errorElement.text('');
+                    var checkValidInput = true;
+                    if(validation[inputName]){
+                        $.each(validation[inputName]['validators'], function( index, value ) {
+                            if(checkValidInput){
+                                checkValidInput = checkValidation(index, value['message'], element.val());
+                                if (checkValidInput) {
+                                    errorElement.text('');
+                                } else {
+                                    customValid = false;
+                                    errorElement.text(value['message']);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            if(customValid){
+                $("#step"+nextPageNo).css('display', 'block');
+                $("#step"+currentPageNo).css('display', 'none');
+            }
+
+        });
+        $('.select2').select2();
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -216,51 +388,217 @@ var Employee = function(){
             orientation: "bottom auto",
             endDate: new Date()
         });
-
     }
-    var editEmployee = function(){
+    var editEmployee = function () {
         $('.select2').select2();
-        var form = $('#kt_form');
+        var form = $('#edit-employee-form');
         var rules = {
-            first_name : {required: true},
-            last_name : {required: true},
-            technology : {required: true},
-            dob : {required: true},
-            doj : {required: true},
-            bank_name : {required: true},
-            acc_holder_name : {required: true},
-            account_number : {required: true},
-            ifsc_code : {required: true},
-            aadhar_card_number : {required: true},
-            parent_name : {required: true},
-            address : {required: true},
-            experience  : {required: true},
-            hired_by : {required: true},
-            salary : {required: true},
-            status : {required: true}
+            experience: { required: true },
+            hired_by: { required: true },
+            salary: { required: true },
+            status: { required: true }
         };
 
         var message = {
-            first_name : {required: "Please enter first name"},
-            last_name : {required: "Please enter last name"},
-            technology : {required: "Please select technology"},
-            dob : {required: "Please enter date of birth"},
-            doj : {required: "Please enter date of joining"},
-            bank_name : {required: "Please enter bank name"},
-            acc_holder_name : {required: "Please enter account holder name"},
-            account_number : {required: "Please enter account number"},
-            ifsc_code : {required: "Please enter ifsc code"},
-            aadhar_card_number : {required: "Please enter aadhar card number"},
-            parent_name : {required: "Please enter parent name"},
-            address : {required: "Please enter address"},
-            experience  : {required: "Please enter experience"},
-            hired_by : {required: "Please enter hired by"},
-            salary : {required: "Please enter salary"},
-            status : {required: "Please select status"}
+            experience: { required: "Please enter experience" },
+            hired_by: { required: "Please enter hired by" },
+            salary: { required: "Please enter salary" },
+            status: { required: "Please select status" }
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
+        var validation = {
+            first_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter first name'},
+                    textonly: { message: 'Please enter valid first name'}
+                }
+            },
+            last_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter last name'},
+                    textonly: { message: 'Please enter valid last name'}
+                }
+            },
+            technology : {
+                validators: {
+                    notEmpty: { message: 'Please select technology'},
+                }
+            },
+            dob : {
+                validators: {
+                    notEmpty: { message: 'Please enter date of birth'},
+                }
+            },
+            doj : {
+                validators: {
+                    notEmpty: { message: 'Please enter date of joining'},
+                }
+            },
+            personal_email : {
+                validators: {
+                    notEmpty: { message: 'Please enter personal email'},
+                    emailonly: { message: 'Please enter a valid email'},
+                }
+            },
+            bank_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter bank name'},
+                    textonly: { message: 'Please enter valid bank name'}
+                }
+            },
+            acc_holder_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter account holder name'},
+                    textonly: { message: 'Please enter valid account holder name'}
+                }
+            },
+            account_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter account number'},
+                    // numberonly: { message: 'Please enter a valid account number'},
+                }
+            },
+            ifsc_code : {
+                validators: {
+                    notEmpty: { message: 'Please enter ifsc code'},
+                }
+            },
+            aadhar_card_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter aadhar card number'},
+                    numberonly: { message: 'Please enter a valid account number'},
+                }
+            },
+            google_pay : {
+                validators: {
+                    notEmpty: { message: 'Please enter g-pay number'},
+                    numberonly: { message: 'Please enter a valid g-pay number'},
+                }
+            },
+            parent_name : {
+                validators: {
+                    notEmpty: { message: 'Please enter parent name'},
+                    textonly: { message: 'Please enter valid parent name'}
+                }
+            },
+            address : {
+                validators: {
+                    notEmpty: { message: 'Please enter address'},
+                }
+            },
+             experience : {
+                validators: {
+                    notEmpty: { message: 'Please enter experience'},
+                }
+            },
+            hired_by : {
+                validators: {
+                    notEmpty: { message: 'Please enter hired by'},
+                }
+            },
+            salary : {
+                validators: {
+                    notEmpty: { message: 'Please enter salary'},
+                }
+            },
+            status : {
+                validators: {
+                    notEmpty: { message: 'Please select status'},
+                }
+            }
+
+        };
+
+        function checkValidation(validationType , message, value){
+
+            switch (validationType) {
+                case 'notEmpty':
+                    if (value.trim() === '') {
+                        return false;
+                    }
+                    break;
+
+                case 'textonly':
+                    if (!isValidTextOnly(value)) {
+                        return false;
+                    }
+                    break;
+
+                case 'emailonly':
+                    if (!validateEmail(value)) {
+                        return false;
+                    }
+                    break;
+
+                case 'numberonly':
+                    if (!validateNumber(value)) {
+                        return false;
+                    }
+                    break;
+             }
+            return true;
+        }
+
+        function isValidTextOnly(value) {
+            return /^[A-Za-z\s]+$/.test(value);
+        }
+
+        function validateEmail(email) {
+            var regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+            return regex.test(email);
+        }
+
+        function validateNumber(e) {
+            const pattern = /^[0-9]+$/;
+
+            return pattern.test(e);
+        }
+
+        $("body").on("click", ".prev-step", function(){
+            var prevPageNo  = $(this).data('prev-page');
+            var currentPageNo  = $(this).data('current-page');
+
+            $("#step"+currentPageNo).css('display', 'none');
+            $("#step"+prevPageNo).css('display', 'block');
+        });
+
+        $("body").on("click", ".next-step", function () {
+            var nextPageNo  = $(this).data('next-page');
+            var currentPageNo  = $(this).data('current-page');
+            var customValid = true;
+            $('.input-name').each(function () {
+                if ($(this).is(':visible')) {
+                    var element = $(this);
+                    var inputName = element.attr('name');
+                    var errorElement = element.parent().find('.type_error');
+                    errorElement.text('');
+                    var checkValidInput = true;
+                    if(validation[inputName]){
+                        $.each(validation[inputName]['validators'], function( index, value ) {
+                            if(checkValidInput){
+                                checkValidInput = checkValidation(index, value['message'], element.val());
+                                if (checkValidInput) {
+                                    errorElement.text('');
+                                } else {
+                                    customValid = false;
+                                    errorElement.text(value['message']);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            if(customValid){
+                $("#step"+nextPageNo).css('display', 'block');
+                $("#step"+currentPageNo).css('display', 'none');
+            }
+
+        });
+
+
 
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -270,14 +608,32 @@ var Employee = function(){
         });
 
     }
+
+    // var nextStep = function (step) {
+    //     let currentStep = 1;
+    //     if (step === currentStep) {
+    //         return;
+    //     }
+
+    //     const currentStepElement = document.getElementById(`step${currentStep}`);
+    //     const nextStepElement = document.getElementById(`step${step}`);
+
+    //     if (currentStepElement && nextStepElement) {
+    //         currentStepElement.style.display = "none";
+    //         nextStepElement.style.display = "block";
+    //         currentStep = step;
+    //     }
+
+    // }
+
     return {
-        init:function(){
+        init: function () {
             list();
         },
-        add:function(){
+        add: function () {
             addEmployee();
         },
-        edit:function(){
+        edit: function () {
             editEmployee();
         },
     }

@@ -117,7 +117,7 @@
                             </div>
                             <div class="col-3">
                                 <b>Salary</b> <br>
-                                 {{ $employee_details->salary }}
+                                {{ numberformat( $employee_details->salary, 0)  }}
                             </div>
                             <div class="col-3">
                                 <b>stipend from</b> <br>

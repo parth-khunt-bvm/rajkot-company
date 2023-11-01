@@ -2,6 +2,7 @@
     .select2 {
         width: 100% !important;
     }
+
 </style>
 <div class="modal fade " id="viewAuditTrails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -106,7 +107,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -149,7 +150,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -192,7 +193,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -234,7 +235,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -276,7 +277,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -319,7 +320,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -362,7 +363,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -404,7 +405,7 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
@@ -443,7 +444,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> Month</label><br>
-                                    <select class="form-control select2 month change" id="month"  name="month">
+                                    <select class="form-control select2 month change" id="month" name="month">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -464,11 +465,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>year</label><br>
-                                    <select class="form-control select2 year change" id="year"  name="year">
+                                    <select class="form-control select2 year change" id="year" name="year">
                                         <option value="">Select Year</option>
-                                        @for ($i = 2019; $i <= date('Y'); $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
+                                        @for ($i = 2019; $i <= date('Y'); $i++) <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
                                     </select>
                                 </div>
                             </div>
@@ -477,7 +477,7 @@
                                 <div class="form-group">
                                     <label>Upload Excel File<span class="text-danger">*</span></label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                        <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
                                 </div>
@@ -495,6 +495,106 @@
     </div>
 </div>
 
+<!-- Salary Not Counted Model-->
+<div class="modal fade" id="salaryNotCounted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Salary Not Counted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Are you sure you want to not counted salary ? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-not-counted">Yes , I am sure</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Salary Counted Model-->
+<div class="modal fade" id="salaryCounted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Salary Counted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Are you sure you want to counted salary ? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-counted">Yes , I am sure</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<!-- Import Type Model-->
+<div class="modal fade " id="addType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" id="add-type-modal" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
+                    <div class="card-body">
+                        <div id="addTypeDiv">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label>Type name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="type_name[]" class="form-control typeinput" placeholder="Enter type name">
+                                        <span class="type_error text-danger"></span>
+                                    </div>
+                                </div>
 
+                                <div class="col-md-2 padding-left-5 padding-right-5">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label><br>
+                                        <a href="javascript:;" class="my-btn btn btn-success add-type-button"><i class="my-btn fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Status <span class="text-danger">*</span></label>
+                                    <div class="radio-inline" style="margin-top:10px">
+                                        <label class="radio radio-lg radio-success">
+                                            <input type="radio" name="status" class="radio-btn" value="A" checked="checked" />
+                                            <span></span>Active</label>
+                                        <label class="radio radio-lg radio-danger">
+                                            <input type="radio" name="status" class="radio-btn" value="I" />
+                                            <span></span>Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
