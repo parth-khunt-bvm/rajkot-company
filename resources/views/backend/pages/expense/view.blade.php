@@ -52,7 +52,6 @@
                     </div>
                     <!--end::Card-->
                 </div>
-
             </div>
         </div>
         <!--end::Container-->

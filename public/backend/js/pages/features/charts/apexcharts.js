@@ -21,7 +21,7 @@ function generateBubbleData(baseval, count, yrange) {
       var x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;;
       var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
       var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
-  
+
       series.push([x, y, z]);
       baseval += 86400000;
       i++;
@@ -61,7 +61,7 @@ var KTApexChartsDemo = function () {
 					enabled: false
 				}
 			},
-			dataLabels: { 	
+			dataLabels: {
 				enabled: false
 			},
 			stroke: {

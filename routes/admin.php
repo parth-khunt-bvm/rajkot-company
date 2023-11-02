@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
@@ -137,4 +138,10 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/counter/view/{id}', [CounterController::class, 'view'])->name('admin.counter.view');
     Route::post('admin/counter/save-import-counter', [CounterController::class, 'save_import'])->name('admin.counter.save-import-counter');
 
+    // report
+    Route::get('admin/report/expense', [ReportController::class, 'expense'])->name('admin.report.expense');
+    Route::get('admin/report/revenue', [ReportController::class, 'revenue'])->name('admin.report.revenue');
+    Route::get('admin/report/salary', [ReportController::class, 'salary'])->name('admin.report.salary');
+    Route::get('admin/report/profit-loss', [ReportController::class, 'profitLoss'])->name('admin.report.profit-loss');
+    Route::post('admin/report/ajaxcall', [ReportController::class, 'ajaxcall'])->name('admin.report.ajaxcall');
 });

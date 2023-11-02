@@ -227,4 +227,36 @@ class Revenue extends Model
         }
     }
 
+    public function getRevenueReportsData($fillterdata){
+        $data = collect(range(11, 0));
+        $month_array = [];
+        $amount_array = [];
+        foreach($data as $key => $value){
+
+            $dt = today()->startOfMonth()->subMonth($value);
+
+            $month_name = $dt->shortMonthName."-".$dt->format('Y');
+            array_push($month_array, $month_name);
+
+            $query = Revenue::from('revenue')
+                ->where('month_of', date("n", strtotime($month_name)))
+                ->whereYear('date', date("Y", strtotime($month_name)))
+                ->where('is_deleted', 'N');
+
+            if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                $query->where("manager_id", $fillterdata['manager']);
+            }
+
+            if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                $query->where("technology_id", $fillterdata['technology']);
+            }
+            $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+            array_push($amount_array, check_value($res[0]->amount));
+        }
+        $details['month'] = $month_array;
+        $details['amount'] = $amount_array;
+        return $details;
+    }
+
 }

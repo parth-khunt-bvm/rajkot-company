@@ -1,0 +1,497 @@
+var Report = function () {
+    var expenseReport = function () {
+
+        loadExpenseChart();
+
+        $('body').on('change', '.change', function() {
+            var html = '';
+            html = '<div id="expense-reports"></div>';
+            $('.expense-reports-chart').html(html);
+            loadExpenseChart();
+        });
+
+        function loadExpenseChart(){
+            var manager = $('#manager_id').val();
+            var branch = $("#branch_id").val();
+            var type = $("#type_id").val();
+            var startDate = $("#start_date").val();
+            var endDate = $("#end_date").val();
+            var data = {'manager' : manager,'branch' : branch,'type' : type,'startDate' : startDate,'endDate' : endDate} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/report/ajaxcall",
+                data: { 'action': 'get-expense-reports-data', 'data' : data},
+                success: function (data) {
+                    $("#loader").show();
+                    var res = JSON.parse(data);
+                    console.log(res);
+                    const apexChart = "#expense-reports";
+                    var options = {
+                        series: [{
+                            name: 'Expense',
+                            type: 'column',
+                            data: res.amount ,
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '40%',
+                                // endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: res.month
+                        },
+                        yaxis: [
+                            {
+                                axisTicks: {
+                                    show: true,
+                                },
+                                axisBorder: {
+                                    show: true,
+                                    color: "#9D689E"
+                                },
+                                labels: {
+                                    style: {
+                                        colors: "#9D689E",
+                                    }
+                                },
+                                title: {
+                                    text: "Sales",
+                                    style: {
+                                        color: "#9D689E",
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        ],
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return "$ " + val + " thousands"
+                                }
+                            }
+                        },
+                        // colors: [primary, success, warning]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector(apexChart), options);
+                    chart.render();
+
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        }
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
+
+    var revenueReport = function () {
+
+        loadRevenueChart();
+
+
+        $('body').on('change', '.change', function() {
+            var html = '';
+            html = '<div id="revenue-reports"></div>';
+            $('.revenue-reports-chart').html(html);
+            loadRevenueChart();
+        });
+
+        function loadRevenueChart(){
+            var manager = $('#manager_id').val();
+            var technology = $("#technology_id").val();
+            var data = {'manager' : manager,'technology' : technology} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/report/ajaxcall",
+                data: { 'action': 'get-revenue-reports-data', 'data' : data},
+                success: function (data) {
+                    $("#loader").show();
+                    var res = JSON.parse(data);
+                    console.log(res);
+                    const apexChart = "#revenue-reports";
+                    var options = {
+                        series: [{
+                            name: 'Revenue',
+                            type: 'column',
+                            data: res.amount ,
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '40%',
+                                // endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: res.month
+                        },
+                        yaxis: [
+                            {
+                                axisTicks: {
+                                    show: true,
+                                },
+                                axisBorder: {
+                                    show: true,
+                                    color: "#9D689E"
+                                },
+                                labels: {
+                                    style: {
+                                        colors: "#9D689E",
+                                    }
+                                },
+                                title: {
+                                    text: "Sales",
+                                    style: {
+                                        color: "#9D689E",
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        ],
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return "$ " + val + " thousands"
+                                }
+                            }
+                        },
+                        // colors: [primary, success, warning]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector(apexChart), options);
+                    chart.render();
+
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        }
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
+
+    var salaryReport = function () {
+
+        loadSalaryChart();
+
+        $('body').on('change', '.change', function() {
+            var html = '';
+            html = '<div id="salary-reports"></div>';
+            $('.salary-reports-chart').html(html);
+            loadSalaryChart();
+        });
+
+        function loadSalaryChart(){
+            var manager = $('#manager_id').val();
+            var technology = $("#technology_id").val();
+            var branch = $("#branch_id").val();
+            var data = {'manager' : manager,'technology' : technology,'branch' : branch} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/report/ajaxcall",
+                data: { 'action': 'get-salary-reports-data', 'data' : data},
+                success: function (data) {
+                    $("#loader").show();
+                    var res = JSON.parse(data);
+                    console.log(res);
+                    const apexChart = "#salary-reports";
+                    var options = {
+                        series: [{
+                            name: 'Salary',
+                            type: 'column',
+                            data: res.amount ,
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '40%',
+                                // endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: res.month
+                        },
+                        yaxis: [
+                            {
+                                axisTicks: {
+                                    show: true,
+                                },
+                                axisBorder: {
+                                    show: true,
+                                    color: "#9D689E"
+                                },
+                                labels: {
+                                    style: {
+                                        colors: "#9D689E",
+                                    }
+                                },
+                                title: {
+                                    text: "Sales",
+                                    style: {
+                                        color: "#9D689E",
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        ],
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return "$ " + val + " thousands"
+                                }
+                            }
+                        },
+                        // colors: [primary, success, warning]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector(apexChart), options);
+                    chart.render();
+
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        }
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
+
+    var profitLossReport = function () {
+
+        loadProfitLossChart();
+
+        $('body').on('change', '.change', function() {
+            var html = '';
+            html = '<div id="profit-loss-reports"></div>';
+            $('.profit-loss-reports-chart').html(html);
+            loadProfitLossChart();
+        });
+
+        function loadProfitLossChart(){
+            var branch = $("#branch_id").val();
+            var type = $("#type_id").val();
+            var technology = $("#technology_id").val();
+            var month = $("#month_of").val();
+            console.log(month);
+            var data = {'technology' : technology,'branch' : branch,'month' : month} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/report/ajaxcall",
+                data: { 'action': 'get-profit-loss-reports-data', 'data' : data},
+                success: function (data) {
+                    console.log(data);
+                    $("#loader").show();
+
+                    const apexChart = "#profit-loss-reports";
+                    var res = JSON.parse(data);
+
+                    var options = {
+                        series: [{
+                            name: 'Expense',
+                            type: 'column',
+                            data: res.amount.expense ,
+                        },
+                        {
+                            name: 'Revenue',
+                            type: 'column',
+                            data: res.amount.revenue ,
+                        },
+                        {
+                            name: 'Salary',
+                            type: 'column',
+                            data: res.amount.salary ,
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '40%',
+                                // endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: res.month
+                        },
+                        yaxis: [
+                            {
+                                axisTicks: {
+                                    show: true,
+                                },
+                                axisBorder: {
+                                    show: true,
+                                    color: "#9D689E"
+                                },
+                                labels: {
+                                    style: {
+                                        colors: "#9D689E",
+                                    }
+                                },
+                                title: {
+                                    text: "Sales",
+                                    style: {
+                                        color: "#9D689E",
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        ],
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return "$ " + val + " thousands"
+                                }
+                            }
+                        },
+                        // colors: [primary, success, warning]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector(apexChart), options);
+                    chart.render();
+
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        }
+
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
+
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
+
+    return {
+        expense: function () {
+            expenseReport();
+        },
+        revenue: function () {
+            revenueReport();
+        },
+        salary: function () {
+            salaryReport();
+        },
+        profitLoss: function () {
+            profitLossReport();
+        },
+    }
+}();

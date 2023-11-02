@@ -234,4 +234,47 @@ class Expense extends Model
             ->where('expense.is_deleted', 'N')
             ->get()->toArray();
     }
+    public function getExpenseReportsData($fillterdata){
+
+        $data = collect(range(11, 0));
+        $month_array = [];
+        $amount_array = [];
+        foreach($data as $key => $value){
+
+            $dt = today()->startOfMonth()->subMonth($value);
+
+            $month_name = $dt->shortMonthName."-".$dt->format('Y');
+            array_push($month_array, $month_name);
+
+                $query = Expense::from('expense')
+                ->where('month', date("n", strtotime($month_name)))
+                ->whereYear('date', date("Y", strtotime($month_name)))
+                ->where('is_deleted', 'N');
+
+                if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                    $query->where("manager_id", $fillterdata['manager']);
+                }
+
+                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                    $query->where("branch_id", $fillterdata['branch']);
+                }
+
+                if($fillterdata['type'] != null && $fillterdata['type'] != ''){
+                    $query->where("type_id", $fillterdata['type']);
+                }
+
+                if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+                    $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+                }
+                if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+                    $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
+                }
+                $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+            array_push($amount_array, check_value($res[0]->amount));
+        }
+        $details['month'] = $month_array;
+        $details['amount'] = $amount_array;
+        return $details;
+    }
 }

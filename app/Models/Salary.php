@@ -237,4 +237,187 @@ class Salary extends Model
             ->where('salary.is_deleted', 'N')
             ->get()->toArray();
     }
+
+    public function getExpenseReportsData($fillterdata){
+        $data = collect(range(11, 0));
+    $month_array = [];
+    $amount_array = [];
+    foreach($data as $key => $value){
+
+        $dt = today()->startOfMonth()->subMonth($value);
+
+        $month_name = $dt->shortMonthName."-".$dt->format('Y');
+        array_push($month_array, $month_name);
+
+        $month =  date("Y-m-", strtotime($month_name));
+
+            $query = Expense::from('expense')
+            ->where('date','LIKE',$month.'%')
+            ->where('is_deleted', 'N');
+
+            if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                $query->where("manager_id", $fillterdata['manager']);
+            }
+
+            if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                $query->where("branch_id", $fillterdata['branch']);
+            }
+
+            if($fillterdata['type'] != null && $fillterdata['type'] != ''){
+                $query->where("type_id", $fillterdata['type']);
+            }
+
+            if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+                $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+            }
+            if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+                $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
+            }
+            $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+        array_push($amount_array, check_value($res[0]->amount));
+    }
+    $details['month'] = $month_array;
+    $details['amount'] = $amount_array;
+    return $details;
+    }
+    public function getRevenueReportsData($fillterdata){
+        $data = collect(range(11, 0));
+        $month_array = [];
+        $amount_array = [];
+        foreach($data as $key => $value){
+
+            $dt = today()->startOfMonth()->subMonth($value);
+
+            $month_name = $dt->shortMonthName."-".$dt->format('Y');
+            array_push($month_array, $month_name);
+
+            $month =  date("Y-m-", strtotime($month_name));
+
+                $query = Revenue::from('revenue')
+                ->where('date','LIKE',$month.'%')
+                ->where('is_deleted', 'N');
+
+                if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                    $query->where("manager_id", $fillterdata['manager']);
+                }
+
+                if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                    $query->where("technology_id", $fillterdata['technology']);
+                }
+                $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+            array_push($amount_array, check_value($res[0]->amount));
+        }
+        $details['month'] = $month_array;
+        $details['amount'] = $amount_array;
+        return $details;
+    }
+
+    public function getSalaryReportsData($fillterdata){
+        $data = collect(range(11, 0));
+        $month_array = [];
+        $amount_array = [];
+        foreach($data as $key => $value){
+
+            $dt = today()->startOfMonth()->subMonth($value);
+
+            $month_name = $dt->shortMonthName."-".$dt->format('Y');
+            array_push($month_array, $month_name);
+
+                $query = Salary::from('salary')
+                ->where('month_of', date("n", strtotime($month_name)))
+                ->whereYear('date', date("Y", strtotime($month_name)))
+                ->where('is_deleted', 'N');
+
+
+                if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                    $query->where("manager_id", $fillterdata['manager']);
+                }
+
+                if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                    $query->where("technology_id", $fillterdata['technology']);
+                }
+
+                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                    $query->where("branch_id", $fillterdata['branch']);
+                }
+                $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+            array_push($amount_array, check_value($res[0]->amount));
+        }
+        $details['month'] = $month_array;
+        $details['amount'] = $amount_array;
+        return $details;
+    }
+
+    public function getProfitLossReportsData($fillterdata){
+        $data = collect(range(11, 0));
+        $month_array = [];
+        $salary_array = [];
+        $expense_array = [];
+        $revenue_array = [];
+        foreach($data as $key => $value){
+
+            $dt = today()->startOfMonth()->subMonth($value);
+
+            $month_name = $dt->shortMonthName."-".$dt->format('Y');
+            array_push($month_array, $month_name);
+
+            $month =  date("Y-m-", strtotime($month_name));
+
+                $salaryQuery = Salary::from('salary')
+                ->where('month_of', date("n", strtotime($month_name)))
+                ->whereYear('date', date("Y", strtotime($month_name)))
+                ->where('is_deleted', 'N');
+
+                if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                    $salaryQuery->where("technology_id", $fillterdata['technology']);
+                }
+                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                    $salaryQuery->where("branch_id", $fillterdata['branch']);
+                }
+                if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+                    $salaryQuery->where("month_of", $fillterdata['month']);
+                }
+
+                $salary = $salaryQuery->select(DB::raw("SUM(amount) as amount"))->get();
+                array_push($salary_array, check_value($salary[0]->amount));
+
+                $expenseQuery = Expense::from('expense')
+                 ->where('month', date("n", strtotime($month_name)))
+                 ->whereYear('date', date("Y", strtotime($month_name)))
+                 ->where('is_deleted', 'N');
+
+                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                    $expenseQuery->where("branch_id", $fillterdata['branch']);
+                }
+                if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+                    $expenseQuery->where("month", $fillterdata['month']);
+                }
+
+                $expense = $expenseQuery->select(DB::raw("SUM(amount) as amount"))->get();
+                array_push($expense_array, check_value($expense[0]->amount));
+
+                $revenueQuery = Revenue::from('revenue')
+                ->where('month_of', date("n", strtotime($month_name)))
+                ->whereYear('date', date("Y", strtotime($month_name)))
+                ->where('is_deleted', 'N');
+
+                if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                    $revenueQuery->where("technology_id", $fillterdata['technology']);
+                }
+
+                if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+                    $revenueQuery->where("month_of", $fillterdata['month']);
+                }
+
+                $revenue = $revenueQuery->select(DB::raw("SUM(amount) as amount"))->get();
+                array_push($revenue_array, check_value($revenue[0]->amount));
+        }
+
+        $details['month'] = $month_array;
+        $details['amount'] = ['salary' => $salary_array, 'expense' => $expense_array, 'revenue' => $revenue_array];
+        return $details;
+    }
 }

@@ -117,12 +117,6 @@
                         </div>
                     </div>
                 </form>
-
-
-
-
-
-
                 <div class="row">
                     <div class="col-md-5">
                         <div class="row">
