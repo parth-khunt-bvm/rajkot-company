@@ -143,5 +143,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/report/revenue', [ReportController::class, 'revenue'])->name('admin.report.revenue');
     Route::get('admin/report/salary', [ReportController::class, 'salary'])->name('admin.report.salary');
     Route::get('admin/report/profit-loss', [ReportController::class, 'profitLoss'])->name('admin.report.profit-loss');
+    Route::get('admin/report/profit-loss-by-time', [ReportController::class, 'profitLossByTime'])->name('admin.report.profit-by-time');
     Route::post('admin/report/ajaxcall', [ReportController::class, 'ajaxcall'])->name('admin.report.ajaxcall');
 });

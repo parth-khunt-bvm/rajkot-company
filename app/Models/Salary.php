@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Route;
 use Session;
+use Illuminate\Support\Carbon;
 use App\Models\Audittrails;
 
 class Salary extends Model
@@ -420,4 +421,42 @@ class Salary extends Model
         $details['amount'] = ['salary' => $salary_array, 'expense' => $expense_array, 'revenue' => $revenue_array];
         return $details;
     }
+
+    public function getProfitLossByTimeReportsData($fillterdata){
+        $details = [];
+
+        for ($i = 0; $i < 12; $i++) {
+            $month = Carbon::now()->addMonths($i)->format('M-Y');
+            $month_names[] = $month;
+
+            $currentMonth = Carbon::now()->format('M-Y');
+            $month_names[] = $currentMonth;
+
+            $salaryQuery = Salary::from('salary')
+            ->where('month_of', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
+
+            $salary = $salaryQuery->sum('amount');
+
+            $details['salary'] = round($salary);
+            $expenseQuery = Expense::from('expense')
+                    ->where('month', date("n", strtotime($currentMonth)))
+                    ->whereYear('date', date("Y", strtotime($currentMonth)))
+                    ->where('is_deleted', 'N');
+
+            $Expense = $expenseQuery->sum('amount');
+            $details['expense'] = round($Expense);
+
+            $revenueQuery = Revenue::from('revenue')
+            ->where('month_of', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
+
+            $revenue = $revenueQuery->sum('amount');
+            $details['revenue'] = round($revenue);
+        }
+        return $details;
+    }
+
 }

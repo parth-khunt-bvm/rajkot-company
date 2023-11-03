@@ -27,7 +27,6 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
-                    console.log(res);
                     const apexChart = "#expense-reports";
                     var options = {
                         series: [{
@@ -41,13 +40,28 @@ var Report = function () {
                         },
                         plotOptions: {
                             bar: {
-                                horizontal: false,
-                                columnWidth: '40%',
-                                // endingShape: 'rounded'
+                            borderRadius: 10,
+                            columnWidth: '40%',
+                            dataLabels: {
+                                orientation: 'vertical',
+                                position: 'top',
+                                textAnchor: 'middle',
                             },
+                            }
                         },
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function (val) {
+                                if (val === 0) {
+                                    return "";
+                                }
+                                return val.toFixed(0);
+                            },
+                            style: {
+                                fontSize: '12px',
+                                colors: ['#333'],
+                            },
+                            offsetY: 0o5,
                         },
                         stroke: {
                             show: true,
@@ -88,10 +102,11 @@ var Report = function () {
                         tooltip: {
                             y: {
                                 formatter: function (val) {
-                                    return "$ " + val + " thousands"
+                                    return "$ " + val.toFixed(2) + " thousands";
                                 }
                             }
                         },
+
                         // colors: [primary, success, warning]
                     };
 
@@ -157,13 +172,28 @@ var Report = function () {
                         },
                         plotOptions: {
                             bar: {
-                                horizontal: false,
+                                borderRadius: 10,
                                 columnWidth: '40%',
-                                // endingShape: 'rounded'
+                                dataLabels: {
+                                    orientation: 'vertical',
+                                    position: 'top',
+                                    textAnchor: 'middle',
+                                },
                             },
                         },
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function (val) {
+                                if (val === 0) {
+                                    return "";
+                                }
+                                return val.toFixed(0);
+                            },
+                            style: {
+                                fontSize: '12px',
+                                colors: ['#333'],
+                            },
+                            offsetY: 0o5,
                         },
                         stroke: {
                             show: true,
@@ -272,14 +302,29 @@ var Report = function () {
                             height: 350
                         },
                         plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                columnWidth: '40%',
-                                // endingShape: 'rounded'
+                        bar: {
+                            borderRadius: 10,
+                            columnWidth: '40%',
+                            dataLabels: {
+                                orientation: 'vertical',
+                                position: 'top',
+                                textAnchor: 'middle',
                             },
                         },
+                        },
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function (val) {
+                                if (val === 0) {
+                                    return "";
+                                }
+                                return val.toFixed(0);
+                            },
+                            style: {
+                                fontSize: '12px',
+                                colors: ['#333'],
+                            },
+                            offsetY: 0o5,
                         },
                         stroke: {
                             show: true,
@@ -403,13 +448,28 @@ var Report = function () {
                         },
                         plotOptions: {
                             bar: {
-                                horizontal: false,
-                                columnWidth: '40%',
-                                // endingShape: 'rounded'
+                            borderRadius: 10,
+                            columnWidth: '40%',
+                            dataLabels: {
+                                orientation: 'vertical',
+                                position: 'top',
+                                textAnchor: 'middle',
+                            },
                             },
                         },
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function (val) {
+                                if (val === 0) {
+                                    return "";
+                                }
+                                return val.toFixed(0);
+                            },
+                            style: {
+                                fontSize: '12px',
+                                colors: ['#333'],
+                            },
+                            offsetY: 0o5,
                         },
                         stroke: {
                             show: true,
@@ -454,6 +514,7 @@ var Report = function () {
                                 }
                             }
                         },
+
                         // colors: [primary, success, warning]
                     };
 
@@ -480,6 +541,62 @@ var Report = function () {
         });
     }
 
+    var profitLossByTimeReport = function () {
+
+        loadExpenseChartByTime();
+
+        function loadExpenseChartByTime(){
+            var manager = $('#manager_id').val();
+            var branch = $("#branch_id").val();
+            var type = $("#type_id").val();
+            var startDate = $("#start_date").val();
+            var endDate = $("#end_date").val();
+            var data = {'manager' : manager,'branch' : branch,'type' : type,'startDate' : startDate,'endDate' : endDate} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/report/ajaxcall",
+                data: { 'action': 'get-expense-by-time-reports-data', 'data' : data},
+                success: function (data) {
+                    // console.log(data);
+                    $("#loader").show();
+                    var res = JSON.parse(data);
+                    console.log("res", res);
+                    const apexChart = "#profit-loss-by-time";
+                    var options = {
+                        series: [res.expense, res.revenue, res.salary],
+                        chart: {
+                            width: 380,
+                            type: 'donut',
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 200
+                                },
+                                legend: {
+                                    // position: 'bottom'
+                                    display: false
+                                }
+                            }
+                        }],
+                        labels: ['Expense', 'Revenue', 'salary']
+                        // colors: [primary, success, warning, danger, info]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector(apexChart), options);
+                    chart.render();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        }
+	}
+
     return {
         expense: function () {
             expenseReport();
@@ -492,6 +609,9 @@ var Report = function () {
         },
         profitLoss: function () {
             profitLossReport();
+        },
+        profitLossByTime: function () {
+            profitLossByTimeReport();
         },
     }
 }();

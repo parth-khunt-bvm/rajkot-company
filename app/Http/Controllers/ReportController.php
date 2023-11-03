@@ -152,7 +152,7 @@ class ReportController extends Controller
             'Report.profitLoss()',
         );
         $data['header'] = array(
-            'title' => 'Salary Reports',
+            'title' => 'Profit and Loss Reports',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'Profit-loss Reports' => 'Profit-loss Reports',
@@ -162,35 +162,75 @@ class ReportController extends Controller
 
     }
 
+    public function profitLossByTime()
+    {
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objType = new Type();
+        $data['type'] = $objType->get_admin_type_details();
+
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Profit-loss-by-time Reports';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Profit-loss-by-time Reports';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Profit-loss-by-time Reports';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+        );
+        $data['pluginjs'] = array(
+        );
+        $data['js'] = array(
+            'report.js',
+        );
+        $data['funinit'] = array(
+            'Report.profitLossByTime()',
+        );
+        $data['header'] = array(
+            'title' => 'Profit and loss by time Reports',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Profit-loss Reports' => 'Profit-loss-by_time Reports',
+            )
+        );
+        return view('backend.pages.report.profit_loss_by_time', $data);
+
+    }
+
     public function ajaxcall(Request $request){
         $action = $request->input('action');
         $data = $request->input('data');
         switch ($action) {
             case 'get-expense-reports-data' :
-
                 $objExpense = new Expense();
                 $list = $objExpense->getExpenseReportsData($data);
                 echo json_encode($list);
                 break;
 
             case 'get-revenue-reports-data' :
-
                 $objRevenue = new Revenue();
                 $list = $objRevenue->getRevenueReportsData($data);
                 echo json_encode($list);
                 break;
 
             case 'get-salary-reports-data' :
-
                 $objSalary = new Salary();
                 $list = $objSalary->getSalaryReportsData($data);
                 echo json_encode($list);
                 break;
 
             case 'get-profit-loss-reports-data' :
-
                 $objSalary = new Salary();
                 $list = $objSalary->getProfitLossReportsData($data);
+                echo json_encode($list);
+                break;
+
+            case 'get-expense-by-time-reports-data' :
+                $objSalary = new Salary();
+                $list = $objSalary->getProfitLossByTimeReportsData($data);
                 echo json_encode($list);
                 break;
         }
