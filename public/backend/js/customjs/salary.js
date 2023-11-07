@@ -135,6 +135,25 @@ var Salary = function(){
             $("#month_of").html(html);
         });
 
+
+        $("body").on("click", ".show-salary-form", function() {
+            $("#show-salary-form").html('-').addClass('remove-salary-form');
+            $("#show-salary-form").html('-').removeClass('show-salary-form');
+            $("#add-salary-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", ".remove-salary-form", function() {
+            $("#show-salary-form").html('+').removeClass('remove-salary-form');
+            $("#show-salary-form").html('+').addClass('show-salary-form');
+            $("#add-salary-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", "#show-salary-filter", function() {
+            console.log("hII");
+            $("div .salary-filter").slideToggle("slow");
+        })
     }
     var addSalary= function(){
         $('.select2').select2();

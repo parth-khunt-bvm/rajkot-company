@@ -18,9 +18,9 @@ class Revenue extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'revenue.id',
-            1 => 'manager.manager_name',
-            2 => 'technology.technology_name',
-            3 => 'revenue.date',
+            1 => 'revenue.date',
+            2 => 'manager.manager_name',
+            3 => 'technology.technology_name',
             4 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01"))'),
             5 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),
             6 => 'revenue.amount',
@@ -92,9 +92,9 @@ class Revenue extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['technology_name'];
-            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['received_month'];
             $nestedData[] = $row['month_name'];
             $nestedData[] = numberformat($row['amount']);

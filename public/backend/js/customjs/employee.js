@@ -163,6 +163,11 @@ var Employee = function () {
 
         });
 
+        $("body").on("click", "#show-employee-filter", function() {
+            console.log("hII");
+            $("div .employee-filter").slideToggle("slow");
+        })
+
     }
     var addEmployee = function () {
 

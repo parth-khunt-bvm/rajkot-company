@@ -98,15 +98,15 @@ class Type extends Model
 
         if ($checktypeName == 0) {
             if ($requestData->type_name) {
-                foreach ($requestData->type_name as $typeNameKey => $value) {
+                // foreach ($requestData->type_name as $typeNameKey => $value) {
                     $objtype = new Type();
-                    $objtype->type_name = $value;
+                    $objtype->type_name = $requestData['type_name'];
                     $objtype->status = $requestData['status'];
                     $objtype->is_deleted = 'N';
                     $objtype->created_at = date('Y-m-d H:i:s');
                     $objtype->updated_at = date('Y-m-d H:i:s');
                     $objtype->save();
-                }
+                // }
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit("I", $requestData, 'type');
                 return true;

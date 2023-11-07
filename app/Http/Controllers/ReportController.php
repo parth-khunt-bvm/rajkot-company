@@ -233,6 +233,30 @@ class ReportController extends Controller
                 $list = $objSalary->getProfitLossByTimeReportsData($data);
                 echo json_encode($list);
                 break;
+
+            case 'get-expense-by-time-reports-data-annually' :
+                $objSalary = new Salary();
+                $list = $objSalary->getProfitLossByTimeReportsDataAnnually($data);
+                echo json_encode($list);
+                break;
+
+            case 'get-expense-by-time-reports-data-monthly' :
+                $objSalary = new Salary();
+                $list = $objSalary->getProfitLossByTimeReportsDataMonthly($data);
+                echo json_encode($list);
+                break;
+
+            case 'getProfitLossByTimeReportsDataSemiAnnually' :
+                $objSalary = new Salary();
+                $list = $objSalary->getProfitLossByTimeReportsDataSemiAnnually($data);
+                echo json_encode($list);
+                break;
+
+            case 'getProfitLossByTimeReportsDataQuarterly' :
+                $objSalary = new Salary();
+                $list = $objSalary->getProfitLossByTimeReportsDataQuarterly($data);
+                echo json_encode($list);
+                break;
         }
     }
 }

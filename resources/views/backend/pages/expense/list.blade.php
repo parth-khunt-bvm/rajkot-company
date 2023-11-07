@@ -11,9 +11,16 @@
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">{{ $header['title'] }}</h3>
+                    <span class="svg-icon svg-icon-primary svg-icon-2x show-expense-filter" id="show-expense-filter"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Text\Filter.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24"/>
+                            <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000"/>
+                        </g>
+                    </svg><!--end::Svg Icon--></span>
                 </div>
 
                 <div class="card-toolbar">
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-expense-form" id="show-expense-form">+</button>
                     <button data-toggle="modal" data-target="#importExpense" class="import-expense btn btn-danger font-weight-bolder mr-5 ">Import Expense</button>
                     <!--begin::Button-->
                     <a href="{{ route('admin.expense.add') }}" class="btn btn-primary font-weight-bolder">
@@ -34,7 +41,7 @@
             </div>
             <div class="card-body">
 
-                <form class="form" id="add-expense-users" method="POST" action="{{ route('admin.expense.save-add-expense') }}" autocomplete="off">
+                <form class="form" style="display: none" id="add-expense-users" method="POST" action="{{ route('admin.expense.save-add-expense') }}" autocomplete="off">
                     @csrf
                     <div class="row">
                         <div class="col-md-2">
@@ -90,7 +97,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-control select2 month" id="month" name="month" disabled="disabled">
-                                    <option value="">Month of salary</option>
+                                    <option value="">Month of expense</option>
                                 </select>
                             </div>
                         </div>
@@ -117,7 +124,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row">
+                <div class="row expense-filter " style="display: none">
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-6">
@@ -189,10 +196,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Date</th>
                             <th>Manager Name</th>
                             <th>Branch Name</th>
                             <th>Type Name</th>
-                            <th>Date</th>
                             <th>Month</th>
                             <th>Amount</th>
                             <th>Remark</th>

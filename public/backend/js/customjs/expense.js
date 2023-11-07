@@ -138,6 +138,25 @@ var Expense = function(){
             }
             $("#month").html(html);
         });
+
+        $("body").on("click", ".show-expense-form", function() {
+            $("#show-expense-form").html('-').addClass('remove-expense-form');
+            $("#show-expense-form").html('-').removeClass('show-expense-form');
+            $("#add-expense-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", ".remove-expense-form", function() {
+            $("#show-expense-form").html('+').removeClass('remove-expense-form');
+            $("#show-expense-form").html('+').addClass('show-expense-form');
+            $("#add-expense-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", "#show-expense-filter", function() {
+            console.log("hII");
+            $("div .expense-filter").slideToggle("slow");
+        })
     }
     var addExpense= function(){
         $('.select2').select2();

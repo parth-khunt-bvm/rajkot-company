@@ -55,7 +55,7 @@ var Report = function () {
                                 if (val === 0) {
                                     return "";
                                 }
-                                return val.toFixed(0);
+                                return "₹ "+ val.toFixed( 0);
                             },
                             style: {
                                 fontSize: '12px',
@@ -130,6 +130,11 @@ var Report = function () {
             autoclose: true,
             orientation: "bottom auto",
         });
+
+        $("body").on("click", "#show-expense-filter", function() {
+            console.log("hII");
+            $("div .expense-filter").slideToggle("slow");
+        })
     }
 
     var revenueReport = function () {
@@ -187,7 +192,7 @@ var Report = function () {
                                 if (val === 0) {
                                     return "";
                                 }
-                                return val.toFixed(0);
+                                return "₹ "+val.toFixed(0);
                             },
                             style: {
                                 fontSize: '12px',
@@ -249,6 +254,11 @@ var Report = function () {
                     $('#loader').hide();
                 }
             });
+
+            $("body").on("click", "#show-revenue-filter", function() {
+                console.log("hII");
+                $("div .revenue-filter").slideToggle("slow");
+            })
         }
         $("body").on("click", ".reset", function(){
             location.reload(true);
@@ -318,7 +328,7 @@ var Report = function () {
                                 if (val === 0) {
                                     return "";
                                 }
-                                return val.toFixed(0);
+                                return "₹ "+val.toFixed(0);
                             },
                             style: {
                                 fontSize: '12px',
@@ -392,6 +402,10 @@ var Report = function () {
             autoclose: true,
             orientation: "bottom auto",
         });
+        $("body").on("click", "#show-salary-filter", function() {
+            console.log("hII");
+            $("div .salary-filter").slideToggle("slow");
+        })
     }
 
     var profitLossReport = function () {
@@ -463,7 +477,7 @@ var Report = function () {
                                 if (val === 0) {
                                     return "";
                                 }
-                                return val.toFixed(0);
+                                return "₹ "+val.toFixed(0);
                             },
                             style: {
                                 fontSize: '12px',
@@ -539,19 +553,237 @@ var Report = function () {
             autoclose: true,
             orientation: "bottom auto",
         });
+
+        $("body").on("click", "#show-profit-loss-filter", function() {
+            console.log("hII");
+            $("div .profit-loss-filter").slideToggle("slow");
+        })
     }
 
     var profitLossByTimeReport = function () {
-
+        $('.select2').select2();
         loadExpenseChartByTime();
 
+        $('body').on('change', '.change_report', function() {
+
+            var reportTime = $("#report_time").val();
+            console.log(reportTime);
+
+            if(reportTime == "annually"){
+                 loadExpenseChartByTime()
+                var html = '';
+                html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+                $('.profit-loss-by-time-reports-chart').html(html);
+
+                function loadExpenseChartByTime(){
+                    var reportTime = $("#report_time").val();
+                    var data = {'reportTime' : reportTime} ;
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/report/ajaxcall",
+                    data: { 'action': 'get-expense-by-time-reports-data-annually', 'data' : data},
+                    success: function (data) {
+                        $("#loader").show();
+                        var res = JSON.parse(data);
+                        console.log("res", res);
+                        const apexChart = "#profit-loss-by-time";
+                        var options = {
+                            series: [res.expense, res.revenue, res.salary],
+                            chart: {
+                                width: 380,
+                                type: 'donut',
+                            },
+                            responsive: [{
+                                breakpoint: 480,
+                                options: {
+                                    chart: {
+                                        width: 200
+                                    },
+                                }
+                            }],
+                            legend: {
+                                position: 'bottom',
+                                display: false
+                            },
+                            labels: ['Expense', 'Revenue', 'salary']
+                            // colors: [primary, success, warning, danger, info]
+                        };
+                        var chart = new ApexCharts(document.querySelector(apexChart), options);
+                        chart.render();
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    }
+                });
+               }
+            }
+            if(reportTime == "monthly"){
+                loadExpenseChartByTime()
+               var html = '';
+               html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+               $('.profit-loss-by-time-reports-chart').html(html);
+
+               function loadExpenseChartByTime(){
+                   var reportTime = $("#report_time").val();
+                   var data = {'reportTime' : reportTime} ;
+               $.ajax({
+                       type: "POST",
+                       headers: {
+                           'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                       },
+                       url: baseurl + "admin/report/ajaxcall",
+                       data: { 'action': 'get-expense-by-time-reports-data-monthly', 'data' : data},
+                           success: function (data) {
+                               $("#loader").show();
+                               var res = JSON.parse(data);
+                               console.log("res", res);
+                               const apexChart = "#profit-loss-by-time";
+                               var options = {
+                                   series: [res.expense, res.revenue, res.salary],
+                                   chart: {
+                                       width: 380,
+                                       type: 'donut',
+                                   },
+                                   responsive: [{
+                                       breakpoint: 480,
+                                       options: {
+                                           chart: {
+                                               width: 200
+                                           },
+                                       }
+                                   }],
+                                   legend: {
+                                       position: 'bottom',
+                                       display: false
+                                   },
+
+                                   labels: ['Expense', 'Revenue', 'salary']
+                                   // colors: [primary, success, warning, danger, info]
+                               };
+
+                               var chart = new ApexCharts(document.querySelector(apexChart), options);
+                               chart.render();
+                           },
+                           complete: function () {
+                               $('#loader').hide();
+                           }
+               });
+              }
+            }
+            if(reportTime == "semiannually"){
+            loadExpenseChartByTime()
+           var html = '';
+           html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+           $('.profit-loss-by-time-reports-chart').html(html);
+
+           function loadExpenseChartByTime(){
+               var reportTime = $("#report_time").val();
+               var data = {'reportTime' : reportTime} ;
+           $.ajax({
+                   type: "POST",
+                   headers: {
+                       'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                   },
+                   url: baseurl + "admin/report/ajaxcall",
+                   data: { 'action': 'getProfitLossByTimeReportsDataSemiAnnually', 'data' : data},
+                       success: function (data) {
+                           $("#loader").show();
+                           var res = JSON.parse(data);
+                           console.log("res", res);
+                           const apexChart = "#profit-loss-by-time";
+                           var options = {
+                               series: [res.expense, res.revenue, res.salary],
+                               chart: {
+                                   width: 380,
+                                   type: 'donut',
+                               },
+                               responsive: [{
+                                   breakpoint: 480,
+                                   options: {
+                                       chart: {
+                                           width: 200
+                                       },
+                                   }
+                               }],
+                               legend: {
+                                   position: 'bottom',
+                                   display: false
+                               },
+
+                               labels: ['Expense', 'Revenue', 'salary']
+                               // colors: [primary, success, warning, danger, info]
+                           };
+
+                           var chart = new ApexCharts(document.querySelector(apexChart), options);
+                           chart.render();
+                       },
+                       complete: function () {
+                           $('#loader').hide();
+                       }
+           });
+          }
+            }
+            if(reportTime == "quarterly"){
+            loadExpenseChartByTime()
+           var html = '';
+           html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+           $('.profit-loss-by-time-reports-chart').html(html);
+
+           function loadExpenseChartByTime(){
+               var reportTime = $("#report_time").val();
+               var data = {'reportTime' : reportTime} ;
+           $.ajax({
+                   type: "POST",
+                   headers: {
+                       'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                   },
+                   url: baseurl + "admin/report/ajaxcall",
+                   data: { 'action': 'getProfitLossByTimeReportsDataQuarterly', 'data' : data},
+                       success: function (data) {
+                           $("#loader").show();
+                           var res = JSON.parse(data);
+                           console.log("res", res);
+                           const apexChart = "#profit-loss-by-time";
+                           var options = {
+                               series: [res.expense, res.revenue, res.salary],
+                               chart: {
+                                   width: 380,
+                                   type: 'donut',
+                               },
+                               responsive: [{
+                                   breakpoint: 480,
+                                   options: {
+                                       chart: {
+                                           width: 200
+                                       },
+                                   }
+                               }],
+                               legend: {
+                                   position: 'bottom',
+                                   display: false
+                               },
+
+                               labels: ['Expense', 'Revenue', 'salary']
+                               // colors: [primary, success, warning, danger, info]
+                           };
+
+                           var chart = new ApexCharts(document.querySelector(apexChart), options);
+                           chart.render();
+                       },
+                       complete: function () {
+                           $('#loader').hide();
+                       }
+           });
+          }
+            }
+        });
+
         function loadExpenseChartByTime(){
-            var manager = $('#manager_id').val();
-            var branch = $("#branch_id").val();
-            var type = $("#type_id").val();
-            var startDate = $("#start_date").val();
-            var endDate = $("#end_date").val();
-            var data = {'manager' : manager,'branch' : branch,'type' : type,'startDate' : startDate,'endDate' : endDate} ;
+            var reportTime = $("#report_time").val();
+            var data = {'reportTime' : reportTime} ;
             $.ajax({
                 type: "POST",
                 headers: {
@@ -560,7 +792,6 @@ var Report = function () {
                 url: baseurl + "admin/report/ajaxcall",
                 data: { 'action': 'get-expense-by-time-reports-data', 'data' : data},
                 success: function (data) {
-                    // console.log(data);
                     $("#loader").show();
                     var res = JSON.parse(data);
                     console.log("res", res);
@@ -577,12 +808,17 @@ var Report = function () {
                                 chart: {
                                     width: 200
                                 },
-                                legend: {
-                                    // position: 'bottom'
-                                    display: false
-                                }
+                                // legend: {
+                                //     // position: 'bottom',
+                                //     display: false
+                                // }
                             }
                         }],
+                        legend: {
+                            position: 'bottom',
+                            display: false
+                        },
+
                         labels: ['Expense', 'Revenue', 'salary']
                         // colors: [primary, success, warning, danger, info]
                     };

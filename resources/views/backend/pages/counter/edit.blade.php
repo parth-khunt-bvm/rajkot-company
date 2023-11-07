@@ -42,7 +42,7 @@
                                         <label>Year
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="year" id="year" class="form-control" placeholder="Enter Year" value="{{ $counter_detail->year }}" autocomplete="off">
+                                        <input type="text" name="year" id="year" class="form-control onlyNumber" placeholder="Enter Year" value="{{ $counter_detail->year }}" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                         <label>Present Days
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="present_day" id="present_day" class="form-control" placeholder="Enter Present Days" value="{{ numberformat( $counter_detail->present_days, 0)  }}" autocomplete="off">
+                                        <input type="text" name="present_day" id="present_day" class="form-control onlyNumber" placeholder="Enter Present Days" value="{{ numberformat( $counter_detail->present_days, 0)  }}" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -88,7 +88,7 @@
                                         <label>Half Leaves
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="half_leaves" id="half_leaves" class="form-control" placeholder="Enter Half Leave" autocomplete="off" value="{{ $counter_detail->half_leaves }}">
+                                        <input type="text" name="half_leaves" id="half_leaves" class="form-control onlyNumber" placeholder="Enter Half Leave" autocomplete="off" value="{{ $counter_detail->half_leaves }}">
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                         <label>Full Leaves
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="full_leaves" id="full_leaves" class="form-control " placeholder="Enter Full Leaves" autocomplete="off" value="{{ $counter_detail->full_leaves }}">
+                                        <input type="text" name="full_leaves" id="full_leaves" class="form-control onlyNumber" placeholder="Enter Full Leaves" autocomplete="off" value="{{ $counter_detail->full_leaves }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -132,7 +132,7 @@
                                         <label>Total Days
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="total_days" id="total_days" class="form-control" placeholder="Enter Present Days" autocomplete="off" value="{{ numberformat( $counter_detail->total_days, 0) }}">
+                                        <input type="text" name="total_days" id="total_days" class="form-control onlyNumber" placeholder="Enter Present Days" autocomplete="off" value="{{ numberformat( $counter_detail->total_days, 0) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

@@ -140,6 +140,25 @@ var Revenue = function(){
             $("#month_of").html(html);
         });
 
+        $("body").on("click", ".show-revenue-form", function() {
+            $("#show-revenue-form").html('-').addClass('remove-revenue-form');
+            $("#show-revenue-form").html('-').removeClass('show-revenue-form');
+            $("#add-revenue-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", ".remove-revenue-form", function() {
+            $("#show-revenue-form").html('+').removeClass('remove-revenue-form');
+            $("#show-revenue-form").html('+').addClass('show-revenue-form');
+            $("#add-revenue-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", "#show-revenue-filter", function() {
+            console.log("hII");
+            $("div .revenue-filter").slideToggle("slow");
+        })
+
     }
     var addRevenue= function(){
         $('.select2').select2();

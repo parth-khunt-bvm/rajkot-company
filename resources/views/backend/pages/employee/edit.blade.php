@@ -569,7 +569,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Account Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="account_number" id="account_number" value="{{ $employee_details->account_number }}" placeholder="Account Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="account_number" id="account_number" value="{{ $employee_details->account_number }}" placeholder="Account Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -597,7 +597,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Aadhar Card Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="aadhar_card_number" id="aadhar_card_number" value="{{ $employee_details->aadhar_card_number }}" placeholder="Aadhar Card Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber " name="aadhar_card_number" id="aadhar_card_number" value="{{ $employee_details->aadhar_card_number }}" placeholder="Aadhar Card Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -608,7 +608,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Google Pay Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="google_pay" id="google_pay" value="{{ $employee_details->google_pay_number }}" placeholder="Google Pay Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" value="{{ $employee_details->google_pay_number }}" placeholder="Google Pay Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -640,14 +640,14 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Personal Number
                                             </label>
-                                            <input type="number" class="form-control" name="personal_number" id="personal_number" value="{{ $employee_details->personal_number }}" placeholder="Personal Number" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="personal_number" id="personal_number" value="{{ $employee_details->personal_number }}" placeholder="Personal Number" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Emergency Contact
                                             </label>
-                                            <input type="number" class="form-control" name="emergency_contact" id="emergency_contact" value="{{ $employee_details->emergency_number }}" placeholder="Emergency Contact" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="emergency_contact" id="emergency_contact" value="{{ $employee_details->emergency_number }}" placeholder="Emergency Contact" autocomplete="off" />
                                         </div>
                                     </div>
 
@@ -679,7 +679,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Experience
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="experience" id="experience" value="{{numberformat( $employee_details->experience, 0) }}" placeholder="Experience" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="experience" id="experience" value="{{numberformat( $employee_details->experience, 0) }}" placeholder="Experience" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -700,7 +700,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>salary
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="salary" id="salary" value="{{ numberformat( $employee_details->salary, 0)  }}" placeholder="Salary" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="salary" id="salary" value="{{ numberformat( $employee_details->salary, 0)  }}" placeholder="Salary" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>

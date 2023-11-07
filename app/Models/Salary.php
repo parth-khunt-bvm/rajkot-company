@@ -21,10 +21,10 @@ class Salary extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'salary.id',
-            1 => 'manager.manager_name',
-            2 => 'branch.branch_name',
-            3 => 'technology.technology_name',
-            4 => 'salary.date',
+            1 => 'salary.date',
+            2 => 'manager.manager_name',
+            3 => 'branch.branch_name',
+            4 => 'technology.technology_name',
             5 => DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01"))'),
             6 => 'salary.amount',
             7 => 'salary.remarks',
@@ -93,10 +93,10 @@ class Salary extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['technology_name'];
-            $nestedData[] = date_formate($row['date']);
             $monthName = $row['month_name'];
             $nestedData[] = $monthName;
             $nestedData[] = numberformat($row['amount']);
@@ -322,7 +322,6 @@ class Salary extends Model
         foreach($data as $key => $value){
 
             $dt = today()->startOfMonth()->subMonth($value);
-
             $month_name = $dt->shortMonthName."-".$dt->format('Y');
             array_push($month_array, $month_name);
 
@@ -422,14 +421,16 @@ class Salary extends Model
         return $details;
     }
 
+
     public function getProfitLossByTimeReportsData($fillterdata){
         $details = [];
+        $month_names =[];
 
         for ($i = 0; $i < 12; $i++) {
-            $month = Carbon::now()->addMonths($i)->format('M-Y');
+            $month = today()->addMonths($i)->format('M-Y');
             $month_names[] = $month;
 
-            $currentMonth = Carbon::now()->format('M-Y');
+            $currentMonth = today()->format('M-Y');
             $month_names[] = $currentMonth;
 
             $salaryQuery = Salary::from('salary')
@@ -441,9 +442,9 @@ class Salary extends Model
 
             $details['salary'] = round($salary);
             $expenseQuery = Expense::from('expense')
-                    ->where('month', date("n", strtotime($currentMonth)))
-                    ->whereYear('date', date("Y", strtotime($currentMonth)))
-                    ->where('is_deleted', 'N');
+            ->where('month', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
 
             $Expense = $expenseQuery->sum('amount');
             $details['expense'] = round($Expense);
@@ -456,6 +457,126 @@ class Salary extends Model
             $revenue = $revenueQuery->sum('amount');
             $details['revenue'] = round($revenue);
         }
+        return $details;
+    }
+
+    public function getProfitLossByTimeReportsDataMonthly($fillterdata){
+        $details = [];
+        $month_names =[];
+
+        for ($i = 0; $i < 12; $i++) {
+            $month = today()->addMonths($i)->format('M-Y');
+            $month_names[] = $month;
+
+            $currentMonth = today()->format('M-Y');
+            $month_names[] = $currentMonth;
+
+            $salaryQuery = Salary::from('salary')
+            ->where('month_of', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
+
+            $salary = $salaryQuery->sum('amount');
+
+            $details['salary'] = round($salary);
+            $expenseQuery = Expense::from('expense')
+            ->where('month', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
+
+            $Expense = $expenseQuery->sum('amount');
+            $details['expense'] = round($Expense);
+
+            $revenueQuery = Revenue::from('revenue')
+            ->where('month_of', date("n", strtotime($currentMonth)))
+            ->whereYear('date', date("Y", strtotime($currentMonth)))
+            ->where('is_deleted', 'N');
+
+            $revenue = $revenueQuery->sum('amount');
+            $details['revenue'] = round($revenue);
+        }
+        return $details;
+    }
+
+    public function getProfitLossByTimeReportsDataAnnually($fillterdata){
+        $details = [];
+
+        $start_date = today();
+        $end_date = today()->subMonth(12);
+
+        $salaryQuery = Salary::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['salary'] = round($salaryQuery);
+
+        $expenseQuery = Expense::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['expense'] = round($expenseQuery);
+
+        $revenueQuery = Revenue::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['revenue'] = round($revenueQuery);
+
+        return $details;
+    }
+
+    public function getProfitLossByTimeReportsDataSemiAnnually($fillterdata){
+        $details = [];
+
+        $start_date = today();
+        $end_date = today()->subMonth(6);
+
+        $salaryQuery = Salary::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['salary'] = round($salaryQuery);
+
+        $expenseQuery = Expense::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['expense'] = round($expenseQuery);
+
+        $revenueQuery = Revenue::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['revenue'] = round($revenueQuery);
+
+        return $details;
+    }
+
+
+    public function getProfitLossByTimeReportsDataQuarterly($fillterdata){
+        $details = [];
+
+        $start_date = today();
+        $end_date = today()->subMonth(3);
+
+        $salaryQuery = Salary::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['salary'] = round($salaryQuery);
+
+        $expenseQuery = Expense::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['expense'] = round($expenseQuery);
+
+        $revenueQuery = Revenue::where('is_deleted', 'N')
+        ->whereBetween('date', [$end_date, $start_date])
+        ->sum('amount');
+
+        $details['revenue'] = round($revenueQuery);
+
         return $details;
     }
 

@@ -167,6 +167,11 @@ var Counter = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
+
+        $("body").on("click", "#show-counter-filter", function() {
+            console.log("hII");
+            $("div .counter-filter").slideToggle("slow");
+        })
     }
     var addCounter = function () {
         $('.select2').select2();

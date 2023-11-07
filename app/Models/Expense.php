@@ -19,10 +19,10 @@ class Expense extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'expense.id',
-            1 => 'manager.manager_name',
-            2 => 'branch.branch_name',
-            3 => 'type.type_name',
-            4 => 'expense.date',
+            1 => 'expense.date',
+            2 => 'manager.manager_name',
+            3 => 'branch.branch_name',
+            4 => 'type.type_name',
             5 => DB::raw('MONTHNAME(CONCAT("2023-", expense.month, "-01"))'),
             6 => 'expense.amount',
             7 => 'expense.remarks',
@@ -91,10 +91,10 @@ class Expense extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['type_name'];
-            $nestedData[] = date_formate($row['date']);
             $monthName = $row['month_name'];
             $nestedData[] = $monthName;
             $nestedData[] = numberformat($row['amount']);

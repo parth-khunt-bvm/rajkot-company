@@ -571,7 +571,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Account Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="account_number" id="account_number" placeholder="Account Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="account_number" id="account_number" placeholder="Account Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -599,7 +599,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Aadhar Card Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="aadhar_card_number" id="aadhar_card_number" placeholder="Aadhar Card Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="aadhar_card_number" id="aadhar_card_number" placeholder="Aadhar Card Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -610,7 +610,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Google Pay Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="google_pay" id="google_pay" placeholder="Google Pay Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" placeholder="Google Pay Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -642,14 +642,14 @@ $image = url("upload/userprofile/default.jpg");
                                         <div class="form-group">
                                             <label>Personal Number
                                             </label>
-                                            <input type="number" class="form-control" name="personal_number" id="personal_number" placeholder="Personal Number" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="personal_number" id="personal_number" placeholder="Personal Number" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Emergency Contact
                                             </label>
-                                            <input type="number" class="form-control" name="emergency_contact" id="emergency_contact" placeholder="Emergency Contact" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="emergency_contact" id="emergency_contact" placeholder="Emergency Contact" autocomplete="off" />
                                         </div>
                                     </div>
 
@@ -681,7 +681,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Experience
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="experience" id="experience" placeholder="Experience" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="experience" id="experience" placeholder="Experience" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -702,7 +702,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>salary
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="number" class="form-control input-name" name="salary" id="salary" placeholder="Salary" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="salary" id="salary" placeholder="Salary" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
