@@ -132,7 +132,6 @@ var Report = function () {
         });
 
         $("body").on("click", "#show-expense-filter", function() {
-            console.log("hII");
             $("div .expense-filter").slideToggle("slow");
         })
     }
@@ -163,7 +162,6 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
-                    console.log(res);
                     const apexChart = "#revenue-reports";
                     var options = {
                         series: [{
@@ -256,7 +254,6 @@ var Report = function () {
             });
 
             $("body").on("click", "#show-revenue-filter", function() {
-                console.log("hII");
                 $("div .revenue-filter").slideToggle("slow");
             })
         }
@@ -299,7 +296,6 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
-                    console.log(res);
                     const apexChart = "#salary-reports";
                     var options = {
                         series: [{
@@ -403,7 +399,6 @@ var Report = function () {
             orientation: "bottom auto",
         });
         $("body").on("click", "#show-salary-filter", function() {
-            console.log("hII");
             $("div .salary-filter").slideToggle("slow");
         })
     }
@@ -424,7 +419,6 @@ var Report = function () {
             var type = $("#type_id").val();
             var technology = $("#technology_id").val();
             var month = $("#month_of").val();
-            console.log(month);
             var data = {'technology' : technology,'branch' : branch,'month' : month} ;
             $.ajax({
                 type: "POST",
@@ -434,7 +428,6 @@ var Report = function () {
                 url: baseurl + "admin/report/ajaxcall",
                 data: { 'action': 'get-profit-loss-reports-data', 'data' : data},
                 success: function (data) {
-                    console.log(data);
                     $("#loader").show();
 
                     const apexChart = "#profit-loss-reports";
@@ -555,7 +548,6 @@ var Report = function () {
         });
 
         $("body").on("click", "#show-profit-loss-filter", function() {
-            console.log("hII");
             $("div .profit-loss-filter").slideToggle("slow");
         })
     }
@@ -567,7 +559,6 @@ var Report = function () {
         $('body').on('change', '.change_report', function() {
 
             var reportTime = $("#report_time").val();
-            console.log(reportTime);
 
             if(reportTime == "annually"){
                  loadExpenseChartByTime()
@@ -588,7 +579,6 @@ var Report = function () {
                     success: function (data) {
                         $("#loader").show();
                         var res = JSON.parse(data);
-                        console.log("res", res);
                         const apexChart = "#profit-loss-by-time";
                         var options = {
                             series: [res.expense, res.revenue, res.salary],
@@ -639,7 +629,6 @@ var Report = function () {
                            success: function (data) {
                                $("#loader").show();
                                var res = JSON.parse(data);
-                               console.log("res", res);
                                const apexChart = "#profit-loss-by-time";
                                var options = {
                                    series: [res.expense, res.revenue, res.salary],
@@ -692,7 +681,6 @@ var Report = function () {
                        success: function (data) {
                            $("#loader").show();
                            var res = JSON.parse(data);
-                           console.log("res", res);
                            const apexChart = "#profit-loss-by-time";
                            var options = {
                                series: [res.expense, res.revenue, res.salary],
@@ -745,7 +733,6 @@ var Report = function () {
                        success: function (data) {
                            $("#loader").show();
                            var res = JSON.parse(data);
-                           console.log("res", res);
                            const apexChart = "#profit-loss-by-time";
                            var options = {
                                series: [res.expense, res.revenue, res.salary],
@@ -794,7 +781,6 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
-                    console.log("res", res);
                     const apexChart = "#profit-loss-by-time";
                     var options = {
                         series: [res.expense, res.revenue, res.salary],

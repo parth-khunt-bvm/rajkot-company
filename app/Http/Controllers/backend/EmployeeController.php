@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
+use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Technology;
 use Illuminate\Http\Request;
@@ -21,8 +22,11 @@ class EmployeeController extends Controller
     public function list(Request $request)
     {
 
-        $objTechnology = new Technology();
+        $objTechnology = new Technology();  
         $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee list';
@@ -62,6 +66,9 @@ class EmployeeController extends Controller
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
@@ -99,6 +106,7 @@ class EmployeeController extends Controller
     public function saveAdd(Request $request)
     {
         $objEmployee = new Employee();
+
         $result = $objEmployee->saveAdd($request);
         if ($result == "added") {
             $return['status'] = 'success';
@@ -120,9 +128,11 @@ class EmployeeController extends Controller
 
     public function edit($editId)
     {
-
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
 
         $objEmployee = new Employee();
         $data['employee_details'] = $objEmployee->get_employee_details($editId);

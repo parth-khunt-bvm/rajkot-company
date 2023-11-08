@@ -16,6 +16,8 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <div class="card-toolbar">
+                    <button data-toggle="modal" data-target="#importBranch" class="import-manager btn btn-danger font-weight-bolder mr-5 ">Import Branch</button>
+
                             <select class="form-control select2 month change_report" id="report_time"  name="report_time">
                                 <option value="">Select Time</option>
                                 <option value="monthly">Monthly</option>

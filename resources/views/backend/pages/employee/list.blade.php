@@ -44,7 +44,7 @@
                 <div class="row employee-filter" style="display: none">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology change-fillter" id="technology_id"  name="technology_id">
@@ -56,17 +56,29 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Start Date:</label>
-                                    <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date">
+                                    <label>Designation Name</label>
+                                    <select class="form-control select2 designation change-fillter" id="designation_id"  name="designation_id">
+                                        <option value="">Please select designation Name</option>
+                                        @foreach ($designation  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['designation_name'] }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Start Date:</label>
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>End Date:</label>
-                                    <input type="text" class="form-control datepicker_date change-fillter" id="end_date" name="end_date">
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="end_date" name="end_date" autocomplete="off">
                                 </div>
                             </div>
 
@@ -84,6 +96,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Technology</th>
+                            <th>Designation</th>
                             <th>Date of Joining</th>
                             <th>Gmail</th>
                             <th>Emergency Contact</th>

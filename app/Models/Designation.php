@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use App\Models\Audittrails;
 
-class Technology extends Model
+
+class Designation extends Model
 {
     use HasFactory;
 
-    protected $table = "technology";
+    protected $table = "designation";
 
     public function getdatatable()
     {
         $requestData = $_REQUEST;
         $columns = array(
-            0 => 'technology.id',
-            1 => 'technology.technology_name',
-            2 => DB::raw('(CASE WHEN technology.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            0 => 'designation.id',
+            1 => 'designation.designation_name',
+            2 => DB::raw('(CASE WHEN designation.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
-        $query = Technology::from('technology')
-            ->where("technology.is_deleted", "=", "N");
+        $query = Designation::from('designation')
+            ->where("designation.is_deleted", "=", "N");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -49,7 +49,7 @@ class Technology extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('technology.id', 'technology.technology_name', 'technology.status')
+            ->select('designation.id', 'designation.designation_name', 'designation.status')
             ->get();
 
         $data = array();
@@ -57,7 +57,7 @@ class Technology extends Model
 
         foreach ($resultArr as $row) {
             $actionhtml = '';
-            $actionhtml .= '<a href="' . route('admin.technology.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            $actionhtml .= '<a href="' . route('admin.designation.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['status'] == 'A') {
                 $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
@@ -70,7 +70,7 @@ class Technology extends Model
             $nestedData = array();
             $nestedData[] = $i;
             // $nestedData[] = $row['id'];
-            $nestedData[] = $row['technology_name'];
+            $nestedData[] = $row['designation_name'];
             $nestedData[] = $status;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -86,63 +86,63 @@ class Technology extends Model
 
     public function saveAdd($requestData)
     {
-        $checkManagerName = Technology::from('technology')
-            ->where('technology.technology_name', $requestData['technology_name'])
-            ->where('technology.is_deleted', 'N')
+        $checkManagerName = Designation::from('designation')
+            ->where('designation.designation_name', $requestData['designation_name'])
+            ->where('designation.is_deleted', 'N')
             ->count();
 
         if ($checkManagerName == 0) {
-            $objTechnology = new Technology();
-            $objTechnology->technology_name = $requestData['technology_name'];
-            $objTechnology->status = $requestData['status'];
-            $objTechnology->is_deleted = 'N';
-            $objTechnology->created_at = date('Y-m-d H:i:s');
-            $objTechnology->updated_at = date('Y-m-d H:i:s');
-            if ($objTechnology->save()) {
+            $objDesignation = new Designation();
+            $objDesignation->designation_name = $requestData['designation_name'];
+            $objDesignation->status = $requestData['status'];
+            $objDesignation->is_deleted = 'N';
+            $objDesignation->created_at = date('Y-m-d H:i:s');
+            $objDesignation->updated_at = date('Y-m-d H:i:s');
+            if ($objDesignation->save()) {
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Technology');
+                $objAudittrails->add_audit("I", $requestData, 'Designation');
                 return 'added';
             } else {
                 return 'wrong';
             }
         }
-        return 'technology_name_exists';
+        return 'designation_name_exists';
     }
 
     public function saveEdit($requestData)
     {
-        $checkManagerName = Technology::from('technology')
-        ->where('technology.technology_name', $requestData['technology_name'])
-        ->where('technology.is_deleted', 'N')
-        ->where('technology.id', '!=', $requestData['technologyId'])
+        $checkManagerName = Designation::from('designation')
+        ->where('designation.designation_name', $requestData['designation_name'])
+        ->where('designation.is_deleted', 'N')
+        ->where('designation.id', '!=', $requestData['designationId'])
         ->count();
 
         if($checkManagerName == 0) {
-            $objTechnology = Technology::find($requestData['technologyId']);
-            $objTechnology->technology_name = $requestData['technology_name'];
-            $objTechnology->status = $requestData['status'];
-            $objTechnology->updated_at = date('Y-m-d H:i:s');
-            if ($objTechnology->save()) {
+            $objDesignation = Designation::find($requestData['designationId']);
+            $objDesignation->designation_name = $requestData['designation_name'];
+            $objDesignation->status = $requestData['status'];
+            $objDesignation->updated_at = date('Y-m-d H:i:s');
+            if ($objDesignation->save()) {
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'Technology');
+                $objAudittrails->add_audit("U", $requestData, 'Designation');
                 return 'updated';
             } else {
                 return 'wrong';
             }
         }
-        return 'technology_name_exists';
+        return 'designation_name_exists';
     }
 
-    public function get_technology_details($technologyId)
+    public function get_designation_details($designationId)
     {
-        return Technology::from('technology')
-            ->select('technology.id', 'technology.technology_name', 'technology.status')
-            ->where('technology.id', $technologyId)
+        return Designation::from('designation')
+            ->select('designation.id', 'designation.designation_name', 'designation.status')
+            ->where('designation.id', $designationId)
             ->first();
     }
 
     public function common_activity($requestData){
-        $objBranch = Technology::find($requestData['id']);
+        $objBranch = Designation::find($requestData['id']);
         if($requestData['activity'] == 'delete-records'){
             $objBranch->is_deleted = "Y";
             $event = 'D';
@@ -161,25 +161,17 @@ class Technology extends Model
         $objBranch->updated_at = date("Y-m-d H:i:s");
         if($objBranch->save()){
             $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'Technology');
+            $res = $objAudittrails->add_audit($event, $requestData, 'Designation');
             return true;
         }else{
             return false ;
         }
     }
 
-    public function get_admin_technology_details(){
-    return Technology::from('technology')
-        ->select('technology.id','technology.technology_name','technology.status')
-        ->get();
-    }
-
-    public function get_admin_designation_details(){
+        public function get_admin_designation_details(){
         return Designation::from('designation')
             ->select('designation.id','designation.designation_name','designation.status')
             ->get();
-        }
-
-
+      }
 
 }

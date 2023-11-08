@@ -106,7 +106,7 @@
                                 <label>Amount
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="off">
+                                <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
                             </div>
                         </div>
 
@@ -116,7 +116,7 @@
                                 <textarea class="form-control" id="remarks" cols="5" rows="1" name="remarks"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-2 mt-7">
+                        <div class="col-md-2 mt-8">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
                                 <button type="reset" class="btn btn-secondary"><a href="{{route('admin.expense.list')}}">Cancel</a></button>

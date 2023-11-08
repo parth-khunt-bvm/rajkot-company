@@ -6,16 +6,16 @@ var Salary = function(){
         var monthOf = $('#month_of').val();
 
         var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf };
-        var columnWidth = { "width": "5%", "targets": 0 };
+        var columnWidth = [{"width": "5%", "targets": 0 }, {"width": "30%", "targets": 6 }];
         var arrList = {
             'tableID': '#admin-salary-list',
             'ajaxURL': baseurl + "admin/salary/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 8],
+            'noSearchApply': [0, 8],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -151,7 +151,6 @@ var Salary = function(){
         })
 
         $("body").on("click", "#show-salary-filter", function() {
-            console.log("hII");
             $("div .salary-filter").slideToggle("slow");
         })
     }

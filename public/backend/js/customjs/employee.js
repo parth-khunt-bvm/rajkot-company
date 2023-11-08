@@ -1,10 +1,11 @@
 var Employee = function () {
     var list = function () {
         var technology = $("#technology_id").val();
+        var designation = $("#designation_id").val();
         var startDate = $("#start_date").val();
         var endDate = $("#end_date").val();
         var dataArr = {
-            'technology': technology, 'startDate': startDate, 'endDate': endDate
+            'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate
         };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -123,6 +124,7 @@ var Employee = function () {
                 '<th>#</th>' +
                 '<th>Name</th>' +
                 '<th>Department</th>' +
+                '<th>Designation</th>'+
                 '<th>Date of Joining</th>' +
                 '<th>Gmail</th>' +
                 '<th>Emergency Contact</th>' +
@@ -141,10 +143,11 @@ var Employee = function () {
 
 
             var technology = $("#technology_id").val();
+            var designation = $("#designation_id").val();
             var startDate = $("#start_date").val();
             var endDate = $("#end_date").val();
             var dataArr = {
-                'technology': technology, 'startDate': startDate, 'endDate': endDate
+                'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate
             };
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
@@ -153,8 +156,8 @@ var Employee = function () {
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 9],
-                'noSearchApply': [0, 9],
+                'noSortingApply': [0, 10],
+                'noSearchApply': [0, 10],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
@@ -164,9 +167,12 @@ var Employee = function () {
         });
 
         $("body").on("click", "#show-employee-filter", function() {
-            console.log("hII");
             $("div .employee-filter").slideToggle("slow");
         })
+
+        $("body").on("click", ".reset", function(){
+            location.reload(true);
+        });
 
     }
     var addEmployee = function () {

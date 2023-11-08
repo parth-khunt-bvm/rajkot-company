@@ -105,7 +105,7 @@
                                 <label>Amount
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="off">
+                                <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group mt-7">
+                            <div class="form-group mt-8">
                                 <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
                                 <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
                             </div>

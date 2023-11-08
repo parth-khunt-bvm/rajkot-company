@@ -13,9 +13,9 @@ var Counter = function () {
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 10],
-            'noSearchApply': [0, 10],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 11],
+            'noSearchApply': [0, 11],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -169,7 +169,6 @@ var Counter = function () {
         });
 
         $("body").on("click", "#show-counter-filter", function() {
-            console.log("hII");
             $("div .counter-filter").slideToggle("slow");
         })
     }

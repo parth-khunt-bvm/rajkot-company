@@ -1,6 +1,5 @@
 var Type = function () {
     var list = function () {
-        console.log('list');
         var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -101,7 +100,6 @@ var Type = function () {
         });
 
         $('body').on('click', '.add-type-button', function () {
-            console.log('click');
 
             var html = "";
             html = '<div class="row removediv">' +
@@ -123,7 +121,6 @@ var Type = function () {
         });
 
         $('body').on("click", ".remove-type", function () {
-            console.log('remove');
             $(this).closest('.removediv').remove();
         });
 
@@ -195,9 +192,20 @@ var Type = function () {
             });
             return customValid;
         }
+
+        $("body").on("click", ".show-type-form", function() {
+            $("#show-type-form").html('-').addClass('remove-type-form');
+            $("#show-type-form").html('-').removeClass('show-type-form');
+            $("#add-type").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-type-form", function() {
+            $("#show-type-form").html('+').removeClass('remove-type-form');
+            $("#show-type-form").html('+').addClass('show-type-form');
+            $("#add-type").slideToggle("slow");
+        })
     }
     var addType = function () {
-        console.log('addtype');
         var form = $('#add-type');
         var rules = {
             type_name: { required: true },
@@ -213,7 +221,6 @@ var Type = function () {
         });
     }
     var editType = function () {
-        console.log('edit');
         var form = $('#edit-type');
         var rules = {
             type_name: { required: true },

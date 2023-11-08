@@ -13,9 +13,9 @@ var Revenue = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 10],
+            'noSearchApply': [0, 10],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -155,7 +155,6 @@ var Revenue = function(){
         })
 
         $("body").on("click", "#show-revenue-filter", function() {
-            console.log("hII");
             $("div .revenue-filter").slideToggle("slow");
         })
 

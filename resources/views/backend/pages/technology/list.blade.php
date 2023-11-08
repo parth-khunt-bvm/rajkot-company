@@ -14,6 +14,7 @@
                 </div>
 
                 <div class="card-toolbar">
+                <button class="btn btn-primary font-weight-bolder mr-5 show-technology-form" id="show-technology-form">+</button>
                 <button data-toggle="modal" data-target="#importTechnology" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Technology</button>
 
                     <!--begin::Button-->
@@ -36,7 +37,7 @@
             </div>
             <div class="card-body">
 
-                <form class="form" id="add-technology-users" method="POST" action="{{ route('admin.technology.save-add-technology') }}" autocomplete="off">@csrf
+                <form class="form" style="display: none;" id="add-technology-users" method="POST" action="{{ route('admin.technology.save-add-technology') }}" autocomplete="off">@csrf
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -60,8 +61,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col-md-5 mt-8">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>

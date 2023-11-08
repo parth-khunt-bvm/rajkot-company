@@ -481,6 +481,23 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
+                                            <label>Designation Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 designation input-name" id="designation" name="designation">
+                                                <option value="">Please select Designation Name</option>
+                                                @foreach ($designation  as $key => $value )
+                                                <option value="{{ $value['id'] }}" {{ $value['id'] == $employee_details->designation ? 'selected="selected"' : '' }}>{{ $value['designation_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="type_error text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
                                             <label>Date Of Birth
                                                 <span class="text-danger">*</span>
                                             </label>
@@ -488,8 +505,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of joining
@@ -499,6 +514,9 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail
@@ -507,8 +525,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail Password
@@ -517,14 +533,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <div class="form-group">
-                                            <label>Slack Password
-                                            </label>
-                                            <input type="text" class="form-control input-name" name="slack_password" id="slack_password" value="{{ $employee_details->slack_password }}" placeholder="Slack Password" autocomplete="off" />
-                                            <span class="type_error text-danger"></span>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-6">
@@ -533,6 +542,14 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="email" class="form-control input-name" name="personal_email" id="personal_email" value="{{ $employee_details->personal_email }}" placeholder="Personal Email" autocomplete="off" />
+                                            <span class="type_error text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Slack Password
+                                            </label>
+                                            <input type="text" class="form-control input-name" name="slack_password" id="slack_password" value="{{ $employee_details->slack_password }}" placeholder="Slack Password" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>

@@ -1,10 +1,10 @@
-var Technology = function(){
+var Designation = function(){
     var list = function(){
         var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#admin-technology-list',
-            'ajaxURL': baseurl + "admin/technology/ajaxcall",
+            'tableID': '#admin-designation-list',
+            'ajaxURL': baseurl + "admin/designation/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
@@ -31,7 +31,7 @@ var Technology = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/technology/ajaxcall",
+                url:baseurl + "admin/designation/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -54,7 +54,7 @@ var Technology = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/technology/ajaxcall",
+                url:baseurl + "admin/designation/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -80,7 +80,7 @@ var Technology = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/technology/ajaxcall",
+                url:baseurl + "admin/designation/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -89,7 +89,7 @@ var Technology = function(){
             });
         });
 
-        var importform = $('#import-technology');
+        var importform = $('#import-designation');
         var rules = {
             file : {required: true},
         };
@@ -101,42 +101,42 @@ var Technology = function(){
             handleAjaxFormSubmit(importform,true);
         });
 
-        $("body").on("click", ".show-technology-form", function() {
-            $("#show-technology-form").html('-').addClass('remove-technology-form');
-            $("#show-technology-form").html('-').removeClass('show-technology-form');
-            $("#add-technology-users").slideToggle("slow");
+        $("body").on("click", ".show-designation-form", function() {
+            $("#show-designation-form").html('-').addClass('remove-designation-form');
+            $("#show-designation-form").html('-').removeClass('show-designation-form');
+            $("#add-designation-users").slideToggle("slow");
         })
 
-        $("body").on("click", ".remove-technology-form", function() {
-            $("#show-technology-form").html('+').removeClass('remove-technology-form');
-            $("#show-technology-form").html('+').addClass('show-technology-form');
-            $("#add-technology-users").slideToggle("slow");
+        $("body").on("click", ".remove-designation-form", function() {
+            $("#show-designation-form").html('+').removeClass('remove-designation-form');
+            $("#show-designation-form").html('+').addClass('show-designation-form');
+            $("#add-designation-users").slideToggle("slow");
         })
     }
-    var addTechnology = function(){
-        var form = $('#add-technology-users');
+    var addDesignation = function(){
+        var form = $('#add-designation-users');
         var rules = {
-            technology_name: {required: true},
+            designation_name: {required: true},
             status: {required: true},
         };
         var message = {
 
-            technology_name: {required: 'Please enter technology name'},
-            status: {required: "Please select admin technology status",},
+            designation_name: {required: 'Please enter designation name'},
+            status: {required: "Please select admin designation status",},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
     }
-    var editTechnology = function(){
-        var form = $('#edit-technology-users');
+    var editDesignation = function(){
+        var form = $('#edit-designation-users');
         var rules = {
-            technology_name: {required: true},
+            designation_name: {required: true},
             status: {required: true},
         };
         var message = {
-            technology_name: {required: 'Please enter technology name'},
-            status: {required: "Please select admin technology status",},
+            designation_name: {required: 'Please enter designation name'},
+            status: {required: "Please select admin designation status",},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -147,10 +147,10 @@ var Technology = function(){
             list();
         },
         add:function(){
-            addTechnology();
+            addDesignation();
         },
         edit:function(){
-            editTechnology();
+            editDesignation();
         }
     }
 }();

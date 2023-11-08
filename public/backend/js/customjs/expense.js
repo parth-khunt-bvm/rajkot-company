@@ -14,9 +14,9 @@ var Expense = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 8],
+            'noSearchApply': [0, 8],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -154,7 +154,6 @@ var Expense = function(){
         })
 
         $("body").on("click", "#show-expense-filter", function() {
-            console.log("hII");
             $("div .expense-filter").slideToggle("slow");
         })
     }

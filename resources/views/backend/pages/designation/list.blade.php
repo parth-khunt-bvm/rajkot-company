@@ -14,11 +14,10 @@
                 </div>
 
                 <div class="card-toolbar">
+                <button class="btn btn-primary font-weight-bolder mr-5 show-designation-form" id="show-designation-form">+</button>
+                <button data-toggle="modal" data-target="#importDesignation" class="import-designation btn btn-danger font-weight-bolder mr-5 ">Import designation</button>
                     <!--begin::Button-->
-                    <button class="btn btn-primary font-weight-bolder mr-5 show-branch-form" id="show-branch-form">+</button>
-                    <button data-toggle="modal" data-target="#importBranch" class="import-manager btn btn-danger font-weight-bolder mr-5 ">Import Branch</button>
-
-                    <a href="{{ route('admin.branch.add') }}" class="btn btn-primary font-weight-bolder">
+                    <a href="{{ route('admin.designation.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -29,22 +28,22 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon-->
-                    </span>Add Branch</a>
+                    </span>Add designation</a>
                     <!--end::Button-->
                 </div>
+
 
             </div>
             <div class="card-body">
 
-                <form class="form" style="display: none" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
-
+                <form class="form" style="display: none;" id="add-designation-users" method="POST" action="{{ route('admin.designation.save-add-designation') }}" autocomplete="off">@csrf
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label>Branch name
-                                    <span class="text-danger">*</span>
+                                    <label>designation Name
+                                        <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" name="branch_name" class="form-control" placeholder="Enter branch name" >
+                                    <input type="text" name="designation_name"  class="form-control" placeholder="Enter designation name" autocomplete="off">
                                 </div>
                             </div>
 
@@ -61,19 +60,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5  mt-8">
-                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                            <div class="col-md-5 mt-8">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
                             </div>
+
                         </div>
                 </form>
 
+
                 <!--begin: Datatable-->
-                <table class="table table-bordered table-checkable" id="branch-list">
+                <table class="table table-bordered table-checkable" id="admin-designation-list">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Branch Name</th>
+                            <th>Designation Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>

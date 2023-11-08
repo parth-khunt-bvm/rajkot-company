@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AttendanceController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\backend\TypeController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\RevenueController;
 use App\Http\Controllers\backend\CounterController;
+use App\Http\Controllers\backend\DesignationController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -62,15 +64,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
    //  technology
 
     Route::get('admin/technology/list', [TechnologyController::class, 'list'])->name('admin.technology.list');
-
     Route::get('admin/technology/add', [TechnologyController::class, 'add'])->name('admin.technology.add');
     Route::post('admin/technology/save-add-technology', [TechnologyController::class, 'saveAdd'])->name('admin.technology.save-add-technology');
-
     Route::get('admin/technology/edit/{id}', [TechnologyController::class, 'edit'])->name('admin.technology.edit');
     Route::post('admin/technology/save-edit-technology', [TechnologyController::class, 'saveEdit'])->name('admin.technology.save-edit-technology');
-
     Route::post('admin/technology/ajaxcall', [TechnologyController::class, 'ajaxcall'])->name('admin.technology.ajaxcall');
-
     Route::post('admin/technology/save-import-technology', [TechnologyController::class, 'save_import'])->name('admin.technology.save-import-technology');
 
     // salary
@@ -145,4 +143,24 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/report/profit-loss', [ReportController::class, 'profitLoss'])->name('admin.report.profit-loss');
     Route::get('admin/report/profit-loss-by-time', [ReportController::class, 'profitLossByTime'])->name('admin.report.profit-loss-by-time');
     Route::post('admin/report/ajaxcall', [ReportController::class, 'ajaxcall'])->name('admin.report.ajaxcall');
+
+    // designation
+    Route::get('admin/designation/list', [DesignationController::class, 'list'])->name('admin.designation.list');
+    Route::get('admin/designation/add', [DesignationController::class, 'add'])->name('admin.designation.add');
+    Route::post('admin/designation/save-add-designation', [DesignationController::class, 'saveAdd'])->name('admin.designation.save-add-designation');
+    Route::get('admin/designation/edit/{id}', [DesignationController::class, 'edit'])->name('admin.designation.edit');
+    Route::post('admin/designation/save-edit-designation', [DesignationController::class, 'saveEdit'])->name('admin.designation.save-edit-designation');
+    Route::post('admin/designation/ajaxcall', [DesignationController::class, 'ajaxcall'])->name('admin.designation.ajaxcall');
+    Route::post('admin/designation/save-import-designation', [DesignationController::class, 'save_import'])->name('admin.designation.save-import-designation');
+
+    // Attendance
+    Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
+    Route::get('admin/attendance/add', [AttendanceController::class, 'add'])->name('admin.attendance.add');
+    Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
+    Route::get('admin/attendance/edit/{id}', [AttendanceController::class, 'edit'])->name('admin.attendance.edit');
+    Route::post('admin/attendance/save-edit-attendance', [AttendanceController::class, 'saveEdit'])->name('admin.attendance.save-edit-attendance');
+    Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
+    Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
+    Route::post('admin/attendance/save-import-attendance', [AttendanceController::class, 'save_import'])->name('admin.attendance.save-import-attendance');
+
 });

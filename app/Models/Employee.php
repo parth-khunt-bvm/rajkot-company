@@ -20,19 +20,24 @@ class Employee extends Model
             0 => 'employee.id',
             1 => DB::raw('CONCAT(first_name, " ", last_name)'),
             2 => 'technology.technology_name',
-            3 => 'employee.DOJ',
-            4 => 'employee.gmail',
-            5 => 'employee.emergency_number',
-            6 => 'employee.google_pay_number',
-            7 => 'employee.experience',
-            8 => DB::raw('(CASE WHEN employee.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            3 => 'designation.designation_name',
+            4 => 'employee.DOJ',
+            5 => 'employee.gmail',
+            6 => 'employee.emergency_number',
+            7 => 'employee.google_pay_number',
+            8 => 'employee.experience',
+            9 => DB::raw('(CASE WHEN employee.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
+             ->join("designation", "designation.id", "=", "employee.designation")
              ->where("employee.is_deleted", "=", "N");
 
         if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
             $query->where("technology.id", $fillterdata['technology']);
+        }
+        if($fillterdata['designation'] != null && $fillterdata['designation'] != ''){
+            $query->where("designation.id", $fillterdata['designation']);
         }
         if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
             $query->whereDate('DOJ', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
@@ -66,7 +71,7 @@ class Employee extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number', 'employee.experience', 'employee.status')
+            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number', 'employee.experience', 'employee.status')
             ->get();
 
         $data = array();
@@ -91,6 +96,7 @@ class Employee extends Model
             $nestedData[] = $i;
             $nestedData[] = $row['full_name'];
             $nestedData[] = $row['technology_name'];
+            $nestedData[] = $row['designation_name'];
             $nestedData[] = date_formate($row['DOJ']);
             $nestedData[] = $row['gmail'];
             $nestedData[] = $row['emergency_number'];
@@ -109,6 +115,7 @@ class Employee extends Model
         return $json_data;
     }
     public function saveAdd($requestData){
+        // dd($requestData);
         $checkEmployee = Employee::from('employee')
                     ->where('employee.gmail', $requestData['gmail'])
                     ->orWhere('employee.personal_number', $requestData['personal_number'])
@@ -120,6 +127,7 @@ class Employee extends Model
             $objEmployee->first_name = $requestData['first_name'];
             $objEmployee->last_name = $requestData['last_name'];
             $objEmployee->department = $requestData['technology'];
+            $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
             $objEmployee->gmail = $requestData['gmail'];
             $objEmployee->password = $requestData['gmail_password'];
@@ -182,6 +190,7 @@ class Employee extends Model
             $objEmployee->first_name = $requestData['first_name'];
             $objEmployee->last_name = $requestData['last_name'];
             $objEmployee->department = $requestData['technology'];
+            $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
             $objEmployee->gmail = $requestData['gmail'];
             $objEmployee->password = $requestData['gmail_password'];
@@ -246,7 +255,8 @@ class Employee extends Model
 
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience')
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience')
              ->where('employee.id', $employeeId)
              ->first();
 

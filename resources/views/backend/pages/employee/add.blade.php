@@ -483,6 +483,22 @@ $image = url("upload/userprofile/default.jpg");
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
+                                            <label>Designation Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 designation input-name" id="designation" name="designation">
+                                                <option value="">Please select Designation Name</option>
+                                                @foreach ($designation as $key => $value )
+                                                <option value="{{ $value['id'] }}">{{ $value['designation_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="type_error text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
                                             <label>Date Of Birth
                                                 <span class="text-danger">*</span>
                                             </label>
@@ -490,8 +506,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of joining
@@ -501,6 +515,9 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail
@@ -509,8 +526,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail Password
@@ -519,6 +534,9 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Slack Password
@@ -527,8 +545,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Personal Email
