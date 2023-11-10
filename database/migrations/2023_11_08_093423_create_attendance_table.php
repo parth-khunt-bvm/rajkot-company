@@ -15,10 +15,10 @@ class CreateAttendanceTable extends Migration
     {
         Schema::create('attendance', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->integer('employee_id');
-            $table->enum('attendance_type',['0','1', '2'])->default("0")->comment("0 for Present, 1 for absent, 2 for half day");
-            $table->text('reson')->nullable();
-            $table->enum('is_deleted',['Y','N'])->default("N")->comment("Y for deleted, N for not deleted");
+            $table->enum('attendance_type',['0','1', '2', '3'])->default("0")->comment("0 for Present, 1 for absent, 2 for half day, 3 for sort leave");
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }

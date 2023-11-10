@@ -16,11 +16,11 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
 
-                    {{-- <button data-toggle="modal" data-target="#addType" class="add-type btn btn-danger font-weight-bolder mr-5 ">Add type modal</button> --}}
-                    <button class="btn btn-primary font-weight-bolder mr-5 show-type-form" id="show-type-form">+</button>
-                    <button data-toggle="modal" data-target="#importType" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Type</button>
+                    {{-- <button data-toggle="modal" data-target="#addType" class="add-attendance btn btn-danger font-weight-bolder mr-5 ">Add attendance modal</button> --}}
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-attendance-form" id="show-attendance-form">+</button>
+                    <button data-toggle="modal" data-target="#importAttendance" class=" import-attendance btn btn-danger font-weight-bolder mr-5 ">Import Attendance</button>
 
-                    <a href="{{ route('admin.type.add') }}" class="btn btn-primary font-weight-bolder">
+                    <a href="{{ route('admin.attendance.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -31,7 +31,7 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon-->
-                    </span>Add Type</a>
+                    </span>Add Attendance</a>
                     <!--end::Button-->
                 </div>
 
@@ -71,23 +71,22 @@
                         </div>
                     </div>
                 </form>
-                <!--begin: Datatable-->
-                <div class="type-list-div">
-                <table class="table table-bordered table-checkable" id="type-list">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Type Name</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
-                <!--end: Datatable-->
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3 class="card-label">Basic Calendar</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <a href="#" class="btn btn-light-primary font-weight-bold">
+                            <i class="ki ki-plus icon-md mr-2"></i>Add Event</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="kt_calendar"></div>
+                    </div>
                 </div>
+
             </div>
         </div>
         <!--end::Card-->

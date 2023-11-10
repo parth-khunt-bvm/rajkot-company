@@ -238,7 +238,6 @@ var Type = function () {
     return {
         init: function () {
             list();
-
         },
         add: function () {
             addType();

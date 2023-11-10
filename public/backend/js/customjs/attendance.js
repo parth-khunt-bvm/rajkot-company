@@ -1,123 +1,309 @@
 var Attendance = function () {
+    var list = function () {
+        var dataArr = {};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#attendence-list',
+            'ajaxURL': baseurl + "admin/attendance/ajaxcall",
+            'ajaxAction': 'getdatatable',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 5],
+            'noSearchApply': [0, 5],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("click", ".delete-records", function () {
+            var id = $(this).data('id');
+            setTimeout(function () {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure', function () {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function (data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+
+
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+
+    }
+
+    var calendar = function () {
+
+        var leaveType = $("#leave_type").val();
+        var data = {'leaveType' : leaveType} ;
+
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+            },
+            url: baseurl + "admin/attendance/ajaxcall",
+            data: { 'action': 'get_attendance_list', 'data' : data },
+            success: function (data) {
+                var res = JSON.parse(data);
+                console.log(res);
+                console.log(res.amount.present);
+                var todayDate = moment().startOf('day');
+                var YM = todayDate.format('YYYY-MM');
+                var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+                var TODAY = todayDate.format('YYYY-MM-DD');
+                var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+                var dynamicTitle = '3';
+
+                var calendarEl = document.getElementById('kt_calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
+                    themeSystem: 'bootstrap',
+
+                    isRTL: KTUtil.isRTL(),
+
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+
+                    height: 800,
+                    contentHeight: 1200,
+                    aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                    nowIndicator: true,
+                    now: TODAY + 'T09:25:00', // just for demo
+
+                    views: {
+                        dayGridMonth: { buttonText: 'month' },
+                        timeGridWeek: { buttonText: 'week' },
+                        timeGridDay: { buttonText: 'day' }
+                    },
+
+                    defaultView: 'dayGridMonth',
+                    defaultDate: TODAY,
+
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    navLinks: true,
+                    events: [
+                        {
+                            title: 'Present ' + res.amount.present,
+                            start: YM + '-01',
+                            description: 'Description for Event 1',
+                            className: 'fc-event-danger fc-event-solid-warning'
+                        },
+                        {
+                            title: 'Absent ' + res.amount.absent,
+                            start: YM + '-01',
+                            description: 'Description for Event 2',
+                            className: 'fc-event-success fc-event-solid-info'
+                        },
+                        {
+                            title: 'Half Leave ' + res.amount.half_day,
+                            start: YM + '-01',
+                            description: 'Description for Event 3',
+                            className: 'fc-event-info fc-event-solid-success'
+                        },
+                        {
+                            title: 'Sort Leave ' + res.amount.sort_leave,
+                            start: YM + '-01',
+                            description: 'Description for Event 4',
+                            className: 'fc-event-warning fc-event-solid-danger'
+                        },
+                        //     {
+                        //         title: 'Reporting',
+                        //         start: YM + '-14T13:30:00',
+                        //         description: 'Lorem ipsum dolor incid idunt ut labore',
+                        //         end: YM + '-14',
+                        //         className: "fc-event-success"
+                        //     },
+                        //     {
+                        //         title: 'Company Trip',
+                        //         start: YM + '-02',
+                        //         description: 'Lorem ipsum dolor sit tempor incid',
+                        //         end: YM + '-03',
+                        //         className: "fc-event-primary"
+                        //     },
+                        //     {
+                        //         title: 'ICT Expo 2017 - Product Release',
+                        //         start: YM + '-03',
+                        //         description: 'Lorem ipsum dolor sit tempor inci',
+                        //         end: YM + '-05',
+                        //         className: "fc-event-light fc-event-solid-primary"
+                        //     },
+                        //     {
+                        //         title: 'Dinner',
+                        //         start: YM + '-12',
+                        //         description: 'Lorem ipsum dolor sit amet, conse ctetur',
+                        //         end: YM + '-10'
+                        //     },
+                        //     {
+                        //         id: 999,
+                        //         title: 'Repeating Event',
+                        //         start: YM + '-09T16:00:00',
+                        //         description: 'Lorem ipsum dolor sit ncididunt ut labore',
+                        //         className: "fc-event-danger"
+                        //     },
+                        //     {
+                        //         id: 1000,
+                        //         title: 'Repeating Event',
+                        //         description: 'Lorem ipsum dolor sit amet, labore',
+                        //         start: YM + '-16T16:00:00'
+                        //     },
+                        //     {
+                        //         title: 'Conference',
+                        //         start: YESTERDAY,
+                        //         end: TOMORROW,
+                        //         description: 'Lorem ipsum dolor eius mod tempor labore',
+                        //         className: "fc-event-primary"
+                        //     },
+                        //     {
+                        //         title: 'Meeting',
+                        //         start: TODAY + 'T10:30:00',
+                        //         end: TODAY + 'T12:30:00',
+                        //         description: 'Lorem ipsum dolor eiu idunt ut labore'
+                        //     },
+                        //     {
+                        //         title: 'Lunch',
+                        //         start: TODAY + 'T12:00:00',
+                        //         className: "fc-event-info",
+                        //         description: 'Lorem ipsum dolor sit amet, ut labore'
+                        //     },
+                        //     {
+                        //         title: 'Meeting',
+                        //         start: TODAY + 'T14:30:00',
+                        //         className: "fc-event-warning",
+                        //         description: 'Lorem ipsum conse ctetur adipi scing'
+                        //     },
+                        //     {
+                        //         title: 'Happy Hour',
+                        //         start: TODAY + 'T17:30:00',
+                        //         className: "fc-event-info",
+                        //         description: 'Lorem ipsum dolor sit amet, conse ctetur'
+                        //     },
+                        //     {
+                        //         title: 'Dinner',
+                        //         start: TOMORROW + 'T05:00:00',
+                        //         className: "fc-event-solid-danger fc-event-light",
+                        //         description: 'Lorem ipsum dolor sit ctetur adipi scing'
+                        //     },
+                        //     {
+                        //         title: 'Birthday Party',
+                        //         start: TOMORROW + 'T07:00:00',
+                        //         className: "fc-event-primary",
+                        //         description: 'Lorem ipsum dolor sit amet, scing'
+                        //     },
+                        //     {
+                        //         title: 'Click for Google',
+                        //         url: 'http://google.com/',
+                        //         start: YM + '-28',
+                        //         className: "fc-event-solid-info fc-event-light",
+                        //         description: 'Lorem ipsum dolor sit amet, labore'
+                        //     }
+                    ],
+
+                    eventRender: function (info) {
+                        var element = $(info.el);
+
+                        if (info.event.extendedProps && info.event.extendedProps.description) {
+                            if (element.hasClass('fc-day-grid-event')) {
+                                element.data('content', info.event.extendedProps.description);
+                                element.data('placement', 'top');
+                                KTApp.initPopover(element);
+                            } else if (element.hasClass('fc-time-grid-event')) {
+                                element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                            } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                            }
+                        }
+                    }
+                });
+
+                calendar.render();
+
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+
+
+    }
+
+
     var addAttendance = function () {
         $('.select2').select2();
 
         $('body').on('click', '.add-attendance-button', function () {
-         var attendanceform = $('#add-attendance-form');
-         var rules = {
-            employee_id: { required: true },
-         };
-
-         var message = {
-            employee_id: { required: "Please select employee" },
-         }
-         handleFormValidateWithMsg(attendanceform, rules, message, function (attendanceform) {
-             handleAjaxFormSubmit(attendanceform, true);
-         });
-
-            // optText = 'New elemenet';
-            // optValue = 'newElement';
-
-            // var html = "";
-            // html = '<div class="row removediv">'+
-            //         '<div class="col-md-4">'+
-            //         '<div class="form-group">'+
-            //         '<label>Absent Employee'+
-            //         '<span class="text-danger">*</span>'+
-            //         '</label>'+
-            //         `<select class="form-control select2 employee_id" id="employee_id" name="employee_id">'+
-            //         '<option value="">Please select Employee Name</option>'+
-            //         '@foreach ($employee as $key => $value )'+
-            //         '<option value="${optValue}">${optText}</option>'+
-            //         '@endforeach'+
-            //         '</select>`+
-            //         '</div>'+
-            //         '</div>'+
-            //         '<div class="col-md-4">'+
-            //         '<div class="form-group">'+
-            //         '<label>Reson</label>'+
-            //         '<textarea class="form-control" id="" cols="30" rows="1" name="reason" id="reason"></textarea>'+
-            //         '</div>'+
-            //         '</div>'+
-            //         '<div class="col-md-2 padding-left-5 padding-right-5">'+
-            //         '<div class="form-group">'+
-            //         '<label>&nbsp;</label><br>'+
-            //         '<a href="javascript:;" class="my-btn btn btn-success add-attendance-button"><i class="my-btn fa fa-plus"></i></a>'+
-            //         '<a href="javascript:;" class="my-btn btn btn-danger remove-attendance ml-2"><i class="my-btn fa fa-minus"></i></a>' +
-            //         '</div>'+
-            //         '</div>'+
-            //         '</div>';
-
-            // $("#add_attendance_div").append(html)
-
-            var customValid = true;
-            $('#add-attendance-form').validate({
-                debug: true,
-                errorElement: 'span', //default input error message container
-                errorClass: 'help-block', // default input error message class
-                rules: {
-                    employee_id: { required: true }
-                },
-                messages: {
-                    employee_id: { required: "Please select employee" },
-                },
-
-                invalidHandler: function (event, validator) {
-                    validateTrip = false;
-                    customValid = customerInfoValid();
-                },
-
-                submitHandler: function (form) {
-                    $(".submitbtn:visible").attr("disabled", "disabled");
-                    $("#loader").show();
-                    customValid = customerInfoValid();
-                    if (customValid)
-                    {
-                        var options = {
-                            resetForm: false, // reset the form after successful submit
-                            success: function (output) {
-                                handleAjaxResponse(output);
-                            }
-                        };
-                        $(form).ajaxSubmit(options);
-                    }else{
-                        $(".submitbtn:visible").prop("disabled",false);
-                        $("#loader").hide();
+            var selected = true;
+            var emaployeeArray = [];
+            $('.employee_select').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.attendance_error').text('Please Select Employee Name');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.attendance_error').text('');
                     }
-                },
-
-                errorPlacement: function(error, element) {
-                    customValid = customerInfoValid();
-                    var elem = $(element);
-                    if (elem.hasClass("select2-hidden-accessible")) {
-                        element = $("#select2-" + elem.attr("id") + "-container").parent();
-                        error.insertAfter(element);
-                    }else {
-                        if (elem.hasClass("radio-btn")) {
-                            element = elem.parent().parent();
-                            error.insertAfter(element);
-                        }else{
-                            error.insertAfter(element);
-                        }
-                    }
-                },
+                }
             });
 
-            function customerInfoValid() {
-                var customValid = true;
-                $('.employee_select').each(function () {
-                    var elem = $(this);
-                    if ($(this).is(':visible')) {
-                        if ($(this).val() == '' || $(this).val() == null) {
-                            $(this).parent().find('.attendance_error').text('Please Select Employee');
-                            customValid = false;
-                        } else {
-                            $(this).parent().find('.attendance_error').text('');
-                        }
+            $('.leave_select').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.leave_error').text('Please Select Leave Type');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.leave_error').text('');
+                    }
+                }
+            });
+
+            if (selected) {
+                var data = { employee: JSON.stringify(emaployeeArray) };
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/attendance/ajaxcall",
+                    data: { 'action': 'get_employee_list', 'data': data },
+                    success: function (data) {
+                        $("#add_attendance_div").append(data)
+                        var employeeList = JSON.parse(data);
                     }
                 });
-                return customValid;
             }
+        });
+
+        $('body').on("click", ".remove-attendance", function () {
+            $(this).closest('.removediv').remove();
         });
 
         var today = new Date();
@@ -135,13 +321,13 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
-        $("body").on("click", ".show-type-form", function() {
+        $("body").on("click", ".show-type-form", function () {
             $("#show-type-form").html('-').addClass('remove-type-form');
             $("#show-type-form").html('-').removeClass('show-type-form');
             $("#add-type").slideToggle("slow");
         })
 
-        $("body").on("click", ".remove-type-form", function() {
+        $("body").on("click", ".remove-type-form", function () {
             $("#show-type-form").html('+').removeClass('remove-type-form');
             $("#show-type-form").html('+').addClass('show-type-form');
             $("#add-type").slideToggle("slow");
@@ -149,9 +335,10 @@ var Attendance = function () {
     }
 
     return {
-        // init: function () {
-        //     list();
-        // },
+        init: function () {
+            // list();
+            calendar();
+        },
         add: function () {
             addAttendance();
         },

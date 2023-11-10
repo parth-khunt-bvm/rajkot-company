@@ -241,8 +241,8 @@ class Salary extends Model
 
     public function getExpenseReportsData($fillterdata){
         $data = collect(range(11, 0));
-    $month_array = [];
-    $amount_array = [];
+        $month_array = [];
+        $amount_array = [];
     foreach($data as $key => $value){
 
         $dt = today()->startOfMonth()->subMonth($value);

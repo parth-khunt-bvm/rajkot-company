@@ -295,12 +295,11 @@ class Employee extends Model
             return false;
         }
     }
-
-    public function get_admin_employee_details(){
-        return Employee::from('employee')
-            ->select('employee.id','employee.first_name','employee.last_name')
-            ->get();
-      }
-
-
+    public function get_admin_employee_details($employeIdArray = null){
+        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
+        if($employeIdArray != null){
+           $qurey->whereNotIn('employee.id', $employeIdArray);
+        }
+        return $qurey->get();
+    }
 }
