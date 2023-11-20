@@ -15,11 +15,8 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-
-                    {{-- <button data-toggle="modal" data-target="#addType" class="add-attendance btn btn-danger font-weight-bolder mr-5 ">Add attendance modal</button> --}}
-                    <button class="btn btn-primary font-weight-bolder mr-5 show-attendance-form" id="show-attendance-form">+</button>
-                    <button data-toggle="modal" data-target="#importAttendance" class=" import-attendance btn btn-danger font-weight-bolder mr-5 ">Import Attendance</button>
-
+                    {{-- <button class="btn btn-primary font-weight-bolder mr-5 show-attendance-form" id="show-attendance-form">+</button> --}}
+                    {{-- <button data-toggle="modal" data-target="#importAttendance" class=" import-attendance btn btn-danger font-weight-bolder mr-5 ">Import Attendance</button> --}}
                     <a href="{{ route('admin.attendance.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -77,16 +74,17 @@
                         <div class="card-title">
                             <h3 class="card-label">Basic Calendar</h3>
                         </div>
-                        <div class="card-toolbar">
+                        {{-- <div class="card-toolbar">
                             <a href="#" class="btn btn-light-primary font-weight-bold">
                             <i class="ki ki-plus icon-md mr-2"></i>Add Event</a>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body">
-                        <div id="kt_calendar"></div>
+                        <div id="attendance_calendar"></div>
                     </div>
                 </div>
-
+            </div>
+            <div id="attendace_day_list">
             </div>
         </div>
         <!--end::Card-->

@@ -235,7 +235,6 @@ class Expense extends Model
             ->get()->toArray();
     }
     public function getExpenseReportsData($fillterdata){
-
         $data = collect(range(11, 0));
         $month_array = [];
         $amount_array = [];

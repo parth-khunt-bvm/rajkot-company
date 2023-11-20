@@ -243,7 +243,7 @@ class Salary extends Model
         $data = collect(range(11, 0));
         $month_array = [];
         $amount_array = [];
-    foreach($data as $key => $value){
+        foreach($data as $key => $value){
 
         $dt = today()->startOfMonth()->subMonth($value);
 

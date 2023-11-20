@@ -1,9 +1,10 @@
 var Attendance = function () {
-    var list = function () {
-        var dataArr = {};
+    var attendanceList = function () {
+        var date = $('.change_date').val();
+        var dataArr = {'date': date};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#attendence-list',
+            'tableID': '#attendance-list',
             'ajaxURL': baseurl + "admin/attendance/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
@@ -16,6 +17,44 @@ var Attendance = function () {
         };
         getDataTable(arrList);
 
+
+        $("body").on("change", ".change_date", function() {
+
+            var html = '';
+            html =  '<table class="table table-bordered table-checkable" id="attendance-list">'+
+            '<thead>'+
+            '<tr>'+
+            '<th>#</th>'+
+            '<th>Date</th>'+
+            '<th>Employee</th>'+
+            '<th>Attendance Type</th>'+
+            '<th>reason</th>'+
+            '<th>Action</th>'+
+            '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '</tbody>'+
+            '</table>';
+
+            $(".attendance-list").html(html);
+
+            var date = $('.change_date').val();
+            var dataArr = { 'date': date };
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#attendance-list',
+                'ajaxURL': baseurl + "admin/attendance/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 5],
+                'noSearchApply': [0, 5],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        })
         $("body").on("click", ".delete-records", function () {
             var id = $(this).data('id');
             setTimeout(function () {
@@ -40,8 +79,6 @@ var Attendance = function () {
             });
         });
 
-
-
         $('.select2').select2();
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -49,14 +86,11 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto",
         });
-
     }
 
     var calendar = function () {
-
         var leaveType = $("#leave_type").val();
         var data = {'leaveType' : leaveType} ;
-
         $.ajax({
             type: "POST",
             headers: {
@@ -65,17 +99,42 @@ var Attendance = function () {
             url: baseurl + "admin/attendance/ajaxcall",
             data: { 'action': 'get_attendance_list', 'data' : data },
             success: function (data) {
-                var res = JSON.parse(data);
-                console.log(res);
-                console.log(res.amount.present);
-                var todayDate = moment().startOf('day');
-                var YM = todayDate.format('YYYY-MM');
-                var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
-                var TODAY = todayDate.format('YYYY-MM-DD');
-                var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
-                var dynamicTitle = '3';
 
-                var calendarEl = document.getElementById('kt_calendar');
+                var res = JSON.parse(data);
+                eventArray = [];
+                $.each( res, function( key, value ) {
+                    var temp =  {
+                        title: 'Present ' + value.present ,
+                        start: value.date ,
+                        description: 'Present Employee',
+                        className: 'fc-event-danger fc-event-solid-warning'
+                    } ;
+                    eventArray.push(temp);
+                    var temp2 =  {
+                        title: 'Absent ' + value.absent  ,
+                        start: value.date ,
+                        description: 'Absent Employee',
+                        className: 'fc-event-success fc-event-solid-info'
+                    } ;
+                    eventArray.push(temp2);
+                    var temp3 =  {
+                        title: 'Half Day ' + value.half_day  ,
+                        start: value.date ,
+                        description: 'Half Day Leave Employee',
+                        className: 'fc-event-info fc-event-solid-success'
+                    } ;
+                    eventArray.push(temp3);
+                    var temp4 =  {
+                        title: 'Sort Leave ' + value.sort_leave,
+                        start: value.date ,
+                        description: 'Sort Leave Employee',
+                        className: 'fc-event-warning fc-event-solid-danger'
+                    } ;
+                    eventArray.push(temp4);
+                });
+                var todayDate = moment().startOf('day');
+                var TODAY = todayDate.format('YYYY-MM-DD');
+                var calendarEl = document.getElementById('attendance_calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
                     themeSystem: 'bootstrap',
@@ -85,8 +144,20 @@ var Attendance = function () {
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        right: 'dayGridMonth,timeGridDay'
                     },
+
+                    selectable: true,
+                    selectHelper : true,
+                    // select: function(start, end, allDays){
+                    //     var date = "20-Nov-2023";
+                    //     window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date='+ date;
+                    // },
+                    dateClick: function(info) {
+                        // Redirect to another page with the clicked date information
+                        var clickedDate = info.dateStr;
+                        window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                      },
 
                     height: 800,
                     contentHeight: 1200,
@@ -94,139 +165,16 @@ var Attendance = function () {
 
                     nowIndicator: true,
                     now: TODAY + 'T09:25:00', // just for demo
-
-                    views: {
-                        dayGridMonth: { buttonText: 'month' },
-                        timeGridWeek: { buttonText: 'week' },
-                        timeGridDay: { buttonText: 'day' }
-                    },
-
                     defaultView: 'dayGridMonth',
                     defaultDate: TODAY,
-
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
                     navLinks: true,
-                    events: [
-                        {
-                            title: 'Present ' + res.amount.present,
-                            start: YM + '-01',
-                            description: 'Description for Event 1',
-                            className: 'fc-event-danger fc-event-solid-warning'
-                        },
-                        {
-                            title: 'Absent ' + res.amount.absent,
-                            start: YM + '-01',
-                            description: 'Description for Event 2',
-                            className: 'fc-event-success fc-event-solid-info'
-                        },
-                        {
-                            title: 'Half Leave ' + res.amount.half_day,
-                            start: YM + '-01',
-                            description: 'Description for Event 3',
-                            className: 'fc-event-info fc-event-solid-success'
-                        },
-                        {
-                            title: 'Sort Leave ' + res.amount.sort_leave,
-                            start: YM + '-01',
-                            description: 'Description for Event 4',
-                            className: 'fc-event-warning fc-event-solid-danger'
-                        },
-                        //     {
-                        //         title: 'Reporting',
-                        //         start: YM + '-14T13:30:00',
-                        //         description: 'Lorem ipsum dolor incid idunt ut labore',
-                        //         end: YM + '-14',
-                        //         className: "fc-event-success"
-                        //     },
-                        //     {
-                        //         title: 'Company Trip',
-                        //         start: YM + '-02',
-                        //         description: 'Lorem ipsum dolor sit tempor incid',
-                        //         end: YM + '-03',
-                        //         className: "fc-event-primary"
-                        //     },
-                        //     {
-                        //         title: 'ICT Expo 2017 - Product Release',
-                        //         start: YM + '-03',
-                        //         description: 'Lorem ipsum dolor sit tempor inci',
-                        //         end: YM + '-05',
-                        //         className: "fc-event-light fc-event-solid-primary"
-                        //     },
-                        //     {
-                        //         title: 'Dinner',
-                        //         start: YM + '-12',
-                        //         description: 'Lorem ipsum dolor sit amet, conse ctetur',
-                        //         end: YM + '-10'
-                        //     },
-                        //     {
-                        //         id: 999,
-                        //         title: 'Repeating Event',
-                        //         start: YM + '-09T16:00:00',
-                        //         description: 'Lorem ipsum dolor sit ncididunt ut labore',
-                        //         className: "fc-event-danger"
-                        //     },
-                        //     {
-                        //         id: 1000,
-                        //         title: 'Repeating Event',
-                        //         description: 'Lorem ipsum dolor sit amet, labore',
-                        //         start: YM + '-16T16:00:00'
-                        //     },
-                        //     {
-                        //         title: 'Conference',
-                        //         start: YESTERDAY,
-                        //         end: TOMORROW,
-                        //         description: 'Lorem ipsum dolor eius mod tempor labore',
-                        //         className: "fc-event-primary"
-                        //     },
-                        //     {
-                        //         title: 'Meeting',
-                        //         start: TODAY + 'T10:30:00',
-                        //         end: TODAY + 'T12:30:00',
-                        //         description: 'Lorem ipsum dolor eiu idunt ut labore'
-                        //     },
-                        //     {
-                        //         title: 'Lunch',
-                        //         start: TODAY + 'T12:00:00',
-                        //         className: "fc-event-info",
-                        //         description: 'Lorem ipsum dolor sit amet, ut labore'
-                        //     },
-                        //     {
-                        //         title: 'Meeting',
-                        //         start: TODAY + 'T14:30:00',
-                        //         className: "fc-event-warning",
-                        //         description: 'Lorem ipsum conse ctetur adipi scing'
-                        //     },
-                        //     {
-                        //         title: 'Happy Hour',
-                        //         start: TODAY + 'T17:30:00',
-                        //         className: "fc-event-info",
-                        //         description: 'Lorem ipsum dolor sit amet, conse ctetur'
-                        //     },
-                        //     {
-                        //         title: 'Dinner',
-                        //         start: TOMORROW + 'T05:00:00',
-                        //         className: "fc-event-solid-danger fc-event-light",
-                        //         description: 'Lorem ipsum dolor sit ctetur adipi scing'
-                        //     },
-                        //     {
-                        //         title: 'Birthday Party',
-                        //         start: TOMORROW + 'T07:00:00',
-                        //         className: "fc-event-primary",
-                        //         description: 'Lorem ipsum dolor sit amet, scing'
-                        //     },
-                        //     {
-                        //         title: 'Click for Google',
-                        //         url: 'http://google.com/',
-                        //         start: YM + '-28',
-                        //         className: "fc-event-solid-info fc-event-light",
-                        //         description: 'Lorem ipsum dolor sit amet, labore'
-                        //     }
-                    ],
+
+                    events: eventArray,
 
                     eventRender: function (info) {
                         var element = $(info.el);
-
                         if (info.event.extendedProps && info.event.extendedProps.description) {
                             if (element.hasClass('fc-day-grid-event')) {
                                 element.data('content', info.event.extendedProps.description);
@@ -240,22 +188,25 @@ var Attendance = function () {
                         }
                     }
                 });
-
                 calendar.render();
-
             },
-            error: function () {
-                console.log('err');
-            }
+        });
+    }
+    var addAttendance = function () {
+
+        var form = $('#add-attendance-form');
+        var rules = {
+            date: { required: true },
+        };
+
+        var message = {
+            date: { required: "Please enter date" },
+        }
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
 
-
-    }
-
-
-    var addAttendance = function () {
         $('.select2').select2();
-
         $('body').on('click', '.add-attendance-button', function () {
             var selected = true;
             var emaployeeArray = [];
@@ -308,13 +259,11 @@ var Attendance = function () {
 
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var mm = today.toLocaleString('en-US', { month: 'short' });
         var yyyy = today.getFullYear();
-
         today = dd + '-' + mm + '-' + yyyy;
 
         $("#datepicker_date").val(today);
-
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -326,14 +275,12 @@ var Attendance = function () {
             $("#show-type-form").html('-').removeClass('show-type-form');
             $("#add-type").slideToggle("slow");
         })
-
         $("body").on("click", ".remove-type-form", function () {
             $("#show-type-form").html('+').removeClass('remove-type-form');
             $("#show-type-form").html('+').addClass('show-type-form');
             $("#add-type").slideToggle("slow");
         })
     }
-
     return {
         init: function () {
             // list();
@@ -344,6 +291,10 @@ var Attendance = function () {
         },
         edit: function () {
             editAttendance();
+        },
+        list: function () {
+            calendar();
+            attendanceList();
         },
     }
 }();

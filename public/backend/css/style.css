@@ -22,3 +22,7 @@
     background-size: 100px 100px;
     z-index: 10000;
 }
+
+.fc-toolbar.fc-header-toolbar {
+    display: none;
+}

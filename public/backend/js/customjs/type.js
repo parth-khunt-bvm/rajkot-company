@@ -15,6 +15,7 @@ var Type = function () {
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
+        
         $("body").on("click", ".delete-records", function () {
             var id = $(this).data('id');
             setTimeout(function () {
