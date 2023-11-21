@@ -59,7 +59,6 @@ class AttendanceController extends Controller
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance list';
         $data['css'] = array(
             'toastr/toastr.min.css',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
         );
         $data['plugincss'] = array(
             'plugins/custom/datatables/datatables.bundle.css'
@@ -69,7 +68,6 @@ class AttendanceController extends Controller
             'plugins/custom/datatables/datatables.bundle.js',
             'pages/crud/datatables/data-sources/html.js',
             'validate/jquery.validate.min.js',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
         );
         $data['js'] = array(
             'comman_function.js',
@@ -125,13 +123,13 @@ class AttendanceController extends Controller
         );
         return view('backend.pages.attendance.add', $data);
     }
-
     public function saveAdd(Request $request){
         $objAttendance = new Attendance();
         $result = $objAttendance->saveAdd($request);
+
         if ($result == "added") {
             $return['status'] = 'success';
-             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Student Attendance details successfully added.';
             $return['redirect'] = route('admin.attendance.list');
         } elseif ($result == "attendance_exists") {
@@ -139,6 +137,71 @@ class AttendanceController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Student Attendance has already exists.';
         }  else{
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
+    public function dayEdit(Request $request, $editId)
+    {
+
+        $objEmployee = new Employee();
+        $data['employee'] = $objEmployee->get_admin_employee_details();
+
+        $attendance = new Attendance();
+        $data['attendance_details'] = $attendance->get_attendance_details($editId);
+
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Attendance";
+        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Attendance";
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Attendance";
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'pages/crud/forms/widgets/select2.js',
+            'validate/jquery.validate.min.js',
+            'pages/crud/file-upload/image-input.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'attendance.js',
+        );
+        $data['funinit'] = array(
+            'Attendance.edit()'
+        );
+        $data['header'] = array(
+            'title' => 'Edit Attendance',
+            'breadcrumb' => array(
+                'My Dashboard' => route('my-dashboard'),
+                'Attendance List' => route('admin.attendance.day-list'),
+                'Edit Attendance' => 'Edit Attendance',
+            )
+        );
+        return view('backend.pages.attendance.attendance_day_edit', $data);
+    }
+
+    public function daySaveEdit(Request $request){
+        $data['date'] = $request->date;
+        $objAttendance = new Attendance();
+        $result = $objAttendance->daySaveEdit($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Attendance details successfully updated.';
+            $return['redirect'] = route('admin.attendance.day-list',['date'=>$data['date']]);
+        } elseif ($result == "Attendance_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Attendance has already exists.';
+        } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';

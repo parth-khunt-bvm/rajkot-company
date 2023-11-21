@@ -55,30 +55,6 @@ var Attendance = function () {
             };
             getDataTable(arrList);
         })
-        $("body").on("click", ".delete-records", function () {
-            var id = $(this).data('id');
-            setTimeout(function () {
-                $('.yes-sure:visible').attr('data-id', id);
-            }, 500);
-        })
-
-        $('body').on('click', '.yes-sure', function () {
-            var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: baseurl + "admin/employee/ajaxcall",
-                data: { 'action': 'common-activity', 'data': data },
-                success: function (data) {
-                    $("#loader").show();
-                    handleAjaxResponse(data);
-                }
-            });
-        });
-
         $('.select2').select2();
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -99,7 +75,6 @@ var Attendance = function () {
             url: baseurl + "admin/attendance/ajaxcall",
             data: { 'action': 'get_attendance_list', 'data' : data },
             success: function (data) {
-
                 var res = JSON.parse(data);
                 eventArray = [];
                 $.each( res, function( key, value ) {
@@ -149,13 +124,13 @@ var Attendance = function () {
 
                     selectable: true,
                     selectHelper : true,
-                    // select: function(start, end, allDays){
-                    //     var date = "20-Nov-2023";
-                    //     window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date='+ date;
-                    // },
                     dateClick: function(info) {
                         // Redirect to another page with the clicked date information
-                        var clickedDate = info.dateStr;
+                        var clickedDate = new Date(info.dateStr);
+                        var dd = String(clickedDate.getDate()).padStart(2, '0');
+                        var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
+                        var yyyy = clickedDate.getFullYear();
+                        clickedDate = dd + '-' + mm + '-' + yyyy;
                         window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                       },
 
@@ -280,6 +255,58 @@ var Attendance = function () {
             $("#show-type-form").html('+').addClass('show-type-form');
             $("#add-type").slideToggle("slow");
         })
+    }
+    var editAttendance = function () {
+        var form = $('#edit-attendance-form');
+        var rules = {
+            leave_type: { required: true },
+        };
+
+        var message = {
+            leave_type: { required: "Please select leave" },
+        }
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
+        });
+
+        $('.select2').select2();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = today.toLocaleString('en-US', { month: 'short' });
+        var yyyy = today.getFullYear();
+        today = dd + '-' + mm + '-' + yyyy;
+
+        $("#datepicker_date").val(today);
+        $("#datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+        $("body").on("click", ".delete-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/attendance/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
     }
     return {
         init: function () {

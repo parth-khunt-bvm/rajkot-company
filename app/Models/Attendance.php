@@ -74,20 +74,19 @@ class Attendance extends Model
         foreach ($resultArr as $row) {
 
             $actionhtml = '';
-            $actionhtml .= '<a href="' . route('admin.attendance.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
-            $actionhtml .= '<a href="' . route('admin.attendance.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['attendance_type'] == '0') {
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
             } else if($row['attendance_type'] == '1'){
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Absent</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
             } else if($row['attendance_type'] == '2'){
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Half Day</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
             } else {
                 $attendance_type = '<span class="label label-lg label-light-danger  label-inline">Sort Leave</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -155,10 +154,33 @@ class Attendance extends Model
     }
     return 'attendance_exists';
     }
+    public function daySaveEdit($requestData)
+    {
+            $objattendance = Attendance::find($requestData['attendance_id']);
+            $objattendance->date =date('Y-m-d', strtotime($requestData['date']));
+            $objattendance->attendance_type = $requestData['leave_type'];
+            $objattendance->reason = $requestData['reason'];
+            $objattendance->updated_at = date('Y-m-d H:i:s');
+            if ($objattendance->save()) {
+                unset($requestData['_token']);
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit('U', $requestData, 'Attendance');
+                return 'added';
+            }
+            return 'wrong';
+    }
+
+    public function get_attendance_details($attendanceId)
+    {
+       return Attendance::from('attendance')
+             ->join("employee", "employee.id", "=", "attendance.employee_id")
+             ->select('attendance.id','attendance.date','attendance.attendance_type','attendance.reason','employee.id as employee_id',)
+             ->where('attendance.id', $attendanceId)
+             ->first();
+    }
 
     public function common_activity($requestData)
     {
-
         $objtype = Type::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objtype->is_deleted = "Y";

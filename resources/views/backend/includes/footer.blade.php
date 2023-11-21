@@ -13,6 +13,7 @@
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{  asset('backend/js/pages/widgets.js') }}"></script>
 <!--end::Page Scripts-->
+<script src="{{  asset('backend/js/script.js') }}" type="text/javascript"></script>
 
 @if (!empty($pluginjs))
 @foreach ($pluginjs as $value)
