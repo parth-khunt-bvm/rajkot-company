@@ -214,6 +214,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please select technology'},
                 }
             },
+            designation : {
+                validators: {
+                    notEmpty: { message: 'Please select designation'},
+                }
+            },
             dob : {
                 validators: {
                     notEmpty: { message: 'Please enter date of birth'},
@@ -222,6 +227,16 @@ var Employee = function () {
             doj : {
                 validators: {
                     notEmpty: { message: 'Please enter date of joining'},
+                }
+            },
+            gmail : {
+                validators: {
+                    notEmpty: { message: 'Please enter company gmail'},
+                }
+            },
+            gmail_password : {
+                validators: {
+                    notEmpty: { message: 'Please enter gmail password'},
                 }
             },
             personal_email : {
@@ -253,6 +268,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter ifsc code'},
                 }
             },
+            pan_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter pancard number'},
+                }
+            },
             aadhar_card_number : {
                 validators: {
                     notEmpty: { message: 'Please enter aadhar card number'},
@@ -271,6 +291,16 @@ var Employee = function () {
                     textonly: { message: 'Please enter valid parent name'}
                 }
             },
+            personal_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter personal number'},
+                }
+            },
+            emergency_contact : {
+                validators: {
+                    notEmpty: { message: 'Please enter emergency contact'},
+                }
+            },
             address : {
                 validators: {
                     notEmpty: { message: 'Please enter address'},
@@ -283,7 +313,7 @@ var Employee = function () {
             },
             hired_by : {
                 validators: {
-                    notEmpty: { message: 'Please enter hired by'},
+                    notEmpty: { message: 'Please select manager'},
                 }
             },
             salary : {
@@ -291,6 +321,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter salary'},
                 }
             },
+            // bond_file : {
+            //     validators: {
+            //         notEmpty: { message: 'Please select bond file'},
+            //     }
+            // },
             status : {
                 validators: {
                     notEmpty: { message: 'Please select status'},
@@ -447,6 +482,16 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter date of joining'},
                 }
             },
+            gmail : {
+                validators: {
+                    notEmpty: { message: 'Please enter company gmail'},
+                }
+            },
+            gmail_password : {
+                validators: {
+                    notEmpty: { message: 'Please enter gmail password'},
+                }
+            },
             personal_email : {
                 validators: {
                     notEmpty: { message: 'Please enter personal email'},
@@ -476,6 +521,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter ifsc code'},
                 }
             },
+            pan_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter pancard number'},
+                }
+            },
             aadhar_card_number : {
                 validators: {
                     notEmpty: { message: 'Please enter aadhar card number'},
@@ -492,6 +542,16 @@ var Employee = function () {
                 validators: {
                     notEmpty: { message: 'Please enter parent name'},
                     textonly: { message: 'Please enter valid parent name'}
+                }
+            },
+            personal_number : {
+                validators: {
+                    notEmpty: { message: 'Please enter pancard number'},
+                }
+            },
+            emergency_contact : {
+                validators: {
+                    notEmpty: { message: 'Please enter emergency contact'},
                 }
             },
             address : {

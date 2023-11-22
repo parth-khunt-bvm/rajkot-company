@@ -12,6 +12,7 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
+
                      <!--begin::Form-->
                      <form class="form" id="edit-attendance-form" method="POST" action="{{ route('admin.attendance.day-save-edit-attendance') }}">@csrf
                         <input type="hidden" name="attendance_id" class="form-control" value="{{ $attendance_details->id}}">
@@ -20,7 +21,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="text" name="date" id="datepicker_date" value="{{ $attendance_details->date}}" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
+                                        <input type="text" name="date" id="datepicker_date" value="{{ date('d-M-Y', strtotime($attendance_details->date)) }}" class="form-control date" placeholder="Select Date" autocomplete="off" >
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +47,8 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 leave_type leave_select"  name="leave_type" id="leave_type">
-                                                <option value="d">Please select Leave Type</option>
+                                                <option value="">Please select Leave Type</option>
+                                                <option value="0" {{ $attendance_details->attendance_type == 0 ? 'selected="selected"' : '' }}>Present</option>
                                                 <option value="1" {{ $attendance_details->attendance_type == 1 ? 'selected="selected"' : '' }}>Full Day Leave</option>
                                                 <option value="2" {{ $attendance_details->attendance_type == 2 ? 'selected="selected"' : '' }}>Half Day Leave</option>
                                                 <option value="3" {{ $attendance_details->attendance_type == 3 ? 'selected="selected"' : '' }}>Sort Leave</option>

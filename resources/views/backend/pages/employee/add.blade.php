@@ -520,7 +520,8 @@ $image = url("upload/userprofile/default.jpg");
                                 <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
-                                            <label>Gmail
+                                            <label>Company Gmail
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="email" class="form-control input-name" name="gmail" id="gmail" placeholder="Gmail" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -529,6 +530,7 @@ $image = url("upload/userprofile/default.jpg");
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail Password
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" name="gmail_password" id="gmail_password" placeholder="Gmail Password" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -596,7 +598,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>IFSC Code
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="ifsc_code" id="ifsc_code" placeholder="IFSC Code" autocomplete="off" />
+                                            <input type="text" class="form-control input-name" name="ifsc_code" id="ifsc_code" maxlength="11" placeholder="IFSC Code" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -605,8 +607,9 @@ $image = url("upload/userprofile/default.jpg");
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Pan Number
+                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="pan_number" id="pan_number" placeholder="Pan Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name" name="pan_number" id="pan_number" placeholder="Pan Number" maxlength="11" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -615,7 +618,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Aadhar Card Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name onlyNumber" name="aadhar_card_number" id="aadhar_card_number" placeholder="Aadhar Card Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="aadhar_card_number" id="aadhar_card_number" maxlength="12" placeholder="Aadhar Card Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -626,7 +629,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Google Pay Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" placeholder="Google Pay Number" autocomplete="off" />
+                                            <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" maxlength="10" placeholder="Google Pay Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -657,18 +660,21 @@ $image = url("upload/userprofile/default.jpg");
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Personal Number
+                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control onlyNumber" name="personal_number" id="personal_number" placeholder="Personal Number" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber input-name" name="personal_number" id="personal_number" maxlength="10" placeholder="Personal Number" autocomplete="off" />
+                                            <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Emergency Contact
+                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control onlyNumber" name="emergency_contact" id="emergency_contact" placeholder="Emergency Contact" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber input-name" name="emergency_contact" id="emergency_contact" maxlength="10" placeholder="Emergency Contact" autocomplete="off" />
+                                            <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -697,7 +703,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Experience
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name onlyNumber" name="experience" id="experience" placeholder="Experience" autocomplete="off" />
+                                            <input type="number" class="form-control input-name" name="experience" id="experience" placeholder="Experience" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -706,11 +712,15 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>Hired By
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="hired_by" id="hired_by" placeholder="Hired By" autocomplete="off" />
+                                            <select class="form-control select2 hired_by input-name" id="hired_by" name="hired_by">
+                                                <option value="">Please select Manager Name</option>
+                                                @foreach ($manager as $key => $value )
+                                                <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
+                                                @endforeach
+                                            </select>
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-6">
@@ -718,7 +728,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <label>salary
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name onlyNumber" name="salary" id="salary" placeholder="Salary" autocomplete="off" />
+                                            <input type="number" class="form-control input-name" name="salary" id="salary" placeholder="Salary" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -762,7 +772,8 @@ $image = url("upload/userprofile/default.jpg");
                                             <div></div>
                                             <div class="custom-file">
                                                 <input type="file" class="form-control custom-file-input" name="bond_file" id="bond_file" autocomplete="off" />
-                                                <label class="custom-file-label" for="customFile">Bond File</label>
+                                                <label class="custom-file-label" for="customFile" accept=".pdf,application/pdf">Bond File</label>
+                                                <span class="type_error text-danger"></span>
                                             </div>
                                         </div>
                                     </div>

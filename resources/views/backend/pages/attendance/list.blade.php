@@ -34,6 +34,23 @@
 
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 ">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select class="form-control select2 year change-year" id="year"  name="year">
+                                <option value="">Select Year</option>
+                                @for ($i = 0; $i >= -11; $i--)
+                                    @php
+                                        $date = now()->addMonths($i);
+                                        $yearMonth = $date->format('Y-m');
+                                    @endphp
+                                    <option value="{{ $yearMonth }}">{{ $date->format('F - Y') }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <form class="form" id="add-type" style="display: none" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
                     <div class="row">
                         <div class="col-md-5">
@@ -68,11 +85,10 @@
                         </div>
                     </div>
                 </form>
-
                 <div class="card card-custom">
                     <div class="card-header">
                         <div class="card-title">
-                            <h3 class="card-label">Basic Calendar</h3>
+                            <h3 class="card-label">Attendance Calendar</h3>
                         </div>
                         {{-- <div class="card-toolbar">
                             <a href="#" class="btn btn-light-primary font-weight-bold">

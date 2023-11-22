@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Config;
+use Illuminate\Support\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -53,6 +54,7 @@ class AttendanceController extends Controller
     }
 
     public function dayList(Request $request){
+
         $data['date'] = $request->date;
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance list';
@@ -144,15 +146,13 @@ class AttendanceController extends Controller
         echo json_encode($return);
         exit;
     }
-    public function dayEdit(Request $request, $editId)
+    public function dayEdit($editId)
     {
-
         $objEmployee = new Employee();
         $data['employee'] = $objEmployee->get_admin_employee_details();
 
         $attendance = new Attendance();
         $data['attendance_details'] = $attendance->get_attendance_details($editId);
-
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Attendance";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Attendance";
@@ -187,7 +187,6 @@ class AttendanceController extends Controller
         );
         return view('backend.pages.attendance.attendance_day_edit', $data);
     }
-
     public function daySaveEdit(Request $request){
         $data['date'] = $request->date;
         $objAttendance = new Attendance();
@@ -209,7 +208,6 @@ class AttendanceController extends Controller
         echo json_encode($return);
         exit;
     }
-
     public function ajaxcall(Request $request){
 
         $action = $request->input('action');

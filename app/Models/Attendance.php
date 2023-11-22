@@ -30,11 +30,6 @@ class Attendance extends Model
                                 ELSE "Sort Leave" END)'),
             4 => 'attendance.reason',
         );
-
-        // $query = Attendance::from('attendance')
-        //     ->join("employee", "employee.id", "=", "attendance.employee_id")
-        //     ->where("attendance.date", "=", "2023-11-16");
-
         if($outputDate != null && $outputDate != ''){
             $query = Attendance::from('attendance')
             ->join("employee", "employee.id", "=", "attendance.employee_id")
@@ -77,16 +72,12 @@ class Attendance extends Model
             $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['attendance_type'] == '0') {
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
-                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
             } else if($row['attendance_type'] == '1'){
-                $attendance_type = '<span class="label label-lg label-light-success label-inline">Absent</span>';
-                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                $attendance_type = '<span class="label label-lg label-light-danger label-inline">Absent</span>';
             } else if($row['attendance_type'] == '2'){
-                $attendance_type = '<span class="label label-lg label-light-success label-inline">Half Day</span>';
-                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
-                $attendance_type = '<span class="label label-lg label-light-danger  label-inline">Sort Leave</span>';
-                // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -122,6 +113,7 @@ class Attendance extends Model
 
         $checkAttendance = Attendance::from('attendance')
         ->where('Attendance.employee_id', $requestData['employee_id'])
+        ->where('Attendance.date', date('Y-m-d', strtotime($requestData['date'])))
         ->count();
         if($checkAttendance == 0){
 
@@ -169,16 +161,14 @@ class Attendance extends Model
             }
             return 'wrong';
     }
-
     public function get_attendance_details($attendanceId)
     {
-       return Attendance::from('attendance')
+        return Attendance::from('attendance')
              ->join("employee", "employee.id", "=", "attendance.employee_id")
              ->select('attendance.id','attendance.date','attendance.attendance_type','attendance.reason','employee.id as employee_id',)
              ->where('attendance.id', $attendanceId)
              ->first();
     }
-
     public function common_activity($requestData)
     {
         $objtype = Type::find($requestData['id']);
@@ -206,7 +196,6 @@ class Attendance extends Model
             return false;
         }
     }
-
     public function get_admin_attendance_details(){
 
         $month = '2023-11';
@@ -218,7 +207,7 @@ class Attendance extends Model
 
         foreach ($period as $date) {
             $formattedDate = $date->format('Y-m-d');
-
+            if($formattedDate <= date('Y-m-d') && date('w', strtotime($formattedDate)) != 6 && date('w', strtotime($formattedDate)) != 0){
             $dates[$index]['date'] = $formattedDate;
             $dates[$index]['present'] = Attendance::from('attendance')
                 ->where('attendance_type', '0')
@@ -239,15 +228,13 @@ class Attendance extends Model
                 ->where('attendance_type', '3')
                 ->where('date', $formattedDate)
                 ->count();
-
+            }
             $index++;
         }
 
         return $dates;
 
     }
-
-
     public function get_admin_attendance_details_by_day(){
         return Attendance::from('attendance')
         ->select('id','date','employee_id','attendance_type','reason')

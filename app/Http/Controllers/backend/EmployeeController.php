@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\Designation;
 use App\Models\Employee;
+use App\Models\Manager;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
@@ -22,7 +23,7 @@ class EmployeeController extends Controller
     public function list(Request $request)
     {
 
-        $objTechnology = new Technology();  
+        $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 
         $objDesignation = new Designation();
@@ -69,6 +70,9 @@ class EmployeeController extends Controller
         $objDesignation = new Designation();
         $data['designation'] = $objDesignation->get_admin_designation_details();
 
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
@@ -113,10 +117,14 @@ class EmployeeController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Employee details successfully added.';
             $return['redirect'] = route('admin.employee.list');
-        } elseif ($result == "Employee_exists") {
+        } elseif ($result == "personal_gmail_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee has already exists.';
+            $return['message'] = 'employee personal gmail has already exists.';
+        } elseif ($result == "personal_number_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'employee personal numbar has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

@@ -1,5 +1,6 @@
 var Attendance = function () {
     var attendanceList = function () {
+        $('.select2').select2();
         var date = $('.change_date').val();
         var dataArr = {'date': date};
         var columnWidth = { "width": "5%", "targets": 0 };
@@ -63,8 +64,8 @@ var Attendance = function () {
             orientation: "bottom auto",
         });
     }
-
     var calendar = function () {
+        $('.select2').select2();
         var leaveType = $("#leave_type").val();
         var data = {'leaveType' : leaveType} ;
         $.ajax({
@@ -75,6 +76,7 @@ var Attendance = function () {
             url: baseurl + "admin/attendance/ajaxcall",
             data: { 'action': 'get_attendance_list', 'data' : data },
             success: function (data) {
+                $('.select2').select2();
                 var res = JSON.parse(data);
                 eventArray = [];
                 $.each( res, function( key, value ) {
@@ -110,6 +112,7 @@ var Attendance = function () {
                 var todayDate = moment().startOf('day');
                 var TODAY = todayDate.format('YYYY-MM-DD');
                 var calendarEl = document.getElementById('attendance_calendar');
+
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
                     themeSystem: 'bootstrap',
@@ -145,9 +148,9 @@ var Attendance = function () {
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
                     navLinks: true,
-
+                    firstDay: 1,
+                    weekends: false,
                     events: eventArray,
-
                     eventRender: function (info) {
                         var element = $(info.el);
                         if (info.event.extendedProps && info.event.extendedProps.description) {
@@ -166,6 +169,9 @@ var Attendance = function () {
                 calendar.render();
             },
         });
+        $("body").on("change", ".change-year", function(){
+            var month = $("#year").val();
+        });
     }
     var addAttendance = function () {
 
@@ -180,7 +186,6 @@ var Attendance = function () {
         handleFormValidateWithMsg(form, rules, message, function (form) {
             handleAjaxFormSubmit(form, true);
         });
-
         $('.select2').select2();
         $('body').on('click', '.add-attendance-button', function () {
             var selected = true;
@@ -222,16 +227,14 @@ var Attendance = function () {
                     data: { 'action': 'get_employee_list', 'data': data },
                     success: function (data) {
                         $("#add_attendance_div").append(data)
-                        var employeeList = JSON.parse(data);
+                        $('.select2').select2();
                     }
                 });
             }
         });
-
         $('body').on("click", ".remove-attendance", function () {
             $(this).closest('.removediv').remove();
         });
-
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = today.toLocaleString('en-US', { month: 'short' });
@@ -270,13 +273,7 @@ var Attendance = function () {
         });
 
         $('.select2').select2();
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = today.toLocaleString('en-US', { month: 'short' });
-        var yyyy = today.getFullYear();
-        today = dd + '-' + mm + '-' + yyyy;
 
-        $("#datepicker_date").val(today);
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -310,7 +307,6 @@ var Attendance = function () {
     }
     return {
         init: function () {
-            // list();
             calendar();
         },
         add: function () {

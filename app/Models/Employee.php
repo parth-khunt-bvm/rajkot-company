@@ -115,7 +115,6 @@ class Employee extends Model
         return $json_data;
     }
     public function saveAdd($requestData){
-        // dd($requestData);
         $checkEmployee = Employee::from('employee')
                     ->where('employee.gmail', $requestData['gmail'])
                     ->orWhere('employee.personal_number', $requestData['personal_number'])
@@ -124,8 +123,8 @@ class Employee extends Model
                     ->count();
         if($checkEmployee == 0){
             $objEmployee = new Employee();
-            $objEmployee->first_name = $requestData['first_name'];
-            $objEmployee->last_name = $requestData['last_name'];
+            $objEmployee->first_name =ucfirst($requestData['first_name']);
+            $objEmployee->last_name =ucfirst($requestData['last_name']);
             $objEmployee->department = $requestData['technology'];
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
@@ -187,8 +186,8 @@ class Employee extends Model
             ->count();
         if ($countEmployee == 0) {
             $objEmployee = Employee::find($requestData['employee_id']);
-            $objEmployee->first_name = $requestData['first_name'];
-            $objEmployee->last_name = $requestData['last_name'];
+            $objEmployee->first_name = ucfirst($requestData['first_name']);
+            $objEmployee->last_name = ucfirst($requestData['last_name']);
             $objEmployee->department = $requestData['technology'];
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));

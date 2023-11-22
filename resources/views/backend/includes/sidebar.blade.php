@@ -232,7 +232,7 @@ $currentRoute = Route::current()->getName();
                 {{-- Counter Menu End --}}
 
                 {{-- Attendance Menu --}}
-                <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.list" || $currentRoute  ==  "admin.attendance.add" || $currentRoute  ==  "admin.attendance.edit" || $currentRoute  ==  "admin.attendance.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.list" || $currentRoute  ==  "admin.attendance.add" || $currentRoute  ==  "admin.attendance.edit" || $currentRoute  ==  "admin.attendance.view" || $currentRoute  ==  "admin.attendance.day-edit" || $currentRoute  ==  "admin.attendance.day-list" || $currentRoute  ==  "admin.attendance.day-save-edit-attendance"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.attendance.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
