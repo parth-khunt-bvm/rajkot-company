@@ -33,6 +33,7 @@ class AttendanceController extends Controller
             'pages/crud/datatables/data-sources/html.js',
             'validate/jquery.validate.min.js',
             'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+            'pages/crud/forms/widgets/select2.js',
         );
         $data['js'] = array(
             'comman_function.js',
@@ -209,16 +210,13 @@ class AttendanceController extends Controller
         exit;
     }
     public function ajaxcall(Request $request){
-
         $action = $request->input('action');
         switch ($action) {
             case 'get_employee_list':
                 $data = $request->input('data');
                 $objEmployee = new Employee();
                 $data['employeeList'] = $objEmployee->get_admin_employee_details(json_decode($data['employee']));
-
                 $details =  view('backend.pages.attendance.addEmployee', $data);
-
                 echo $details;
                 break;
 
@@ -231,6 +229,7 @@ class AttendanceController extends Controller
             case 'get_attendance_list':
                 $objAttendance = new Attendance();
                 $list = $objAttendance->get_admin_attendance_details($request->input('data'));
+                // dd($list);
                 echo json_encode($list);
                 break;
 

@@ -22,7 +22,17 @@
                                         <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
+                                <div class="col-4 col-form-label mt-5">
+                                    <div class="checkbox-inline mt-3">
+                                        <label class="checkbox checkbox-success">
+                                            <input type="checkbox" id="all_present" name="all_present"/>
+                                            <span></span>
+                                            All Present
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+
                             <div id="add_attendance_div">
                                 <div class="row">
                                     <div class="col-md-3">

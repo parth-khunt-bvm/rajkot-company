@@ -17,6 +17,7 @@ class Attendance extends Model
 
     public function getdatatable($fillterdata)
     {
+        // dd($fillterdata);
         $dateObject = Carbon::createFromFormat('d-M-Y', $fillterdata['date']);
         $outputDate = $dateObject->format('Y-m-d');
         $requestData = $_REQUEST;
@@ -103,25 +104,26 @@ class Attendance extends Model
         );
         return $json_data;
     }
-
     public function saveAdd($requestData)
     {
         $employee = Employee::where("is_deleted", "N")->pluck('id')->toArray();
         $employeeId = $requestData->employee_id;
 
-        $matchValue = array_intersect($employee, $employeeId);
-
         $checkAttendance = Attendance::from('attendance')
         ->where('Attendance.employee_id', $requestData['employee_id'])
         ->where('Attendance.date', date('Y-m-d', strtotime($requestData['date'])))
         ->count();
+        $allPresent = $requestData['all_present'];
+
         if($checkAttendance == 0){
 
-        if($matchValue ){
         foreach ($employee as $employeeNameKey => $value) {
             $objAttendance = new Attendance();
             $objAttendance->employee_id = $value;
-            if(in_array( $value, $requestData->employee_id)){
+            if ($allPresent) {
+                $objAttendance->attendance_type = "0";
+                $objAttendance->reason = NULL;
+            } elseif(in_array( $value, $requestData->employee_id)){
                 $key = array_search ($value, $requestData->employee_id);
                 $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
                 $objAttendance->reason = $requestData->input('reason')[$key];
@@ -131,6 +133,7 @@ class Attendance extends Model
                 $objAttendance->attendance_type = "0";
                 $objAttendance->reason = NULL;
             }
+            $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
             $objAttendance->created_at = date('Y-m-d H:i:s');
             $objAttendance->updated_at = date('Y-m-d H:i:s');
             $objAttendance->save();
@@ -142,7 +145,6 @@ class Attendance extends Model
             }else{
                 return 'wrong';
             }
-        }
     }
     return 'attendance_exists';
     }
@@ -196,15 +198,14 @@ class Attendance extends Model
             return false;
         }
     }
-    public function get_admin_attendance_details(){
-
-        $month = '2023-11';
+    public function get_admin_attendance_details($requestData){
+        $month = $requestData['year'].'-'.$requestData['month'];
         $start = Carbon::parse($month)->startOfMonth();
         $end = Carbon::parse($month)->endOfMonth();
         $period = CarbonPeriod::create($start, $end);
 
         $index = 0; // Initialize the index
-
+        $dates = [];
         foreach ($period as $date) {
             $formattedDate = $date->format('Y-m-d');
             if($formattedDate <= date('Y-m-d') && date('w', strtotime($formattedDate)) != 6 && date('w', strtotime($formattedDate)) != 0){

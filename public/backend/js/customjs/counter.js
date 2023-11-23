@@ -1,7 +1,7 @@
 var Counter = function () {
     var list = function () {
-        var month = $('#month').val();
-        var year = $("#year").val();
+        var month = $('#monthId').val();
+        var year = $("#yearId").val();
         var employee = $("#employee_id").val();
         var technology = $('#technology_id').val();
 
@@ -135,8 +135,8 @@ var Counter = function () {
 
             $(".counter-list").html(html);
 
-            var month = $('#month').val();
-            var year = $("#year").val();
+            var month = $('#monthId').val();
+            var year = $("#yearId").val();
             var employee = $("#employee_id").val();
             var technology = $('#technology_id').val();
 

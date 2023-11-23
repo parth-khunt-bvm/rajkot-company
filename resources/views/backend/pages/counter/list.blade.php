@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> Month</label>
-                                    <select class="form-control select2 month change" id="month"  name="month">
+                                    <select class="form-control select2 month change" id="monthId"  name="month">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -65,7 +65,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>year</label>
-                                    <select class="form-control select2 year change" id="year"  name="year">
+                                    <select class="form-control select2 year change" id="yearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>

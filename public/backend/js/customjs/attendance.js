@@ -67,7 +67,10 @@ var Attendance = function () {
     var calendar = function () {
         $('.select2').select2();
         var leaveType = $("#leave_type").val();
-        var data = {'leaveType' : leaveType} ;
+        var month = $('#monthId').val();
+        var year = $("#yearId").val();
+        var data = {'leaveType' : leaveType, 'month':month, 'year': year} ;
+
         $.ajax({
             type: "POST",
             headers: {
@@ -136,7 +139,6 @@ var Attendance = function () {
                         clickedDate = dd + '-' + mm + '-' + yyyy;
                         window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                       },
-
                     height: 800,
                     contentHeight: 1200,
                     aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
@@ -169,12 +171,122 @@ var Attendance = function () {
                 calendar.render();
             },
         });
-        $("body").on("change", ".change-year", function(){
-            var month = $("#year").val();
+
+        $("body").on("change", ".change-fillter", function(){
+
+            var html = '';
+            html = '<div id="attendance_calendar"></div>';
+
+            $(".attendance-list").html(html);
+
+            var leaveType = $("#leave_type").val();
+            var month = $('#monthId').val().padStart(2, '0');
+            var year = $("#yearId").val();
+            var data = {'leaveType' : leaveType, 'month':month, 'year': year} ;
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/attendance/ajaxcall",
+                data: { 'action': 'get_attendance_list', 'data' : data },
+                success: function (data) {
+                    $('.select2').select2();
+                    var res = JSON.parse(data);
+                    eventArray = [];
+                    $.each( res, function( key, value ) {
+                        var temp =  {
+                            title: 'Present ' + value.present ,
+                            start: value.date ,
+                            description: 'Present Employee',
+                            className: 'fc-event-danger fc-event-solid-warning'
+                        } ;
+                        eventArray.push(temp);
+                        var temp2 =  {
+                            title: 'Absent ' + value.absent  ,
+                            start: value.date ,
+                            description: 'Absent Employee',
+                            className: 'fc-event-success fc-event-solid-info'
+                        } ;
+                        eventArray.push(temp2);
+                        var temp3 =  {
+                            title: 'Half Day ' + value.half_day  ,
+                            start: value.date ,
+                            description: 'Half Day Leave Employee',
+                            className: 'fc-event-info fc-event-solid-success'
+                        } ;
+                        eventArray.push(temp3);
+                        var temp4 =  {
+                            title: 'Sort Leave ' + value.sort_leave,
+                            start: value.date ,
+                            description: 'Sort Leave Employee',
+                            className: 'fc-event-warning fc-event-solid-danger'
+                        } ;
+                        eventArray.push(temp4);
+                    });
+                    var todayDate = moment().startOf('day');
+                    var TODAY = todayDate.format('YYYY-MM-DD');
+                    var calendarEl = document.getElementById('attendance_calendar');
+
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
+                        themeSystem: 'bootstrap',
+
+                        isRTL: KTUtil.isRTL(),
+
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridDay'
+                        },
+
+                        selectable: true,
+                        selectHelper : true,
+                        dateClick: function(info) {
+                            // Redirect to another page with the clicked date information
+                            var clickedDate = new Date(info.dateStr);
+                            var dd = String(clickedDate.getDate()).padStart(2, '0');
+                            var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
+                            var yyyy = clickedDate.getFullYear();
+                            clickedDate = dd + '-' + mm + '-' + yyyy;
+                            window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                          },
+                        height: 800,
+                        contentHeight: 1200,
+                        aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                        nowIndicator: true,
+                        now: TODAY + 'T09:25:00', // just for demo
+                        defaultView: 'dayGridMonth',
+                        defaultDate: year + '-' + month + '-01',
+                        editable: true,
+                        eventLimit: true, // allow "more" link when too many events
+                        navLinks: true,
+                        firstDay: 1,
+                        weekends: false,
+                        // initialDate: year + '-' + month + '-01',
+                        events: eventArray,
+                        eventRender: function (info) {
+                            var element = $(info.el);
+                            if (info.event.extendedProps && info.event.extendedProps.description) {
+                                if (element.hasClass('fc-day-grid-event')) {
+                                    element.data('content', info.event.extendedProps.description);
+                                    element.data('placement', 'top');
+                                    KTApp.initPopover(element);
+                                } else if (element.hasClass('fc-time-grid-event')) {
+                                    element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                    element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                }
+                            }
+                        }
+                    });
+                    calendar.render();
+                },
+            });
         });
     }
     var addAttendance = function () {
-
         var form = $('#add-attendance-form');
         var rules = {
             date: { required: true },
@@ -258,6 +370,16 @@ var Attendance = function () {
             $("#show-type-form").html('+').addClass('show-type-form');
             $("#add-type").slideToggle("slow");
         })
+
+        $('#all_present').change(function() {
+            if(this.checked) {
+                var returnVal = $('#add_attendance_div').slideToggle('slow');
+                $(this).prop("checked", returnVal);
+            } else {
+                var returnVal = $('#add_attendance_div').slideToggle('slow');
+                $(this).prop("checked=disabled", returnVal);
+            }
+        });
     }
     var editAttendance = function () {
         var form = $('#edit-attendance-form');
