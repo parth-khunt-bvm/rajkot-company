@@ -679,24 +679,87 @@ var Employee = function () {
         });
 
     }
+    var viewEmployee = function () {
+        $("body").on("click", ".personal",function(){
+            var id  = $(this).data('personal-info');
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get_employee_personal_detail', 'data': data },
+                success: function (data) {
+                    $(".employee-detail-view").empty().append(data);
+                    $('.company').removeClass('active');
+                    $('.bank').removeClass('active');
+                    $('.parent').removeClass('active');
+                    $('.personal').addClass('active');
+                },
+            });
+        });
 
-    // var nextStep = function (step) {
-    //     let currentStep = 1;
-    //     if (step === currentStep) {
-    //         return;
-    //     }
+        $("body").on("click", ".bank",function(){
+            var id  = $(this).data('bank-info');
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get_employee_bank_detail', 'data': data },
+                success: function (data) {
+                    $(".employee-detail-view").empty().append(data);
+                    $('.personal').removeClass('active');
+                    $('.company').removeClass('active');
+                    $('.parent').removeClass('active');
+                    $('.bank').addClass('active');
+                },
+            });
+        });
 
-    //     const currentStepElement = document.getElementById(`step${currentStep}`);
-    //     const nextStepElement = document.getElementById(`step${step}`);
+        $("body").on("click", ".parent",function(){
+            var id  = $(this).data('parent-info');
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get_employee_parent_detail', 'data': data },
+                success: function (data) {
+                    $(".employee-detail-view").empty().append(data);
+                    $('.bank').removeClass('active');
+                    $('.personal').removeClass('active');
+                    $('.company').removeClass('active');
+                    $('.parent').addClass('active');
+                },
+            });
+        });
 
-    //     if (currentStepElement && nextStepElement) {
-    //         currentStepElement.style.display = "none";
-    //         nextStepElement.style.display = "block";
-    //         currentStep = step;
-    //     }
-
-    // }
-
+        $("body").on("click", ".company",function(){
+            var id  = $(this).data('company-info');
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get_employee_company_detail', 'data': data },
+                success: function (data) {
+                    $(".employee-detail-view").empty().append(data);
+                    $('.personal').removeClass('active');
+                    $('.bank').removeClass('active');
+                    $('.parent').removeClass('active');
+                    $('.company').addClass('active');
+                },
+            });
+        });
+    }
     return {
         init: function () {
             list();
@@ -707,5 +770,8 @@ var Employee = function () {
         edit: function () {
             editEmployee();
         },
+        view: function() {
+            viewEmployee();
+        }
     }
 }();

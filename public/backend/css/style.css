@@ -27,9 +27,9 @@
     display: none;
 }
 
-/* .margin{
-    margin-left: -125px;
+.sidebar-margin-change{
+    margin-left: -62px;
 }
- .d-flex .flex-row{
-    margin-top: -12px;
-} */
+ .change-top-margin{
+    margin-top: -22px;
+}

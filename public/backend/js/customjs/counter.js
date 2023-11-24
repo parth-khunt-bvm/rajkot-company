@@ -51,7 +51,7 @@ var Counter = function () {
             setTimeout(function () {
                 $('.yes-sure-counted:visible').attr('data-id', id);
             }, 500);
-        })
+        });
 
         $('body').on('click', '.yes-sure-counted', function () {
             var id = $(this).attr('data-id');

@@ -215,6 +215,45 @@ class EmployeeController extends Controller
                 echo json_encode($list);
                 break;
 
+            // case 'get_employee_list':
+            //     $data = $request->input('data');
+            //     $objEmployee = new Employee();
+            //     $list = $objEmployee->get_employee_details($request->input('data'));
+            //     echo json_encode($list);
+            //     break;
+
+            case 'get_employee_personal_detail':
+                $data = $request->input('data');
+                $objEmployee = new Employee();
+                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
+                $details =  view('backend.pages.employee.personal_info', $data);
+                echo $details;
+                break;
+
+            case 'get_employee_bank_detail':
+                $data = $request->input('data');
+                $objEmployee = new Employee();
+                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
+                $details =  view('backend.pages.employee.bank_info', $data);
+                echo $details;
+                break;
+
+            case 'get_employee_parent_detail':
+                $data = $request->input('data');
+                $objEmployee = new Employee();
+                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
+                $details =  view('backend.pages.employee.parent_info', $data);
+                echo $details;
+                break;
+
+            case 'get_employee_company_detail':
+                $data = $request->input('data');
+                $objEmployee = new Employee();
+                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
+                $details =  view('backend.pages.employee.company_info', $data);
+                echo $details;
+                break;
+
             case 'common-activity':
                 $data = $request->input('data');
                 $objEmployee = new Employee();
@@ -264,6 +303,7 @@ class EmployeeController extends Controller
             'employee.js',
         );
         $data['funinit'] = array(
+            'Employee.view()',
         );
         $data['header'] = array(
             'title' => 'Basic Detail',

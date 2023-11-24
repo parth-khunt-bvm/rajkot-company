@@ -251,14 +251,12 @@ class Employee extends Model
 
     public function get_employee_details($employeeId)
     {
-
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
              ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience')
              ->where('employee.id', $employeeId)
              ->first();
-
     }
 
     public function common_activity($requestData)
@@ -295,6 +293,14 @@ class Employee extends Model
         }
     }
     public function get_admin_employee_details($employeIdArray = null){
+        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
+        if($employeIdArray != null){
+           $qurey->whereNotIn('employee.id', $employeIdArray);
+        }
+        return $qurey->get();
+    }
+
+    public function get_admin_employee_details_view($employeIdArray = null){
         $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
         if($employeIdArray != null){
            $qurey->whereNotIn('employee.id', $employeIdArray);
