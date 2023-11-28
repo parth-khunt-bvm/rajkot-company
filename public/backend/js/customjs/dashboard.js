@@ -20,7 +20,6 @@ var Dashboard = function(){
             handleAjaxFormSubmit(form,true);
         });
     }
-
     var password = function(){
         var form = $('#change-password');
         var rules = {
@@ -42,12 +41,35 @@ var Dashboard = function(){
             handleAjaxFormSubmit(form,true);
         });
     }
+
+
+    var employeeBirthdayList = function(){
+        var dataArr = {};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#employee-birthday-list',
+            'ajaxURL': baseurl + "admin/dashboard/ajaxcall",
+            'ajaxAction': 'getbirthdaydatatable',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 5],
+            'noSearchApply': [0, 5],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+    }
     return {
         edit_profile:function(){
             editProfile()
         },
         change_password:function(){
             password();
+        },
+        employee_birthday:function(){
+            employeeBirthdayList();
         }
     }
 }();

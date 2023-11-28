@@ -110,8 +110,7 @@ class Attendance extends Model
         $employeeId = $requestData->employee_id;
 
         $checkAttendance = Attendance::from('attendance')
-        ->where('Attendance.employee_id', $requestData['employee_id'])
-        ->where('Attendance.date', date('Y-m-d', strtotime($requestData['date'])))
+        ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
         ->count();
         $allPresent = $requestData['all_present'];
 
@@ -123,7 +122,8 @@ class Attendance extends Model
             if ($allPresent) {
                 $objAttendance->attendance_type = "0";
                 $objAttendance->reason = NULL;
-            } elseif(in_array( $value, $requestData->employee_id)){
+            } else
+            if(in_array( $value, $requestData->employee_id)){
                 $key = array_search ($value, $requestData->employee_id);
                 $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
                 $objAttendance->reason = $requestData->input('reason')[$key];
@@ -232,13 +232,84 @@ class Attendance extends Model
             }
             $index++;
         }
-
         return $dates;
+    }
 
+    public function get_attendance_details_by_employee($employeeId, $month, $year){
+        $month = $year.'-'.$month;
+        $start = Carbon::parse($month)->startOfMonth();
+        $end = Carbon::parse($month)->endOfMonth();
+        $period = CarbonPeriod::create($start, $end);
+        $attendanceData = Attendance::from('attendance')
+                ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason')
+                ->where('attendance.employee_id', $employeeId)
+                ->whereDate('date', '>=', date('Y-m-d', strtotime($start)))
+                ->whereDate('date', '<=', date('Y-m-d', strtotime($end)))
+                ->get()->toArray();
+                // dd($attendanceData);
+        $index = 0; // Initialize the index
+        $dates = [];
+        foreach ($attendanceData as $key => $value) {
+            // print_r($value['reason']);
+            $dates[$index]['date'] = date('Y-m-d', strtotime($value['date']));
+            if($value['attendance_type'] == 0){
+                $attendance_type = 'Present';
+                $className='fc-event-success';
+                $description = $value['reason'];
+            } elseif($value['attendance_type'] == 1){
+                $attendance_type = 'Absent';
+                $className='fc-event-danger';
+                $description = $value['reason'];
+            } elseif($value['attendance_type'] == 2){
+                $attendance_type = 'Half_leave';
+                $className='fc-event-info';
+                $description = $value['reason'];
+            } else{
+                $attendance_type = 'Sort_leave';
+                $className='fc-event-warning';
+                $description = "aaaaa";
+            }
+            $dates[$index]['attendance_type'] = $attendance_type;
+            $dates[$index]['class'] = $className;
+            $dates[$index]['description'] = $description;
+            $index++;
+        }
+        return $dates;
     }
     public function get_admin_attendance_details_by_day(){
         return Attendance::from('attendance')
         ->select('id','date','employee_id','attendance_type','reason')
         ->get();
+    }
+
+    public function get_admin_attendance_daily_detail(){
+
+            $formattedDate = date("Y-m-d");
+            $present = Attendance::from('attendance')
+                ->where('attendance_type', '0')
+                ->where('date',$formattedDate);
+
+                $employee_count['present'] = $present->count();
+
+            $absent = Attendance::from('attendance')
+                ->where('attendance_type', '1')
+                ->where('date', $formattedDate);
+                $employee_count['absent'] = $absent->count();
+
+            $half_day = Attendance::from('attendance')
+                ->where('attendance_type', '2')
+                ->where('date', $formattedDate);
+                $employee_count['half_day'] = $half_day->count();
+
+            $sort_leave = Attendance::from('attendance')
+                ->where('attendance_type', '3')
+                ->where('date', $formattedDate);
+                $employee_count['sort_leave'] = $sort_leave->count();
+
+            $employee = Employee::from('employee');
+
+            $employee_count['employee'] = $employee->count();
+
+        return $employee_count;
     }
 }

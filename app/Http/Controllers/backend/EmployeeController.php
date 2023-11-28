@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
+use App\Models\Attendance;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Manager;
@@ -205,7 +206,7 @@ class EmployeeController extends Controller
 
     public function ajaxcall(Request $request)
     {
-
+            //  dd($request);
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
@@ -215,45 +216,47 @@ class EmployeeController extends Controller
                 echo json_encode($list);
                 break;
 
-            // case 'get_employee_list':
-            //     $data = $request->input('data');
-            //     $objEmployee = new Employee();
-            //     $list = $objEmployee->get_employee_details($request->input('data'));
-            //     echo json_encode($list);
-            //     break;
+            case 'get_employee_details' :
+                $inputData = $request->input('data');
 
-            case 'get_employee_personal_detail':
-                $data = $request->input('data');
-                $objEmployee = new Employee();
-                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
-                $details =  view('backend.pages.employee.personal_info', $data);
-                echo $details;
-                break;
+                if($inputData['type'] == 'bank'){
 
-            case 'get_employee_bank_detail':
-                $data = $request->input('data');
-                $objEmployee = new Employee();
-                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
-                $details =  view('backend.pages.employee.bank_info', $data);
-                echo $details;
-                break;
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.bank_info', $data);
+                    echo $details;
+                    break;
 
-            case 'get_employee_parent_detail':
-                $data = $request->input('data');
-                $objEmployee = new Employee();
-                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
-                $details =  view('backend.pages.employee.parent_info', $data);
-                echo $details;
-                break;
+                } elseif($inputData['type'] == 'parent'){
 
-            case 'get_employee_company_detail':
-                $data = $request->input('data');
-                $objEmployee = new Employee();
-                $data['employee_details'] = $objEmployee->get_employee_details($request->input('data'));
-                $details =  view('backend.pages.employee.company_info', $data);
-                echo $details;
-                break;
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.parent_info', $data);
+                    echo $details;
+                    break;
 
+                } elseif($inputData['type'] == 'company'){
+
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.company_info', $data);
+                    echo $details;
+                    break;
+
+                } elseif($inputData['type'] == 'attendance'){
+                    $data = $request->input('data');
+                    $objAttendance = new Attendance();
+                    $attendanceData = $objAttendance->get_attendance_details_by_employee($inputData['userId'],  $inputData['month'], $inputData['year']);
+                    echo json_encode($attendanceData);
+                    exit;
+
+                } else {
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.personal_info', $data);
+                    echo $details;
+                    break;
+                }
             case 'common-activity':
                 $data = $request->input('data');
                 $objEmployee = new Employee();
@@ -290,11 +293,15 @@ class EmployeeController extends Controller
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
-        $data['plugincss'] = array();
+        $data['plugincss'] = array(
+            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+        );
         $data['pluginjs'] = array(
             'toastr/toastr.min.js',
             'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
+            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+
         );
         $data['js'] = array(
             'comman_function.js',
@@ -328,5 +335,44 @@ class EmployeeController extends Controller
 
         echo json_encode($return);
         exit;
+    }
+
+    public function attendancelist(Request $request){
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css',
+            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+            'pages/crud/forms/widgets/select2.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'attendance.js',
+        );
+        $data['funinit'] = array(
+            'Attendance.init()',
+        );
+        $data['header'] = array(
+            'title' => 'Attendance List',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Attendance List' => 'Attendance List',
+            )
+        );
+        return view('backend.pages.employee.attendance', $data);
     }
 }

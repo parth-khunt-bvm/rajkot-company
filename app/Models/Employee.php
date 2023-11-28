@@ -114,6 +114,78 @@ class Employee extends Model
         );
         return $json_data;
     }
+
+    public function getbirthdaydatatable($fillterdata)
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => 'employee.id',
+            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => 'employee.DOB',
+            3 => 'technology.technology_name',
+            4 => 'designation.designation_name',
+        );
+
+        $query = Employee::from('employee')
+             ->join("technology", "technology.id", "=", "employee.department")
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->where("employee.is_deleted", "=", "N")
+             ->where(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '=', now()->format('m-d'));
+
+        if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+            $searchVal = $requestData['search']['value'];
+            $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                $flag = 0;
+                foreach ($columns as $key => $value) {
+                    $searchVal = $requestData['search']['value'];
+                    if ($requestData['columns'][$key]['searchable'] == 'true') {
+                        if ($flag == 0) {
+                            $query->where($value, 'like', '%' . $searchVal . '%');
+                            $flag = $flag + 1;
+                        } else {
+                            $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                        }
+                    }
+                }
+            });
+        }
+
+        $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+
+        $totalData = count($temp->get());
+        $totalFiltered = count($temp->get());
+
+        $resultArr = $query->skip($requestData['start'])
+            ->take($requestData['length'])
+            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name', 'employee.DOB')
+            ->get();
+
+        $data = array();
+        $i = 0;
+
+        foreach ($resultArr as $row) {
+
+            $actionhtml  = '';
+            $actionhtml .= '<a href="' . route('admin.employee.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+
+            $i++;
+            $nestedData = array();
+            $nestedData[] = $i;
+            $nestedData[] = date_formate($row['DOB']);
+            $nestedData[] = $row['full_name'];
+            $nestedData[] = $row['technology_name'];
+            $nestedData[] = $row['designation_name'];
+            $nestedData[] = $actionhtml;
+            $data[] = $nestedData;
+        }
+        $json_data = array(
+            "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal" => intval($totalData), // total number of records
+            "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data   // total data array
+        );
+        return $json_data;
+    }
     public function saveAdd($requestData){
         $checkEmployee = Employee::from('employee')
                     ->where('employee.gmail', $requestData['gmail'])
@@ -307,4 +379,5 @@ class Employee extends Model
         }
         return $qurey->get();
     }
+
 }

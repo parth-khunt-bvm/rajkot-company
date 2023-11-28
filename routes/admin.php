@@ -22,12 +22,13 @@ Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin
 $adminPrefix = "";
 Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('my-dashboard', [DashboardController::class, 'myDashboard'])->name('my-dashboard');
-
     Route::get('edit-profile', [DashboardController::class, 'editProfile'])->name('edit-profile');
     Route::post('save-profile', [DashboardController::class, 'saveProfile'])->name('save-profile');
-
     Route::get('change-password', [DashboardController::class, 'change_password'])->name('change-password');
     Route::post('save-password', [DashboardController::class, 'save_password'])->name('save-password');
+    Route::post('admin/dashboard/ajaxcall', [DashboardController::class, 'ajaxcall'])->name('admin.dashboard.ajaxcall');
+
+
 
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
@@ -125,6 +126,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/employee/ajaxcall', [EmployeeController::class, 'ajaxcall'])->name('admin.employee.ajaxcall');
     Route::get('admin/employee/view/{id}', [EmployeeController::class, 'view'])->name('admin.employee.view');
     Route::post('admin/employee/save-import-employee', [EmployeeController::class, 'save_import'])->name('admin.employee.save-import-employee');
+    Route::get('admin/employee/attendance/list', [EmployeeController::class, 'attendancelist'])->name('admin.employee.attendance.list');
+
 
     // Counter
     Route::get('admin/counter/list', [CounterController::class, 'list'])->name('admin.counter.list');

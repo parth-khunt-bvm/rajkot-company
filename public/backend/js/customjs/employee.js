@@ -1,3 +1,4 @@
+
 var Employee = function () {
     var list = function () {
         var technology = $("#technology_id").val();
@@ -124,7 +125,7 @@ var Employee = function () {
                 '<th>#</th>' +
                 '<th>Name</th>' +
                 '<th>Department</th>' +
-                '<th>Designation</th>'+
+                '<th>Designation</th>' +
                 '<th>Date of Joining</th>' +
                 '<th>Gmail</th>' +
                 '<th>Emergency Contact</th>' +
@@ -166,11 +167,11 @@ var Employee = function () {
 
         });
 
-        $("body").on("click", "#show-employee-filter", function() {
+        $("body").on("click", "#show-employee-filter", function () {
             $("div .employee-filter").slideToggle("slow");
         })
 
-        $("body").on("click", ".reset", function(){
+        $("body").on("click", ".reset", function () {
             location.reload(true);
         });
 
@@ -197,128 +198,128 @@ var Employee = function () {
         });
 
         var validation = {
-            first_name : {
+            first_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter first name'},
-                    textonly: { message: 'Please enter valid first name'}
+                    notEmpty: { message: 'Please enter first name' },
+                    textonly: { message: 'Please enter valid first name' }
                 }
             },
-            last_name : {
+            last_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter last name'},
-                    textonly: { message: 'Please enter valid last name'}
+                    notEmpty: { message: 'Please enter last name' },
+                    textonly: { message: 'Please enter valid last name' }
                 }
             },
-            technology : {
+            technology: {
                 validators: {
-                    notEmpty: { message: 'Please select technology'},
+                    notEmpty: { message: 'Please select technology' },
                 }
             },
-            designation : {
+            designation: {
                 validators: {
-                    notEmpty: { message: 'Please select designation'},
+                    notEmpty: { message: 'Please select designation' },
                 }
             },
-            dob : {
+            dob: {
                 validators: {
-                    notEmpty: { message: 'Please enter date of birth'},
+                    notEmpty: { message: 'Please enter date of birth' },
                 }
             },
-            doj : {
+            doj: {
                 validators: {
-                    notEmpty: { message: 'Please enter date of joining'},
+                    notEmpty: { message: 'Please enter date of joining' },
                 }
             },
-            gmail : {
+            gmail: {
                 validators: {
-                    notEmpty: { message: 'Please enter company gmail'},
+                    notEmpty: { message: 'Please enter company gmail' },
                 }
             },
-            gmail_password : {
+            gmail_password: {
                 validators: {
-                    notEmpty: { message: 'Please enter gmail password'},
+                    notEmpty: { message: 'Please enter gmail password' },
                 }
             },
-            personal_email : {
+            personal_email: {
                 validators: {
-                    notEmpty: { message: 'Please enter personal email'},
-                    emailonly: { message: 'Please enter a valid email'},
+                    notEmpty: { message: 'Please enter personal email' },
+                    emailonly: { message: 'Please enter a valid email' },
                 }
             },
-            bank_name : {
+            bank_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter bank name'},
-                    textonly: { message: 'Please enter valid bank name'}
+                    notEmpty: { message: 'Please enter bank name' },
+                    textonly: { message: 'Please enter valid bank name' }
                 }
             },
-            acc_holder_name : {
+            acc_holder_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter account holder name'},
-                    textonly: { message: 'Please enter valid account holder name'}
+                    notEmpty: { message: 'Please enter account holder name' },
+                    textonly: { message: 'Please enter valid account holder name' }
                 }
             },
-            account_number : {
+            account_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter account number'},
+                    notEmpty: { message: 'Please enter account number' },
                     // numberonly: { message: 'Please enter a valid account number'},
                 }
             },
-            ifsc_code : {
+            ifsc_code: {
                 validators: {
-                    notEmpty: { message: 'Please enter ifsc code'},
+                    notEmpty: { message: 'Please enter ifsc code' },
                 }
             },
-            pan_number : {
+            pan_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter pancard number'},
+                    notEmpty: { message: 'Please enter pancard number' },
                 }
             },
-            aadhar_card_number : {
+            aadhar_card_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter aadhar card number'},
-                    numberonly: { message: 'Please enter a valid account number'},
+                    notEmpty: { message: 'Please enter aadhar card number' },
+                    numberonly: { message: 'Please enter a valid account number' },
                 }
             },
-            google_pay : {
+            google_pay: {
                 validators: {
-                    notEmpty: { message: 'Please enter g-pay number'},
-                    numberonly: { message: 'Please enter a valid g-pay number'},
+                    notEmpty: { message: 'Please enter g-pay number' },
+                    numberonly: { message: 'Please enter a valid g-pay number' },
                 }
             },
-            parent_name : {
+            parent_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter parent name'},
-                    textonly: { message: 'Please enter valid parent name'}
+                    notEmpty: { message: 'Please enter parent name' },
+                    textonly: { message: 'Please enter valid parent name' }
                 }
             },
-            personal_number : {
+            personal_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter personal number'},
+                    notEmpty: { message: 'Please enter personal number' },
                 }
             },
-            emergency_contact : {
+            emergency_contact: {
                 validators: {
-                    notEmpty: { message: 'Please enter emergency contact'},
+                    notEmpty: { message: 'Please enter emergency contact' },
                 }
             },
-            address : {
+            address: {
                 validators: {
-                    notEmpty: { message: 'Please enter address'},
+                    notEmpty: { message: 'Please enter address' },
                 }
             },
-             experience : {
+            experience: {
                 validators: {
-                    notEmpty: { message: 'Please enter experience'},
+                    notEmpty: { message: 'Please enter experience' },
                 }
             },
-            hired_by : {
+            hired_by: {
                 validators: {
-                    notEmpty: { message: 'Please select manager'},
+                    notEmpty: { message: 'Please select manager' },
                 }
             },
-            salary : {
+            salary: {
                 validators: {
-                    notEmpty: { message: 'Please enter salary'},
+                    notEmpty: { message: 'Please enter salary' },
                 }
             },
             // bond_file : {
@@ -326,15 +327,15 @@ var Employee = function () {
             //         notEmpty: { message: 'Please select bond file'},
             //     }
             // },
-            status : {
+            status: {
                 validators: {
-                    notEmpty: { message: 'Please select status'},
+                    notEmpty: { message: 'Please select status' },
                 }
             }
 
         };
 
-        function checkValidation(validationType , message, value){
+        function checkValidation(validationType, message, value) {
 
             switch (validationType) {
                 case 'notEmpty':
@@ -360,7 +361,7 @@ var Employee = function () {
                         return false;
                     }
                     break;
-             }
+            }
             return true;
         }
 
@@ -379,17 +380,17 @@ var Employee = function () {
             return pattern.test(e);
         }
 
-        $("body").on("click", ".prev-step", function(){
-            var prevPageNo  = $(this).data('prev-page');
-            var currentPageNo  = $(this).data('current-page');
+        $("body").on("click", ".prev-step", function () {
+            var prevPageNo = $(this).data('prev-page');
+            var currentPageNo = $(this).data('current-page');
 
-            $("#step"+currentPageNo).css('display', 'none');
-            $("#step"+prevPageNo).css('display', 'block');
+            $("#step" + currentPageNo).css('display', 'none');
+            $("#step" + prevPageNo).css('display', 'block');
         });
 
         $("body").on("click", ".next-step", function () {
-            var nextPageNo  = $(this).data('next-page');
-            var currentPageNo  = $(this).data('current-page');
+            var nextPageNo = $(this).data('next-page');
+            var currentPageNo = $(this).data('current-page');
             var customValid = true;
             $('.input-name').each(function () {
                 if ($(this).is(':visible')) {
@@ -398,9 +399,9 @@ var Employee = function () {
                     var errorElement = element.parent().find('.type_error');
                     errorElement.text('');
                     var checkValidInput = true;
-                    if(validation[inputName]){
-                        $.each(validation[inputName]['validators'], function( index, value ) {
-                            if(checkValidInput){
+                    if (validation[inputName]) {
+                        $.each(validation[inputName]['validators'], function (index, value) {
+                            if (checkValidInput) {
                                 checkValidInput = checkValidation(index, value['message'], element.val());
                                 if (checkValidInput) {
                                     errorElement.text('');
@@ -414,9 +415,9 @@ var Employee = function () {
                 }
             });
 
-            if(customValid){
-                $("#step"+nextPageNo).css('display', 'block');
-                $("#step"+currentPageNo).css('display', 'none');
+            if (customValid) {
+                $("#step" + nextPageNo).css('display', 'block');
+                $("#step" + currentPageNo).css('display', 'none');
             }
 
         });
@@ -455,134 +456,134 @@ var Employee = function () {
             handleAjaxFormSubmit(form, true);
         });
         var validation = {
-            first_name : {
+            first_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter first name'},
-                    textonly: { message: 'Please enter valid first name'}
+                    notEmpty: { message: 'Please enter first name' },
+                    textonly: { message: 'Please enter valid first name' }
                 }
             },
-            last_name : {
+            last_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter last name'},
-                    textonly: { message: 'Please enter valid last name'}
+                    notEmpty: { message: 'Please enter last name' },
+                    textonly: { message: 'Please enter valid last name' }
                 }
             },
-            technology : {
+            technology: {
                 validators: {
-                    notEmpty: { message: 'Please select technology'},
+                    notEmpty: { message: 'Please select technology' },
                 }
             },
-            dob : {
+            dob: {
                 validators: {
-                    notEmpty: { message: 'Please enter date of birth'},
+                    notEmpty: { message: 'Please enter date of birth' },
                 }
             },
-            doj : {
+            doj: {
                 validators: {
-                    notEmpty: { message: 'Please enter date of joining'},
+                    notEmpty: { message: 'Please enter date of joining' },
                 }
             },
-            gmail : {
+            gmail: {
                 validators: {
-                    notEmpty: { message: 'Please enter company gmail'},
+                    notEmpty: { message: 'Please enter company gmail' },
                 }
             },
-            gmail_password : {
+            gmail_password: {
                 validators: {
-                    notEmpty: { message: 'Please enter gmail password'},
+                    notEmpty: { message: 'Please enter gmail password' },
                 }
             },
-            personal_email : {
+            personal_email: {
                 validators: {
-                    notEmpty: { message: 'Please enter personal email'},
-                    emailonly: { message: 'Please enter a valid email'},
+                    notEmpty: { message: 'Please enter personal email' },
+                    emailonly: { message: 'Please enter a valid email' },
                 }
             },
-            bank_name : {
+            bank_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter bank name'},
-                    textonly: { message: 'Please enter valid bank name'}
+                    notEmpty: { message: 'Please enter bank name' },
+                    textonly: { message: 'Please enter valid bank name' }
                 }
             },
-            acc_holder_name : {
+            acc_holder_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter account holder name'},
-                    textonly: { message: 'Please enter valid account holder name'}
+                    notEmpty: { message: 'Please enter account holder name' },
+                    textonly: { message: 'Please enter valid account holder name' }
                 }
             },
-            account_number : {
+            account_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter account number'},
+                    notEmpty: { message: 'Please enter account number' },
                     // numberonly: { message: 'Please enter a valid account number'},
                 }
             },
-            ifsc_code : {
+            ifsc_code: {
                 validators: {
-                    notEmpty: { message: 'Please enter ifsc code'},
+                    notEmpty: { message: 'Please enter ifsc code' },
                 }
             },
-            pan_number : {
+            pan_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter pancard number'},
+                    notEmpty: { message: 'Please enter pancard number' },
                 }
             },
-            aadhar_card_number : {
+            aadhar_card_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter aadhar card number'},
-                    numberonly: { message: 'Please enter a valid account number'},
+                    notEmpty: { message: 'Please enter aadhar card number' },
+                    numberonly: { message: 'Please enter a valid account number' },
                 }
             },
-            google_pay : {
+            google_pay: {
                 validators: {
-                    notEmpty: { message: 'Please enter g-pay number'},
-                    numberonly: { message: 'Please enter a valid g-pay number'},
+                    notEmpty: { message: 'Please enter g-pay number' },
+                    numberonly: { message: 'Please enter a valid g-pay number' },
                 }
             },
-            parent_name : {
+            parent_name: {
                 validators: {
-                    notEmpty: { message: 'Please enter parent name'},
-                    textonly: { message: 'Please enter valid parent name'}
+                    notEmpty: { message: 'Please enter parent name' },
+                    textonly: { message: 'Please enter valid parent name' }
                 }
             },
-            personal_number : {
+            personal_number: {
                 validators: {
-                    notEmpty: { message: 'Please enter pancard number'},
+                    notEmpty: { message: 'Please enter pancard number' },
                 }
             },
-            emergency_contact : {
+            emergency_contact: {
                 validators: {
-                    notEmpty: { message: 'Please enter emergency contact'},
+                    notEmpty: { message: 'Please enter emergency contact' },
                 }
             },
-            address : {
+            address: {
                 validators: {
-                    notEmpty: { message: 'Please enter address'},
+                    notEmpty: { message: 'Please enter address' },
                 }
             },
-             experience : {
+            experience: {
                 validators: {
-                    notEmpty: { message: 'Please enter experience'},
+                    notEmpty: { message: 'Please enter experience' },
                 }
             },
-            hired_by : {
+            hired_by: {
                 validators: {
-                    notEmpty: { message: 'Please enter hired by'},
+                    notEmpty: { message: 'Please enter hired by' },
                 }
             },
-            salary : {
+            salary: {
                 validators: {
-                    notEmpty: { message: 'Please enter salary'},
+                    notEmpty: { message: 'Please enter salary' },
                 }
             },
-            status : {
+            status: {
                 validators: {
-                    notEmpty: { message: 'Please select status'},
+                    notEmpty: { message: 'Please select status' },
                 }
             }
 
         };
 
-        function checkValidation(validationType , message, value){
+        function checkValidation(validationType, message, value) {
 
             switch (validationType) {
                 case 'notEmpty':
@@ -608,7 +609,7 @@ var Employee = function () {
                         return false;
                     }
                     break;
-             }
+            }
             return true;
         }
 
@@ -627,17 +628,17 @@ var Employee = function () {
             return pattern.test(e);
         }
 
-        $("body").on("click", ".prev-step", function(){
-            var prevPageNo  = $(this).data('prev-page');
-            var currentPageNo  = $(this).data('current-page');
+        $("body").on("click", ".prev-step", function () {
+            var prevPageNo = $(this).data('prev-page');
+            var currentPageNo = $(this).data('current-page');
 
-            $("#step"+currentPageNo).css('display', 'none');
-            $("#step"+prevPageNo).css('display', 'block');
+            $("#step" + currentPageNo).css('display', 'none');
+            $("#step" + prevPageNo).css('display', 'block');
         });
 
         $("body").on("click", ".next-step", function () {
-            var nextPageNo  = $(this).data('next-page');
-            var currentPageNo  = $(this).data('current-page');
+            var nextPageNo = $(this).data('next-page');
+            var currentPageNo = $(this).data('current-page');
             var customValid = true;
             $('.input-name').each(function () {
                 if ($(this).is(':visible')) {
@@ -646,9 +647,9 @@ var Employee = function () {
                     var errorElement = element.parent().find('.type_error');
                     errorElement.text('');
                     var checkValidInput = true;
-                    if(validation[inputName]){
-                        $.each(validation[inputName]['validators'], function( index, value ) {
-                            if(checkValidInput){
+                    if (validation[inputName]) {
+                        $.each(validation[inputName]['validators'], function (index, value) {
+                            if (checkValidInput) {
                                 checkValidInput = checkValidation(index, value['message'], element.val());
                                 if (checkValidInput) {
                                     errorElement.text('');
@@ -662,9 +663,9 @@ var Employee = function () {
                 }
             });
 
-            if(customValid){
-                $("#step"+nextPageNo).css('display', 'block');
-                $("#step"+currentPageNo).css('display', 'none');
+            if (customValid) {
+                $("#step" + nextPageNo).css('display', 'block');
+                $("#step" + currentPageNo).css('display', 'none');
             }
 
         });
@@ -680,85 +681,271 @@ var Employee = function () {
 
     }
     var viewEmployee = function () {
-        $("body").on("click", ".personal",function(){
-            var id  = $(this).data('personal-info');
-            var data = { 'id': id, _token: $('#_token').val() };
+        $('.select2').select2();
+        $('body').on("click", ".user-menu", function () {
+            var element = $(this);
+            var type = $(this).data('type');
+            var userId = $(this).data('user-id');
+            var month = new Date().getMonth() + 1;
+            var year = new Date().getFullYear();
+
+            var data = { 'type': type, 'userId': userId, 'month': month, 'year': year }
             $.ajax({
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
                 url: baseurl + "admin/employee/ajaxcall",
-                data: { 'action': 'get_employee_personal_detail', 'data': data },
+                data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
-                    $(".employee-detail-view").empty().append(data);
-                    $('.company').removeClass('active');
-                    $('.bank').removeClass('active');
-                    $('.parent').removeClass('active');
-                    $('.personal').addClass('active');
+
+                    if (type == 'attendance') {
+                        var res = JSON.parse(data);
+
+                        var html = "";
+                        var html = '<div class="row mt-5 ml-5">' +
+                            '<div class="col-md-3">' +
+                            '<div class="form-group">' +
+                            '<label> Month</label>' +
+                            '<select class="form-control select2 month change-fillter" id="monthId" name="month">' +
+                            '<option value="">Select Month</option>' +
+                            '<option value="1" ' + (new Date().getMonth() + 1 === 1 ? 'selected="selected"' : '') + '>January</option>' +
+                            '<option value="2" ' + (new Date().getMonth() + 1 === 2 ? 'selected="selected"' : '') + '>February</option>' +
+                            '<option value="3" ' + (new Date().getMonth() + 1 === 3 ? 'selected="selected"' : '') + '>March</option>' +
+                            '<option value="4" ' + (new Date().getMonth() + 1 === 4 ? 'selected="selected"' : '') + '>April</option>' +
+                            '<option value="5" ' + (new Date().getMonth() + 1 === 5 ? 'selected="selected"' : '') + '>May</option>' +
+                            '<option value="6" ' + (new Date().getMonth() + 1 === 6 ? 'selected="selected"' : '') + '>June</option>' +
+                            '<option value="7" ' + (new Date().getMonth() + 1 === 7 ? 'selected="selected"' : '') + '>July</option>' +
+                            '<option value="8" ' + (new Date().getMonth() + 1 === 8 ? 'selected="selected"' : '') + '>August</option>' +
+                            '<option value="9" ' + (new Date().getMonth() + 1 === 9 ? 'selected="selected"' : '') + '>September</option>' +
+                            '<option value="10" ' + (new Date().getMonth() + 1 === 10 ? 'selected="selected"' : '') + '>October</option>' +
+                            '<option value="11" ' + (new Date().getMonth() + 1 === 11 ? 'selected="selected"' : '') + '>November</option>' +
+                            '<option value="12" ' + (new Date().getMonth() + 1 === 12 ? 'selected="selected"' : '') + '>December</option>' +
+                            '</select>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-md-3">' +
+                            '<div class="form-group">' +
+                            '<label> Year</label>' +
+                            '<select class="form-control select2 year change-fillter" id="yearId" name="year">' +
+                            '<option value="">Select Year</option>';
+
+                        for (var i = 2019; i <= new Date().getFullYear(); i++) {
+                            html += '<option value="' + i + '" ' + (i == new Date().getFullYear() ? 'selected="selected"' : '') + '>' + i + '</option>';
+                        }
+                        html += '</select>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="card card-custom">' +
+                            '<div class="card-header">' +
+                            '<div class="card-title">' +
+                            '<h3 class="card-label">Attendance Calendar</h3>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="card-body">' +
+                            '<div class="attendance-list">' +
+                            '<div id="attendance_calendar"></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        $(".employee-detail-view").html(html);
+                        $('.select2').select2();
+                        eventArray = [];
+                        $.each(res, function (key, value) {
+                            console.log(value);
+
+                            var temp = {
+                                title: value.attendance_type,
+                                start: value.date,
+                                description: value.description,
+                                className: value.class
+                            };
+
+                            eventArray.push(temp);
+                        });
+                        var todayDate = moment().startOf('day');
+                        var TODAY = todayDate.format('YYYY-MM-DD');
+                        var calendarEl = document.getElementById('attendance_calendar');
+
+
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
+                            themeSystem: 'bootstrap',
+
+                            isRTL: KTUtil.isRTL(),
+
+                            header: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridDay'
+                            },
+
+                            selectable: true,
+                            selectHelper: true,
+                            dateClick: function (info) {
+                                // Redirect to another page with the clicked date information
+                                var clickedDate = new Date(info.dateStr);
+                                var dd = String(clickedDate.getDate()).padStart(2, '0');
+                                var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
+                                var yyyy = clickedDate.getFullYear();
+                                clickedDate = dd + '-' + mm + '-' + yyyy;
+                                window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                            },
+                            height: 800,
+                            contentHeight: 1200,
+                            aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                            nowIndicator: true,
+                            now: TODAY + 'T09:25:00', // just for demo
+                            defaultView: 'dayGridMonth',
+                            defaultDate: year + '-' + month + '-01',
+                            editable: true,
+                            eventLimit: true, // allow "more" link when too many events
+                            navLinks: true,
+                            firstDay: 1,
+                            weekends: false,
+                            // initialDate: year + '-' + month + '-01',
+                            events: eventArray,
+                            eventRender: function (info) {
+                                var element = $(info.el);
+                                if (info.event.extendedProps && info.event.extendedProps.description) {
+                                    if (element.hasClass('fc-day-grid-event')) {
+                                        element.data('content', info.event.extendedProps.description);
+                                        element.data('placement', 'top');
+                                        KTApp.initPopover(element);
+                                    } else if (element.hasClass('fc-time-grid-event')) {
+                                        element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                    } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                        element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                    }
+                                }
+                            }
+                        });
+                        calendar.render();
+                    } else {
+                        $(".employee-detail-view").html(data);
+                    }
+
+                    $('.user-menu-bar a.active').removeClass('active');
+                    element.addClass('active');
+
+
                 },
             });
+            // if (type == 'attendance') {
+
+            $("body").on("change", ".change-fillter", function(){
+                console.log("change");
+
+                var html = '';
+                html = '<div id="attendance_calendar"></div>';
+
+                $(".attendance-list").html(html);
+
+                var month = $('#monthId').val().padStart(2, '0');
+                var year = $("#yearId").val();
+
+                var data = { 'type': type, 'userId': userId, 'month': month, 'year': year }
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/employee/ajaxcall",
+                    data: { 'action': 'get_employee_details', 'data': data },
+                    success: function (data) {
+                        console.log("data", data);
+
+                        if (type == 'attendance') {
+                            var res = JSON.parse(data);
+                            console.log("res", res);
+                            $('.select2').select2();
+                            eventArray = [];
+                            $.each(res, function (key, value) {
+
+                                var temp = {
+                                    title: value.attendance_type,
+                                    start: value.date,
+                                    description: value.attendance_type + ' Employee',
+                                    className: value.class
+                                };
+
+                                eventArray.push(temp);
+                            });
+                            var todayDate = moment().startOf('day');
+                            var TODAY = todayDate.format('YYYY-MM-DD');
+                            var calendarEl = document.getElementById('attendance_calendar');
+                            // var month = 11;
+                            // var year = 2023;
+
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
+                                themeSystem: 'bootstrap',
+
+                                isRTL: KTUtil.isRTL(),
+
+                                header: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridDay'
+                                },
+
+                                selectable: true,
+                                selectHelper: true,
+                                dateClick: function (info) {
+                                    // Redirect to another page with the clicked date information
+                                    var clickedDate = new Date(info.dateStr);
+                                    var dd = String(clickedDate.getDate()).padStart(2, '0');
+                                    var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
+                                    var yyyy = clickedDate.getFullYear();
+                                    clickedDate = dd + '-' + mm + '-' + yyyy;
+                                    window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                                },
+                                height: 800,
+                                contentHeight: 1200,
+                                aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                                nowIndicator: true,
+                                now: TODAY + 'T09:25:00', // just for demo
+                                defaultView: 'dayGridMonth',
+                                defaultDate: year + '-' + month + '-01',
+                                editable: true,
+                                eventLimit: true, // allow "more" link when too many events
+                                navLinks: true,
+                                firstDay: 1,
+                                weekends: false,
+                                // initialDate: year + '-' + month + '-01',
+                                events: eventArray,
+                                eventRender: function (info) {
+                                    var element = $(info.el);
+                                    if (info.event.extendedProps && info.event.extendedProps.description) {
+                                        if (element.hasClass('fc-day-grid-event')) {
+                                            element.data('content', info.event.extendedProps.description);
+                                            element.data('placement', 'top');
+                                            KTApp.initPopover(element);
+                                        } else if (element.hasClass('fc-time-grid-event')) {
+                                            element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                        } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                            element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                        }
+                                    }
+                                }
+                            });
+                            calendar.render();
+                        } else {
+                            $(".employee-detail-view").html(data);
+                        }
+
+                        $('.user-menu-bar a.active').removeClass('active');
+                        element.addClass('active');
+                    },
+                });
+            });
+             // }
         });
 
-        $("body").on("click", ".bank",function(){
-            var id  = $(this).data('bank-info');
-            var data = { 'id': id, _token: $('#_token').val() };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: baseurl + "admin/employee/ajaxcall",
-                data: { 'action': 'get_employee_bank_detail', 'data': data },
-                success: function (data) {
-                    $(".employee-detail-view").empty().append(data);
-                    $('.personal').removeClass('active');
-                    $('.company').removeClass('active');
-                    $('.parent').removeClass('active');
-                    $('.bank').addClass('active');
-                },
-            });
-        });
-
-        $("body").on("click", ".parent",function(){
-            var id  = $(this).data('parent-info');
-            var data = { 'id': id, _token: $('#_token').val() };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: baseurl + "admin/employee/ajaxcall",
-                data: { 'action': 'get_employee_parent_detail', 'data': data },
-                success: function (data) {
-                    $(".employee-detail-view").empty().append(data);
-                    $('.bank').removeClass('active');
-                    $('.personal').removeClass('active');
-                    $('.company').removeClass('active');
-                    $('.parent').addClass('active');
-                },
-            });
-        });
-
-        $("body").on("click", ".company",function(){
-            var id  = $(this).data('company-info');
-            var data = { 'id': id, _token: $('#_token').val() };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: baseurl + "admin/employee/ajaxcall",
-                data: { 'action': 'get_employee_company_detail', 'data': data },
-                success: function (data) {
-                    $(".employee-detail-view").empty().append(data);
-                    $('.personal').removeClass('active');
-                    $('.bank').removeClass('active');
-                    $('.parent').removeClass('active');
-                    $('.company').addClass('active');
-                },
-            });
-        });
     }
     return {
         init: function () {
@@ -770,7 +957,7 @@ var Employee = function () {
         edit: function () {
             editEmployee();
         },
-        view: function() {
+        view: function () {
             viewEmployee();
         }
     }

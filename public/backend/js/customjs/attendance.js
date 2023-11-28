@@ -18,7 +18,6 @@ var Attendance = function () {
         };
         getDataTable(arrList);
 
-
         $("body").on("change", ".change_date", function() {
 
             var html = '';
@@ -191,6 +190,7 @@ var Attendance = function () {
                 url: baseurl + "admin/attendance/ajaxcall",
                 data: { 'action': 'get_attendance_list', 'data' : data },
                 success: function (data) {
+                    console.log(data);
                     $('.select2').select2();
                     var res = JSON.parse(data);
                     eventArray = [];
