@@ -25,7 +25,6 @@ $employee_count = implode(',', $employee);
                         <!--end::Chart-->
                         <!--begin::Stats-->
                         <div class="card-spacer mt-n25">
-
                             <!--begin::Row-->
                             <div class="row m-0">
                                 <div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
@@ -88,45 +87,7 @@ $employee_count = implode(',', $employee);
                                     <a href="{{ route('admin.attendance.day-list',['date'=> $date]) }}" class="text-success font-weight-bold font-size-h6 mt-2">Sort Leave {{ $employee_count[6]}}</a>
                                 </div>
                             </div>
-
                             <!--end::Row-->
-                            <div class="row employee-filter">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label></label>
-                                                <select class="form-control select2 month change_report" id="report_time"  name="report_time">
-                                                    <option value="">Select Time</option>
-                                                    <option value="0">Today</option>
-                                                    <option value="1">Tomorrow</option>
-                                                    <option value="2">Current Week</option>
-                                                    <option value="3">Current Month</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                              <!--begin: Datatable-->
-
-                        <table class="table table-bordered table-checkable" id="employee-birthday-list">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Date</th>
-                                    <th>Employee Name</th>
-                                    <th>Department</th>
-                                    <th>Designation</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                        <!--end: Datatable-->
-
                         </div>
                         <!--end::Stats-->
                     </div>
@@ -134,7 +95,121 @@ $employee_count = implode(',', $employee);
                     <!--end::Body-->
                 </div>
                 <!--end::Mixed Widget 1-->
-                
+            </div>
+
+            <div class="col-xxl-6 order-2 order-xxl-1">
+                <!--begin::Advance Table Widget 2-->
+                <div class="card card-custom card-stretch gutter-b">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">Employee Birthday List</span>
+                        </h3>
+                        <div class="card-toolbar">
+                            <div class="dropdown dropdown-inline">
+                                <select class="form-control select2 month employee_bday" id="employee_bday"  name="employee_bday">
+                                    <option value="">Select Time</option>
+                                    <option value="0">Yesterday</option>
+                                    <option value="1" selected="selected">Today</option>
+                                    <option value="2">Tomorrow</option>
+                                    <option value="3">Current Week</option>
+                                    <option value="4">Current Month</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-2 pb-0 mt-n3">
+                        <div class="tab-content mt-5" id="myTabTables11">
+
+                            <!--begin::Tap pane-->
+                            <div class="tab-pane fade show active" id="kt_tab_pane_11_3" role="tabpanel" aria-labelledby="kt_tab_pane_11_3">
+                                <!--begin::Table-->
+                                <div class="table-responsive">
+                                    <div class="bday-list">
+                                    <table class="table table-bordered table-checkable" id="employee-birthday-list">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Birth Date</th>
+                                                <th>Employee Name</th>
+                                                <th>Department</th>
+                                                <th>Designation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Tap pane-->
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Advance Table Widget 2-->
+            </div>
+
+            <div class="col-xxl-6 order-2 order-xxl-1">
+                <!--begin::Advance Table Widget 2-->
+                <div class="card card-custom card-stretch gutter-b">
+
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">Employee Bond Date List</span>
+                        </h3>
+                        <div class="card-toolbar">
+                            <div class="dropdown dropdown-inline">
+                            <select class="form-control select2 month employee_bond_last_date" id="employee_bond_last_date"  name="employee_bond_last_date">
+                                <option value="">Select Time</option>
+                                <option value="0">Yesterday</option>
+                                <option value="1" selected="selected">Today</option>
+                                <option value="2">Tomorrow</option>
+                                <option value="3">Current Week</option>
+                                <option value="4">Current Month</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-2 pb-0 mt-n3">
+                        <div class="tab-content mt-5" id="myTabTables11">
+
+                            <!--begin::Tap pane-->
+                            <div class="tab-pane fade show active" id="kt_tab_pane_11_3" role="tabpanel" aria-labelledby="kt_tab_pane_11_3">
+                                <!--begin::Table-->
+                                <div class="table-responsive">
+                                    <div class="bond-last-date-list">
+                                    <table class="table table-bordered table-checkable" id="employee-bond-last-date-list">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Bond Last Date</th>
+                                                <th>Employee Name</th>
+                                                <th>Department</th>
+                                                <th>Designation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Tap pane-->
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Advance Table Widget 2-->
             </div>
 
         </div>

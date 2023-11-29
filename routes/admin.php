@@ -16,6 +16,7 @@ use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\RevenueController;
 use App\Http\Controllers\backend\CounterController;
 use App\Http\Controllers\backend\DesignationController;
+use App\Http\Controllers\backend\HrIncomeController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -27,8 +28,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('change-password', [DashboardController::class, 'change_password'])->name('change-password');
     Route::post('save-password', [DashboardController::class, 'save_password'])->name('save-password');
     Route::post('admin/dashboard/ajaxcall', [DashboardController::class, 'ajaxcall'])->name('admin.dashboard.ajaxcall');
-
-
 
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
@@ -93,7 +92,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
      Route::post('admin/type/ajaxcall', [TypeController::class, 'ajaxcall'])->name('admin.type.ajaxcall');
      Route::post('admin/type/save-import-type', [TypeController::class, 'save_import'])->name('admin.type.save-import-type');
 
-
     // expense
 
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
@@ -105,9 +103,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/expense/view/{id}', [ExpenseController::class, 'view'])->name('admin.expense.view');
     Route::post('admin/expense/save-import-expense', [ExpenseController::class, 'save_import'])->name('admin.expense.save-import-expense');
 
-
     // Revenue
-
     Route::get('admin/revenue/list', [RevenueController::class, 'list'])->name('admin.revenue.list');
     Route::get('admin/revenue/add', [RevenueController::class, 'add'])->name('admin.revenue.add');
     Route::post('admin/revenue/save-add-revenue', [RevenueController::class, 'saveAdd'])->name('admin.revenue.save-add-revenue');
@@ -116,6 +112,16 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/revenue/ajaxcall', [RevenueController::class, 'ajaxcall'])->name('admin.revenue.ajaxcall');
     Route::get('admin/revenue/view/{id}', [RevenueController::class, 'view'])->name('admin.revenue.view');
     Route::post('admin/revenue/save-import-revenue', [RevenueController::class, 'save_import'])->name('admin.revenue.save-import-revenue');
+
+    //  Hr income
+    Route::get('admin/hr/income/list', [HrIncomeController::class, 'list'])->name('admin.hr.income.list');
+    Route::get('admin/hr/income/add', [HrIncomeController::class, 'add'])->name('admin.hr.income.add');
+    Route::post('admin/hr/income/save-add-income', [HrIncomeController::class, 'saveAdd'])->name('admin.hr.income.save-add-income');
+    Route::get('admin/hr/income/edit/{id}', [HrIncomeController::class, 'edit'])->name('admin.hr.income.edit');
+    Route::post('admin/hr/income/save-edit-income', [HrIncomeController::class, 'saveEdit'])->name('admin.hr.income.save-edit-income');
+    Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
+    Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
+    Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
 
     // Employee
     Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');

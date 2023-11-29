@@ -42,7 +42,8 @@ class DashboardController extends Controller
             'comman_function.js',
         );
         $data['funinit'] = array(
-            'Dashboard.employee_birthday()'
+            'Dashboard.employee_birthday()',
+            'Dashboard.employee_bond_last_date()'
         );
         $data['header'] = array(
             'title' => 'Dashboard',
@@ -179,6 +180,14 @@ class DashboardController extends Controller
 
                 echo json_encode($list);
                 break;
+
+            case 'getbondlastdatedatatable':
+                $objEmployee = new Employee();
+                $list = $objEmployee->getbondlastdatedatatable($request->input('data'));
+
+                echo json_encode($list);
+                break;
+
 
         }
     }
