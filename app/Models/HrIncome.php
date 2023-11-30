@@ -21,9 +21,8 @@ class HrIncome extends Model
             2 => 'manager.manager_name',
             3 => DB::raw('(CASE WHEN hr_income.payment_mode = "1" THEN "Cash" ELSE "Bank Transfer" END)'),
             4 => DB::raw('MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01"))'),
-            5 => DB::raw('MONTHNAME(CONCAT("2023-", hr_income.received_month, "-01"))'),
-            6 => 'hr_income.amount',
-            7 => 'hr_income.remarks',
+            5 => 'hr_income.amount',
+            6 => 'hr_income.remarks',
         );
 
         $query = HrIncome::from('hr_income')
@@ -32,10 +31,6 @@ class HrIncome extends Model
 
             if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
                 $query->where("manager.id", $fillterdata['manager']);
-            }
-
-            if($fillterdata['receivedMonth'] != null && $fillterdata['receivedMonth'] != ''){
-                $query->where("hr_income.received_month", $fillterdata['receivedMonth']);
             }
 
             if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != ''){
@@ -67,7 +62,7 @@ class HrIncome extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('hr_income.id', 'manager.manager_name', 'hr_income.payment_mode','hr_income.date', DB::raw('MONTHNAME(CONCAT("2023-", hr_income.received_month, "-01")) as received_month'), DB::raw('MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01")) as month_name'), 'hr_income.amount','hr_income.remarks')
+            ->select('hr_income.id', 'manager.manager_name', 'hr_income.payment_mode','hr_income.date', DB::raw('MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01")) as month_name'), 'hr_income.amount','hr_income.remarks')
             ->get();
 
         $data = array();
@@ -92,7 +87,6 @@ class HrIncome extends Model
             $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $payment_mode;
-            $nestedData[] = $row['received_month'];
             $nestedData[] = $row['month_name'];
             $nestedData[] = numberformat($row['amount'],2);
             if (strlen($row['remarks']) > $max_length) {
@@ -116,7 +110,6 @@ class HrIncome extends Model
     {
         $countHrIncome = HrIncome::from('hr_income')
             ->where('hr_income.manager_id', $requestData['manager_id'])
-            ->where('hr_income.received_month', $requestData['received_month'])
             ->where('hr_income.month_of', $requestData['month_of'])
             ->where("hr_income.is_deleted", "=", "N")
             ->count();
@@ -126,7 +119,6 @@ class HrIncome extends Model
             $objHrIncome->manager_id = $requestData['manager_id'];
             $objHrIncome->payment_mode	 = $requestData['payment_mode'];
             $objHrIncome->date = date('Y-m-d', strtotime($requestData['date']));
-            $objHrIncome->received_month = $requestData['received_month'];
             $objHrIncome->month_of = $requestData['month_of'];
             $objHrIncome->remarks = $requestData['remarks'] ?? '-';
             $objHrIncome->amount = $requestData['amount'];
@@ -149,7 +141,6 @@ class HrIncome extends Model
 
             $countHrIncome = HrIncome::from('hr_income')
             ->where('hr_income.manager_id', $requestData['manager_id'])
-            ->where('hr_income.received_month', $requestData['received_month'])
             ->where('hr_income.month_of', $requestData['month_of'])
             ->where("hr_income.is_deleted", "=", "N")
             ->where('hr_income.id', "!=", $requestData['editId'])
@@ -160,7 +151,6 @@ class HrIncome extends Model
             $objHrIncome->manager_id = $requestData['manager_id'];
             $objHrIncome->payment_mode = $requestData['payment_mode'];
             $objHrIncome->date = date('Y-m-d', strtotime($requestData['date']));
-            $objHrIncome->received_month = $requestData['received_month'];
             $objHrIncome->month_of = $requestData['month_of'];
             $objHrIncome->remarks = $requestData['remarks'] ?? '-';
             $objHrIncome->amount = $requestData['amount'];
@@ -180,7 +170,7 @@ class HrIncome extends Model
     {
         return HrIncome::from('hr_income')
             ->join("manager", "manager.id", "=", "hr_income.manager_id")
-            ->select('hr_income.id', 'hr_income.manager_id','manager.manager_name','hr_income.payment_mode', 'hr_income.date', 'hr_income.month_of','hr_income.received_month', 'hr_income.remarks', 'hr_income.amount')
+            ->select('hr_income.id', 'hr_income.manager_id','manager.manager_name','hr_income.payment_mode', 'hr_income.date', 'hr_income.month_of', 'hr_income.remarks', 'hr_income.amount')
             ->where('hr_income.id', $hrIncomeid)
             ->first();
     }

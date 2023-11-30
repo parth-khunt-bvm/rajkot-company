@@ -16,6 +16,7 @@ use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\RevenueController;
 use App\Http\Controllers\backend\CounterController;
 use App\Http\Controllers\backend\DesignationController;
+use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -122,6 +123,16 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
     Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
     Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
+
+    //  Hr expense
+    Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');
+    Route::get('admin/hr/expense/add', [HrExpenseController::class, 'add'])->name('admin.hr.expense.add');
+    Route::post('admin/hr/expense/save-add-expense', [HrExpenseController::class, 'saveAdd'])->name('admin.hr.expense.save-add-expense');
+    Route::get('admin/hr/expense/edit/{id}', [HrExpenseController::class, 'edit'])->name('admin.hr.expense.edit');
+    Route::post('admin/hr/expense/save-edit-expense', [HrExpenseController::class, 'saveEdit'])->name('admin.hr.expense.save-edit-expense');
+    Route::post('admin/hr/expense/ajaxcall', [HrExpenseController::class, 'ajaxcall'])->name('admin.hr.expense.ajaxcall');
+    Route::get('admin/hr/expense/view/{id}', [HrExpenseController::class, 'view'])->name('admin.hr.expense.view');
+    Route::post('admin/hr/expense/save-import-expense', [HrExpenseController::class, 'save_import'])->name('admin.hr.expense.save-import-expense');
 
     // Employee
     Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');

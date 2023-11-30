@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRevenueTable extends Migration
+class CreateHrExpenseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateRevenueTable extends Migration
      */
     public function up()
     {
-        Schema::create('revenue', function (Blueprint $table) {
+        Schema::create('hr_expense', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->integer('received_month');
-            $table->integer('month_of');
+            $table->integer('month');
             $table->string('remarks');
             $table->decimal('amount', 16,4);
-            $table->integer('manager_id');
-            $table->integer('technology_id');
-            $table->string('bank_name');
-            $table->string('holder_name');
             $table->enum('is_deleted',['Y','N'])->default("N")->comment("Y for deleted, N for not deleted");
             $table->timestamps();
         });
@@ -36,6 +31,6 @@ class CreateRevenueTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('revenue');
+        Schema::dropIfExists('hr_expense');
     }
 }

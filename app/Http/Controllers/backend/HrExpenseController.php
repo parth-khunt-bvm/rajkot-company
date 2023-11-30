@@ -3,17 +3,12 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\HrExpense;
 use Illuminate\Http\Request;
 use Config;
-use App\Models\Manager;
-use App\Models\Branch;
-use App\Models\HrIncome;
-use App\Models\Revenue;
-use App\Models\Technology;
-use Excel;
 use DB;
 
-class HrIncomeController extends Controller
+class HrExpenseController extends Controller
 {
     function __construct()
     {
@@ -23,13 +18,9 @@ class HrIncomeController extends Controller
     public function list(Request $request)
     {
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
-
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income list';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income list';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income list';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -46,31 +37,29 @@ class HrIncomeController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'hr_income.js',
+            'hr_expense.js',
         );
         $data['funinit'] = array(
-            'HrIncome.init()',
-            'HrIncome.add()'
+            'HrExpense.init()',
+            'HrExpense.add()'
         );
         $data['header'] = array(
-            'title' => 'Hr Income list',
+            'title' => 'Hr Expense list',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Hr Income list' => 'Hr Income list',
+                'Hr Expense list' => 'Hr Expense list',
             )
         );
-        return view('backend.pages.hr.income.list', $data);
+        return view('backend.pages.hr.expense.list', $data);
 
     }
 
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add c";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
+        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
+        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -84,35 +73,35 @@ class HrIncomeController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'hr_income.js',
+            'hr_expense.js',
         );
         $data['funinit'] = array(
-            'HrIncome.add()'
+            'HrExpense.add()'
         );
         $data['header'] = array(
-            'title' => 'Add Hr Income',
+            'title' => 'Add Hr Expense',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'Add Hr Income' => 'Add Hr Income',
+                'Hr Expense List' => route('admin.hr.expense.list'),
+                'Add Hr Expense' => 'Add Hr Expense',
             )
         );
-        return view('backend.pages.hr.income.add', $data);
+        return view('backend.pages.hr.expense.add', $data);
     }
 
     public function saveAdd(Request $request)
     {
-        $objHrIncome = new HrIncome();
-        $result = $objHrIncome->saveAdd($request);
+        $objHrExpense = new HrExpense();
+        $result = $objHrExpense->saveAdd($request);
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Hr Income details successfully added.';
-            $return['redirect'] = route('admin.hr.income.list');
-        } elseif ($result == "hr_income_exists") {
+            $return['message'] = 'Hr Expense details successfully added.';
+            $return['redirect'] = route('admin.hr.expense.list');
+        } elseif ($result == "hr_expense_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Hr Income has already exists.';
+            $return['message'] = 'Hr Expense has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -124,16 +113,12 @@ class HrIncomeController extends Controller
 
     public function edit($editId)
     {
+        $objHrExpense = new HrExpense();
+        $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($editId);
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
-
-        $objHrIncome = new HrIncome();
-        $data['hr_income_details'] = $objHrIncome->get_hr_income_details($editId);
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
+        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
+        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -147,35 +132,35 @@ class HrIncomeController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'hr_income.js',
+            'hr_expense.js',
         );
         $data['funinit'] = array(
-            'HrIncome.edit()'
+            'HrExpense.edit()'
         );
         $data['header'] = array(
-            'title' => 'Edit Hr Income',
+            'title' => 'Edit Hr Expense',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'Edit Hr Income' => 'Edit Hr Income',
+                'Hr Expense List' => route('admin.hr.expense.list'),
+                'Edit Hr Expense' => 'Edit Hr Expense',
             )
         );
-        return view('backend.pages.hr.income.edit', $data);
+        return view('backend.pages.hr.expense.edit', $data);
     }
 
     public function saveEdit(Request $request)
     {
-        $objHrIncome = new HrIncome();
-        $result = $objHrIncome->saveEdit($request);
+        $objHrExpense = new HrExpense();
+        $result = $objHrExpense->saveEdit($request);
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Hr Income details successfully updated.';
-            $return['redirect'] = route('admin.hr.income.list');
-        } elseif ($result == "revenue_exists") {
+            $return['message'] = 'Hr Expense details successfully updated.';
+            $return['redirect'] = route('admin.hr.expense.list');
+        } elseif ($result == "hr_expense_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Revenue has already exists.';
+            $return['message'] = 'Hr Expense has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -190,22 +175,22 @@ class HrIncomeController extends Controller
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
-                $objHrIncome = new HrIncome();
-                $list = $objHrIncome->getdatatable($request->input('data'));
+                $objHrExpense = new HrExpense();
+                $list = $objHrExpense->getdatatable($request->input('data'));
 
                 echo json_encode($list);
                 break;
 
             case 'common-activity':
                 $data = $request->input('data');
-                $objHrIncome = new HrIncome();
-                $result = $objHrIncome->common_activity($data);
+                $objHrExpense = new HrExpense();
+                $result = $objHrExpense->common_activity($data);
                 if ($result) {
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
-                        $return['message'] = "Hr Income details successfully deleted.";
+                        $return['message'] = "Hr Expense details successfully deleted.";
                     }
-                    $return['redirect'] = route('admin.hr.income.list');
+                    $return['redirect'] = route('admin.hr.expense.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -219,8 +204,9 @@ class HrIncomeController extends Controller
 
     public function view($viewId){
 
-        $objHrIncome = new HrIncome();
-        $data['hr_income_details'] = $objHrIncome->get_hr_income_details($viewId);
+        $objHrExpense = new HrExpense();
+        $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($viewId);
+        // dd($data['hr_expense_details']);
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
@@ -238,7 +224,7 @@ class HrIncomeController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'hr_income.js',
+            'hr_expense.js',
         );
         $data['funinit'] = array(
         );
@@ -246,12 +232,11 @@ class HrIncomeController extends Controller
             'title' => 'Basic Detail',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'View hr income detail' => 'View hr income detail',
+                'Hr Expense List' => route('admin.hr.expense.list'),
+                'View hr expense detail' => 'View hr expense detail',
             )
         );
-        return view('backend.pages.hr.income.view', $data);
+        return view('backend.pages.hr.expense.view', $data);
 
     }
-
 }

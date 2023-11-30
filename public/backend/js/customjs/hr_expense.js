@@ -1,18 +1,17 @@
-var HrIncome = function(){
+var HrExpense = function(){
     var list= function(){
-        var manager = $('#hr_manager_id').val();
-        var monthOf = $('#hr_month_of').val();
+        var month = $('#hr_month').val();
+        var dataArr = {'month': month};
 
-        var dataArr = {'manager':manager, 'monthOf': monthOf};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#hr-income-list',
-            'ajaxURL': baseurl + "admin/hr/income/ajaxcall",
+            'tableID': '#hr-expense-list',
+            'ajaxURL': baseurl + "admin/hr/expense/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
+            'noSortingApply': [0, 5],
+            'noSearchApply': [0, 5],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -34,7 +33,7 @@ var HrIncome = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/hr/income/ajaxcall",
+                url:baseurl + "admin/hr/expense/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();
@@ -45,16 +44,14 @@ var HrIncome = function(){
 
         $('.select2').select2();
 
-        $('body').on('change', '.change', function() {
+        $('body').on('change', '.change_month', function() {
             var html  = '';
-            html = '<table class="table table-bordered table-checkable" id="hr-income-list">'+
+            html ='<table class="table table-bordered table-checkable" id="hr-expense-list">'+
             '<thead>'+
             '<tr>'+
             '<th>#</th>'+
             '<th>Date</th>'+
-            '<th>Manager Name</th>'+
-            '<th>Payment Mode</th>'+
-            '<th>Month_Of</th>'+
+            '<th>Month</th>'+
             '<th>Amount</th>'+
             '<th>Remark</th>'+
             '<th>Action</th>'+
@@ -64,25 +61,27 @@ var HrIncome = function(){
             '</tbody>'+
             '</table>';
 
-            $('.income-list').html(html);
+            $('.expense-list').html(html);
 
-            var manager = $('#hr_manager_id').val();
-            var monthOf = $('#hr_month_of').val();
-            var dataArr = {'manager':manager, 'monthOf': monthOf};
+            var month = $('#hr_month').val();
+            var dataArr = {'month': month};
+
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
-                'tableID': '#hr-income-list',
-                'ajaxURL': baseurl + "admin/hr/income/ajaxcall",
+                'tableID': '#hr-expense-list',
+                'ajaxURL': baseurl + "admin/hr/expense/ajaxcall",
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 7],
-                'noSearchApply': [0, 7],
+                'noSortingApply': [0, 5],
+                'noSearchApply': [0, 5],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
             getDataTable(arrList);
+
+
 
         });
 
@@ -119,51 +118,44 @@ var HrIncome = function(){
             $("#month_of").html(html);
         });
 
-        $("body").on("click", ".show-hr-income-form", function() {
-            $("#show-hr-income-form").html('-').addClass('remove-hr-income-form');
-            $("#show-hr-income-form").html('-').removeClass('show-hr-income-form');
-            $("#add-hr-income").slideToggle("slow");
+        $("body").on("click", ".show-hr-expense-form", function() {
+            $("#show-hr-expense-form").html('-').addClass('remove-hr-expense-form');
+            $("#show-hr-expense-form").html('-').removeClass('show-hr-expense-form');
+            $("#add-hr-expense").slideToggle("slow");
 
         })
 
-        $("body").on("click", ".remove-hr-income-form", function() {
-            $("#show-hr-income-form").html('+').removeClass('remove-hr-income-form');
-            $("#show-hr-income-form").html('+').addClass('show-hr-income-form');
-            $("#add-hr-income").slideToggle("slow");
+        $("body").on("click", ".remove-hr-expense-form", function() {
+            $("#show-hr-expense-form").html('+').removeClass('remove-hr-expense-form');
+            $("#show-hr-expense-form").html('+').addClass('show-hr-expense-form');
+            $("#add-hr-expense").slideToggle("slow");
 
         })
 
-        $("body").on("click", "#show-hr-income-filter", function() {
-            $("div .hr-income-filter").slideToggle("slow");
+        $("body").on("click", "#show-hr-expense-filter", function() {
+            $("div .hr-expense-filter").slideToggle("slow");
         })
 
     }
-    var addHrIncome= function(){
+    var addHrExpense= function(){
         $('.select2').select2();
-        var form = $('#add-hr-income');
+        var form = $('#add-hr-expense');
         var rules = {
-            manager_id: {required: true},
-            payment_mode: {required: true},
             date: {required: true},
-            month_of: {required: true},
+            month: {required: true},
             amount: {required: true},
         };
         var message = {
-            manager_id :{
-                required : "Please select manager name",
-            },
-            payment_mode : {
-                required : "Please select Payment Mode"
-            },
             date : {
                 required : "Please enter date"
             },
-            month_of : {
+            month : {
                 required : "Please select month"
             },
             amount : {
                 required : "Please enter amount"
             },
+
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -176,30 +168,8 @@ var HrIncome = function(){
             orientation: "bottom auto"
         });
 
-        $('body').on('change', '.date', function(){
-            var selecteddate = $(this).val();
-            var html = '<option value="">Month of salary</option>';
-
-            if(selecteddate == '' || selecteddate == null){
-                $('.month_of').prop("disabled", true);
-            }else{
-                var months = { '1' : "January", '2' :"February", '3' : "March", '4' :"April", '5' : "May", '6' : "June", '7' : "July", '8' : "August", '9' : "September", '10' : "October", '11' : "November", '12' :"December"};
-                var date = new Date(selecteddate);
-                var month = date.getMonth();
-                $('.month_of').prop("disabled", false);
-                $.each(months, function( index, value ) {
-                    if(month == index){
-                        html = html + '<option value="'+ index +'" selected="selected">'+ value +'</option>';
-                    }else{
-                        html = html + '<option value="'+ index +'">'+ value +'</option>';
-                    }
-                });
-            }
-            $("#month_of").html(html);
-        });
     }
-
-    var editHrIncome= function(){
+    var editHrExpense= function(){
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -207,50 +177,24 @@ var HrIncome = function(){
             orientation: "bottom auto"
         });
 
-        $('body').on('change', '.date', function(){
-            console.log("hii");
-            var selecteddate = $(this).val();
-            var html = '<option value="">Month of Revenue</option>';
-
-            if(selecteddate == '' || selecteddate == null){
-                $('.month_of').prop("disabled", true);
-            }else{
-                var months = { '1' : "January", '2' :"February", '3' : "March", '4' :"April", '5' : "May", '6' : "June", '7' : "July", '8' : "August", '9' : "September", '10' : "October", '11' : "November", '12' :"December"};
-                var date = new Date(selecteddate);
-                var month = date.getMonth();
-                $('.month_of').prop("disabled", false);
-                $.each(months, function( index, value ) {
-                    if(month == index){
-                        html = html + '<option value="'+ index +'" selected="selected">'+ value +'</option>';
-                    }else{
-                        html = html + '<option value="'+ index +'">'+ value +'</option>';
-                    }
-                });
-            }
-            $("#month_of").html(html);
-        });
-
         $('.select2').select2();
-        var form = $('#edit-hr-income');
+        var form = $('#edit-hr-expense');
         var rules = {
-            manager_id: {required: true},
-            payment_mode: {required: true},
             date: {required: true},
+            month: {required: true},
             amount: {required: true},
         };
         var message = {
-            manager_id :{
-                required : "Please select manager name",
-            },
-            payment_mode : {
-                required : "Please select Payment Mode"
-            },
             date : {
                 required : "Please enter date"
+            },
+            month : {
+                required : "Please select month"
             },
             amount : {
                 required : "Please enter amount"
             },
+
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -261,10 +205,10 @@ var HrIncome = function(){
             list();
         },
         add:function(){
-            addHrIncome();
+            addHrExpense();
         },
         edit:function(){
-            editHrIncome();
+            editHrExpense();
         },
     }
 }();

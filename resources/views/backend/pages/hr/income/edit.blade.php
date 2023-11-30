@@ -53,29 +53,6 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Received Month
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="form-control select2 received_month" id="received_month"  name="received_month" >
-                                                <option value="1" {{ $hr_income_details->month_of == 1 ? 'selected="selected"' : '' }}>January</option>
-                                                <option value="2" {{ $hr_income_details->month_of == 2 ? 'selected="selected"' : '' }}>February</option>
-                                                <option value="3" {{ $hr_income_details->month_of == 3 ? 'selected="selected"' : '' }}>March</option>
-                                                <option value="4" {{ $hr_income_details->month_of == 4 ? 'selected="selected"' : '' }}>April</option>
-                                                <option value="5" {{ $hr_income_details->month_of == 5 ? 'selected="selected"' : '' }}>May</option>
-                                                <option value="6" {{ $hr_income_details->month_of == 6 ? 'selected="selected"' : '' }}>June</option>
-                                                <option value="7" {{ $hr_income_details->month_of == 7 ? 'selected="selected"' : '' }}>July</option>
-                                                <option value="8" {{ $hr_income_details->month_of == 8 ? 'selected="selected"' : '' }}>August</option>
-                                                <option value="9" {{ $hr_income_details->month_of == 9 ? 'selected="selected"' : '' }}>September</option>
-                                                <option value="10" {{ $hr_income_details->month_of == 10 ? 'selected="selected"' : '' }}>October</option>
-                                                <option value="11" {{ $hr_income_details->month_of == 11 ? 'selected="selected"' : '' }}>November</option>
-                                                <option value="12" {{ $hr_income_details->month_of == 12 ? 'selected="selected"' : '' }}>December</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
                                             </label>
@@ -95,7 +72,8 @@
                                             </select>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>amount

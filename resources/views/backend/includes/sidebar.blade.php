@@ -202,7 +202,7 @@ $currentRoute = Route::current()->getName();
                 {{-- Revenue Menu End --}}
 
                 {{-- Hr Menu End --}}
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit" || $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"  || $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit" || $currentRoute  ==  "admin.technology.list" || $currentRoute  ==  "admin.technology.add" || $currentRoute  ==  "admin.technology.edit" ||  $currentRoute  ==  "admin.designation.list" || $currentRoute  ==  "admin.designation.add" || $currentRoute  ==  "admin.designation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit" || $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.income.view" || $currentRoute  ==  "admin.hr.expense.view" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -224,7 +224,7 @@ $currentRoute = Route::current()->getName();
                             </li>
 
                              {{-- Income Menu --}}
-                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit" || $currentRoute  ==  "admin.hr.income.view" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.hr.income.list') }}" class="menu-link">
                                      <span class="svg-icon menu-icon">
                                          <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
@@ -238,20 +238,20 @@ $currentRoute = Route::current()->getName();
                              </li>
                              {{-- Income Menu End --}}
 
-                             {{-- Branch Menu --}}
-                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"     ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
-                                    <a href="{{ route('admin.branch.list') }}" class="menu-link">
-                                        <span class="svg-icon menu-icon">
-                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
-                                            <svg width="24" height="28" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M23.5187 12.8664C23.1142 12.0092 22.4744 11.2849 21.674 10.7782C20.8736 10.2715 19.9456 10.0032 18.9986 10.0048C17.8519 10.0049 16.7403 10.3998 15.8499 11.123C14.9596 11.8462 14.3448 12.8539 14.1086 13.977C10.3461 13.7229 6.93551 11.9279 6.16583 9.86269C7.36258 9.57416 8.41078 8.85352 9.10939 7.839C9.80801 6.82447 10.1078 5.58749 9.95139 4.36529C9.79495 3.1431 9.19323 2.02174 8.26165 1.2163C7.33007 0.410864 6.13422 -0.0219563 4.90346 0.00085807C3.67269 0.0236724 2.49367 0.500515 1.59252 1.33993C0.691374 2.17934 0.131546 3.32223 0.0204119 4.54938C-0.0907225 5.77653 0.254661 7.00156 0.99032 7.9895C1.72598 8.97744 2.80012 9.65873 4.00672 9.90272V18.1074C2.7937 18.3567 1.71605 19.0473 0.982005 20.0456C0.247959 21.0439 -0.090385 22.2791 0.0323494 23.5125C0.11114 24.2767 0.364769 25.0125 0.773558 25.6627C1.18235 26.3129 1.7353 26.8601 2.38952 27.2618C3.04374 27.6636 3.78162 27.909 4.54592 27.9791C5.31023 28.0492 6.08039 27.9422 6.79666 27.6662C7.51293 27.3902 8.15605 26.9527 8.6761 26.3877C9.19616 25.8227 9.57918 25.1453 9.79543 24.4082C10.0117 23.6711 10.0554 22.894 9.92309 22.1372C9.7908 21.3804 9.48611 20.6644 9.03265 20.0445C8.29832 19.0458 7.21972 18.3555 6.0059 18.1074V12.9385C8.31435 14.7833 11.1476 15.8482 14.0986 15.9802C14.2809 16.9111 14.7246 17.7707 15.3775 18.4583C16.0304 19.1458 16.8655 19.6329 17.7851 19.8624C18.4722 20.0357 19.1883 20.0607 19.8858 19.9356C20.5833 19.8106 21.2462 19.5383 21.8305 19.1371C22.4148 18.7358 22.9071 18.2146 23.2747 17.6082C23.6423 17.0018 23.8768 16.3241 23.9625 15.62C24.0781 14.6794 23.9249 13.7253 23.5207 12.8684L23.5187 12.8664Z" fill="white"/>
-                                                </svg>
-                                            <!--end::Svg Icon-->
-                                        </span>
-                                        <span class="menu-text">Expenses</span>
-                                    </a>
+                            {{-- Expense Menu --}}
+                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.expense.view"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                                <a href="{{ route('admin.hr.expense.list') }}" class="menu-link">
+                                    <span class="svg-icon menu-icon">
+                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                                        <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0.833403 7.91574C0.612371 7.91574 0.400392 7.83233 0.244098 7.68385C0.0878049 7.53537 0 7.33399 0 7.12401V0.791733C0 0.581752 0.0878049 0.380372 0.244098 0.231893C0.400392 0.0834146 0.612371 0 0.833403 0H7.50063C7.72166 0 7.93364 0.0834146 8.08993 0.231893C8.24622 0.380372 8.33403 0.581752 8.33403 0.791733V7.12401C8.33403 7.33399 8.24622 7.53537 8.08993 7.68385C7.93364 7.83233 7.72166 7.91574 7.50063 7.91574H0.833403ZM12.501 7.91574C12.28 7.91574 12.068 7.83233 11.9117 7.68385C11.7554 7.53537 11.6676 7.33399 11.6676 7.12401V0.791733C11.6676 0.581752 11.7554 0.380372 11.9117 0.231893C12.068 0.0834146 12.28 0 12.501 0H19.1666C19.3876 0 19.5996 0.0834146 19.7559 0.231893C19.9122 0.380372 20 0.581752 20 0.791733V7.12401C20 7.33399 19.9122 7.53537 19.7559 7.68385C19.5996 7.83233 19.3876 7.91574 19.1666 7.91574H12.501ZM0.833403 19C0.612371 19 0.400392 18.9166 0.244098 18.7681C0.0878049 18.6196 0 18.4182 0 18.2083V11.8744C0 11.6644 0.0878049 11.463 0.244098 11.3146C0.400392 11.1661 0.612371 11.0827 0.833403 11.0827H7.50063C7.72166 11.0827 7.93364 11.1661 8.08993 11.3146C8.24622 11.463 8.33403 11.6644 8.33403 11.8744V18.2083C8.33403 18.4182 8.24622 18.6196 8.08993 18.7681C7.93364 18.9166 7.72166 19 7.50063 19H0.833403ZM12.501 19C12.28 19 12.068 18.9166 11.9117 18.7681C11.7554 18.6196 11.6676 18.4182 11.6676 18.2083V11.8744C11.6676 11.6644 11.7554 11.463 11.9117 11.3146C12.068 11.1661 12.28 11.0827 12.501 11.0827H19.1666C19.3876 11.0827 19.5996 11.1661 19.7559 11.3146C19.9122 11.463 20 11.6644 20 11.8744V18.2083C20 18.4182 19.9122 18.6196 19.7559 18.7681C19.5996 18.9166 19.3876 19 19.1666 19H12.501Z" fill="white"/>
+                                            </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text">Expense</span>
+                                </a>
                                 </li>
-                            {{-- Branch Menu End --}}
+                            {{-- Expense Menu End --}}
 
                         </ul>
                     </div>

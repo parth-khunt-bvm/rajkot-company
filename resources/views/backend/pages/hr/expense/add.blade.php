@@ -12,35 +12,8 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <!--begin::Form-->
-                        <form class="form" id="add-hr-income" method="POST" action="{{ route('admin.hr.income.save-add-income') }}" autocomplete="off">@csrf
+                        <form class="form" id="add-hr-expense" method="POST" action="{{ route('admin.hr.expense.save-add-expense') }}" autocomplete="off">@csrf
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Manager Name
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
-                                                <option value="">Please select Manager Name</option>
-                                                @foreach ($manager  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Payment Mode
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="form-control select2 payment_mode" id="payment_mode" name="payment_mode">
-                                                <option value="">Please select Payment Mode</option>
-                                                <option value="1">Cash </option>
-                                                <option value="2">Bank Transfer</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -52,18 +25,28 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Month Of
+                                            <label>Month
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 month_of" id="month_of"  name="month_of" disabled="disabled">
-                                                <option value="">Month of salary</option>
+                                            <select class="form-control select2 received_month" id="monthId"  name="month">
+                                                <option value="">Month</option>
+                                                <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>amount
