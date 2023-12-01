@@ -211,7 +211,6 @@ class Employee extends Model
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
              ->where("employee.is_deleted", "=", "N");
-            //  ->where("employee.bond_last_date", '=', date("Y-m-d"));
 
              if($fillterdata['bondLastDateTime'] == 0){
                 $query->where("employee.bond_last_date", '=', date("Y-m-d", strtotime("yesterday")));

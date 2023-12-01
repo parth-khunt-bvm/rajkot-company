@@ -307,8 +307,15 @@ class Attendance extends Model
                 $employee_count['sort_leave'] = $sort_leave->count();
 
             $employee = Employee::from('employee');
+                $employee_count['employee'] = $employee->count();
 
-            $employee_count['employee'] = $employee->count();
+            $birthday = Employee::from('employee')
+                ->where(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '=', now()->format('m-d'));
+                $employee_count['birthday'] = $birthday->count();
+
+            $bond_last_date = Employee::from('employee')
+                ->where("employee.bond_last_date", '=', now()->format('Y-m-d'));
+                $employee_count['bond_last_date'] = $bond_last_date->count();
 
         return $employee_count;
     }

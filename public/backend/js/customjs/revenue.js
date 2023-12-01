@@ -64,23 +64,24 @@ var Revenue = function(){
 
             var html  = '';
             html = '<table class="table table-bordered table-checkable" id="admin-revenue-list">'+
-            '<thead>' +
-            '<tr>' +
+            '<thead>'+
+            '<tr>'+
             '<th>#</th>'+
+            '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Technology Name</th>'+
-            '<th>Date</th>'+
             '<th>Received Month  </th>'+
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
             '<th>Bank Name</th>'+
             '<th>Holder Name</th>'+
+            '<th>Remark</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+
-            '<tbody>' +
+            '<tbody>'+
             '</tbody>'+
-            '</table>' ;
+            '</table>';
 
             $('.revenue-list').html(html);
             var manager = $('#manager_id').val();

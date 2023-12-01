@@ -49,7 +49,7 @@
                                 <label>Manager Name
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 manager_id" id="manager_id" name="manager_id">
+                                <select class="form-control select2 manager_id" id="expense_manager_id" name="manager_id">
                                     <option value="">Please select Manager Name</option>
                                     @foreach ($manager  as $key => $value )
                                     <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row expense-filter " style="display: none">
+                <div class="row expense-filter" style="display: none">
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-6">
@@ -167,7 +167,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Month</label>
-                                    <select class="form-control select2 month change" id="month"  name="month">
+                                    <select class="form-control select2 month change" id="monthId"  name="month">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>

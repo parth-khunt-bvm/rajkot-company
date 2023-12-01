@@ -48,7 +48,7 @@
                                     <label>Manager
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control select2 manager_id" id="manager_id"  name="manager_id">
+                                    <select class="form-control select2 manager_id" id="revenue_manager_id"  name="manager_id">
                                         <option value="">Please select Manager Name</option>
                                         @foreach ($manager  as $key => $value )
                                             <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -83,7 +83,7 @@
                                     <label>Received Month
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control select2 received_month" id="received_month"  name="received_month">
+                                    <select class="form-control select2 received_month" id="revenue_received_month"  name="received_month">
                                         <option value="">Received Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -106,7 +106,7 @@
                                     <label>Month Of
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control select2 month_of" id="month_of"  name="month_of" disabled="disabled">
+                                    <select class="form-control select2 month_of" id="revenue_month_of"  name="month_of" disabled="disabled">
                                         <option value="">Month of salary</option>
                                     </select>
                                 </div>

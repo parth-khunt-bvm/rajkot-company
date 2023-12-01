@@ -48,7 +48,7 @@
                                 <label>Manager
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 manager_id" id="manager_id" name="manager_id">
+                                <select class="form-control select2 manager_id" id="salary_mamager_id" name="manager_id">
                                     <option value="">Please select Manager Name</option>
                                     @foreach ($manager as $key => $value )
                                     <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>

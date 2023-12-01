@@ -63,6 +63,93 @@ class EmployeeController extends Controller
         );
         return view('backend.pages.employee.list', $data);
     }
+    public function birthDayList(Request $request)
+    {
+
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'employee.js',
+        );
+        $data['funinit'] = array(
+            'Employee.init()',
+            'Employee.employee_birthday()',
+        );
+        $data['header'] = array(
+            'title' => 'Employee Birthday list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Employee Birthday list' => 'Employee Birthday list',
+            )
+        );
+        return view('backend.pages.employee.birthday_list', $data);
+    }
+
+    public function bondLastDateList(Request $request)
+    {
+
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'employee.js',
+        );
+        $data['funinit'] = array(
+            'Employee.init()',
+            'Employee.employee_bond_last_date()',
+        );
+        $data['header'] = array(
+            'title' => 'Employee Bond Last Date list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Employee Bond Last Date list' => 'Employee Bond Last Date list',
+            )
+        );
+        return view('backend.pages.employee.bond_last_date_list', $data);
+    }
     public function add()
     {
         $objTechnology = new Technology();
@@ -206,12 +293,25 @@ class EmployeeController extends Controller
 
     public function ajaxcall(Request $request)
     {
-            //  dd($request);
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
                 $objEmployee = new Employee();
                 $list = $objEmployee->getdatatable($request->input('data'));
+
+                echo json_encode($list);
+                break;
+
+            case 'getbirthdaydatatable':
+                $objEmployee = new Employee();
+                $list = $objEmployee->getbirthdaydatatable($request->input('data'));
+
+                echo json_encode($list);
+                break;
+
+            case 'getbondlastdatedatatable':
+                $objEmployee = new Employee();
+                $list = $objEmployee->getbondlastdatedatatable($request->input('data'));
 
                 echo json_encode($list);
                 break;

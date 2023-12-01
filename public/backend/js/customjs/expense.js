@@ -4,7 +4,7 @@ var Expense = function(){
         var manager = $('#manager_id').val();
         var branch = $("#branch_id").val();
         var type = $("#type_id").val();
-        var month = $('#month').val();
+        var month = $('#monthId').val();
 
         var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
         var columnWidth = { "width": "5%", "targets": 0 };
@@ -63,16 +63,17 @@ var Expense = function(){
         $('body').on('change', '.change', function() {
 
             var html = '';
-            html = '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
+            html =   '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
             '<thead>'+
             '<tr>'+
             '<th>#</th>'+
+            '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Branch Name</th>'+
             '<th>Type Name</th>'+
-            '<th>Date</th>'+
             '<th>Month</th>'+
             '<th>Amount</th>'+
+            '<th>Remark</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+
@@ -85,7 +86,7 @@ var Expense = function(){
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
             var type = $("#type_id").val();
-            var month = $('#month').val();
+            var month = $('#monthId').val();
 
             var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
             var columnWidth = { "width": "5%", "targets": 0 };

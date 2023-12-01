@@ -20,8 +20,6 @@ class DashboardController extends Controller
 
         $objEmployee = new Attendance();
         $data['employee'] = $objEmployee->get_admin_attendance_daily_detail();
-        json_encode($data['employee']);
-
 
         $data['date'] =  date_formate(date("Y-m-d"));
         $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
@@ -42,8 +40,6 @@ class DashboardController extends Controller
             'comman_function.js',
         );
         $data['funinit'] = array(
-            'Dashboard.employee_birthday()',
-            'Dashboard.employee_bond_last_date()'
         );
         $data['header'] = array(
             'title' => 'Dashboard',
@@ -170,25 +166,4 @@ class DashboardController extends Controller
         exit;
     }
 
-    public function ajaxcall(Request $request)
-    {
-        $action = $request->input('action');
-        switch ($action) {
-            case 'getbirthdaydatatable':
-                $objEmployee = new Employee();
-                $list = $objEmployee->getbirthdaydatatable($request->input('data'));
-
-                echo json_encode($list);
-                break;
-
-            case 'getbondlastdatedatatable':
-                $objEmployee = new Employee();
-                $list = $objEmployee->getbondlastdatedatatable($request->input('data'));
-
-                echo json_encode($list);
-                break;
-
-
-        }
-    }
 }

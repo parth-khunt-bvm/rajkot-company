@@ -33,3 +33,22 @@
  .change-top-margin{
     margin-top: -22px;
 }
+
+#employee-birthday-list_filter{
+    display: none;
+}
+
+#employee-bond-last-date-list_filter{
+    display: none;
+}
+
+.tiles-bg-color a {
+    color: #ffffff !important;
+
+}
+.tiles-bg-color{
+ background-color: #1e1e2d;
+ color: #ffffff !important;
+ border-right: 5px solid #eef0f8;
+}
+

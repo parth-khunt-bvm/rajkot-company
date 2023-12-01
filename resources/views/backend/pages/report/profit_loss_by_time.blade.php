@@ -16,6 +16,7 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <div class="card-toolbar">
+                            <div class="dropdown dropdown-inline">
                             <select class="form-control select2 month change_report" id="report_time"  name="report_time">
                                 <option value="">Select Time</option>
                                 <option value="monthly">Monthly</option>
@@ -23,6 +24,7 @@
                                 <option value="semiannually">SemiAnnually</option>
                                 <option value="annually">annually</option>
                             </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">

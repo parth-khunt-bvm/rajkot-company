@@ -61,23 +61,23 @@ var Salary = function(){
         $("body").on("change", ".change", function() {
 
             var html = '';
-            html = '<table class="table table-bordered table-checkable" id="admin-salary-list">'+
+            html ='<table class="table table-bordered table-checkable" id="admin-salary-list">'+
             '<thead>'+
             '<tr>'+
             '<th>#</th>'+
+            '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Branch Name</th>'+
             '<th>Technology Name</th>'+
-            '<th>Date</th>'+
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
+            '<th>Rmark</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
             '</table>';
-
             $(".salary-list").html(html);
 
             var manager = $('#manager_id').val();

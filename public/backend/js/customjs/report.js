@@ -812,6 +812,9 @@ var Report = function () {
                     var chart = new ApexCharts(document.querySelector(apexChart), options);
                     chart.render();
                 },
+                error: function(err){
+                    console.log("err");
+                },
                 complete: function () {
                     $('#loader').hide();
                 }

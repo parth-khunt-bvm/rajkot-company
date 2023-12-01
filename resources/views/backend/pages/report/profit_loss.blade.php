@@ -80,7 +80,6 @@
                                             <option value="10">October</option>
                                             <option value="11">November</option>
                                             <option value="12">December</option>
-
                                         </select>
                                     </div>
                                 </div>
@@ -89,7 +88,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="card-body">
                         <div class="profit-loss-reports-chart">
