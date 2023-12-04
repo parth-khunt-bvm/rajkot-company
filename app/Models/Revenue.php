@@ -21,7 +21,7 @@ class Revenue extends Model
             1 => 'revenue.date',
             2 => 'manager.manager_name',
             3 => 'technology.technology_name',
-            4 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01"))'),
+            4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),
             5 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),
             6 => 'revenue.amount',
             7 => 'revenue.bank_name',
@@ -50,6 +50,14 @@ class Revenue extends Model
             if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != ''){
                 $query->where("revenue.month_of", $fillterdata['monthOf']);
             }
+
+            if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where("revenue.year", $fillterdata['year']);
+            }
+
+            if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where(DB::raw('CONCAT(month_of, "-", year)'), $fillterdata['monthOf'] . "-" . $fillterdata['year']);
+            }
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -75,7 +83,7 @@ class Revenue extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")) as month_name'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
+            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year) as monthYear'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
             ->get();
 
         $data = array();
@@ -96,7 +104,7 @@ class Revenue extends Model
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['received_month'];
-            $nestedData[] = $row['month_name'];
+            $nestedData[] = $row['monthYear'];
             $nestedData[] = numberformat($row['amount'],2);
             $nestedData[] = $row['bank_name'];
             $nestedData[] = $row['holder_name'];
@@ -134,6 +142,7 @@ class Revenue extends Model
             $objRevenue->date = date('Y-m-d', strtotime($requestData['date']));
             $objRevenue->received_month = $requestData['received_month'];
             $objRevenue->month_of = $requestData['month_of'];
+            $objRevenue->year = $requestData['year'];
             $objRevenue->remarks = $requestData['remarks'] ?? '-';
             $objRevenue->amount = $requestData['amount'];
             $objRevenue->bank_name = $requestData['bank_name'];
@@ -169,6 +178,7 @@ class Revenue extends Model
             $objRevenue->date = date('Y-m-d', strtotime($requestData['date']));
             $objRevenue->received_month = $requestData['received_month'];
             $objRevenue->month_of = $requestData['month_of'];
+            $objRevenue->year = $requestData['year'];
             $objRevenue->remarks = $requestData['remarks'] ?? '-';
             $objRevenue->amount = $requestData['amount'];
             $objRevenue->bank_name = $requestData['bank_name'];
@@ -190,7 +200,7 @@ class Revenue extends Model
         return Revenue::from('revenue')
             ->join("manager", "manager.id", "=", "revenue.manager_id")
             ->join("technology", "technology.id", "=", "revenue.technology_id")
-            ->select('revenue.id', 'revenue.manager_id', 'revenue.technology_id','manager.manager_name', 'technology.technology_name', 'revenue.date', 'revenue.month_of','revenue.received_month', 'revenue.remarks', 'revenue.amount', 'revenue.bank_name', 'revenue.holder_name')
+            ->select('revenue.id', 'revenue.manager_id', 'revenue.technology_id','manager.manager_name', 'technology.technology_name', 'revenue.date', 'revenue.month_of','revenue.year','revenue.received_month', 'revenue.remarks', 'revenue.amount', 'revenue.bank_name', 'revenue.holder_name')
             ->where('revenue.id', $revenueid)
             ->first();
     }

@@ -78,9 +78,9 @@
                                     <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Received Month
+                                    <label> Month
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 received_month" id="revenue_received_month"  name="received_month">
@@ -108,6 +108,20 @@
                                     </label>
                                     <select class="form-control select2 month_of" id="revenue_month_of"  name="month_of" disabled="disabled">
                                         <option value="">Month of salary</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label>year
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control select2 year" id="revenue_year_id"  name="year">
+                                        <option value="">Select Year</option>
+                                        @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
                                     </select>
                                 </div>
                             </div>
@@ -159,7 +173,7 @@
                 <div class="row revenue-filter" style="display: none">
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Manager Name</label>
                                     <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id">
@@ -170,7 +184,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology change" id="technology_id"  name="technology_id">
@@ -181,11 +195,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Received Month</label>
                                     <select class="form-control select2 month change" id="received_month"  name="received_month">
@@ -205,7 +215,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Month Of</label>
                                     <select class="form-control select2 month change" id="month_of"  name="month_of">
@@ -225,11 +239,23 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>year</label>
+                                    <select class="form-control select2 year change" id="revenueYearId"  name="year">
+                                        <option value="">Select Year</option>
+                                        @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mt-5">
+                                <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2 mt-5">
-                        <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
-                    </div>
+
                 </div>
                 <div class="revenue-list">
                 <!--begin: Datatable-->

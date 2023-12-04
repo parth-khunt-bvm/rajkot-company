@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Imports\HrExpenseImport;
 use App\Models\HrExpense;
 use Illuminate\Http\Request;
 use Config;
 use DB;
+use Excel;
 
 class HrExpenseController extends Controller
 {
@@ -238,5 +240,17 @@ class HrExpenseController extends Controller
         );
         return view('backend.pages.hr.expense.view', $data);
 
+    }
+
+    public function save_import(Request $request){
+
+        $path = $request->file('file')->store('temp');
+        $data = \Excel::import(new HrExpenseImport($request->file('file')),$path);
+        $return['status'] = 'success';
+        $return['message'] = 'Hr Expense added successfully.';
+        $return['redirect'] = route('admin.hr.expense.list');
+
+        echo json_encode($return);
+        exit;
     }
 }

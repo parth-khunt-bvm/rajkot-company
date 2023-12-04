@@ -16,7 +16,6 @@ class CreateHrIncomeTable extends Migration
         Schema::create('hr_income', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->integer('received_month');
             $table->integer('month_of');
             $table->string('remarks');
             $table->decimal('amount', 16,4);

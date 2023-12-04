@@ -2,8 +2,9 @@ var HrIncome = function(){
     var list= function(){
         var manager = $('#hr_manager_id').val();
         var monthOf = $('#hr_month_of').val();
+        var year = $('#hrIncomeYearId').val();
 
-        var dataArr = {'manager':manager, 'monthOf': monthOf};
+        var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#hr-income-list',
@@ -54,7 +55,7 @@ var HrIncome = function(){
             '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Payment Mode</th>'+
-            '<th>Month_Of</th>'+
+            '<th>Salary Month</th>'+
             '<th>Amount</th>'+
             '<th>Remark</th>'+
             '<th>Action</th>'+
@@ -68,7 +69,8 @@ var HrIncome = function(){
 
             var manager = $('#hr_manager_id').val();
             var monthOf = $('#hr_month_of').val();
-            var dataArr = {'manager':manager, 'monthOf': monthOf};
+            var year = $('#hrIncomeYearId').val();
+            var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#hr-income-list',
@@ -137,6 +139,18 @@ var HrIncome = function(){
             $("div .hr-income-filter").slideToggle("slow");
         })
 
+        var importform = $('#import-hr-income');
+        var rules = {
+            file : {required: true},
+        };
+
+        var message = {
+            file : {required: "Please select file"},
+        }
+        handleFormValidateWithMsg(importform, rules,message, function(importform) {
+            handleAjaxFormSubmit(importform,true);
+        });
+
     }
     var addHrIncome= function(){
         $('.select2').select2();
@@ -146,6 +160,7 @@ var HrIncome = function(){
             payment_mode: {required: true},
             date: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -160,6 +175,9 @@ var HrIncome = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -236,6 +254,8 @@ var HrIncome = function(){
             manager_id: {required: true},
             payment_mode: {required: true},
             date: {required: true},
+            month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {

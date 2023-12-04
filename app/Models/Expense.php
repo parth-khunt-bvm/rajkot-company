@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Support\Carbon;
 use Route;
 
 class Expense extends Model
@@ -23,7 +24,7 @@ class Expense extends Model
             2 => 'manager.manager_name',
             3 => 'branch.branch_name',
             4 => 'type.type_name',
-            5 => DB::raw('MONTHNAME(CONCAT("2023-", expense.month, "-01"))'),
+            5 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", expense.month, "-01")), "-", year)'),
             6 => 'expense.amount',
             7 => 'expense.remarks',
         );
@@ -48,6 +49,14 @@ class Expense extends Model
 
             if($fillterdata['month'] != null && $fillterdata['month'] != ''){
                 $query->where("expense.month", $fillterdata['month']);
+            }
+
+            if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where("expense.year", $fillterdata['year']);
+            }
+
+            if($fillterdata['month'] != null && $fillterdata['month'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where(DB::raw('CONCAT(month, "-", year)'), $fillterdata['month'] . "-" . $fillterdata['year']);
             }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -75,7 +84,7 @@ class Expense extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('expense.id', 'manager.manager_name', 'branch.branch_name', 'type.type_name','expense.date', 'expense.month', DB::raw('MONTHNAME(CONCAT("2023-", expense.month, "-01")) as month_name'), 'expense.amount','expense.remarks')
+            ->select('expense.id', 'manager.manager_name', 'branch.branch_name', 'type.type_name','expense.date', 'expense.month', DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", expense.month, "-01")), "-", year) as fullYear'),'expense.amount','expense.remarks')
             ->get();
 
         $data = array();
@@ -95,7 +104,7 @@ class Expense extends Model
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['type_name'];
-            $monthName = $row['month_name'];
+            $monthName = $row['fullYear'];
             $nestedData[] = $monthName;
             $nestedData[] = numberformat($row['amount']);
             if (strlen($row['remarks']) > $max_length) {
@@ -132,6 +141,7 @@ class Expense extends Model
             $objExpense->type_id = $requestData['type_id'];
             $objExpense->date = date('Y-m-d', strtotime($requestData['date']));
             $objExpense->month = $requestData['month'];
+            $objExpense->year = $requestData['year'];
             $objExpense->remarks = $requestData['remarks'] ?? '-';
             $objExpense->amount = $requestData['amount'];
             $objExpense->is_deleted = 'N';
@@ -165,6 +175,7 @@ class Expense extends Model
             $objExpense->type_id = $requestData['type_id'];
             $objExpense->date = date('Y-m-d', strtotime($requestData['date']));
             $objExpense->month = $requestData['month'];
+            $objExpense->year = $requestData['year'];
             $objExpense->remarks = $requestData['remarks'] ?? '-';
             $objExpense->amount = $requestData['amount'];
             $objExpense->updated_at = date('Y-m-d H:i:s');
@@ -185,7 +196,7 @@ class Expense extends Model
             ->join("manager", "manager.id", "=", "expense.manager_id")
             ->join("branch", "branch.id", "=", "expense.branch_id")
             ->join("type", "type.id", "=", "expense.type_id")
-            ->select('expense.id', 'expense.manager_id', 'expense.branch_id', 'expense.type_id','manager.manager_name', 'branch.branch_name', 'type.type_name', 'expense.date', 'expense.month', 'expense.remarks', 'expense.amount')
+            ->select('expense.id', 'expense.manager_id', 'expense.branch_id', 'expense.type_id','manager.manager_name', 'branch.branch_name', 'type.type_name', 'expense.date', 'expense.month', 'expense.year','expense.remarks', 'expense.amount')
             ->where('expense.id', $expenseId)
             ->first();
     }
@@ -262,18 +273,44 @@ class Expense extends Model
                     $query->where("type_id", $fillterdata['type']);
                 }
 
-                if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
-                    $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
-                }
-                if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
-                    $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
-                }
+                // if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+                //     $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+                // }
+                // if($fillterdata['time'] != null && $fillterdata['time'] != ''){
+                //     $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['time'])));
+                // }
                 $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
 
             array_push($amount_array, check_value($res[0]->amount));
         }
         $details['month'] = $month_array;
         $details['amount'] = $amount_array;
+        return $details;
+    }
+    public function getExpenseDataQuarterly($fillterdata){
+
+        $details = [];
+
+        $start_date = today();
+        $end_date = today()->subMonth(2);
+
+        $expenseQuery = Expense::where('is_deleted', 'N')
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
+        ->sum('amount');
+
+        // dd($expenseQuery);
+
+        // $expenseQuery = Expense::where('is_deleted', 'N')
+        // ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        // ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
+        // ->sum('amount');
+
+        // dd($expenseQuery);
+
+        $details['expense'] = round($expenseQuery);
+
+
         return $details;
     }
 }

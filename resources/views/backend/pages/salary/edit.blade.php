@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
@@ -87,6 +87,18 @@
                                                 <option value="11" {{ $salary_details->month_of == 11 ? 'selected="selected"' : '' }}>November</option>
                                                 <option value="12" {{ $salary_details->month_of == 12 ? 'selected="selected"' : '' }}>December</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>year</label>
+                                            <select class="form-control select2 year change" id="yearId" name="year">
+                                                <option value="">Select Year</option>
+                                                @for ($i = 2019; $i <= date('Y'); $i++)
+                                                    <option value="{{ $i }}" {{ $i == $salary_details->year ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+
                                         </div>
                                     </div>
 

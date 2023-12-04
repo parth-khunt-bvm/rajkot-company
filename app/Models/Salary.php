@@ -25,7 +25,8 @@ class Salary extends Model
             2 => 'manager.manager_name',
             3 => 'branch.branch_name',
             4 => 'technology.technology_name',
-            5 => DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01"))'),
+            5 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", salary.month_of, "-01")), "-", year)'),
+            // 5 => DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01"))'),
             6 => 'salary.amount',
             7 => 'salary.remarks',
         );
@@ -50,6 +51,14 @@ class Salary extends Model
 
         if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != ''){
             $query->where("salary.month_of", $fillterdata['monthOf']);
+        }
+
+        if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+            $query->where("salary.year", $fillterdata['year']);
+        }
+
+        if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
+            $query->where(DB::raw('CONCAT(month_of, "-", year)'), $fillterdata['monthOf'] . "-" . $fillterdata['year']);
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -77,7 +86,7 @@ class Salary extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('salary.id', 'manager.manager_name', 'branch.branch_name', 'technology.technology_name','salary.date', 'salary.month_of', DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01")) as month_name'), 'salary.amount','salary.remarks')
+            ->select('salary.id', 'manager.manager_name', 'branch.branch_name', 'technology.technology_name','salary.date', 'salary.month_of', DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01")) as month_name'), 'salary.amount','salary.remarks', DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", salary.month_of, "-01")), "-", year) as montYear'))
             ->get();
 
         $data = array();
@@ -97,7 +106,7 @@ class Salary extends Model
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['technology_name'];
-            $monthName = $row['month_name'];
+            $monthName = $row['montYear'];
             $nestedData[] = $monthName;
             $nestedData[] = numberformat($row['amount']);
             if (strlen($row['remarks']) > $max_length) {
@@ -134,6 +143,7 @@ class Salary extends Model
             $objSalary->technology_id = $requestData['technology_id'];
             $objSalary->date = date('Y-m-d', strtotime($requestData['date']));
             $objSalary->month_of = $requestData['month_of'];
+            $objSalary->year = $requestData['year'];
             $objSalary->remarks = $requestData['remarks'] ?? '-';
             $objSalary->amount = $requestData['amount'];
             $objSalary->is_deleted = 'N';
@@ -167,6 +177,7 @@ class Salary extends Model
             $objSalary->technology_id = $requestData['technology_id'];
             $objSalary->date = date('Y-m-d', strtotime($requestData['date']));
             $objSalary->month_of = $requestData['month_of'];
+            $objSalary->year = $requestData['year'];
             $objSalary->remarks = $requestData['remarks'] ?? '-';
             $objSalary->amount = $requestData['amount'];
             $objSalary->updated_at = date('Y-m-d H:i:s');
@@ -189,7 +200,7 @@ class Salary extends Model
             ->join("manager", "manager.id", "=", "salary.manager_id")
             ->join("branch", "branch.id", "=", "salary.branch_id")
             ->join("technology", "technology.id", "=", "salary.technology_id")
-            ->select('salary.id', 'salary.manager_id', 'salary.branch_id', 'salary.technology_id','manager.manager_name', 'branch.branch_name', 'technology.technology_name', 'salary.date', 'salary.month_of', 'salary.remarks', 'salary.amount')
+            ->select('salary.id', 'salary.manager_id', 'salary.branch_id', 'salary.technology_id','manager.manager_name', 'branch.branch_name', 'technology.technology_name', 'salary.date', 'salary.month_of', 'salary.remarks', 'salary.amount', 'salary.year')
             ->where('salary.id', $salaryId)
             ->first();
     }
@@ -497,7 +508,6 @@ class Salary extends Model
         }
         return $details;
     }
-
     public function getProfitLossByTimeReportsDataAnnually($fillterdata){
         $details = [];
 
@@ -505,26 +515,28 @@ class Salary extends Model
         $end_date = today()->subMonth(12);
 
         $salaryQuery = Salary::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['salary'] = round($salaryQuery);
 
         $expenseQuery = Expense::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['expense'] = round($expenseQuery);
 
         $revenueQuery = Revenue::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['revenue'] = round($revenueQuery);
 
         return $details;
     }
-
     public function getProfitLossByTimeReportsDataSemiAnnually($fillterdata){
         $details = [];
 
@@ -532,27 +544,28 @@ class Salary extends Model
         $end_date = today()->subMonth(6);
 
         $salaryQuery = Salary::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['salary'] = round($salaryQuery);
 
         $expenseQuery = Expense::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['expense'] = round($expenseQuery);
 
         $revenueQuery = Revenue::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['revenue'] = round($revenueQuery);
 
         return $details;
     }
-
-
     public function getProfitLossByTimeReportsDataQuarterly($fillterdata){
         $details = [];
 
@@ -560,19 +573,22 @@ class Salary extends Model
         $end_date = today()->subMonth(3);
 
         $salaryQuery = Salary::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['salary'] = round($salaryQuery);
 
         $expenseQuery = Expense::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['expense'] = round($expenseQuery);
 
         $revenueQuery = Revenue::where('is_deleted', 'N')
-        ->whereBetween('date', [$end_date, $start_date])
+        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
+        ->orWhereBetween('month_of', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
         ->sum('amount');
 
         $details['revenue'] = round($revenueQuery);

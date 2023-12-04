@@ -124,6 +124,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
     Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
 
+
     //  Hr expense
     Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');
     Route::get('admin/hr/expense/add', [HrExpenseController::class, 'add'])->name('admin.hr.expense.add');

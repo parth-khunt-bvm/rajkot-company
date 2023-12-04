@@ -3,20 +3,144 @@ var Report = function () {
 
         loadExpenseChart();
 
-        $('body').on('change', '.change', function() {
-            var html = '';
-            html = '<div id="expense-reports"></div>';
-            $('.expense-reports-chart').html(html);
-            loadExpenseChart();
+        // $('body').on('change', '.change', function() {
+        //     var html = '';
+        //     html = '<div id="expense-reports"></div>';
+        //     $('.expense-reports-chart').html(html);
+        //     loadExpenseChart();
+        // });
+
+        $('body').on('change', '.change_report', function() {
+
+            var reportTime = $("#expense_report_time").val();
+
+            if(reportTime == "quarterly"){
+                loadExpenseChart()
+                getExpenseDataQuarterly
+               var html = '';
+               html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+               $('.profit-loss-by-time-reports-chart').html(html);
+
+               function loadExpenseChart(){
+                var manager = $('#manager_id').val();
+                var branch = $("#branch_id").val();
+                var type = $("#type_id").val();
+                var year = $("#expense_year_id").val();
+                var time = $("#expense_report_time").val();
+                var data = {'manager' : manager,'branch' : branch,'type' : type,'year' : year,'time' : time} ;
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/report/ajaxcall",
+                    data: { 'action': 'get-expense-reports-data-quarterly', 'data' : data},
+                    success: function (data) {
+                        $("#loader").show();
+                        var res = JSON.parse(data);
+                        const apexChart = "#expense-reports";
+                        var options = {
+                            series: [{
+                                name: 'Expense',
+                                type: 'column',
+                                data: res.amount ,
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 350
+                            },
+                            plotOptions: {
+                                bar: {
+                                borderRadius: 10,
+                                columnWidth: '40%',
+                                dataLabels: {
+                                    orientation: 'vertical',
+                                    position: 'top',
+                                    textAnchor: 'middle',
+                                },
+                                }
+                            },
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function (val) {
+                                    if (val === 0) {
+                                        return "";
+                                    }
+                                    return "₹ "+ val.toFixed( 0);
+                                },
+                                style: {
+                                    fontSize: '12px',
+                                    colors: ['#333'],
+                                },
+                                offsetY: 0o5,
+                            },
+                            stroke: {
+                                show: true,
+                                width: 2,
+                                colors: ['transparent']
+                            },
+                            xaxis: {
+                                categories: res.month
+                            },
+                            yaxis: [
+                                {
+                                    axisTicks: {
+                                        show: true,
+                                    },
+                                    axisBorder: {
+                                        show: true,
+                                        color: "#9D689E"
+                                    },
+                                    labels: {
+                                        style: {
+                                            colors: "#9D689E",
+                                        }
+                                    },
+                                    title: {
+                                        text: "Sales",
+                                        style: {
+                                            color: "#9D689E",
+                                        }
+                                    },
+                                    tooltip: {
+                                        enabled: true
+                                    }
+                                }
+                            ],
+                            fill: {
+                                opacity: 1
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: function (val) {
+                                        return "$ " + val.toFixed(2) + " thousands";
+                                    }
+                                }
+                            },
+
+                            // colors: [primary, success, warning]
+                        };
+
+                        var chart = new ApexCharts(document.querySelector(apexChart), options);
+                        chart.render();
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    }
+                });
+            }
+
+                }
         });
 
         function loadExpenseChart(){
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
             var type = $("#type_id").val();
-            var startDate = $("#start_date").val();
-            var endDate = $("#end_date").val();
-            var data = {'manager' : manager,'branch' : branch,'type' : type,'startDate' : startDate,'endDate' : endDate} ;
+            var year = $("#expense_year_id").val();
+            var time = $("#expense_report_time").val();
+            var data = {'manager' : manager,'branch' : branch,'type' : type,'year' : year,'time' : time} ;
             $.ajax({
                 type: "POST",
                 headers: {

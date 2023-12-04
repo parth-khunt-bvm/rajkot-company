@@ -5,8 +5,9 @@ var Expense = function(){
         var branch = $("#branch_id").val();
         var type = $("#type_id").val();
         var month = $('#monthId').val();
+        var year = $('#expenseYearId').val();
 
-        var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
+        var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-expense-list',
@@ -87,8 +88,9 @@ var Expense = function(){
             var branch = $("#branch_id").val();
             var type = $("#type_id").val();
             var month = $('#monthId').val();
+            var year = $('#expenseYearId').val();
 
-            var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
+           var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-expense-list',
@@ -167,6 +169,7 @@ var Expense = function(){
             type_id: {required: true},
             date: {required: true},
             month: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -184,6 +187,9 @@ var Expense = function(){
             },
             month : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -261,6 +267,7 @@ var Expense = function(){
             technology_id: {required: true},
             date: {required: true},
             month: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -278,6 +285,9 @@ var Expense = function(){
             },
             month : {
                 required : "Please enter month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"

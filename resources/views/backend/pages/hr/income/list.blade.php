@@ -21,9 +21,7 @@
 
                 <div class="card-toolbar">
                     <button class="btn btn-primary font-weight-bolder mr-5 show-hr-income-form" id="show-hr-income-form">+</button>
-
-                    {{-- <button data-toggle="modal" data-target="#importRevenue" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Revenue</button> --}}
-                    <!--begin::Button-->
+                    <button data-toggle="modal" data-target="#importHrExpense" class="import-hr-expense btn btn-danger font-weight-bolder mr-5 ">Import Hr Expense</button>
                     <a href="{{ route('admin.hr.income.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -110,6 +108,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>year
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control select2 year change" id="yearId"  name="year">
+                                    <option value="">Select Year</option>
+                                    @for ($i = 2019; $i <= date('Y'); $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="col-md-1">
                             <div class="form-group">
@@ -138,7 +149,7 @@
                 <div class="row hr-income-filter" style="display: none">
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Manager Name</label>
                                     <select class="form-control select2 manager_id change" id="hr_manager_id"  name="manager_id">
@@ -149,7 +160,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Month Of</label>
                                     <select class="form-control select2 month change" id="hr_month_of"  name="month_of">
@@ -166,6 +177,17 @@
                                         <option value="10">October</option>
                                         <option value="11">November</option>
                                         <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>year</label>
+                                    <select class="form-control select2 year change" id="hrIncomeYearId"  name="year">
+                                        <option value="">Select Year</option>
+                                        @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
                                     </select>
                                 </div>
                             </div>
@@ -189,7 +211,7 @@
                             <th>Date</th>
                             <th>Manager Name</th>
                             <th>Payment Mode</th>
-                            <th>Month_Of</th>
+                            <th>Salary Month</th>
                             <th>Amount</th>
                             <th>Remark</th>
                             <th>Action</th>

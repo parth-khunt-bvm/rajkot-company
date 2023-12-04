@@ -136,6 +136,18 @@ var HrExpense = function(){
             $("div .hr-expense-filter").slideToggle("slow");
         })
 
+        var importform = $('#import-hr-expense');
+        var rules = {
+            file : {required: true},
+        };
+
+        var message = {
+            file : {required: "Please select file"},
+        }
+        handleFormValidateWithMsg(importform, rules,message, function(importform) {
+            handleAjaxFormSubmit(importform,true);
+        });
+
     }
     var addHrExpense= function(){
         $('.select2').select2();

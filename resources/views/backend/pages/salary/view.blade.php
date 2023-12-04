@@ -40,6 +40,10 @@
                                  {{ $monthName }}
                             </div>
                             <div class="col-3">
+                                <b>Year</b> <br>
+                                {{ $salary_details->year }}
+                            </div>
+                            <div class="col-3">
                                 <b>Amount</b> <br>
                                  {{ $salary_details->amount }}
                             </div>

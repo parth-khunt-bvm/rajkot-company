@@ -56,6 +56,7 @@
                                             </select>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Date
@@ -66,13 +67,26 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 month_of" id="month_of"  name="month_of" disabled="disabled">
                                                 <option value="">Month of salary</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>year
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 year change" id="yearId"  name="year">
+                                                <option value="">Select Year</option>
+                                                @for ($i = 2019; $i <= date('Y'); $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                     </div>

@@ -37,6 +37,10 @@
                         </div>
                         <div class="row mt-5 mr-5 mb-5 ml-5" >
                             <div class="col-3">
+                                <b>Year</b> <br>
+                                {{ $revenue_details->year }}
+                            </div>
+                            <div class="col-3">
                                 <b>Received Month</b> <br>
                                  {{ $receivedMonth }}
                             </div>
@@ -48,12 +52,13 @@
                                 <b>Bank Name</b> <br>
                                  {{ $revenue_details->bank_name}}
                             </div>
+
+                        </div>
+                        <div class="row mt-5 mr-5 mb-5 ml-5" >
                             <div class="col-3">
                                 <b>Holder Name</b> <br>
                                  {{ $revenue_details->holder_name }}
                             </div>
-                        </div>
-                        <div class="row mt-5 mr-5 mb-5 ml-5" >
                             <div class="col-3">
                                 <b>Remarks</b> <br>
                                  {{ $revenue_details->remarks }}

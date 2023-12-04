@@ -4,8 +4,9 @@ var Revenue = function(){
         var technology = $("#technology_id").val();
         var receivedMonth = $("#received_month").val();
         var monthOf = $('#month_of').val();
+        var year = $('#revenueYearId').val();
 
-        var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf};
+        var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf, 'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-revenue-list',
@@ -88,8 +89,9 @@ var Revenue = function(){
             var technology = $("#technology_id").val();
             var receivedMonth = $("#received_month").val();
             var monthOf = $('#month_of').val();
+            var year = $('#revenueYearId').val();
 
-            var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf};
+            var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf, 'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-revenue-list',
@@ -138,7 +140,7 @@ var Revenue = function(){
                     }
                 });
             }
-            $("#month_of").html(html);
+            $("#revenue_month_of").html(html);
         });
 
         $("body").on("click", ".show-revenue-form", function() {
@@ -169,6 +171,7 @@ var Revenue = function(){
             date: {required: true},
             received_month: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
             bank_name: {required: true},
             holder_name: {required: true},
@@ -188,6 +191,9 @@ var Revenue = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -271,6 +277,7 @@ var Revenue = function(){
             date: {required: true},
             received_month: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
             bank_name: {required: true},
             holder_name: {required: true},
@@ -290,6 +297,9 @@ var Revenue = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"

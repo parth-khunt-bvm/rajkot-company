@@ -21,8 +21,8 @@
 
                 <div class="card-toolbar">
                     <button class="btn btn-primary font-weight-bolder mr-5 show-hr-expense-form" id="show-hr-expense-form">+</button>
+                    <button data-toggle="modal" data-target="#importHrExpense" class="import-hr-expense btn btn-danger font-weight-bolder mr-5 ">Import Hr Expense</button>
 
-                    {{-- <button data-toggle="modal" data-target="#importRevenue" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Revenue</button> --}}
                     <!--begin::Button-->
                     <a href="{{ route('admin.hr.expense.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">

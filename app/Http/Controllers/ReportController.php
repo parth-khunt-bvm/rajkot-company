@@ -210,6 +210,12 @@ class ReportController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-expense-reports-data-quarterly' :
+                $objExpense = new Expense();
+                $list = $objExpense->getExpenseDataQuarterly($data);
+                echo json_encode($list);
+                break;
+
             case 'get-revenue-reports-data' :
                 $objRevenue = new Revenue();
                 $list = $objRevenue->getRevenueReportsData($data);

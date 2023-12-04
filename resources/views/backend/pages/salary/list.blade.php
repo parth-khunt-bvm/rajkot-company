@@ -40,15 +40,14 @@
 
             </div>
             <div class="card-body">
-                {{-- <div class="salary-form"> --}}
                 <form class="form" style="display: none" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">@csrf
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group">
                                 <label>Manager
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 manager_id" id="salary_mamager_id" name="manager_id">
+                                <select class="form-control select2 manager_id" id="list_manager_id" name="manager_id">
                                     <option value="">Please select Manager Name</option>
                                     @foreach ($manager as $key => $value )
                                     <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -102,6 +101,17 @@
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
+                                <label>year</label>
+                                <select class="form-control select2 year" id="listyearId"  name="year">
+                                    <option value="">Select Year</option>
+                                    @for ($i = 2019; $i <= date('Y'); $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
                                 <label>Amount
                                     <span class="text-danger">*</span>
                                 </label>
@@ -122,13 +132,12 @@
                         </div>
                     </div>
                 </form>
-                {{-- </div> --}}
 
                 {{-- <form action=""> --}}
                 <div class="row salary-filter" style="display: none" >
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Manager Name</label>
                                     <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id" >
@@ -139,7 +148,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Branch Name</label>
                                     <select class="form-control select2 branch change" id="branch_id"  name="branch_id">
@@ -150,11 +159,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology change" id="technology_id"  name="technology_id">
@@ -165,10 +170,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Month Of</label>
-                                    <select class="form-control select2 month_of change" id="month_of"  name="month_of">
+                                    <select class="form-control select2 month_of change" id="salary_month_of"  name="month_of">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -185,11 +194,23 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>year</label>
+                                    <select class="form-control select2 year change" id="yearId"  name="year">
+                                        <option value="">Select Year</option>
+                                        @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mt-5">
+                                <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2 mt-5">
-                        <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
-                    </div>
+
                 </div>
                 {{-- </form> --}}
 

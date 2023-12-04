@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Imports\HrIncomeImport;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Manager;
@@ -252,6 +253,18 @@ class HrIncomeController extends Controller
         );
         return view('backend.pages.hr.income.view', $data);
 
+    }
+
+    public function save_import(Request $request){
+
+        $path = $request->file('file')->store('temp');
+        $data = \Excel::import(new HrIncomeImport($request->file('file')),$path);
+        $return['status'] = 'success';
+        $return['message'] = 'Hr Income added successfully.';
+        $return['redirect'] = route('admin.hr.income.list');
+
+        echo json_encode($return);
+        exit;
     }
 
 }

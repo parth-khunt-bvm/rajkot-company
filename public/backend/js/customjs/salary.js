@@ -3,9 +3,10 @@ var Salary = function(){
         var manager = $('#manager_id').val();
         var branch = $("#branch_id").val();
         var technology = $("#technology_id").val();
-        var monthOf = $('#month_of').val();
+        var monthOf = $('#salary_month_of').val();
+        var year = $('#yearId').val();
 
-        var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf };
+        var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf ,'year':year};
         var columnWidth = [{"width": "5%", "targets": 0 }, {"width": "30%", "targets": 6 }];
         var arrList = {
             'tableID': '#admin-salary-list',
@@ -83,9 +84,10 @@ var Salary = function(){
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
             var technology = $("#technology_id").val();
-            var monthOf = $('#month_of').val();
+            var monthOf = $('#salary_month_of').val();
+            var year = $('#yearId').val();
 
-            var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf };
+            var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf ,'year':year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-salary-list',
@@ -163,6 +165,7 @@ var Salary = function(){
             technology_id: {required: true},
             date: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -180,6 +183,9 @@ var Salary = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -257,6 +263,7 @@ var Salary = function(){
             technology_id: {required: true},
             date: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -273,7 +280,10 @@ var Salary = function(){
                 required : "Please enter date"
             },
             month_of : {
-                required : "Please enter month"
+                required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
