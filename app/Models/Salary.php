@@ -327,19 +327,51 @@ class Salary extends Model
     }
 
     public function getSalaryReportsData($fillterdata){
-        $data = collect(range(11, 0));
-        $month_array = [];
+        if($fillterdata['time'] == 'monthly'){
+            $data = collect(range(1, 12));
+            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'quarterly'){
+            $data = collect(range(1, 4));
+            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'semiannually'){
+            $data = collect(range(1, 2));
+            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+        } else {
+            $data = collect(range(1, 1));
+            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+        }
         $amount_array = [];
         foreach($data as $key => $value){
 
-            $dt = today()->startOfMonth()->subMonth($value);
-            $month_name = $dt->shortMonthName."-".$dt->format('Y');
-            array_push($month_array, $month_name);
+            $query = Salary::from('salary');
+                if($fillterdata['time'] == 'monthly'){
+                    $query->where('month_of', $value);
+                } elseif($fillterdata['time'] == 'quarterly'){
+                    if($value == 1){
+                        $query->where('month_of', '>=', 1);
+                        $query->where('month_of', '<=', 3);
+                    } elseif($value == 2){
+                        $query->where('month_of', '>=', 4);
+                        $query->where('month_of', '<=', 6);
+                    } elseif($value == 3){
+                        $query->where('month_of', '>=', 7);
+                        $query->where('month_of', '<=', 9);
+                    } else {
+                        $query->where('month_of', '>=', 10);
+                        $query->where('month_of', '<=', 12);
+                    }
 
-                $query = Salary::from('salary')
-                ->where('month_of', date("n", strtotime($month_name)))
-                ->whereYear('date', date("Y", strtotime($month_name)))
-                ->where('is_deleted', 'N');
+                } elseif($fillterdata['time'] == 'semiannually'){
+                    if($value == 1){
+                        $query->where('month_of', '>=', 1);
+                        $query->where('month_of', '<=', 6);
+                    } else {
+                        $query->where('month_of', '>=', 7);
+                        $query->where('month_of', '<=', 12);
+                    }
+                }
+
+                $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
 
 
                 if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
@@ -357,30 +389,58 @@ class Salary extends Model
 
             array_push($amount_array, check_value($res[0]->amount));
         }
-        $details['month'] = $month_array;
         $details['amount'] = $amount_array;
         return $details;
     }
 
     public function getProfitLossReportsData($fillterdata){
-        $data = collect(range(11, 0));
-        $month_array = [];
+        if($fillterdata['time'] == 'monthly'){
+            $data = collect(range(1, 12));
+            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'quarterly'){
+            $data = collect(range(1, 4));
+            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'semiannually'){
+            $data = collect(range(1, 2));
+            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+        } else {
+            $data = collect(range(1, 1));
+            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+        }
         $salary_array = [];
         $expense_array = [];
         $revenue_array = [];
         foreach($data as $key => $value){
 
-            $dt = today()->startOfMonth()->subMonth($value);
+            $salaryQuery = Salary::from('salary');
+            if($fillterdata['time'] == 'monthly'){
+                $salaryQuery->where('month_of', $value);
+            } elseif($fillterdata['time'] == 'quarterly'){
+                if($value == 1){
+                    $salaryQuery->where('month_of', '>=', 1);
+                    $salaryQuery->where('month_of', '<=', 3);
+                } elseif($value == 2){
+                    $salaryQuery->where('month_of', '>=', 4);
+                    $salaryQuery->where('month_of', '<=', 6);
+                } elseif($value == 3){
+                    $salaryQuery->where('month_of', '>=', 7);
+                    $salaryQuery->where('month_of', '<=', 9);
+                } else {
+                    $salaryQuery->where('month_of', '>=', 10);
+                    $salaryQuery->where('month_of', '<=', 12);
+                }
 
-            $month_name = $dt->shortMonthName."-".$dt->format('Y');
-            array_push($month_array, $month_name);
+            } elseif($fillterdata['time'] == 'semiannually'){
+                if($value == 1){
+                    $salaryQuery->where('month_of', '>=', 1);
+                    $salaryQuery->where('month_of', '<=', 6);
+                } else {
+                    $salaryQuery->where('month_of', '>=', 7);
+                    $salaryQuery->where('month_of', '<=', 12);
+                }
+            }
 
-            $month =  date("Y-m-", strtotime($month_name));
-
-                $salaryQuery = Salary::from('salary')
-                ->where('month_of', date("n", strtotime($month_name)))
-                ->whereYear('date', date("Y", strtotime($month_name)))
-                ->where('is_deleted', 'N');
+            $salaryQuery->where('year', $fillterdata['year'])->where('is_deleted', 'N');
 
                 if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
                     $salaryQuery->where("technology_id", $fillterdata['technology']);
@@ -395,45 +455,94 @@ class Salary extends Model
                 $salary = $salaryQuery->select(DB::raw("SUM(amount) as amount"))->get();
                 array_push($salary_array, check_value($salary[0]->amount));
 
-                $expenseQuery = Expense::from('expense')
-                 ->where('month', date("n", strtotime($month_name)))
-                 ->whereYear('date', date("Y", strtotime($month_name)))
-                 ->where('is_deleted', 'N');
-
-                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                    $expenseQuery->where("branch_id", $fillterdata['branch']);
-                }
-                if($fillterdata['month'] != null && $fillterdata['month'] != ''){
-                    $expenseQuery->where("month", $fillterdata['month']);
-                }
-
-                $expense = $expenseQuery->select(DB::raw("SUM(amount) as amount"))->get();
-                array_push($expense_array, check_value($expense[0]->amount));
-
-                $revenueQuery = Revenue::from('revenue')
-                ->where('month_of', date("n", strtotime($month_name)))
-                ->whereYear('date', date("Y", strtotime($month_name)))
-                ->where('is_deleted', 'N');
-
-                if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
-                    $revenueQuery->where("technology_id", $fillterdata['technology']);
+            $expenseQuery = Expense::from('expense');
+            if($fillterdata['time'] == 'monthly'){
+                $expenseQuery->where('month', $value);
+            } elseif($fillterdata['time'] == 'quarterly'){
+                if($value == 1){
+                    $expenseQuery->where('month', '>=', 1);
+                    $expenseQuery->where('month', '<=', 3);
+                } elseif($value == 2){
+                    $expenseQuery->where('month', '>=', 4);
+                    $expenseQuery->where('month', '<=', 6);
+                } elseif($value == 3){
+                    $expenseQuery->where('month', '>=', 7);
+                    $expenseQuery->where('month', '<=', 9);
+                } else {
+                    $expenseQuery->where('month', '>=', 10);
+                    $expenseQuery->where('month', '<=', 12);
                 }
 
-                if($fillterdata['month'] != null && $fillterdata['month'] != ''){
-                    $revenueQuery->where("month_of", $fillterdata['month']);
+            } elseif($fillterdata['time'] == 'semiannually'){
+                if($value == 1){
+                    $expenseQuery->where('month', '>=', 1);
+                    $expenseQuery->where('month', '<=', 6);
+                } else {
+                    $expenseQuery->where('month', '>=', 7);
+                    $expenseQuery->where('month', '<=', 12);
+                }
+            }
+
+            $expenseQuery->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+
+            if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                $expenseQuery->where("branch_id", $fillterdata['branch']);
+            }
+            if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+                $expenseQuery->where("month", $fillterdata['month']);
+            }
+
+            $expense = $expenseQuery->select(DB::raw("SUM(amount) as amount"))->get();
+            array_push($expense_array, check_value($expense[0]->amount));
+
+            $revenueQuery = Revenue::from('revenue');
+            if($fillterdata['time'] == 'monthly'){
+                $revenueQuery->where('month_of', $value);
+            } elseif($fillterdata['time'] == 'quarterly'){
+                if($value == 1){
+                    $revenueQuery->where('month_of', '>=', 1);
+                    $revenueQuery->where('month_of', '<=', 3);
+                } elseif($value == 2){
+                    $revenueQuery->where('month_of', '>=', 4);
+                    $revenueQuery->where('month_of', '<=', 6);
+                } elseif($value == 3){
+                    $revenueQuery->where('month_of', '>=', 7);
+                    $revenueQuery->where('month_of', '<=', 9);
+                } else {
+                    $revenueQuery->where('month_of', '>=', 10);
+                    $revenueQuery->where('month_of', '<=', 12);
                 }
 
-                $revenue = $revenueQuery->select(DB::raw("SUM(amount) as amount"))->get();
-                array_push($revenue_array, check_value($revenue[0]->amount));
+            } elseif($fillterdata['time'] == 'semiannually'){
+                if($value == 1){
+                    $revenueQuery->where('month_of', '>=', 1);
+                    $revenueQuery->where('month_of', '<=', 6);
+                } else {
+                    $revenueQuery->where('month_of', '>=', 7);
+                    $revenueQuery->where('month_of', '<=', 12);
+                }
+            }
+
+            $revenueQuery->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+
+            if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                $revenueQuery->where("technology_id", $fillterdata['technology']);
+            }
+
+            if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+                $revenueQuery->where("month_of", $fillterdata['month']);
+            }
+
+            $revenue = $revenueQuery->select(DB::raw("SUM(amount) as amount"))->get();
+            array_push($revenue_array, check_value($revenue[0]->amount));
         }
 
-        $details['month'] = $month_array;
         $details['amount'] = ['salary' => $salary_array, 'expense' => $expense_array, 'revenue' => $revenue_array];
         return $details;
     }
 
-
     public function getProfitLossByTimeReportsData($fillterdata){
+
         $details = [];
         $month_names =[];
 
@@ -441,36 +550,45 @@ class Salary extends Model
             $month = today()->addMonths($i)->format('M-Y');
             $month_names[] = $month;
 
-            $currentMonth = today()->format('M-Y');
-            $month_names[] = $currentMonth;
+            if($fillterdata['time'] == 'monthly'){
+                $currentMonth = today()->format('M-Y');
+                $month_names[] = $currentMonth;
 
-            $salaryQuery = Salary::from('salary')
-            ->where('month_of', date("n", strtotime($currentMonth)))
-            ->whereYear('date', date("Y", strtotime($currentMonth)))
-            ->where('is_deleted', 'N');
+                $salaryQuery = Salary::from('salary')
+                ->where('month_of', date("n", strtotime($currentMonth)))
+                ->where('year', date("Y", strtotime($currentMonth)))
+                ->where('is_deleted', 'N');
+
+                $expenseQuery = Expense::from('expense')
+                ->where('month', date("n", strtotime($currentMonth)))
+                ->where('year', date("Y", strtotime($currentMonth)))
+                ->where('is_deleted', 'N');
+
+                $revenueQuery = Revenue::from('revenue')
+                ->where('month_of', date("n", strtotime($currentMonth)))
+                ->where('year', date("Y", strtotime($currentMonth)))
+                ->where('is_deleted', 'N');
+
+
+            } elseif($fillterdata['time'] == 'quarterly'){
+
+            } elseif($fillterdata['time'] == 'semiannually'){
+
+            } else {
+            }
+
 
             $salary = $salaryQuery->sum('amount');
-
             $details['salary'] = round($salary);
-            $expenseQuery = Expense::from('expense')
-            ->where('month', date("n", strtotime($currentMonth)))
-            ->whereYear('date', date("Y", strtotime($currentMonth)))
-            ->where('is_deleted', 'N');
 
             $Expense = $expenseQuery->sum('amount');
             $details['expense'] = round($Expense);
-
-            $revenueQuery = Revenue::from('revenue')
-            ->where('month_of', date("n", strtotime($currentMonth)))
-            ->whereYear('date', date("Y", strtotime($currentMonth)))
-            ->where('is_deleted', 'N');
 
             $revenue = $revenueQuery->sum('amount');
             $details['revenue'] = round($revenue);
         }
         return $details;
     }
-
     public function getProfitLossByTimeReportsDataMonthly($fillterdata){
         $details = [];
         $month_names =[];

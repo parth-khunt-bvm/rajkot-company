@@ -17,13 +17,20 @@
                         </div>
                         <div class="card-toolbar">
                             <div class="dropdown dropdown-inline">
-                            <select class="form-control select2 month change_report" id="report_time"  name="report_time">
-                                <option value="">Select Time</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="semiannually">SemiAnnually</option>
-                                <option value="annually">annually</option>
-                            </select>
+                                <select class="form-control select2 year change" id="profit_loss_time_year_id"  name="year">
+                                    <option value="">Select Year</option>
+                                    @for ($i = 2019; $i <= date('Y'); $i++)
+                                    <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="dropdown dropdown-inline ml-2">
+                                <select class="form-control select2 month change_report change" id="report_time"  name="report_time">
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="semiannually">SemiAnnually</option>
+                                    <option value="annually">annually</option>
+                                </select>
                             </div>
                         </div>
                     </div>

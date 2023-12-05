@@ -54,19 +54,28 @@
                         <div class="col-md-5">
                             <div class="row">
 
-                                {{-- <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Start Date:</label>
-                                        <input type="text" class="form-control datepicker_date change" id="start_date" name="start_date">
+                                        <label>year</label>
+                                        <select class="form-control select2 year change" id="revenue_year_id"  name="year">
+                                            <option value="">Select Year</option>
+                                            @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>End Date:</label>
-                                        <input type="text" class="form-control datepicker_date change" id="end_date" name="end_date">
-                                    </div>
-                                </div> --}}
+                                <div class="dropdown dropdown-inline">
+                                    <label>select Time</label>
+                                    <select class="form-control select2 month change_report change" id="revenue_report_time" name="report_time">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="semiannually">SemiAnnually</option>
+                                        <option value="annually">annually</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-md-2 mt-5">
                                     <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                                 </div>

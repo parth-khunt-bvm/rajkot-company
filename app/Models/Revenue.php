@@ -238,20 +238,51 @@ class Revenue extends Model
     }
 
     public function getRevenueReportsData($fillterdata){
-        $data = collect(range(11, 0));
-        $month_array = [];
+        if($fillterdata['time'] == 'monthly'){
+            $data = collect(range(1, 12));
+            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'quarterly'){
+            $data = collect(range(1, 4));
+            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'semiannually'){
+            $data = collect(range(1, 2));
+            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+        } else {
+            $data = collect(range(1, 1));
+            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+        }
         $amount_array = [];
         foreach($data as $key => $value){
 
-            $dt = today()->startOfMonth()->subMonth($value);
+            $query = Revenue::from('revenue');
+            if($fillterdata['time'] == 'monthly'){
+                $query->where('month_of', $value);
+            } elseif($fillterdata['time'] == 'quarterly'){
+                if($value == 1){
+                    $query->where('month_of', '>=', 1);
+                    $query->where('month_of', '<=', 3);
+                } elseif($value == 2){
+                    $query->where('month_of', '>=', 4);
+                    $query->where('month_of', '<=', 6);
+                } elseif($value == 3){
+                    $query->where('month_of', '>=', 7);
+                    $query->where('month_of', '<=', 9);
+                } else {
+                    $query->where('month_of', '>=', 10);
+                    $query->where('month_of', '<=', 12);
+                }
 
-            $month_name = $dt->shortMonthName."-".$dt->format('Y');
-            array_push($month_array, $month_name);
+            } elseif($fillterdata['time'] == 'semiannually'){
+                if($value == 1){
+                    $query->where('month_of', '>=', 1);
+                    $query->where('month_of', '<=', 6);
+                } else {
+                    $query->where('month_of', '>=', 7);
+                    $query->where('month_of', '<=', 12);
+                }
+            }
 
-            $query = Revenue::from('revenue')
-                ->where('month_of', date("n", strtotime($month_name)))
-                ->whereYear('date', date("Y", strtotime($month_name)))
-                ->where('is_deleted', 'N');
+            $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
 
             if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
                 $query->where("manager_id", $fillterdata['manager']);
@@ -264,7 +295,7 @@ class Revenue extends Model
 
             array_push($amount_array, check_value($res[0]->amount));
         }
-        $details['month'] = $month_array;
+
         $details['amount'] = $amount_array;
         return $details;
     }

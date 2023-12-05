@@ -427,6 +427,74 @@ var Attendance = function () {
         });
 
     }
+
+    var attendanceReportList = function () {
+        $('.select2').select2();
+        var branch = $('#att_report_branch_id').val();
+        var technology = $('#att_report_technology_id').val();
+        var month = $('#att_report_month_id').val();
+        var year = $('#att_report_year_id').val();
+        var dataArr = {'branch': branch,'technology': technology,'month': month,'year': year,};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#attendance-report-list',
+            'ajaxURL': baseurl + "admin/attendance/ajaxcall",
+            'ajaxAction': 'get_attendance_report_list',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 9],
+            'noSearchApply': [0, 9],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("change", ".change_date", function() {
+
+            var html = '';
+            html =  '<table class="table table-bordered table-checkable" id="attendance-list">'+
+            '<thead>'+
+            '<tr>'+
+            '<th>#</th>'+
+            '<th>Date</th>'+
+            '<th>Employee</th>'+
+            '<th>Attendance Type</th>'+
+            '<th>reason</th>'+
+            '<th>Action</th>'+
+            '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '</tbody>'+
+            '</table>';
+
+            $(".attendance-list").html(html);
+
+            var date = $('.change_date').val();
+            var dataArr = { 'date': date };
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#attendance-list',
+                'ajaxURL': baseurl + "admin/attendance/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 5],
+                'noSearchApply': [0, 5],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        })
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
     return {
         init: function () {
             calendar();
@@ -440,6 +508,9 @@ var Attendance = function () {
         list: function () {
             calendar();
             attendanceList();
+        },
+        attendance_list: function () {
+            attendanceReportList();
         },
     }
 }();

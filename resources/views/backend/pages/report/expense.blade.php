@@ -79,7 +79,6 @@
                                 <div class="dropdown dropdown-inline">
                                     <label>select Time</label>
                                     <select class="form-control select2 month change_report change" id="expense_report_time" name="report_time">
-                                        <option value="">Select Time</option>
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly</option>
                                         <option value="semiannually">SemiAnnually</option>

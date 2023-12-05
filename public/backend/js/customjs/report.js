@@ -3,135 +3,11 @@ var Report = function () {
 
         loadExpenseChart();
 
-        // $('body').on('change', '.change', function() {
-        //     var html = '';
-        //     html = '<div id="expense-reports"></div>';
-        //     $('.expense-reports-chart').html(html);
-        //     loadExpenseChart();
-        // });
-
-        $('body').on('change', '.change_report', function() {
-
-            var reportTime = $("#expense_report_time").val();
-
-            if(reportTime == "quarterly"){
-                loadExpenseChart()
-                getExpenseDataQuarterly
-               var html = '';
-               html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
-               $('.profit-loss-by-time-reports-chart').html(html);
-
-               function loadExpenseChart(){
-                var manager = $('#manager_id').val();
-                var branch = $("#branch_id").val();
-                var type = $("#type_id").val();
-                var year = $("#expense_year_id").val();
-                var time = $("#expense_report_time").val();
-                var data = {'manager' : manager,'branch' : branch,'type' : type,'year' : year,'time' : time} ;
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                    },
-                    url: baseurl + "admin/report/ajaxcall",
-                    data: { 'action': 'get-expense-reports-data-quarterly', 'data' : data},
-                    success: function (data) {
-                        $("#loader").show();
-                        var res = JSON.parse(data);
-                        const apexChart = "#expense-reports";
-                        var options = {
-                            series: [{
-                                name: 'Expense',
-                                type: 'column',
-                                data: res.amount ,
-                            }],
-                            chart: {
-                                type: 'bar',
-                                height: 350
-                            },
-                            plotOptions: {
-                                bar: {
-                                borderRadius: 10,
-                                columnWidth: '40%',
-                                dataLabels: {
-                                    orientation: 'vertical',
-                                    position: 'top',
-                                    textAnchor: 'middle',
-                                },
-                                }
-                            },
-                            dataLabels: {
-                                enabled: true,
-                                formatter: function (val) {
-                                    if (val === 0) {
-                                        return "";
-                                    }
-                                    return "₹ "+ val.toFixed( 0);
-                                },
-                                style: {
-                                    fontSize: '12px',
-                                    colors: ['#333'],
-                                },
-                                offsetY: 0o5,
-                            },
-                            stroke: {
-                                show: true,
-                                width: 2,
-                                colors: ['transparent']
-                            },
-                            xaxis: {
-                                categories: res.month
-                            },
-                            yaxis: [
-                                {
-                                    axisTicks: {
-                                        show: true,
-                                    },
-                                    axisBorder: {
-                                        show: true,
-                                        color: "#9D689E"
-                                    },
-                                    labels: {
-                                        style: {
-                                            colors: "#9D689E",
-                                        }
-                                    },
-                                    title: {
-                                        text: "Sales",
-                                        style: {
-                                            color: "#9D689E",
-                                        }
-                                    },
-                                    tooltip: {
-                                        enabled: true
-                                    }
-                                }
-                            ],
-                            fill: {
-                                opacity: 1
-                            },
-                            tooltip: {
-                                y: {
-                                    formatter: function (val) {
-                                        return "$ " + val.toFixed(2) + " thousands";
-                                    }
-                                }
-                            },
-
-                            // colors: [primary, success, warning]
-                        };
-
-                        var chart = new ApexCharts(document.querySelector(apexChart), options);
-                        chart.render();
-
-                    },
-                    complete: function () {
-                        $('#loader').hide();
-                    }
-                });
-            }
-
-                }
+        $('body').on('change', '.change', function() {
+            var html = '';
+            html = '<div id="expense-reports"></div>';
+            $('.expense-reports-chart').html(html);
+            loadExpenseChart();
         });
 
         function loadExpenseChart(){
@@ -275,7 +151,10 @@ var Report = function () {
         function loadRevenueChart(){
             var manager = $('#manager_id').val();
             var technology = $("#technology_id").val();
-            var data = {'manager' : manager,'technology' : technology} ;
+            var year = $("#revenue_year_id").val();
+            var time = $("#revenue_report_time").val();
+
+            var data = {'manager' : manager,'technology' : technology,'year' : year,'time' : time} ;
             $.ajax({
                 type: "POST",
                 headers: {
@@ -409,7 +288,9 @@ var Report = function () {
             var manager = $('#manager_id').val();
             var technology = $("#technology_id").val();
             var branch = $("#branch_id").val();
-            var data = {'manager' : manager,'technology' : technology,'branch' : branch} ;
+            var year = $("#salary_year_id").val();
+            var time = $("#salary_report_time").val();
+            var data = {'manager' : manager,'technology' : technology,'branch' : branch,'year' : year,'time' : time} ;
             $.ajax({
                 type: "POST",
                 headers: {
@@ -540,10 +421,11 @@ var Report = function () {
 
         function loadProfitLossChart(){
             var branch = $("#branch_id").val();
-            var type = $("#type_id").val();
             var technology = $("#technology_id").val();
             var month = $("#month_of").val();
-            var data = {'technology' : technology,'branch' : branch,'month' : month} ;
+            var year = $("#profit_loss_year_id").val();
+            var time = $("#profit_loss_report_time").val();
+            var data = {'technology' : technology,'branch' : branch,'month' : month,'year' : year,'time' : time,} ;
             $.ajax({
                 type: "POST",
                 headers: {
@@ -557,6 +439,12 @@ var Report = function () {
                     const apexChart = "#profit-loss-reports";
                     var res = JSON.parse(data);
 
+                    var profitLoss = [];
+
+                    for (var i = 0; i < res.amount.revenue.length; i++) {
+                        var profitLossValue = res.amount.revenue[i] - res.amount.expense[i] - res.amount.salary[i];
+                        profitLoss.push(profitLossValue);
+                    }
                     var options = {
                         series: [{
                             name: 'Expense',
@@ -572,6 +460,13 @@ var Report = function () {
                             name: 'Salary',
                             type: 'column',
                             data: res.amount.salary ,
+                        },
+                        {
+                            name: 'profit-loss',
+                            type: 'column',
+                            data: res.amount.revenue.map((value, index) => value - res.amount.expense[index] - res.amount.salary[index]),
+                            stack: 'total',
+
                         }],
                         chart: {
                             type: 'bar',
@@ -679,6 +574,14 @@ var Report = function () {
     var profitLossByTimeReport = function () {
         $('.select2').select2();
         loadExpenseChartByTime();
+
+        $('body').on('change', '.change', function() {
+            console.log("hii");
+            var html = '';
+            html = '<div id="profit-loss-by-time" class="d-flex justify-content-center"></div>';
+            $('.profit-loss-by-time-reports-chart').html(html);
+            loadExpenseChartByTime();
+        });
 
         $('body').on('change', '.change_report', function() {
 
@@ -893,8 +796,9 @@ var Report = function () {
         });
 
         function loadExpenseChartByTime(){
-            var reportTime = $("#report_time").val();
-            var data = {'reportTime' : reportTime} ;
+            var time = $("#report_time").val();
+            var year = $("#profit_loss_time_year_id").val();
+            var data = {'time' : time, 'year' : year} ;
             $.ajax({
                 type: "POST",
                 headers: {

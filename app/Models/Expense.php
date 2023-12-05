@@ -246,20 +246,51 @@ class Expense extends Model
             ->get()->toArray();
     }
     public function getExpenseReportsData($fillterdata){
-        $data = collect(range(11, 0));
-        $month_array = [];
+        if($fillterdata['time'] == 'monthly'){
+            $data = collect(range(1, 12));
+            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'quarterly'){
+            $data = collect(range(1, 4));
+            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'semiannually'){
+            $data = collect(range(1, 2));
+            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+        } else {
+            $data = collect(range(1, 1));
+            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+        }
         $amount_array = [];
         foreach($data as $key => $value){
 
-            $dt = today()->startOfMonth()->subMonth($value);
+                $query = Expense::from('expense');
+                if($fillterdata['time'] == 'monthly'){
+                    $query->where('month', $value);
+                } elseif($fillterdata['time'] == 'quarterly'){
+                    if($value == 1){
+                        $query->where('month', '>=', 1);
+                        $query->where('month', '<=', 3);
+                    } elseif($value == 2){
+                        $query->where('month', '>=', 4);
+                        $query->where('month', '<=', 6);
+                    } elseif($value == 3){
+                        $query->where('month', '>=', 7);
+                        $query->where('month', '<=', 9);
+                    } else {
+                        $query->where('month', '>=', 10);
+                        $query->where('month', '<=', 12);
+                    }
 
-            $month_name = $dt->shortMonthName."-".$dt->format('Y');
-            array_push($month_array, $month_name);
+                } elseif($fillterdata['time'] == 'semiannually'){
+                    if($value == 1){
+                        $query->where('month', '>=', 1);
+                        $query->where('month', '<=', 6);
+                    } else {
+                        $query->where('month', '>=', 7);
+                        $query->where('month', '<=', 12);
+                    }
+                }
 
-                $query = Expense::from('expense')
-                ->where('month', date("n", strtotime($month_name)))
-                ->whereYear('date', date("Y", strtotime($month_name)))
-                ->where('is_deleted', 'N');
+                $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
 
                 if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
                     $query->where("manager_id", $fillterdata['manager']);
@@ -272,45 +303,13 @@ class Expense extends Model
                 if($fillterdata['type'] != null && $fillterdata['type'] != ''){
                     $query->where("type_id", $fillterdata['type']);
                 }
-
-                // if($fillterdata['year'] != null && $fillterdata['year'] != ''){
-                //     $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
-                // }
-                // if($fillterdata['time'] != null && $fillterdata['time'] != ''){
-                //     $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['time'])));
-                // }
                 $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
 
             array_push($amount_array, check_value($res[0]->amount));
         }
-        $details['month'] = $month_array;
+
         $details['amount'] = $amount_array;
         return $details;
     }
-    public function getExpenseDataQuarterly($fillterdata){
 
-        $details = [];
-
-        $start_date = today();
-        $end_date = today()->subMonth(2);
-
-        $expenseQuery = Expense::where('is_deleted', 'N')
-        ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
-        ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
-        ->sum('amount');
-
-        // dd($expenseQuery);
-
-        // $expenseQuery = Expense::where('is_deleted', 'N')
-        // ->whereBetween('date', [date("Y", strtotime($end_date)),date("Y", strtotime($start_date))])
-        // ->orWhereBetween('month', [date("n", strtotime($end_date)),date("n", strtotime($start_date))])
-        // ->sum('amount');
-
-        // dd($expenseQuery);
-
-        $details['expense'] = round($expenseQuery);
-
-
-        return $details;
-    }
 }

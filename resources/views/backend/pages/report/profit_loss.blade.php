@@ -25,7 +25,7 @@
                     <div class="row ml-5 mt-5 profit-loss-filter" style="display: none">
                         <div class="col-md-5">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Branch Name</label>
                                         <select class="form-control select2 branch change" id="branch_id"  name="branch_id">
@@ -36,7 +36,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Technology Name</label>
                                         <select class="form-control select2 type change" id="technology_id"  name="technology_id">
@@ -47,23 +47,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="row">
-                                {{-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Type Name</label>
-                                        <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id">
-                                            <option value="">Please select Manager Name</option>
-                                            @foreach ($manager  as $key => $value )
-                                                <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> --}}
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Month of</label>
                                         <select class="form-control select2 month change" id="month_of"  name="month_of">
@@ -82,6 +66,30 @@
                                             <option value="12">December</option>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>year</label>
+                                        <select class="form-control select2 year change" id="profit_loss_year_id"  name="year">
+                                            <option value="">Select Year</option>
+                                            @for ($i = 2019; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="dropdown dropdown-inline">
+                                    <label>select Time</label>
+                                    <select class="form-control select2 month change_report change" id="profit_loss_report_time" name="report_time">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="semiannually">SemiAnnually</option>
+                                        <option value="annually">annually</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2 mt-5">
                                     <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>

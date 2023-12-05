@@ -178,6 +178,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
+    Route::get('admin/attendance/report/list', [AttendanceController::class, 'reportList'])->name('admin.attendance.report.list');
     Route::get('admin/attendance/day/list', [AttendanceController::class, 'dayList'])->name('admin.attendance.day-list');
     Route::get('admin/attendance/day/edit/{id}', [AttendanceController::class, 'dayEdit'])->name('admin.attendance.day-edit');
     Route::post('admin/attendance/day/save-edit-attendance', [AttendanceController::class, 'daysaveEdit'])->name('admin.attendance.day-save-edit-attendance');
