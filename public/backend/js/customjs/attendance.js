@@ -85,28 +85,28 @@ var Attendance = function () {
                     var temp =  {
                         title: 'Present ' + value.present ,
                         start: value.date ,
-                        description: 'Present Employee',
+                        // description: 'Present Employee',
                         className: 'fc-event-danger fc-event-solid-warning'
                     } ;
                     eventArray.push(temp);
                     var temp2 =  {
                         title: 'Absent ' + value.absent  ,
                         start: value.date ,
-                        description: 'Absent Employee',
+                        // description: 'Absent Employee',
                         className: 'fc-event-success fc-event-solid-info'
                     } ;
                     eventArray.push(temp2);
                     var temp3 =  {
                         title: 'Half Day ' + value.half_day  ,
                         start: value.date ,
-                        description: 'Half Day Leave Employee',
+                        // description: 'Half Day Leave Employee',
                         className: 'fc-event-info fc-event-solid-success'
                     } ;
                     eventArray.push(temp3);
                     var temp4 =  {
                         title: 'Sort Leave ' + value.sort_leave,
                         start: value.date ,
-                        description: 'Sort Leave Employee',
+                        // description: 'Sort Leave Employee',
                         className: 'fc-event-warning fc-event-solid-danger'
                     } ;
                     eventArray.push(temp4);
@@ -198,28 +198,28 @@ var Attendance = function () {
                         var temp =  {
                             title: 'Present ' + value.present ,
                             start: value.date ,
-                            description: 'Present Employee',
+                            // description: 'Present Employee',
                             className: 'fc-event-danger fc-event-solid-warning'
                         } ;
                         eventArray.push(temp);
                         var temp2 =  {
                             title: 'Absent ' + value.absent  ,
                             start: value.date ,
-                            description: 'Absent Employee',
+                            // description: 'Absent Employee',
                             className: 'fc-event-success fc-event-solid-info'
                         } ;
                         eventArray.push(temp2);
                         var temp3 =  {
                             title: 'Half Day ' + value.half_day  ,
                             start: value.date ,
-                            description: 'Half Day Leave Employee',
+                            // description: 'Half Day Leave Employee',
                             className: 'fc-event-info fc-event-solid-success'
                         } ;
                         eventArray.push(temp3);
                         var temp4 =  {
                             title: 'Sort Leave ' + value.sort_leave,
                             start: value.date ,
-                            description: 'Sort Leave Employee',
+                            // description: 'Sort Leave Employee',
                             className: 'fc-event-warning fc-event-solid-danger'
                         } ;
                         eventArray.push(temp4);
@@ -428,73 +428,6 @@ var Attendance = function () {
 
     }
 
-    var attendanceReportList = function () {
-        $('.select2').select2();
-        var branch = $('#att_report_branch_id').val();
-        var technology = $('#att_report_technology_id').val();
-        var month = $('#att_report_month_id').val();
-        var year = $('#att_report_year_id').val();
-        var dataArr = {'branch': branch,'technology': technology,'month': month,'year': year,};
-        var columnWidth = { "width": "5%", "targets": 0 };
-        var arrList = {
-            'tableID': '#attendance-report-list',
-            'ajaxURL': baseurl + "admin/attendance/ajaxcall",
-            'ajaxAction': 'get_attendance_report_list',
-            'postData': dataArr,
-            'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
-            'defaultSortColumn': [0],
-            'defaultSortOrder': 'DESC',
-            'setColumnWidth': columnWidth
-        };
-        getDataTable(arrList);
-
-        $("body").on("change", ".change_date", function() {
-
-            var html = '';
-            html =  '<table class="table table-bordered table-checkable" id="attendance-list">'+
-            '<thead>'+
-            '<tr>'+
-            '<th>#</th>'+
-            '<th>Date</th>'+
-            '<th>Employee</th>'+
-            '<th>Attendance Type</th>'+
-            '<th>reason</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
-            '</thead>'+
-            '<tbody>'+
-            '</tbody>'+
-            '</table>';
-
-            $(".attendance-list").html(html);
-
-            var date = $('.change_date').val();
-            var dataArr = { 'date': date };
-            var columnWidth = { "width": "5%", "targets": 0 };
-            var arrList = {
-                'tableID': '#attendance-list',
-                'ajaxURL': baseurl + "admin/attendance/ajaxcall",
-                'ajaxAction': 'getdatatable',
-                'postData': dataArr,
-                'hideColumnList': [],
-                'noSortingApply': [0, 5],
-                'noSearchApply': [0, 5],
-                'defaultSortColumn': [0],
-                'defaultSortOrder': 'DESC',
-                'setColumnWidth': columnWidth
-            };
-            getDataTable(arrList);
-        })
-        $('.select2').select2();
-        $(".datepicker_date").datepicker({
-            format: 'd-M-yyyy',
-            todayHighlight: true,
-            autoclose: true,
-            orientation: "bottom auto",
-        });
-    }
     return {
         init: function () {
             calendar();

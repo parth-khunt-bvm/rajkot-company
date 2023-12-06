@@ -142,10 +142,11 @@ class Attendance extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select(DB::raw('CONCAT(first_name, " ", last_name) as fullname'), 'technology.technology_name', +
-                Attendance::selectRaw('COUNT(date) as totalPresendDay')->where('attendance_type', '0'))
+            ->select(DB::raw('CONCAT(first_name, " ", last_name) as fullname'), 'technology.technology_name',
+                    DB::raw("(SELECT COUNT('id')  FROM attendance WHERE attendance_type='0') as presentEmp ")
+                )
             ->get();
-
+        ccd($resultArr);
         $data = array();
         $i = 0;
         $max_length = 30;

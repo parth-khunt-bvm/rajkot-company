@@ -868,7 +868,7 @@ var Employee = function () {
                                 var temp = {
                                     title: value.attendance_type,
                                     start: value.date,
-                                    description: value.attendance_type + ' Employee',
+                                    description: value.description,
                                     className: value.class
                                 };
 

@@ -15,23 +15,28 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
                     <!--end::Button-->
+                    <div class="row counter-filter">
+                        <div class="form-group row">
+                            <label class="mt-5">
+                                Date
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-10 mt-3">
+                                <input type="text" name="date" id="datepicker_date" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
+                            </div>
+                           </div>
+                        {{-- <div class="form-group">
+                            <label>
+                                Date
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="date" id="datepicker_date" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
+                        </div> --}}
+                    </div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="row counter-filter">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Date
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" name="date" id="datepicker_date" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="attendance-list">
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="attendance-list">

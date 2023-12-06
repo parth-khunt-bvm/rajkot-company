@@ -25,7 +25,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Branch Name</label>
-                                    <select class="form-control select2 branch change" id="att_report_branch_id"  name="branch_id">
+                                    <select class="form-control select2 branch counter-sheet-filter" id="att_report_branch_id"  name="branch_id">
                                         <option value="">Please select Branch Name</option>
                                         @foreach ($branch  as $key => $value )
                                             <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Technology Name</label>
-                                    <select class="form-control select2 technology change" id="att_report_technology_id"  name="technology_id">
+                                    <select class="form-control select2 technology counter-sheet-filter" id="att_report_technology_id"  name="technology_id">
                                         <option value="">Please select Technology Name</option>
                                         @foreach ($technology  as $key => $value )
                                             <option value="{{ $value['id'] }}">{{ $value['technology_name'] }}</option>
@@ -51,7 +51,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> Month</label>
-                                    <select class="form-control select2 month change" id="att_report_month_id"  name="month">
+                                    <select class="form-control select2 month counter-sheet-filter" id="att_report_month_id"  name="month">
                                         <option value="">Select Month</option>
                                         <option value="1" {{  date('n') == 1 ? 'selected="selected"' : '' }} >January</option>
                                         <option value="2" {{  date('n') == 2 ? 'selected="selected"' : '' }} >February</option>
@@ -71,7 +71,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>year</label>
-                                    <select class="form-control select2 year change" id="att_report_year_id"  name="year">
+                                    <select class="form-control select2 year counter-sheet-filter" id="att_report_year_id"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
                                         <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
@@ -85,21 +85,6 @@
                         <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                     </div>
                 </div>
-
-                {{-- <div class="row counter-filter">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Date
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" name="date" id="datepicker_date" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="attendance-report-list">
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="attendance-report-list">
@@ -111,8 +96,8 @@
                             <th>Total Working Day</th>
                             <th>Present Day</th>
                             <th>Absent Day</th>
-                            <th>Sort Leave</th>
                             <th>Half leave</th>
+                            <th>Sort Leave</th>
                             <th>total</th>
                             <th>Action</th>
                         </tr>

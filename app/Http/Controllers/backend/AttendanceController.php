@@ -57,50 +57,7 @@ class AttendanceController extends Controller
         return view('backend.pages.attendance.list', $data);
     }
 
-    public function reportList(Request $request){
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
-
-        $data['date'] = $request->date;
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-            'plugins/custom/datatables/datatables.bundle.css',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js',
-            'validate/jquery.validate.min.js',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
-            'pages/crud/forms/widgets/select2.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'attendance.js',
-        );
-        $data['funinit'] = array(
-            'Attendance.attendance_list()',
-        );
-        $data['header'] = array(
-            'title' => 'Attendance Report List',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Attendance Report List' => 'Attendance Report List',
-            )
-        );
-        return view('backend.pages.attendance.report_list', $data);
-    }
 
     public function dayList(Request $request){
 
@@ -274,11 +231,11 @@ class AttendanceController extends Controller
                 echo json_encode($list);
                 break;
 
-            case 'get_attendance_report_list':
-                $objAttendance = new Attendance();
-                $list = $objAttendance->getreportdatatable($request->input('data'));
-                echo json_encode($list);
-                break;
+            // case 'get_attendance_report_list':
+            //     $objAttendance = new Attendance();
+            //     $list = $objAttendance->getreportdatatable($request->input('data'));
+            //     echo json_encode($list);
+            //     break;
 
             case 'get_attendance_list':
                 $objAttendance = new Attendance();

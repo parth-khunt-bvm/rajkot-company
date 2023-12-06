@@ -46,7 +46,7 @@ $currentRoute = Route::current()->getName();
                     </a>
                 </li>
 
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit" || $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"  || $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit" || $currentRoute  ==  "admin.technology.list" || $currentRoute  ==  "admin.technology.add" || $currentRoute  ==  "admin.technology.edit" ||  $currentRoute  ==  "admin.designation.list" || $currentRoute  ==  "admin.designation.add" || $currentRoute  ==  "admin.designation.edit" ||$currentRoute  ==  "admin.attendance.report.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit" || $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"  || $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit" || $currentRoute  ==  "admin.technology.list" || $currentRoute  ==  "admin.technology.add" || $currentRoute  ==  "admin.technology.edit" ||  $currentRoute  ==  "admin.designation.list" || $currentRoute  ==  "admin.designation.add" || $currentRoute  ==  "admin.designation.edit" ||$currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -308,7 +308,7 @@ $currentRoute = Route::current()->getName();
 
 
                 {{-- report Menu --}}
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-daye.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-daye.list" || $currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -417,8 +417,8 @@ $currentRoute = Route::current()->getName();
                             {{-- Profit and loss Menu by time End --}}
 
                             {{-- Attendance Report Menu --}}
-                            <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.report.list"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
-                                <a href="{{ route('admin.attendance.report.list') }}" class="menu-link">
+                            <li class="menu-item  {{ ( $currentRoute  ==  "admin.countersheet.list"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                                <a href="{{ route('admin.countersheet.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
                                         <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">

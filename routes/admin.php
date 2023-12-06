@@ -18,6 +18,7 @@ use App\Http\Controllers\backend\CounterController;
 use App\Http\Controllers\backend\DesignationController;
 use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
+use App\Http\Controllers\backend\CountersheetController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -178,7 +179,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
-    Route::get('admin/attendance/report/list', [AttendanceController::class, 'reportList'])->name('admin.attendance.report.list');
     Route::get('admin/attendance/day/list', [AttendanceController::class, 'dayList'])->name('admin.attendance.day-list');
     Route::get('admin/attendance/day/edit/{id}', [AttendanceController::class, 'dayEdit'])->name('admin.attendance.day-edit');
     Route::post('admin/attendance/day/save-edit-attendance', [AttendanceController::class, 'daysaveEdit'])->name('admin.attendance.day-save-edit-attendance');
@@ -187,4 +187,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
     Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
 
+    // Countersheet
+    Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
+    Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
 });
