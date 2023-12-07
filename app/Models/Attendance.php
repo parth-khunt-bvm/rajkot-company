@@ -333,7 +333,6 @@ class Attendance extends Model
         $index = 0; // Initialize the index
         $dates = [];
         foreach ($attendanceData as $key => $value) {
-            // print_r($value['reason']);
             $dates[$index]['date'] = date('Y-m-d', strtotime($value['date']));
             if($value['attendance_type'] == 0){
                 $attendance_type = 'Present';
@@ -350,7 +349,7 @@ class Attendance extends Model
             } else{
                 $attendance_type = 'Sort_leave';
                 $className='fc-event-warning';
-                $description = "aaaaa";
+                $description = $value['reason'];
             }
             $dates[$index]['attendance_type'] = $attendance_type;
             $dates[$index]['class'] = $className;

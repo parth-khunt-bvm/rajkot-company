@@ -138,12 +138,12 @@ class AttendanceController extends Controller
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Student Attendance details successfully added.';
+            $return['message'] = 'Employee Attendance details successfully added.';
             $return['redirect'] = route('admin.attendance.list');
         } elseif ($result == "attendance_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Student Attendance has already exists.';
+            $return['message'] = 'Employee Attendance has already exists.';
         }  else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -231,16 +231,9 @@ class AttendanceController extends Controller
                 echo json_encode($list);
                 break;
 
-            // case 'get_attendance_report_list':
-            //     $objAttendance = new Attendance();
-            //     $list = $objAttendance->getreportdatatable($request->input('data'));
-            //     echo json_encode($list);
-            //     break;
-
             case 'get_attendance_list':
                 $objAttendance = new Attendance();
                 $list = $objAttendance->get_admin_attendance_details($request->input('data'));
-                // dd($list);
                 echo json_encode($list);
                 break;
 

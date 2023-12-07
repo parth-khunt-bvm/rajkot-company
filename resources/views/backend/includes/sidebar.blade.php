@@ -426,7 +426,7 @@ $currentRoute = Route::current()->getName();
                                         </svg>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-text">Attendance</span>
+                                    <span class="menu-text">Counter Sheet</span>
                                 </a>
                             </li>
                             {{-- Attendance Report Menu End --}}

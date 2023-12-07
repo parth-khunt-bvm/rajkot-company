@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Route;
 use File;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 class Employee extends Model
 {
     use HasFactory;
@@ -469,6 +471,56 @@ class Employee extends Model
            $qurey->whereNotIn('employee.id', $employeIdArray);
         }
         return $qurey->get();
+    }
+
+    public function get_countsheet_detail_by_employee($employeeId, $month, $year){
+        $month = $year.'-'.$month;
+        $start = Carbon::parse($month)->startOfMonth();
+        $end = Carbon::parse($month)->endOfMonth();
+        $period = CarbonPeriod::create($start, $end);
+        $attendanceData = Attendance::from('attendance')
+                ->join("employee", "employee.id", "=", "attendance.employee_id")
+                ->join('technology', 'technology.id', '=', 'employee.department')
+                ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason','technology.technology_name',
+                DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as full_name'),
+                DB::raw('COUNT(attendance_type) as totalDays'),
+                DB::raw('SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END) as presentCount'),
+                DB::raw('SUM(CASE WHEN attendance_type="1" THEN 1 ELSE 0 END) as absentcount'),
+                DB::raw('SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END) as halfdaycount'),
+                DB::raw('SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END) as sortleavecount'),
+                DB::raw('CONCAT(
+                    FLOOR((SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) / 8),
+                    ".",
+                    (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
+                    ""
+                ) as total'))
+                ->where('attendance.employee_id', $employeeId)
+                ->whereDate('date', '>=', date('Y-m-d', strtotime($start)))
+                ->whereDate('date', '<=', date('Y-m-d', strtotime($end)))
+                ->get()->toArray();
+
+        $countsheetdata = [];
+        foreach ($attendanceData as $key => $value) {
+            $employeeName = $value['full_name'];
+            $employeeName = $value['full_name'];
+            $department = $value['technology_name'];
+            $totalDays = $value['totalDays'];
+            $presentCounts = $value['presentCount'];
+            $absentcount = $value['absentcount'];
+            $halfdaycount = $value['halfdaycount'];
+            $sortleavecount = $value['sortleavecount'];
+            $total = $value['total'];
+        }   
+        $countsheetdata['employeeName'] = $employeeName;
+        $countsheetdata['department'] = $department;
+        $countsheetdata['totalDays'] = $totalDays;
+        $countsheetdata['presentCounts'] = $presentCounts;
+        $countsheetdata['absentcount'] = $absentcount;
+        $countsheetdata['halfdaycount'] = $halfdaycount;
+        $countsheetdata['sortleavecount'] = $sortleavecount;
+        $countsheetdata['total'] = $total;
+
+        return $countsheetdata;
     }
 
 }

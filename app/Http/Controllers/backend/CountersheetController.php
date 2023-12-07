@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Countersheet;
 use App\Models\Branch;
 use App\Models\Technology;
+use App\Models\Employee;
 use Config;
 class CountersheetController extends Controller
 {
@@ -22,6 +23,9 @@ class CountersheetController extends Controller
 
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        // $attendance = new Attendance();
+        // $data['attendance_details'] = $attendance->get_attendance_details($editId);
 
         $data['date'] = $request->date;
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
@@ -73,11 +77,15 @@ class CountersheetController extends Controller
 
             case 'get_employee_details':
                 $inputData = $request->input('data');
-                // dd($inputData);
                 $data = $request->input('data');
+
                 $objAttendance = new Attendance();
-                $attendanceData = $objAttendance->get_attendance_details_by_employee($inputData['userId'],  $inputData['month'], $inputData['year']);
-                echo json_encode($attendanceData);
+                $data['attendanceData'] = $objAttendance->get_attendance_details_by_employee($inputData['userId'],  $inputData['month'], $inputData['year']);
+
+                $objEmployee = new Employee();
+                $data['employeeDetails'] = $objEmployee->get_countsheet_detail_by_employee($inputData['userId'],  $inputData['month'], $inputData['year']);
+
+                echo json_encode($data);
                 exit;
         }
     }

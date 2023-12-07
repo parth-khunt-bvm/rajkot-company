@@ -86,28 +86,28 @@ var Attendance = function () {
                         title: 'Present ' + value.present ,
                         start: value.date ,
                         // description: 'Present Employee',
-                        className: 'fc-event-danger fc-event-solid-warning'
+                        className: 'fc-event-danger'
                     } ;
                     eventArray.push(temp);
                     var temp2 =  {
                         title: 'Absent ' + value.absent  ,
                         start: value.date ,
                         // description: 'Absent Employee',
-                        className: 'fc-event-success fc-event-solid-info'
+                        className: 'fc-event-success'
                     } ;
                     eventArray.push(temp2);
                     var temp3 =  {
                         title: 'Half Day ' + value.half_day  ,
                         start: value.date ,
                         // description: 'Half Day Leave Employee',
-                        className: 'fc-event-info fc-event-solid-success'
+                        className: 'fc-event-info'
                     } ;
                     eventArray.push(temp3);
                     var temp4 =  {
                         title: 'Sort Leave ' + value.sort_leave,
                         start: value.date ,
                         // description: 'Sort Leave Employee',
-                        className: 'fc-event-warning fc-event-solid-danger'
+                        className: 'fc-event-warning'
                     } ;
                     eventArray.push(temp4);
                 });
@@ -199,28 +199,28 @@ var Attendance = function () {
                             title: 'Present ' + value.present ,
                             start: value.date ,
                             // description: 'Present Employee',
-                            className: 'fc-event-danger fc-event-solid-warning'
+                            className: 'fc-event-danger'
                         } ;
                         eventArray.push(temp);
                         var temp2 =  {
                             title: 'Absent ' + value.absent  ,
                             start: value.date ,
                             // description: 'Absent Employee',
-                            className: 'fc-event-success fc-event-solid-info'
+                            className: 'fc-event-success'
                         } ;
                         eventArray.push(temp2);
                         var temp3 =  {
                             title: 'Half Day ' + value.half_day  ,
                             start: value.date ,
                             // description: 'Half Day Leave Employee',
-                            className: 'fc-event-info fc-event-solid-success'
+                            className: 'fc-event-info'
                         } ;
                         eventArray.push(temp3);
                         var temp4 =  {
                             title: 'Sort Leave ' + value.sort_leave,
                             start: value.date ,
                             // description: 'Sort Leave Employee',
-                            className: 'fc-event-warning fc-event-solid-danger'
+                            className: 'fc-event-warning'
                         } ;
                         eventArray.push(temp4);
                     });
