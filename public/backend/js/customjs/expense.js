@@ -4,9 +4,10 @@ var Expense = function(){
         var manager = $('#manager_id').val();
         var branch = $("#branch_id").val();
         var type = $("#type_id").val();
-        var month = $('#month').val();
+        var month = $('#monthId').val();
+        var year = $('#expenseYearId').val();
 
-        var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
+        var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-expense-list',
@@ -14,9 +15,9 @@ var Expense = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 8],
+            'noSearchApply': [0, 8],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -63,16 +64,17 @@ var Expense = function(){
         $('body').on('change', '.change', function() {
 
             var html = '';
-            html = '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
+            html =   '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
             '<thead>'+
             '<tr>'+
             '<th>#</th>'+
+            '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Branch Name</th>'+
             '<th>Type Name</th>'+
-            '<th>Date</th>'+
             '<th>Month</th>'+
             '<th>Amount</th>'+
+            '<th>Remark</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+
@@ -85,9 +87,10 @@ var Expense = function(){
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
             var type = $("#type_id").val();
-            var month = $('#month').val();
+            var month = $('#monthId').val();
+            var year = $('#expenseYearId').val();
 
-            var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month};
+           var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-expense-list',
@@ -138,6 +141,24 @@ var Expense = function(){
             }
             $("#month").html(html);
         });
+
+        $("body").on("click", ".show-expense-form", function() {
+            $("#show-expense-form").html('-').addClass('remove-expense-form');
+            $("#show-expense-form").html('-').removeClass('show-expense-form');
+            $("#add-expense-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", ".remove-expense-form", function() {
+            $("#show-expense-form").html('+').removeClass('remove-expense-form');
+            $("#show-expense-form").html('+').addClass('show-expense-form');
+            $("#add-expense-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", "#show-expense-filter", function() {
+            $("div .expense-filter").slideToggle("slow");
+        })
     }
     var addExpense= function(){
         $('.select2').select2();
@@ -148,6 +169,7 @@ var Expense = function(){
             type_id: {required: true},
             date: {required: true},
             month: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -165,6 +187,9 @@ var Expense = function(){
             },
             month : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -242,6 +267,7 @@ var Expense = function(){
             technology_id: {required: true},
             date: {required: true},
             month: {required: true},
+            year: {required: true},
             amount: {required: true},
         };
         var message = {
@@ -259,6 +285,9 @@ var Expense = function(){
             },
             month : {
                 required : "Please enter month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"

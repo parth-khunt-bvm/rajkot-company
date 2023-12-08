@@ -42,7 +42,7 @@
                                         <label>Year
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="year" id="year" class="form-control" placeholder="Enter Year" autocomplete="off">
+                                        <input type="text" name="year" id="year" class="form-control onlyNumber" placeholder="Enter Year" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                         <select class="form-control select2 employee_id" id="employee_id" name="employee_id">
                                             <option value="">Please select Employee Name</option>
                                             @foreach ($employee as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['first_name'] }}</option>
+                                            <option value="{{ $value['id'] }}">{{ $value['first_name'] . " ". $value['last_name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -80,7 +80,7 @@
                                         <label>Present Days
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="present_day" id="present_day" class="form-control" placeholder="Enter Present Days" autocomplete="off">
+                                        <input type="text" name="present_day" id="present_day" class="form-control onlyNumber" placeholder="Enter Present Days" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -88,7 +88,7 @@
                                         <label>Half Leaves
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="half_leaves" id="half_leaves" class="form-control" placeholder="Enter Half Leave" autocomplete="off">
+                                        <input type="text" name="half_leaves" id="half_leaves" class="form-control onlyNumber" placeholder="Enter Half Leave" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                         <label>Full Leaves
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="full_leaves" id="full_leaves" class="form-control " placeholder="Enter Full Leaves" autocomplete="off">
+                                        <input type="text" name="full_leaves" id="full_leaves" class="form-control onlyNumber" placeholder="Enter Full Leaves" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -133,7 +133,7 @@
                                         <label>Total Days
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="number" name="total_days" id="total_days" class="form-control" placeholder="Enter Present Days" autocomplete="off">
+                                        <input type="text" name="total_days" id="total_days" class="form-control onlyNumber" placeholder="Enter Present Days" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

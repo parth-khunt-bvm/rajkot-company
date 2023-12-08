@@ -15,8 +15,8 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-
-                    <button data-toggle="modal" data-target="#importBranch" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Branch</button>
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-branch-form" id="show-branch-form">+</button>
+                    <button data-toggle="modal" data-target="#importBranch" class="import-manager btn btn-danger font-weight-bolder mr-5 ">Import Branch</button>
 
                     <a href="{{ route('admin.branch.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
@@ -36,7 +36,7 @@
             </div>
             <div class="card-body">
 
-                <form class="form" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
+                <form class="form" style="display: none" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
 
                         <div class="row">
                             <div class="col-md-5">

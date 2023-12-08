@@ -66,7 +66,6 @@ class CounterController extends Controller
 
     public function add()
     {
-
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 

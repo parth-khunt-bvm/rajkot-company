@@ -30,7 +30,6 @@ class Counter extends Model
     ];
     public function getdatatable($fillterdata)
     {
-        // dd($fillterdata);
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'counter.id',

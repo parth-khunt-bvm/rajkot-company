@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Users;
@@ -15,16 +17,27 @@ class DashboardController extends Controller
     }
 
     public function myDashboard (){
+
+        $objEmployee = new Attendance();
+        $data['employee'] = $objEmployee->get_admin_attendance_daily_detail();
+
+        $data['date'] =  date_formate(date("Y-m-d"));
         $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
         $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
         $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
         $data['css'] = array(
         );
         $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
         );
         $data['pluginjs'] = array(
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
         );
         $data['js'] = array(
+            'dashboard.js',
+            'jquery.form.min.js',
+            'comman_function.js',
         );
         $data['funinit'] = array(
         );
@@ -152,4 +165,5 @@ class DashboardController extends Controller
         echo json_encode($return);
         exit;
     }
+
 }

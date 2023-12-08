@@ -1,7 +1,7 @@
 var Counter = function () {
     var list = function () {
-        var month = $('#month').val();
-        var year = $("#year").val();
+        var month = $('#monthId').val();
+        var year = $("#yearId").val();
         var employee = $("#employee_id").val();
         var technology = $('#technology_id').val();
 
@@ -13,9 +13,9 @@ var Counter = function () {
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 10],
-            'noSearchApply': [0, 10],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 11],
+            'noSearchApply': [0, 11],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -51,7 +51,7 @@ var Counter = function () {
             setTimeout(function () {
                 $('.yes-sure-counted:visible').attr('data-id', id);
             }, 500);
-        })
+        });
 
         $('body').on('click', '.yes-sure-counted', function () {
             var id = $(this).attr('data-id');
@@ -135,8 +135,8 @@ var Counter = function () {
 
             $(".counter-list").html(html);
 
-            var month = $('#month').val();
-            var year = $("#year").val();
+            var month = $('#monthId').val();
+            var year = $("#yearId").val();
             var employee = $("#employee_id").val();
             var technology = $('#technology_id').val();
 
@@ -167,6 +167,10 @@ var Counter = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
+
+        $("body").on("click", "#show-counter-filter", function() {
+            $("div .counter-filter").slideToggle("slow");
+        })
     }
     var addCounter = function () {
         $('.select2').select2();

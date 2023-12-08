@@ -40,6 +40,10 @@
                                  {{ $monthName }}
                             </div>
                             <div class="col-3">
+                                <b>Year</b> <br>
+                                {{ $expense_details->year}}
+                            </div>
+                            <div class="col-3">
                                 <b>Amount</b> <br>
                                  {{ $expense_details->amount }}
                             </div>
@@ -52,7 +56,6 @@
                     </div>
                     <!--end::Card-->
                 </div>
-
             </div>
         </div>
         <!--end::Container-->

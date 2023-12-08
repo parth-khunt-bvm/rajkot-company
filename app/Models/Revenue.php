@@ -18,10 +18,10 @@ class Revenue extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'revenue.id',
-            1 => 'manager.manager_name',
-            2 => 'technology.technology_name',
-            3 => 'revenue.date',
-            4 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01"))'),
+            1 => 'revenue.date',
+            2 => 'manager.manager_name',
+            3 => 'technology.technology_name',
+            4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),
             5 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),
             6 => 'revenue.amount',
             7 => 'revenue.bank_name',
@@ -50,6 +50,14 @@ class Revenue extends Model
             if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != ''){
                 $query->where("revenue.month_of", $fillterdata['monthOf']);
             }
+
+            if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where("revenue.year", $fillterdata['year']);
+            }
+
+            if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
+                $query->where(DB::raw('CONCAT(month_of, "-", year)'), $fillterdata['monthOf'] . "-" . $fillterdata['year']);
+            }
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -75,7 +83,7 @@ class Revenue extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")) as month_name'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
+            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year) as monthYear'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
             ->get();
 
         $data = array();
@@ -92,12 +100,12 @@ class Revenue extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $row['technology_name'];
-            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['received_month'];
-            $nestedData[] = $row['month_name'];
-            $nestedData[] = numberformat($row['amount']);
+            $nestedData[] = $row['monthYear'];
+            $nestedData[] = numberformat($row['amount'],2);
             $nestedData[] = $row['bank_name'];
             $nestedData[] = $row['holder_name'];
             if (strlen($row['remarks']) > $max_length) {
@@ -134,6 +142,7 @@ class Revenue extends Model
             $objRevenue->date = date('Y-m-d', strtotime($requestData['date']));
             $objRevenue->received_month = $requestData['received_month'];
             $objRevenue->month_of = $requestData['month_of'];
+            $objRevenue->year = $requestData['year'];
             $objRevenue->remarks = $requestData['remarks'] ?? '-';
             $objRevenue->amount = $requestData['amount'];
             $objRevenue->bank_name = $requestData['bank_name'];
@@ -169,6 +178,7 @@ class Revenue extends Model
             $objRevenue->date = date('Y-m-d', strtotime($requestData['date']));
             $objRevenue->received_month = $requestData['received_month'];
             $objRevenue->month_of = $requestData['month_of'];
+            $objRevenue->year = $requestData['year'];
             $objRevenue->remarks = $requestData['remarks'] ?? '-';
             $objRevenue->amount = $requestData['amount'];
             $objRevenue->bank_name = $requestData['bank_name'];
@@ -190,7 +200,7 @@ class Revenue extends Model
         return Revenue::from('revenue')
             ->join("manager", "manager.id", "=", "revenue.manager_id")
             ->join("technology", "technology.id", "=", "revenue.technology_id")
-            ->select('revenue.id', 'revenue.manager_id', 'revenue.technology_id','manager.manager_name', 'technology.technology_name', 'revenue.date', 'revenue.month_of','revenue.received_month', 'revenue.remarks', 'revenue.amount', 'revenue.bank_name', 'revenue.holder_name')
+            ->select('revenue.id', 'revenue.manager_id', 'revenue.technology_id','manager.manager_name', 'technology.technology_name', 'revenue.date', 'revenue.month_of','revenue.year','revenue.received_month', 'revenue.remarks', 'revenue.amount', 'revenue.bank_name', 'revenue.holder_name')
             ->where('revenue.id', $revenueid)
             ->first();
     }
@@ -225,6 +235,69 @@ class Revenue extends Model
         } else {
             return false;
         }
+    }
+
+    public function getRevenueReportsData($fillterdata){
+        if($fillterdata['time'] == 'monthly'){
+            $data = collect(range(1, 12));
+            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'quarterly'){
+            $data = collect(range(1, 4));
+            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
+        } elseif($fillterdata['time'] == 'semiannually'){
+            $data = collect(range(1, 2));
+            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+        } else {
+            $data = collect(range(1, 1));
+            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+        }
+        $amount_array = [];
+        foreach($data as $key => $value){
+
+            $query = Revenue::from('revenue');
+            if($fillterdata['time'] == 'monthly'){
+                $query->where('month_of', $value);
+            } elseif($fillterdata['time'] == 'quarterly'){
+                if($value == 1){
+                    $query->where('month_of', '>=', 1);
+                    $query->where('month_of', '<=', 3);
+                } elseif($value == 2){
+                    $query->where('month_of', '>=', 4);
+                    $query->where('month_of', '<=', 6);
+                } elseif($value == 3){
+                    $query->where('month_of', '>=', 7);
+                    $query->where('month_of', '<=', 9);
+                } else {
+                    $query->where('month_of', '>=', 10);
+                    $query->where('month_of', '<=', 12);
+                }
+
+            } elseif($fillterdata['time'] == 'semiannually'){
+                if($value == 1){
+                    $query->where('month_of', '>=', 1);
+                    $query->where('month_of', '<=', 6);
+                } else {
+                    $query->where('month_of', '>=', 7);
+                    $query->where('month_of', '<=', 12);
+                }
+            }
+
+            $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+
+            if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
+                $query->where("manager_id", $fillterdata['manager']);
+            }
+
+            if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                $query->where("technology_id", $fillterdata['technology']);
+            }
+            $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+            array_push($amount_array, check_value($res[0]->amount));
+        }
+
+        $details['amount'] = $amount_array;
+        return $details;
     }
 
 }

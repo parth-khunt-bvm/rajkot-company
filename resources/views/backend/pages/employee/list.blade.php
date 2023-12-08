@@ -11,6 +11,12 @@
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">{{ $header['title'] }}</h3>
+                    <span class="svg-icon svg-icon-primary svg-icon-2x show-employee-filter" id="show-employee-filter"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Text\Filter.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24"/>
+                            <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000"/>
+                        </g>
+                    </svg><!--end::Svg Icon--></span>
                 </div>
 
                 <div class="card-toolbar">
@@ -35,10 +41,10 @@
 
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row employee-filter w-5 h-5" style="display: none">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology change-fillter" id="technology_id"  name="technology_id">
@@ -50,17 +56,29 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Start Date:</label>
-                                    <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date">
+                                    <label>Designation Name</label>
+                                    <select class="form-control select2 designation change-fillter" id="designation_id"  name="designation_id">
+                                        <option value="">Please select designation Name</option>
+                                        @foreach ($designation  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['designation_name'] }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Start Date:</label>
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>End Date:</label>
-                                    <input type="text" class="form-control datepicker_date change-fillter" id="end_date" name="end_date">
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="end_date" name="end_date" autocomplete="off">
                                 </div>
                             </div>
 
@@ -69,11 +87,9 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
                 <div class="employee-list">
+
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="employee-list">
                     <thead>
@@ -81,6 +97,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Technology</th>
+                            <th>Designation</th>
                             <th>Date of Joining</th>
                             <th>Gmail</th>
                             <th>Emergency Contact</th>

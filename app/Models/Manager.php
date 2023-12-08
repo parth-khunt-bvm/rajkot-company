@@ -173,4 +173,5 @@ class Manager extends Model
             ->select('manager.id','manager.manager_name','manager.status')
             ->get();
     }
+
 }

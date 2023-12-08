@@ -98,6 +98,19 @@ var Branch = function(){
         handleFormValidateWithMsg(importform, rules,message, function(importform) {
             handleAjaxFormSubmit(importform,true);
         });
+
+        $("body").on("click", ".show-branch-form", function() {
+            $("#show-branch-form").html('-').addClass('remove-branch-form');
+            $("#show-branch-form").html('-').removeClass('show-branch-form');
+            $("#add-branch").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-branch-form", function() {
+            $("#show-branch-form").html('+').removeClass('remove-branch-form');
+            $("#show-branch-form").html('+').addClass('show-branch-form');
+            $("#add-branch").slideToggle("slow");
+        })
+
     }
     var addBranch = function(){
         var form = $('#add-branch');

@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="card-toolbar">
-
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-manager-form" id="show-manager-form">+</button>
                     <button data-toggle="modal" data-target="#importManager" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Manager</button>
                     <!--begin::Button-->
                     <a href="{{ route('admin.manager.add') }}" class="btn btn-primary font-weight-bolder">
@@ -36,7 +36,7 @@
             <div class="card-body">
 
 
-                <form class="form" id="add-manager" method="POST" action="{{ route('admin.manager.save-add-manager') }}" autocomplete="off">@csrf
+                <form class="form" id="add-manager" style="display: none" method="POST" action="{{ route('admin.manager.save-add-manager') }}" autocomplete="off">@csrf
 
                     <div class="row">
                         <div class="col-md-5">

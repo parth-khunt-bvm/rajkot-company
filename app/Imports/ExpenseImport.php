@@ -20,18 +20,20 @@ class ExpenseImport implements ToModel, WithStartRow
     */
     public function model(array $row)
     {
-        if (Expense::where('manager_id', $row[0])->where('branch_id', $row[1])->where('type_id', $row[2])->where('month', $row[4])->where('is_deleted', 'N')->count() == 0) {
-        $objExpence = new Expense();
         $managerId = Manager::where('manager_name', $row[0])->value('id');
-        $objExpence->manager_id = $managerId;
         $branchId = Branch::where('branch_name', $row[1])->value('id');
-        $objExpence->branch_id = $branchId;
         $typeId = Type::where('type_name', $row[2])->value('id');
+
+        if (Expense::where('manager_id', $managerId)->where('branch_id', $branchId)->where('type_id',  $typeId)->where('month', $row[4])->where('is_deleted', 'N')->count() == 0) {
+        $objExpence = new Expense();
+        $objExpence->manager_id = $managerId;
+        $objExpence->branch_id = $branchId;
         $objExpence->type_id = $typeId;
         $objExpence->date = $this->transformDate($row[3]);
         $objExpence->month = $row[4];
-        $objExpence->remarks = $row[5];
-        $objExpence->amount = $row[6];
+        $objExpence->year = $row[5];
+        $objExpence->remarks = $row[6];
+        $objExpence->amount = $row[7];
         $objExpence->is_deleted = 'N';
         $objExpence->created_at = date('Y-m-d H:i:s');
         $objExpence->updated_at = date('Y-m-d H:i:s');

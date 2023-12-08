@@ -16,8 +16,7 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
 
-                    {{-- <button data-toggle="modal" data-target="#addType" class="add-type btn btn-danger font-weight-bolder mr-5 ">Add type modal</button> --}}
-
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-type-form" id="show-type-form">+</button>
                     <button data-toggle="modal" data-target="#importType" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Type</button>
 
                     <a href="{{ route('admin.type.add') }}" class="btn btn-primary font-weight-bolder">
@@ -37,7 +36,7 @@
 
             </div>
             <div class="card-body">
-                <form class="form" id="add-type" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
+                <form class="form" id="add-type" style="display: none" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">

@@ -168,11 +168,17 @@ class Technology extends Model
         }
     }
 
-        public function get_admin_technology_details(){
-        return Technology::from('technology')
-            ->select('technology.id','technology.technology_name','technology.status')
+    public function get_admin_technology_details(){
+    return Technology::from('technology')
+        ->select('technology.id','technology.technology_name','technology.status')
+        ->get();
+    }
+
+    public function get_admin_designation_details(){
+        return Designation::from('designation')
+            ->select('designation.id','designation.designation_name','designation.status')
             ->get();
-      }
+        }
 
 
 

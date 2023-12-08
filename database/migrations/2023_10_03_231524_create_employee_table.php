@@ -25,7 +25,7 @@ class CreateEmployeeTable extends Migration
             $table->date('DOB');
             $table->string('bank_name');
             $table->string('acc_holder_name');
-            $table->bigInteger('account_number');
+            $table->string('account_number');
             $table->string('ifsc_number');
             $table->string('personal_email');
             $table->string('pan_number')->nullable();
