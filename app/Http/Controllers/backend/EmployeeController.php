@@ -12,6 +12,7 @@ use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
 use DB;
+use PDF;
 
 class EmployeeController extends Controller
 {
@@ -474,5 +475,44 @@ class EmployeeController extends Controller
             )
         );
         return view('backend.pages.employee.attendance', $data);
+    }
+
+    public function offerLetterPdf($viewId){
+
+        $objEmployee = new Employee();
+        $employeeData['employee_details'] = $objEmployee->get_employee_details($viewId);
+
+        $data = [
+            'title' => 'Offer Letter',
+            'employee_name' =>  $employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'],
+            'designation' => $employeeData['employee_details']['designation_name'],
+            'date_of_joining'=> date_formate($employeeData['employee_details']['DOJ']),
+            'salary'=> numberformat($employeeData['employee_details']['salary'], 0),
+            'created_at'=> date_formate($employeeData['employee_details']['created_at']),
+            'date' => date_formate(date('Y-m-d H:i:s', strtotime($employeeData['employee_details']['created_at'] . ' +1 day'))),
+        ];
+
+        $customPaper = [0, 0, 612.00, 792.00];
+        $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data)->setPaper($customPaper, 'portrait');
+        return $pdf->download($employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'] .'_offer_letter.pdf');
+    }
+    public function coverLetterPdf($viewId){
+
+        $objEmployee = new Employee();
+        $employeeData['employee_details'] = $objEmployee->get_employee_details($viewId);
+        dd($employeeData['employee_details']);
+
+        $data = [
+            'title' => 'Cover Letter',
+            'date' => date('m/d/Y'),
+            'employee_name' =>  $employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'],
+            'designation' => $employeeData['employee_details']['designation_name'],
+            'date_of_joining'=> date_formate($employeeData['employee_details']['DOJ']),
+            'salary'=> numberformat($employeeData['employee_details']['salary'], 0),
+        ];
+
+        $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data);
+
+        return $pdf->download($employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'] .'_offer_letter.pdf');
     }
 }

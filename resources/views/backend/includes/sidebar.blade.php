@@ -46,7 +46,7 @@ $currentRoute = Route::current()->getName();
                     </a>
                 </li>
 
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit" || $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"  || $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit" || $currentRoute  ==  "admin.technology.list" || $currentRoute  ==  "admin.technology.add" || $currentRoute  ==  "admin.technology.edit" ||  $currentRoute  ==  "admin.designation.list" || $currentRoute  ==  "admin.designation.add" || $currentRoute  ==  "admin.designation.edit" ||$currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit" || $currentRoute  ==  "admin.branch.list" || $currentRoute  ==  "admin.branch.add" || $currentRoute  ==  "admin.branch.edit" || $currentRoute  ==  "admin.branch.import-branch"  || $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit" || $currentRoute  ==  "admin.technology.list" || $currentRoute  ==  "admin.technology.add" || $currentRoute  ==  "admin.technology.edit" ||  $currentRoute  ==  "admin.designation.list" || $currentRoute  ==  "admin.designation.add" || $currentRoute  ==  "admin.designation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -101,7 +101,7 @@ $currentRoute = Route::current()->getName();
                                         <span class="menu-text">Branch</span>
                                     </a>
                                 </li>
-                            {{-- Branch Menu End --}}
+                             {{-- Branch Menu End --}}
 
                             {{-- Manager Menu --}}
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.manager.list" || $currentRoute  ==  "admin.manager.add" || $currentRoute  ==  "admin.manager.edit"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">

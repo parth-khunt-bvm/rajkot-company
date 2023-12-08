@@ -41,7 +41,7 @@
 
             </div>
             <div class="card-body">
-                <div class="row employee-filter" style="display: none">
+                <div class="row employee-filter w-5 h-5" style="display: none">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-2">
@@ -89,6 +89,7 @@
                     </div>
                 </div>
                 <div class="employee-list">
+
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="employee-list">
                     <thead>

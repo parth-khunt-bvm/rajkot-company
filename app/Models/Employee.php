@@ -92,6 +92,8 @@ class Employee extends Model
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            $actionhtml .= '<a href="' . route('admin.employee.offer-letter', $row['id']) . '" class="btn btn-icon" data-toggle="tooltip" data-placement="top" title="offer letter pdf"><i class="far fa-file-pdf text-success"></i></a>';
+            $actionhtml .= '<a href="' . route('admin.employee.cover-letter', $row['id']) . '" class="btn btn-icon" title="cover letter pdf"><i class="far fa-file-pdf text-info"></i></a>';
 
             $i++;
             $nestedData = array();
@@ -419,7 +421,7 @@ class Employee extends Model
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name')
              ->where('employee.id', $employeeId)
              ->first();
     }
@@ -510,7 +512,7 @@ class Employee extends Model
             $halfdaycount = $value['halfdaycount'];
             $sortleavecount = $value['sortleavecount'];
             $total = $value['total'];
-        }   
+        }
         $countsheetdata['employeeName'] = $employeeName;
         $countsheetdata['department'] = $department;
         $countsheetdata['totalDays'] = $totalDays;

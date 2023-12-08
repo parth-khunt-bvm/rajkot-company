@@ -1,6 +1,10 @@
 
 var Employee = function () {
     var list = function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         var technology = $("#technology_id").val();
         var designation = $("#designation_id").val();
         var startDate = $("#start_date").val();

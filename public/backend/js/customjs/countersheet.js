@@ -151,7 +151,7 @@ var Countersheet = function(){
                             '</div>' +
                             '</div>';
 
-                    $("#counter-sheet-view-model").html(html);
+                        $("#counter-sheet-view-model").html(html);
                         $('.select2').select2();
 
                         eventArray = [];
@@ -167,8 +167,6 @@ var Countersheet = function(){
                         var todayDate = moment().startOf('day');
                         var TODAY = todayDate.format('YYYY-MM-DD');
                         var calendarEl = document.getElementById('attendance_calendar');
-
-
                         var calendar = new FullCalendar.Calendar(calendarEl, {
                             plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
                             themeSystem: 'bootstrap',

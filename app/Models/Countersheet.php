@@ -28,7 +28,7 @@ class Countersheet extends Model
                 ".",
                 (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
                 ""
-            )'),
+                )'),
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
