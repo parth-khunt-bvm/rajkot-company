@@ -46,5 +46,10 @@
         <script>
             var baseurl = "{{ asset('/') }}";
         </script>
+         @php
+            $systemsetting = get_system_details();
+         @endphp
+
+
 </head>
 <!--end::Head-->

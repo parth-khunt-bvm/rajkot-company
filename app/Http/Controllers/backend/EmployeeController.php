@@ -500,7 +500,6 @@ class EmployeeController extends Controller
 
         $objEmployee = new Employee();
         $employeeData['employee_details'] = $objEmployee->get_employee_details($viewId);
-        dd($employeeData['employee_details']);
 
         $data = [
             'title' => 'Cover Letter',

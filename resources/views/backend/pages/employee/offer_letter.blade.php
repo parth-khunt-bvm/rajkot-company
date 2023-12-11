@@ -8,17 +8,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="mt-5">
+    <div class="mt-5 ml-5 mr-5">
         <div class="m-4">
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                <img fetchpriority="high" width="130" height="80" src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
+                <img fetchpriority="high" width="135" height="85" src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
                 </div>
 
-                <h1 class="text-center mt-2">Offer Letter</h1>
-                <p class="text-center"> <b>To Whom It May Concern</b></p>
-                <address class="text-end">
+                <h1 class="text-center mt-3" style="font-size: 39px;">Offer Letter</h1>
+                <p class="text-center mt-3"> <b>To Whom It May Concern</b></p>
+                <address class="text-end mt-4" style="">
                     BVM Infotech<br>
                     Address: 1051, Silver Business Point<br>
                     VIP Circle, Uttran, Surat, Gujarat<br>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-12">
                 <p class="text-star ">Dear Mr. {{ $employee_name }},</p>
-                <p>We are pleased to offer you the full-time position of {{ $designation }} at BVM InfoTech with a start date of {{ $date_of_joining }}. We believe that your abilities and experience will be the perfect fit for our company.</p>
+                <p >We are pleased to offer you the full-time position of {{ $designation }} at BVM InfoTech with a start date of {{ $date_of_joining }}. We believe that your abilities and experience will be the perfect fit for our company.</p>
                 <p>We are starting with a probationary period of two months starting from the date of your joining. However, this period can be cut short or extended based on the individual’s performance and at the discretion of the management.</p>
                 <p>After successfully completing the probation period, you'll be a regular team member of BVM InfoTech, and you will get paid    {{$salary}}/- on a monthly basis by direct deposit.</p>
                 <p>We look forward to having you on our team! If you have any questions, please feel free to reach out at

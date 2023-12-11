@@ -7,7 +7,8 @@ $currentRoute = Route::current()->getName();
     <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
         <a href="{{ route('my-dashboard') }}" class="brand-logo">
-            <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" />
+            {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}
+            <img fetchpriority="high" width="100" height="50" src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->

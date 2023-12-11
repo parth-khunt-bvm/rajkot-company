@@ -729,7 +729,7 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div id="counter-sheet-cal"></div>
+            <div id="counter-sheet-cal"></div>  
             <div class="modal-body" id="counter-sheet-view-model">
 
             </div>

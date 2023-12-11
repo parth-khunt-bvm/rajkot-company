@@ -19,6 +19,7 @@ use App\Http\Controllers\backend\DesignationController;
 use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
 use App\Http\Controllers\backend\CountersheetController;
+use App\Http\Controllers\backend\SystemsettingController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -31,11 +32,17 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('save-password', [DashboardController::class, 'save_password'])->name('save-password');
     Route::post('admin/dashboard/ajaxcall', [DashboardController::class, 'ajaxcall'])->name('admin.dashboard.ajaxcall');
 
+    Route::get('admin-system-setting', [SystemsettingController::class, 'systemColorSetting'])->name('system-color-setting');
+    Route::post('admin-system-setting/save-add', [SystemsettingController::class, 'saveAdd'])->name('system-color-setting.save-add');
+
+
+
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
         Route::get('audit-trails', [AuditTrailsController::class, 'list'])->name('audit-trails');
         Route::post('audit-trails-ajaxcall', [AuditTrailsController::class, 'ajaxcall'])->name('audit-trails-ajaxcall');
     });
+
     //  branch
 
     Route::get('admin/branch/list', [BranchController::class, 'list'])->name('admin.branch.list');
