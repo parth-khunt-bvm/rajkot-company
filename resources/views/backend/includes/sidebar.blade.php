@@ -1,5 +1,13 @@
 @php
 $currentRoute = Route::current()->getName();
+
+$data['systemDetails'] = get_system_details(1);
+if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0]['logo']) &&$data['systemDetails'][0]['logo'] != ''){
+    $logo = url("upload/company_info/".$data['systemDetails'][0]['logo']);
+}else{
+    $logo = url("upload/company_image/logo.png");
+}
+
 @endphp
 <!--begin::Aside-->
 <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
@@ -8,7 +16,7 @@ $currentRoute = Route::current()->getName();
         <!--begin::Logo-->
         <a href="{{ route('my-dashboard') }}" class="brand-logo">
             {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}
-            <img fetchpriority="high" width="100" height="50" src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
+            <img fetchpriority="high" width="150" height="50" src="{{$logo }}" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->

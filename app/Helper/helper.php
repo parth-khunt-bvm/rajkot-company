@@ -34,4 +34,7 @@ function get_system_details(){
     return $objCompanyinfo->get_system_details(1);
 }
 
+        // $objCompanyinfo = new CompanyInfo();
+        // $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+
 ?>
