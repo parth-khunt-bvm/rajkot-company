@@ -355,6 +355,14 @@ class EmployeeController extends Controller
                     echo json_encode($attendanceData);
                     exit;
 
+                }elseif($inputData['type'] == 'salary-slip'){
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.salary_slip', $data);
+                    echo $details;
+                    break;
+
+
                 } else {
                     $objEmployee = new Employee();
                     $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);

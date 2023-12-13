@@ -5,28 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use App\Models\Audittrails;
-
-class Type extends Model
+class UserRole extends Model
 {
     use HasFactory;
-    protected $table = "type";
 
-    protected $fillable = [
-        'type_name',
-        'status'
-    ];
+    protected $table = 'user_role';
 
     public function getdatatable()
     {
         $requestData = $_REQUEST;
         $columns = array(
-            0 => 'type.id',
-            1 => 'type.type_name',
-            2 => DB::raw('(CASE WHEN type.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            0 => 'user_role.id',
+            1 => 'user_role.user_role',
+            2 => DB::raw('(CASE WHEN user_role.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
-        $query = Type::from('type')
-            ->where("type.is_deleted", "=", "N");
+        $query = UserRole::from('user_role')
+            ->where("user_role.is_deleted", "=", "N");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -53,7 +47,7 @@ class Type extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('type.id', 'type.type_name', 'type.status')
+            ->select('user_role.id', 'user_role.user_role', 'user_role.status','user_role.permission')
             ->get();
 
         $data = array();
@@ -62,7 +56,8 @@ class Type extends Model
         foreach ($resultArr as $row) {
 
             $actionhtml  = '';
-            $actionhtml .= '<a href="' . route('admin.type.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            $actionhtml .= '<a href="' . route('admin.user-role.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            $actionhtml .= '<a href="' . route('admin.user-role.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['status'] == 'A') {
                 $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
@@ -75,7 +70,7 @@ class Type extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = $row['type_name'];
+            $nestedData[] = $row['user_role'];
             $nestedData[] = $status;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -91,95 +86,85 @@ class Type extends Model
 
     public function saveAdd($requestData)
     {
-        $checktypeName = Type::from('type')
-            ->where('type.type_name', $requestData['type_name'])
-            ->where('type.is_deleted', 'N')
+        $checkUserRoleName = UserRole::from('user_role')
+            ->where('user_role.user_role', $requestData['user_role_name'])
+            ->where('user_role.is_deleted', 'N')
             ->count();
 
-        if ($checktypeName == 0) {
-            if ($requestData->type_name) {
-                // foreach ($requestData->type_name as $typeNameKey => $value) {
-                    $objtype = new Type();
-                    $objtype->type_name = $requestData['type_name'];
-                    $objtype->status = $requestData['status'];
-                    $objtype->is_deleted = 'N';
-                    $objtype->created_at = date('Y-m-d H:i:s');
-                    $objtype->updated_at = date('Y-m-d H:i:s');
-                    $objtype->save();
-                // }
+        if ($checkUserRoleName == 0) {
+                    $objUserRole = new UserRole();
+                    $objUserRole->user_role = $requestData['user_role_name'];
+                    $objUserRole->status = $requestData['status'];
+                    $objUserRole->is_deleted = 'N';
+                    $objUserRole->created_at = date('Y-m-d H:i:s');
+                    $objUserRole->updated_at = date('Y-m-d H:i:s');
+                    $objUserRole->save();
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'type');
+                $objAudittrails->add_audit("I", $requestData, 'user_role');
                 return true;
-            }
         }
-        return 'type_name_exists';
+        return 'user_role_name_exists';
     }
 
-    public function get_type_details($typeId)
+    public function saveEdit($requestData)
     {
-        return Type::from('type')
-            ->where("type.id", $typeId)
-            ->select('type.id', 'type.type_name', 'type.status')
-            ->first();
-    }
+        $checkUserRoleName = UserRole::from('user_role')
+        ->where('user_role.user_role', $requestData['user_role_name'])
+        ->where('user_role.is_deleted', 'N')
+        ->where('user_role.id', '!=', $requestData['user_role_Id'])
+        ->count();
 
-        public function saveEdit($requestData)
-        {
-            $checktypeName = type::from('type')
-                ->where('type.type_name', $requestData['type_name'])
-                ->where('type.is_deleted', 'N')
-                ->where('type.id', '!=', $requestData['type_Id'])
-                ->count();
 
-            if ($checktypeName == 0) {
-                $objtype = Type::find($requestData['type_Id']);
-                $objtype->type_name = $requestData['type_name'];
-                $objtype->status = $requestData['status'];
-                $objtype->updated_at = date('Y-m-d H:i:s');
-                if ($objtype->save()) {
-                    $objAudittrails = new Audittrails();
-                    $objAudittrails->add_audit("U", $requestData, 'type');
-                    return 'updated';
-                } else {
-                    return 'wrong';
-                }
+        if ($checkUserRoleName == 0) {
+            $objUserRole = UserRole::find($requestData['user_role_Id']);
+            $objUserRole->user_role = $requestData['user_role_name'];
+            $objUserRole->status = $requestData['status'];
+            $objUserRole->updated_at = date('Y-m-d H:i:s');
+            if ($objUserRole->save()) {
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("U", $requestData, 'user_role');
+                return 'updated';
+            } else {
+                return 'wrong';
             }
-            return 'type_name_exists';
         }
+        return 'user_role_name_exists';
+    }
 
     public function common_activity($requestData)
     {
 
-        $objtype = Type::find($requestData['id']);
+        $objUserRole = UserRole::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
-            $objtype->is_deleted = "Y";
+            $objUserRole->is_deleted = "Y";
             $event = 'D';
         }
 
         if ($requestData['activity'] == 'active-records') {
-            $objtype->status = "A";
+            $objUserRole->status = "A";
             $event = 'A';
         }
 
         if ($requestData['activity'] == 'deactive-records') {
-            $objtype->status = "I";
+            $objUserRole->status = "I";
             $event = 'DA';
         }
 
-        $objtype->updated_at = date("Y-m-d H:i:s");
-        if ($objtype->save()) {
+        $objUserRole->updated_at = date("Y-m-d H:i:s");
+        if ($objUserRole->save()) {
             $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'type');
+            $res = $objAudittrails->add_audit($event, $requestData, 'user_role');
             return true;
         } else {
             return false;
         }
     }
 
-    public function get_admin_type_details()
-    {
-        return Type::from('type')
-            ->select('type.id', 'type.type_name', 'type.status')
-            ->get();
+    public function get_user_role_details($userRoleId){
+        return UserRole::from('user_role')
+        ->where("user_role.id", $userRoleId)
+        ->select('user_role.id', 'user_role.user_role', 'user_role.status','user_role.permission')
+        ->first();
     }
+
 }

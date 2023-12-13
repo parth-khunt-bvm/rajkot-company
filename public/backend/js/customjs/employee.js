@@ -99,8 +99,6 @@ var Employee = function () {
             });
         });
 
-
-
         var importform = $('#import-employee');
         var rules = {
             file: { required: true },
@@ -702,6 +700,7 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
+                    console.log(data);
 
                     if (type == 'attendance') {
                         var res = JSON.parse(data);
@@ -838,7 +837,6 @@ var Employee = function () {
 
                 },
             });
-            // if (type == 'attendance') {
 
             $("body").on("change", ".change-fillter", function(){
                 console.log("change");
@@ -947,13 +945,11 @@ var Employee = function () {
                     },
                 });
             });
-             // }
         });
 
     }
 
     var employeeBirthdayList = function(){
-        console.log("birthday");
         $('.select2').select2();
         var bdayTime = $("#employee_bday").val();
         var dataArr = {'bdayTime' : bdayTime} ;

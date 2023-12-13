@@ -21,7 +21,7 @@
 
                 <div class="card-toolbar">
                     <button class="btn btn-primary font-weight-bolder mr-5 show-hr-income-form" id="show-hr-income-form">+</button>
-                    <button data-toggle="modal" data-target="#importHrExpense" class="import-hr-expense btn btn-danger font-weight-bolder mr-5 ">Import Hr Expense</button>
+                    <button data-toggle="modal" data-target="#importHrExpense" class="import-hr-expense btn btn-danger font-weight-bolder mr-5 ">Import Hr Income</button>
                     <a href="{{ route('admin.hr.income.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->

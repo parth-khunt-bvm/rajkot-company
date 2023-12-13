@@ -16,7 +16,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
         <!--begin::Logo-->
         <a href="{{ route('my-dashboard') }}" class="brand-logo">
             {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}
-            <img fetchpriority="high" width="150" height="50" src="{{$logo }}" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
+            <img width="100" height="50" alt="Logo" src="{{$logo }}" />
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->
@@ -314,7 +314,20 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 </li>
                 {{-- Attendance Menu End --}}
 
-
+                {{-- Counter Menu --}}
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.user-role.list" || $currentRoute  ==  "admin.user-role.add" || $currentRoute  ==  "admin.user-role.edit" || $currentRoute  ==  "admin.user-role.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('admin.user-role.list') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.33333 0C8.8029 0 8.29419 0.207421 7.91912 0.576634C7.54405 0.945846 7.33333 1.44661 7.33333 1.96875C7.33333 2.49089 7.54405 2.99165 7.91912 3.36087C8.29419 3.73008 8.8029 3.9375 9.33333 3.9375C9.86377 3.9375 10.3725 3.73008 10.7475 3.36087C11.1226 2.99165 11.3333 2.49089 11.3333 1.96875C11.3333 1.44661 11.1226 0.945846 10.7475 0.576634C10.3725 0.207421 9.86377 0 9.33333 0ZM7.33333 4.59375C7.27933 4.59375 7.23133 4.61278 7.18067 4.62459C6.97731 4.58713 6.76716 4.61271 6.57921 4.69781C6.39125 4.78292 6.23476 4.92334 6.13133 5.09972L3.46667 9.68362C3.37992 9.83311 3.33452 10.0024 3.33499 10.1745C3.33546 10.3467 3.3818 10.5157 3.46937 10.6648C3.55694 10.8138 3.68268 10.9376 3.83404 11.0238C3.98541 11.1101 4.15711 11.1557 4.332 11.1562C4.67867 11.1563 4.85 10.9784 5.03533 10.6601L6.33333 8.51944V11.1562H0.666667C0.489856 11.1562 0.320286 11.2254 0.195262 11.3485C0.0702379 11.4715 0 11.6385 0 11.8125C0 11.9865 0.0702379 12.1535 0.195262 12.2765C0.320286 12.3996 0.489856 12.4688 0.666667 12.4688H1.66667V20.3438C1.66667 20.5178 1.7369 20.6847 1.86193 20.8078C1.98695 20.9309 2.15652 21 2.33333 21C2.51014 21 2.67971 20.9309 2.80474 20.8078C2.92976 20.6847 3 20.5178 3 20.3438V12.4688H14.3333V20.3438C14.3333 20.5178 14.4036 20.6847 14.5286 20.8078C14.6536 20.9309 14.8232 21 15 21C15.1768 21 15.3464 20.9309 15.4714 20.8078C15.5964 20.6847 15.6667 20.5178 15.6667 20.3438V12.4688H17.3333C17.5101 12.4688 17.6797 12.3996 17.8047 12.2765C17.9298 12.1535 18 11.9865 18 11.8125C18 11.6385 17.9298 11.4715 17.8047 11.3485C17.6797 11.2254 17.5101 11.1562 17.3333 11.1562H11.6667V8.14144L13.298 10.6601C13.4833 10.9784 13.9047 11.1562 14.2513 11.1562C14.4193 11.1562 14.632 11.1149 14.7893 11.027C15.268 10.7566 15.456 10.1555 15.1807 9.68362L12.5247 5.09906C12.4227 4.92262 12.2672 4.782 12.08 4.69692C11.8928 4.61183 11.6832 4.58654 11.4807 4.62459C11.43 4.61278 11.3867 4.59375 11.3333 4.59375H7.33333ZM5.33333 13.7812C5.15652 13.7812 4.98695 13.8504 4.86193 13.9735C4.7369 14.0965 4.66667 14.2635 4.66667 14.4375C4.66667 14.6115 4.7369 14.7785 4.86193 14.9015C4.98695 15.0246 5.15652 15.0938 5.33333 15.0938H12.6667C12.8435 15.0938 13.013 15.0246 13.1381 14.9015C13.2631 14.7785 13.3333 14.6115 13.3333 14.4375C13.3333 14.2635 13.2631 14.0965 13.1381 13.9735C13.013 13.8504 12.8435 13.7812 12.6667 13.7812H5.33333Z" fill="white"/>
+                                </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">User Role</span>
+                    </a>
+                </li>
+                {{-- Counter Menu End --}}
 
                 {{-- report Menu --}}
                 <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-daye.list" || $currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">

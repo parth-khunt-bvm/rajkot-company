@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\AttendanceController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\backend\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
@@ -20,6 +20,7 @@ use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
 use App\Http\Controllers\backend\CountersheetController;
 use App\Http\Controllers\backend\SystemsettingController;
+use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -199,4 +200,16 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     // Countersheet
     Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
     Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
+
+
+    //  User Role
+    Route::get('user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
+    Route::get('admin/user-role/add', [UserroleController::class, 'add'])->name('admin.user-role.add');
+    Route::post('admin/user-role/save-add-user-role', [UserroleController::class, 'saveAdd'])->name('admin.user-role.save-add-user-role');
+    Route::get('admin/user-role/edit/{id}', [UserroleController::class, 'edit'])->name('admin.user-role.edit');
+    Route::post('admin/user-role/save-edit-user-role', [UserroleController::class, 'saveEdit'])->name('admin.user-role.save-edit-user-role');
+    Route::post('admin/user-role/ajaxcall', [UserroleController::class, 'ajaxcall'])->name('admin.user-role.ajaxcall');
+    Route::post('admin/user-role/save-import-user-role', [UserroleController::class, 'save_import'])->name('admin.user-role.save-import-type');
+    Route::get('admin/user-role/view/{id}', [UserroleController::class, 'view'])->name('admin.user-role.view');
+
 });
