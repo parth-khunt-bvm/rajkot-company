@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\CompanyInfo;
+use App\Models\UserRole;
 use Faker\Provider\ar_EG\Company;
 
 function numberformat($value, $afterDecimal = 4){
@@ -34,7 +35,9 @@ function get_system_details(){
     return $objCompanyinfo->get_system_details(1);
 }
 
-        // $objCompanyinfo = new CompanyInfo();
-        // $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+function get_users_permission($userId){
+    $objUsersroles = new UserRole();
+    return $objUsersroles->get_user_permission_details($userId);
+}
 
 ?>

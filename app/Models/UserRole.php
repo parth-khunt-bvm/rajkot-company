@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Route;
 class UserRole extends Model
 {
     use HasFactory;
@@ -56,7 +57,9 @@ class UserRole extends Model
         foreach ($resultArr as $row) {
 
             $actionhtml  = '';
-            $actionhtml .= '<a href="' . route('admin.user-role.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            // $actionhtml .= '<a href="' . route('admin.user-role.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            $actionhtml =  '<a href="' . route('admin.user-role.view', $row['id']) . '" class="btn btn-icon" title="Permission" ><i class="fa fa-lock text-success"> </i></a>';
+
             $actionhtml .= '<a href="' . route('admin.user-role.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['status'] == 'A') {
                 $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
@@ -98,10 +101,14 @@ class UserRole extends Model
                     $objUserRole->is_deleted = 'N';
                     $objUserRole->created_at = date('Y-m-d H:i:s');
                     $objUserRole->updated_at = date('Y-m-d H:i:s');
-                    $objUserRole->save();
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'user_role');
-                return true;
+
+                    if ( $objUserRole->save()) {
+                        $objAudittrails = new Audittrails();
+                        $objAudittrails->add_audit("I", $requestData, 'user_role');
+                        return "added";
+                    } else {
+                        return 'wrong';
+                    }
         }
         return 'user_role_name_exists';
     }
@@ -113,7 +120,6 @@ class UserRole extends Model
         ->where('user_role.is_deleted', 'N')
         ->where('user_role.id', '!=', $requestData['user_role_Id'])
         ->count();
-
 
         if ($checkUserRoleName == 0) {
             $objUserRole = UserRole::find($requestData['user_role_Id']);
@@ -166,5 +172,36 @@ class UserRole extends Model
         ->select('user_role.id', 'user_role.user_role', 'user_role.status','user_role.permission')
         ->first();
     }
+
+    public function get_user_permission_details($userId){
+        return  UserRole::from('user_role')
+                         ->where('user_role.id', $userId)
+                         ->select('user_role.permission')
+                         ->get()
+                         ->toArray();
+    }
+
+
+    public function save_user_roles_permissions($requestData){
+
+        $objUserRole =  UserRole::find($requestData->input('editId'));
+
+        if($requestData->input('permission')){
+            $objUserRole->permission = implode(",",$requestData->input('permission'));
+        }else{
+            $objUserRole->permission = null;
+        }
+
+        $objUserRole->updated_at = date("Y-m-d H:i:s");
+
+        if ($objUserRole->save()) {
+            $objAudittrails = new Audittrails();
+            $objAudittrails->add_audit("U", $requestData, 'user_role');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

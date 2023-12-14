@@ -42,27 +42,33 @@
             ],
 
             'salary' => [
-                '26'  => 'import salary',
-                '27'  => 'add salary',
-                '28'  => 'view salary',
-                '29'  => 'edit salary ',
-                '30'  => 'delete salary',
+                'salary' =>[
+                    '26'  => 'import salary',
+                    '27'  => 'add salary',
+                    '28'  => 'view salary',
+                    '29'  => 'edit salary ',
+                    '30'  => 'delete salary',
+                ]
             ],
 
             'expense' => [
-                '31'  => 'import expense',
-                '32'  => 'add expense',
-                '33'  => 'view expense',
-                '34'  => 'edit expense ',
-                '35'  => 'delete expense',
+                'expense' => [
+                    '31'  => 'import expense',
+                    '32'  => 'add expense',
+                    '33'  => 'view expense',
+                    '34'  => 'edit expense ',
+                    '35'  => 'delete expense',
+                ],
             ],
 
             'revenue' => [
-                '36'  => 'import revenue',
-                '37'  => 'add revenue',
-                '38'  => 'view revenue',
-                '39'  => 'edit revenue ',
-                '40'  => 'delete revenue',
+                'revenue' => [
+                    '36'  => 'import revenue',
+                    '37'  => 'add revenue',
+                    '38'  => 'view revenue',
+                    '39'  => 'edit revenue ',
+                    '40'  => 'delete revenue',
+                ],
             ],
 
             'hr_manager'=>[
@@ -83,27 +89,33 @@
             ],
 
             'employee' => [
-                '51'  => 'import employee',
-                '52'  => 'add employee',
-                '53'  => 'view employee',
-                '54'  => 'edit employee ',
-                '55'  => 'change employee status',
-                '56'  => 'delete employee',
-                '57'  => 'download offer letter',
-                '58'  => 'download appoinment letter',
+                'employee' => [
+                    '51'  => 'import employee',
+                    '52'  => 'add employee',
+                    '53'  => 'view employee',
+                    '54'  => 'edit employee ',
+                    '55'  => 'change employee status',
+                    '56'  => 'delete employee',
+                    '57'  => 'download offer letter',
+                    '58'  => 'download appoinment letter',
+                ],
             ],
 
             'counter' => [
-                '59'  => 'import counter',
-                '60'  => 'add counter',
-                '61'  => 'view counter',
-                '62'  => 'edit counter ',
-                '63'  => 'change counter status',
-                '64'  => 'delete counter',
+                'counter' => [
+                    '59'  => 'import counter',
+                    '60'  => 'add counter',
+                    '61'  => 'view counter',
+                    '62'  => 'edit counter ',
+                    '63'  => 'change counter status',
+                    '64'  => 'delete counter',
+                ],
             ],
 
             'attendance' => [
-                '65'  => 'add attendance',
+                'attendance' => [
+                    '65'  => 'add attendance',
+                ],
             ],
 
             'reports' => [
@@ -131,12 +143,14 @@
             ],
 
             'user_role' => [
-                '73'  => 'import user_role',
-                '74'  => 'add user_role',
-                '75'  => 'view user_role',
-                '76'  => 'edit user_role',
-                '77'  => 'change user_role status',
-                '78'  => 'delete user_role',
+                'user_role' => [
+                    '73'  => 'import user_role',
+                    '74'  => 'add user_role',
+                    '75'  => 'view user_role',
+                    '76'  => 'edit user_role',
+                    '77'  => 'change user_role status',
+                    '78'  => 'delete user_role',
+                ]
             ]
         ],
     ];

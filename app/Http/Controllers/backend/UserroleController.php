@@ -168,42 +168,6 @@ class UserroleController extends Controller
         echo json_encode($return);
         exit;
     }
-
-    public function view($userRoleId){
-        $objUserRole = new UserRole();
-        $data['user_role_details'] = $objUserRole->get_user_role_details($userRoleId);
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View User Role";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View User Role";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View User Role";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'user_role.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'User Role List' => route('admin.user-role.list'),
-                'View User Role detail' => 'View User Role detail',
-            )
-        );
-        return view('backend.pages.user_role.view', $data);
-    }
-
     public function ajaxcall(Request $request){
 
         $action = $request->input('action');
@@ -240,7 +204,6 @@ class UserroleController extends Controller
             }
     }
 
-
     public function save_import(Request $request){
         $path = $request->file('file')->store('temp');
         $data = \Excel::import(new UserRoleImport($request->file('file')),$path);
@@ -250,5 +213,61 @@ class UserroleController extends Controller
 
         echo json_encode($return);
         exit;
+    }
+
+    public function view($id){
+
+            $objUserRole = new UserRole();
+            $data['user_roles'] = $objUserRole->get_user_permission_details($id);
+
+            $data['user_role_id'] = $id;
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || View User Role";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || View User Role";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || View User Role";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'user_role.js',
+            );
+            $data['funinit'] = array(
+                'UserRole.view()'
+            );
+            $data['header'] = array(
+                'title' => 'View User Roles',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Users Role List' => route('admin.user-role.list'),
+                    'View User Roles' => 'View Users Roles',
+                )
+            );
+            return view('backend.pages.user_role.view', $data);
+    }
+
+    public function permission(Request $request){
+
+            $objUserroles = new UserRole();
+            $res = $objUserroles->save_user_roles_permissions($request);
+            if ($res) {
+                $return['status'] = 'success';
+                $return['message'] = 'User roles permission successfully updated.';
+                $return['jscode'] = '$("#loader").hide();';
+                $return['redirect'] = route('admin.user-role.list');
+            }else{
+                $return['status'] = 'error';
+                $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Something goes to wrong';
+            }
+            echo json_encode($return);
+            exit;
     }
 }
