@@ -16,8 +16,8 @@ class CreateUserRoleTable extends Migration
         Schema::create('user_role', function (Blueprint $table) {
             $table->id();
             $table->string('user_role');
-            $table->string('status');
             $table->text('permission')->nullable();
+            $table->enum('status',['A','I'])->default("A")->comment("A for Active, I for not Inactive");
             $table->enum('is_deleted',['N','Y'])->default("N")->comment("Y for Deleted, N for Not Deleted");
             $table->timestamps();
         });

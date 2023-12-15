@@ -17,8 +17,6 @@
                     <!--begin::Button-->
 
                     <button class="btn btn-primary font-weight-bolder mr-5 show-user-role-form" id="show-user-role-form">+</button>
-                    <button data-toggle="modal" data-target="#importUserRole" class="import-user-role btn btn-danger font-weight-bolder mr-5 ">Import User Role</button>
-
                     <a href="{{ route('admin.user-role.add') }}" class="btn btn-primary font-weight-bolder">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->

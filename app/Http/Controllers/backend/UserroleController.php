@@ -51,7 +51,7 @@ class UserroleController extends Controller
                 'User Role' => 'User Role',
             )
         );
-        return view('backend.pages.user_role.list', $data);
+        return view('backend.pages.user.user_role.list', $data);
     }
 
 
@@ -86,7 +86,7 @@ class UserroleController extends Controller
                 'Add User Role' => 'Add User Role',
             )
         );
-        return view('backend.pages.user_role.add', $data);
+        return view('backend.pages.user.user_role.add', $data);
     }
 
     public function saveAdd(Request $request){
@@ -145,7 +145,7 @@ class UserroleController extends Controller
                 'Edit User Role' => 'Edit User Role',
             )
         );
-        return view('backend.pages.user_role.edit', $data);
+        return view('backend.pages.user.user_role.edit', $data);
     }
 
     public function saveEdit(Request $request){
@@ -250,7 +250,7 @@ class UserroleController extends Controller
                     'View User Roles' => 'View Users Roles',
                 )
             );
-            return view('backend.pages.user_role.view', $data);
+            return view('backend.pages.user.user_role.view', $data);
     }
 
     public function permission(Request $request){

@@ -5,20 +5,20 @@ $currentRoute = Route::current()->getName();
 if (!empty(Auth()->guard('admin')->user())) {
    $data = Auth()->guard('admin')->user();
 }
-if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]->signature) &&$systemDetails[0]->signature != ''){
-    $signature = url("upload/company_info/".$systemDetails[0]->signature);
+if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]['signature']) &&$systemDetails[0]['signature'] != ''){
+    $signature = url("upload/company_info/".$systemDetails[0]['signature']);
 }else{
     $signature = url("upload/company_image/sign.png");
 }
 
-if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]->logo) &&$systemDetails[0]->logo != ''){
-    $logo = url("upload/company_info/".$systemDetails[0]->logo);
+if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]['logo']) &&$systemDetails[0]['logo'] != ''){
+    $logo = url("upload/company_info/".$systemDetails[0]['logo']);
 }else{
     $logo = url("upload/company_image/logo.png");
 }
 
-if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]->favicon) &&$systemDetails[0]->favicon != ''){
-    $favicon_icon  = url("upload/company_info/".$systemDetails[0]->favicon );
+if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]['favicon']) &&$systemDetails[0]['favicon'] != ''){
+    $favicon_icon  = url("upload/company_info/".$systemDetails[0]['favicon'] );
 }else{
     $favicon_icon  = url("upload/company_image/favicon.jpg");
 }
@@ -101,19 +101,19 @@ if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]->favicon
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Theme Color</label>
-                                        <input class="form-control" name="theme_color_code" type="color" id="example-color-input" value="{{ $systemDetails[0]->theme_color_code }}"/>
+                                        <input class="form-control" name="theme_color_code" type="color" id="example-color-input" value="{{ $systemDetails[0]['theme_color_code'] }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Sidebar Color</label>
-                                        <input class="form-control" name="sidebar_color" type="color" id="example-color-input" value="{{ $systemDetails[0]->sidebar_color }}"/>
+                                        <input class="form-control" name="sidebar_color" type="color" id="example-color-input" value="{{ $systemDetails[0]['sidebar_color'] }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Sidebar Menu Color</label>
-                                        <input class="form-control" name="sidebar_menu_font_color" type="color" id="example-color-input" value="{{ $systemDetails[0]->sidebar_menu_font_color }}"/>
+                                        <input class="form-control" name="sidebar_menu_font_color" type="color" id="example-color-input" value="{{ $systemDetails[0]['sidebar_menu_font_color'] }}"/>
                                     </div>
                                 </div>
                             </div>

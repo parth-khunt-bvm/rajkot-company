@@ -3,155 +3,177 @@
         'PROJECT_NAME' => 'Company - Rajkot',
 
         'permission_master' => [
+
+            'user'=>[
+                'user' => [
+                    '1'  => 'user list',
+                    '2'  => 'add user',
+                    '3'  => 'edit user',
+                    '4'  => 'change user status',
+                    '5'  => 'delete user',
+                ],
+
+                'user role' => [
+                    '6'  => 'user role list',
+                    '7'  => 'add user role',
+                    '8'  => 'edit user role',
+                    '9'  => 'change user role status',
+                    '10'  => 'delete user role',
+                    '11'  => 'user role permission',
+                ],
+            ],
             'setting' => [
                 'type' => [
-                    '1'  => 'import type',
-                    '2'  => 'add type',
-                    '3'  => 'edit type',
-                    '4'  => 'change type status',
-                    '5'  => 'delete type',
+                    '12'  => 'type list',
+                    '13'  => 'import type',
+                    '14'  => 'add type',
+                    '15'  => 'edit type',
+                    '16'  => 'change type status',
+                    '17'  => 'delete type',
                 ],
                 'branch' => [
-                    '6'  => 'import branch',
-                    '7'  => 'add branch',
-                    '8'  => 'edit branch',
-                    '9'  => 'change branch status',
-                    '10'  => 'delete branch',
+                    '18'  => 'branch list',
+                    '19'  => 'import branch',
+                    '20'  => 'add branch',
+                    '21'  => 'edit branch',
+                    '22'  => 'change branch status',
+                    '23'  => 'delete branch',
                 ],
                 'manager' => [
-                    '11'  => 'import manager',
-                    '12'  => 'add manager',
-                    '13'  => 'edit manager',
-                    '14'  => 'change manager status',
-                    '15'  => 'delete manager',
+                    '24'  => 'manager list',
+                    '25'  => 'import manager',
+                    '26'  => 'add manager',
+                    '27'  => 'edit manager',
+                    '28'  => 'change manager status',
+                    '29'  => 'delete manager',
                 ],
                 'technology' => [
-                    '16'  => 'import technology',
-                    '17'  => 'add technology',
-                    '18'  => 'edit technology',
-                    '19'  => 'change technology status',
-                    '20'  => 'delete technology',
+                    '30'  => 'technology list',
+                    '31'  => 'import technology',
+                    '32'  => 'add technology',
+                    '33'  => 'edit technology',
+                    '34'  => 'change technology status',
+                    '35'  => 'delete technology',
                 ],
                 'designation' => [
-                    '21'  => 'import designation',
-                    '22'  => 'add designation',
-                    '23'  => 'edit designation',
-                    '24'  => 'change designation status',
-                    '25'  => 'delete designation',
+                    '36'  => 'designation list',
+                    '37'  => 'import designation',
+                    '38'  => 'add designation',
+                    '39'  => 'edit designation',
+                    '40'  => 'change designation status',
+                    '41'  => 'delete designation',
                 ],
             ],
 
             'salary' => [
                 'salary' =>[
-                    '26'  => 'import salary',
-                    '27'  => 'add salary',
-                    '28'  => 'view salary',
-                    '29'  => 'edit salary ',
-                    '30'  => 'delete salary',
+                    '42'  => 'salary list',
+                    '43'  => 'import salary',
+                    '44'  => 'add salary',
+                    '45'  => 'view salary',
+                    '46'  => 'edit salary ',
+                    '47'  => 'delete salary',
                 ]
             ],
 
             'expense' => [
                 'expense' => [
-                    '31'  => 'import expense',
-                    '32'  => 'add expense',
-                    '33'  => 'view expense',
-                    '34'  => 'edit expense ',
-                    '35'  => 'delete expense',
+                    '48'  => 'expense list',
+                    '49'  => 'import expense',
+                    '50'  => 'add expense',
+                    '51'  => 'view expense',
+                    '52'  => 'edit expense ',
+                    '53'  => 'delete expense',
                 ],
             ],
 
             'revenue' => [
                 'revenue' => [
-                    '36'  => 'import revenue',
-                    '37'  => 'add revenue',
-                    '38'  => 'view revenue',
-                    '39'  => 'edit revenue ',
-                    '40'  => 'delete revenue',
+                    '54'  => 'revenue list',
+                    '55'  => 'import revenue',
+                    '56'  => 'add revenue',
+                    '57'  => 'view revenue',
+                    '58'  => 'edit revenue ',
+                    '59'  => 'delete revenue',
                 ],
             ],
 
-            'hr_manager'=>[
+            'hr manager'=>[
                 'income' => [
-                    '41'  => 'import income',
-                    '42'  => 'add income',
-                    '43'  => 'view income',
-                    '44'  => 'edit income ',
-                    '45'  => 'delete income',
+                    '60'  => 'income list',
+                    '61'  => 'import income',
+                    '62'  => 'add income',
+                    '63'  => 'view income',
+                    '64'  => 'edit income ',
+                    '65'  => 'delete income',
                 ],
                 'expense' => [
-                    '46'  => 'import expense',
-                    '47'  => 'add expense',
-                    '48'  => 'view expense',
-                    '49'  => 'edit expense ',
-                    '50'  => 'delete expense',
+                    '66'  => 'expense list',
+                    '67'  => 'import expense',
+                    '68'  => 'add expense',
+                    '69'  => 'view expense',
+                    '70'  => 'edit expense ',
+                    '71'  => 'delete expense',
                 ],
             ],
 
             'employee' => [
                 'employee' => [
-                    '51'  => 'import employee',
-                    '52'  => 'add employee',
-                    '53'  => 'view employee',
-                    '54'  => 'edit employee ',
-                    '55'  => 'change employee status',
-                    '56'  => 'delete employee',
-                    '57'  => 'download offer letter',
-                    '58'  => 'download appoinment letter',
+                    '72'  => 'employee list',
+                    '73'  => 'import employee',
+                    '74'  => 'add employee',
+                    '75'  => 'view employee',
+                    '76'  => 'edit employee ',
+                    '77'  => 'change employee status',
+                    '78'  => 'delete employee',
+                    '79'  => 'download offer letter',
+                    '80'  => 'download appoinment letter',
                 ],
             ],
 
             'counter' => [
                 'counter' => [
-                    '59'  => 'import counter',
-                    '60'  => 'add counter',
-                    '61'  => 'view counter',
-                    '62'  => 'edit counter ',
-                    '63'  => 'change counter status',
-                    '64'  => 'delete counter',
+                    '81'  => 'counter list',
+                    '82'  => 'import counter',
+                    '83'  => 'add counter',
+                    '84'  => 'view counter',
+                    '85'  => 'edit counter ',
+                    '86'  => 'change counter status',
+                    '87'  => 'delete counter',
                 ],
             ],
 
             'attendance' => [
                 'attendance' => [
-                    '65'  => 'add attendance',
+                    '88'  => 'attendance list',
+                    '89'  => 'add attendance',
                 ],
             ],
 
             'reports' => [
                 'expense' => [
-                    '66' => 'view expense',
+                    '90' => 'view expense',
                 ],
                 'revenue' => [
-                    '67' => 'view revenue',
+                    '91' => 'view revenue',
                 ],
                 'salary' => [
-                    '68' => 'view salary',
+                    '92' => 'view salary',
                 ],
                 'profit_loss' => [
-                    '69' => 'view profit_loss',
+                    '93' => 'view profit loss',
                 ],
                 'counter_sheet' => [
-                    '70' => 'view counter_sheet',
+                    '94' => 'view counter sheet',
                 ],
                 'employee_birthday' => [
-                    '71' => 'view employee_birthday',
+                    '95' => 'view employee birthday',
                 ],
                 'employee_bond_last_date' => [
-                    '72' => 'view employee_bond_last_date',
+                    '96' => 'view employee bond last date',
                 ],
             ],
 
-            'user_role' => [
-                'user_role' => [
-                    '73'  => 'import user_role',
-                    '74'  => 'add user_role',
-                    '75'  => 'view user_role',
-                    '76'  => 'edit user_role',
-                    '77'  => 'change user_role status',
-                    '78'  => 'delete user_role',
-                ]
-            ]
         ],
     ];
 

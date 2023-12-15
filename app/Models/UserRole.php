@@ -181,7 +181,6 @@ class UserRole extends Model
                          ->toArray();
     }
 
-
     public function save_user_roles_permissions($requestData){
 
         $objUserRole =  UserRole::find($requestData->input('editId'));
@@ -201,6 +200,15 @@ class UserRole extends Model
         } else {
             return false;
         }
+    }
+
+    public function get_admin_user_role_details(){
+        return UserRole::from('user_role')
+        ->where('user_role.status', 'A')
+        ->where('user_role.is_deleted', 'N')
+        ->select('user_role.id', 'user_role.user_role')
+        ->get()
+        ->toArray();
     }
 
 

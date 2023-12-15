@@ -20,6 +20,7 @@ use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
 use App\Http\Controllers\backend\CountersheetController;
 use App\Http\Controllers\backend\SystemsettingController;
+use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -203,7 +204,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
 
     //  User Role
-    Route::get('user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
+    Route::get('admin/user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
     Route::get('admin/user-role/add', [UserroleController::class, 'add'])->name('admin.user-role.add');
     Route::post('admin/user-role/save-add-user-role', [UserroleController::class, 'saveAdd'])->name('admin.user-role.save-add-user-role');
     Route::get('admin/user-role/edit/{id}', [UserroleController::class, 'edit'])->name('admin.user-role.edit');
@@ -212,5 +213,16 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/user-role/save-import-user-role', [UserroleController::class, 'save_import'])->name('admin.user-role.save-import-type');
     Route::get('admin/user-role/view/{id}', [UserroleController::class, 'view'])->name('admin.user-role.view');
     Route::post('admin/user-role/permission/{id}', [UserroleController::class, 'permission'])->name('admin.user-role.permission');
+
+    //user
+    Route::get('admin/user/add', [UserController::class, 'add'])->name('admin.user.add');
+    Route::post('admin/user/save-add-user', [UserController::class, 'saveAdd'])->name('admin.user.save-add-user');
+    Route::get('admin/user/list', [UserController::class, 'list'])->name('admin.user.list');
+    Route::post('admin/user/ajaxcall', [UserController::class, 'ajaxcall'])->name('admin.user.ajaxcall');
+    Route::get('admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::post('admin/user/save-edit-user', [UserController::class, 'saveEdit'])->name('admin.user.save-edit-user');
+
+
+
 
 });
