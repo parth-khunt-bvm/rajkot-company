@@ -79,14 +79,26 @@ class HrIncome extends Model
 
         foreach ($resultArr as $row) {
 
-            $actionhtml = '';
+            $target = [];
+            $target = [63, 64, 65];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(63, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.hr.income.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(64, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.hr.income.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
             if ($row['payment_mode'] == '1') {
                 $payment_mode = '<span>Cash</span>';
             } else {
                 $payment_mode = '<span>Bank Transfer</span>';
             }
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(65, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -102,7 +114,9 @@ class HrIncome extends Model
             }else {
                 $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
             }
-            $nestedData[] = $actionhtml;
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

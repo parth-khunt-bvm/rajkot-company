@@ -119,8 +119,10 @@ var Employee = function () {
         });
 
         $('body').on('change', '.change-fillter', function () {
+            var target = [75, 76, 77, 78, 79, 80];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html = '';
-
             html = '<table class="table table-bordered table-checkable" id="employee-list">' +
                 '<thead>' +
                 '<tr>' +
@@ -133,9 +135,11 @@ var Employee = function () {
                 '<th>Emergency Contact</th>' +
                 '<th>G Pay Number</th>' +
                 '<th>Experience</th>' +
-                '<th>Status</th>' +
-                '<th>Action</th>' +
-                '</tr>' +
+                '<th>Status</th>';
+                if (isAdmin == 'Y' || intersectCount > 0 ) {
+                    html += '<th>Action</th>';
+                }
+                html += '</tr>' +
                 '</thead>' +
                 '<tbody>' +
 
@@ -159,8 +163,8 @@ var Employee = function () {
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 10],
-                'noSearchApply': [0, 10],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth

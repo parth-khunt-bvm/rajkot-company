@@ -26,7 +26,6 @@ class Salary extends Model
             3 => 'branch.branch_name',
             4 => 'technology.technology_name',
             5 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", salary.month_of, "-01")), "-", year)'),
-            // 5 => DB::raw('MONTHNAME(CONCAT("2023-", salary.month_of, "-01"))'),
             6 => 'salary.amount',
             7 => 'salary.remarks',
         );
@@ -94,9 +93,20 @@ class Salary extends Model
         $max_length = 30;
         foreach ($resultArr as $row) {
 
-            $actionhtml = '';
+            $target = [];
+            $target = [45, 46, 47];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(45, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.salary.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.salary.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(47, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -114,7 +124,9 @@ class Salary extends Model
             }else {
                 $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
             }
-            $nestedData[] = $actionhtml;
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

@@ -12,6 +12,9 @@ class UserController extends Controller
 {
     public function list(){
 
+        $objTechnology = new UserRole();
+        $data['userRole'] = $objTechnology->get_admin_user_role_details();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || User List';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || User List';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || User List';
@@ -174,8 +177,7 @@ class UserController extends Controller
         switch ($action) {
             case 'getdatatable':
                 $objUser = new User();
-                $list = $objUser->getdatatable($request->input('action'));
-
+                $list = $objUser->getdatatable($request->input('data'));
                 echo json_encode($list);
                 break;
 

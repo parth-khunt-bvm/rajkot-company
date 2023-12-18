@@ -61,23 +61,35 @@ class Type extends Model
 
         foreach ($resultArr as $row) {
 
-            $actionhtml  = '';
-            $actionhtml .= '<a href="' . route('admin.type.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
-            if ($row['status'] == 'A') {
-                $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
-            } else {
-                $status = '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+            $target = [];
+            $target = [15, 16, 17];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
             }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(15, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.type.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(16, explode(',', $permission_array[0]['permission'])) ){
+                if ($row['status'] == 'A') {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                } else {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                }
+            }
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(17, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = $row['type_name'];
-            $nestedData[] = $status;
-            $nestedData[] = $actionhtml;
+            $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

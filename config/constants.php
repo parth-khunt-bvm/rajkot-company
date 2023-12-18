@@ -22,7 +22,7 @@
                     '11'  => 'user role permission',
                 ],
             ],
-            'setting' => [
+            'setting' =>    [
                 'type' => [
                     '12'  => 'type list',
                     '13'  => 'import type',

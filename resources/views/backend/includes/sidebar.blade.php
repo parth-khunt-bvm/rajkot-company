@@ -61,8 +61,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                     $target = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
                 @endphp
 
-                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 {{-- user Menu End --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.user-role.list" || $currentRoute  ==  "admin.user.add" || $currentRoute  ==  "admin.user-role.add" || $currentRoute  ==  "admin.user-role.edit" || $currentRoute  ==  "admin.user-role.view" || $currentRoute  ==  "admin.user.list" || $currentRoute  ==  "admin.user.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -130,8 +130,9 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         </ul>
                     </div>
                 </li>
-                {{-- user Menu End --}}
                 @endif
+                {{-- user Menu End --}}
+
                 @php
                 $target = [];
                 $target = array(12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41);
@@ -281,30 +282,31 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 </li>
                 @endif
                 {{-- setting Menu End --}}
+
                 @php
                 $target = [];
                 $target = array(42, 43, 44, 45, 46, 47);
                 @endphp
                 {{-- salary Menu  --}}
-                   @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                    <li class="menu-item  {{ ( $currentRoute  ==  "admin.salary.list" || $currentRoute  ==  "admin.salary.add" || $currentRoute  ==  "admin.salary.edit" || $currentRoute  ==  "admin.salary.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
-                        <a href="{{ route('admin.salary.list') }}" class="menu-link">
-                            <span class="svg-icon menu-icon">
-                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
-                                <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.5753 4.31617C17.5753 5.12984 16.9243 5.78077 16.1107 5.78077H11.1473C10.3336 5.78077 9.68267 5.12984 9.68267 4.31617C9.68267 3.5025 10.3336 2.85156 11.1473 2.85156H16.1107C16.8836 2.85156 17.5753 3.5025 17.5753 4.31617ZM3.05126 16.7653H1.13914C0.528885 16.7653 0 17.2535 0 17.9044V24.0883C0 24.7393 0.528885 25.2275 1.13914 25.2275H3.05126C3.66151 25.2275 4.1904 24.7393 4.1904 24.0883V17.9044C4.1904 17.2535 3.66151 16.7653 3.05126 16.7653ZM2.48169 23.0712C2.48169 23.2747 2.31896 23.4781 2.07486 23.4781C1.87144 23.4781 1.66802 23.3153 1.66802 23.0712V22.0948C1.66802 21.8914 1.83076 21.688 2.07486 21.688C2.27827 21.688 2.48169 21.8507 2.48169 22.0948V23.0712ZM2.48169 19.8573C2.48169 20.0607 2.31896 20.2641 2.07486 20.2641C1.87144 20.2641 1.66802 20.1014 1.66802 19.8573V18.8809C1.66802 18.6774 1.83076 18.474 2.07486 18.474C2.27827 18.474 2.48169 18.6368 2.48169 18.8809V19.8573ZM13.5883 9.97117C12.2457 9.97117 11.188 11.0696 11.188 12.3715C11.188 13.714 12.2864 14.7718 13.5883 14.7718C14.9308 14.7718 15.9886 13.6734 15.9886 12.3715C16.0293 11.0289 14.9308 9.97117 13.5883 9.97117ZM14.3613 13.5106C14.2392 13.6327 14.0765 13.714 13.8324 13.7547V14.1209H13.5476V13.7547C13.3035 13.714 13.1408 13.6327 12.978 13.5106C12.856 13.3479 12.7746 13.1852 12.7746 12.9411H13.2221C13.2221 13.1038 13.2628 13.2258 13.3442 13.3072C13.4255 13.3886 13.5476 13.4293 13.6696 13.4293C13.7917 13.4293 13.9137 13.3886 13.9951 13.3072C14.0765 13.2258 14.1172 13.1445 14.1172 13.0631C14.1172 12.9411 14.0765 12.8597 14.0358 12.819C13.9544 12.7376 13.8731 12.697 13.7103 12.6156C13.5476 12.5749 13.4255 12.4935 13.3442 12.4529C13.0594 12.2901 12.9373 12.0867 12.9373 11.8019C12.9373 11.5985 13.0187 11.4358 13.1408 11.3137C13.2628 11.1917 13.4255 11.1103 13.629 11.0696V10.6628H13.9137V11.0696C14.1172 11.1103 14.2799 11.1917 14.4019 11.3544C14.524 11.5171 14.5647 11.6799 14.5647 11.924H14.1172C14.1172 11.7612 14.0765 11.6392 13.9951 11.5578C13.9137 11.4765 13.8324 11.4358 13.7103 11.4358C13.5883 11.4358 13.5069 11.4765 13.4255 11.5171C13.3442 11.5985 13.3442 11.6799 13.3442 11.8019C13.3442 11.924 13.3849 12.0053 13.4255 12.046C13.5069 12.1274 13.5883 12.1681 13.751 12.2088C13.9137 12.2494 14.0358 12.3308 14.1172 12.3715C14.1985 12.4122 14.2799 12.4935 14.3206 12.5342C14.4019 12.6156 14.4426 12.6563 14.4426 12.7376C14.4833 12.819 14.4833 12.9004 14.4833 13.0224C14.524 13.2258 14.4833 13.3886 14.3613 13.5106Z" fill="white"/>
-                                    <path d="M16.842 6.47234C16.4352 7.89626 15.1333 8.91335 13.5873 8.91335C12.0413 8.91335 10.7395 7.89626 10.3326 6.47234C7.76958 7.77421 6.10156 10.5 6.10156 13.5106C6.10156 15.2193 6.42703 16.4805 7.11865 17.3755H7.40343C8.37984 17.3755 9.27487 17.5382 9.96649 17.9044C10.3326 18.1078 10.6988 18.1892 11.0649 18.1892H11.309L17.1268 17.4162H17.2082C17.8591 17.4162 18.388 17.8637 18.4693 18.474V18.6367C20.2594 17.9451 21.1138 16.3177 21.1138 13.5513C21.1138 10.5 19.4051 7.77421 16.842 6.47234ZM13.5873 15.5854C11.8379 15.5854 10.3733 14.1615 10.3733 12.3714C10.3733 10.6221 11.7972 9.15745 13.5873 9.15745C15.3367 9.15745 16.8013 10.5814 16.8013 12.3714C16.8013 14.1208 15.3774 15.5854 13.5873 15.5854ZM16.1911 0.410503V2.07853H11.0243V0.410503C11.0243 0.247769 11.1056 0.125719 11.2277 0.0443519C11.3497 -0.037015 11.5125 0.00366843 11.6345 0.0850354L13.628 1.50896L15.5808 0.0850354C15.7029 0.00366843 15.8656 0.00366842 15.9876 0.0443519C16.1097 0.125719 16.1911 0.247769 16.1911 0.410503Z" fill="white"/>
-                                    <path d="M15.9485 6.59473C15.5416 7.48976 14.6466 8.10001 13.5888 8.10001C12.531 8.10001 11.636 7.48976 11.2292 6.59473H15.9485ZM11.0258 18.1488C10.7003 18.1488 10.3748 18.0268 10.0087 17.864C10.3341 18.0675 10.6596 18.1488 11.0258 18.1488ZM18.4301 18.3929V18.7184C18.4708 18.637 18.4708 18.515 18.4301 18.3929C18.3895 17.864 17.9419 17.3352 17.1283 17.3352C17.9419 17.3758 18.3895 17.9047 18.4301 18.3929Z" fill="white"/>
-                                    <path d="M22.7009 18.9214L13.9133 23.478C13.1403 23.8848 12.2045 23.9662 11.3909 23.7221L4.96289 22.9898V18.4739C6.46818 18.1078 8.29894 17.945 9.64149 18.596C10.2517 18.8807 10.862 19.0028 11.4316 18.9214L17.1679 18.1484C17.4527 18.1484 17.6561 18.3112 17.6561 18.5146C17.6968 18.7587 17.4934 19.0842 17.0052 19.2062L11.6757 20.9556C11.4722 21.037 11.3502 21.2404 11.4316 21.4438C11.4722 21.6065 11.635 21.7286 11.7977 21.7286H11.9198L17.2493 19.9385C17.3307 19.8978 17.412 19.8978 17.4934 19.8571L21.8058 18.4739C22.5788 18.1891 22.945 18.3519 22.9857 18.4332C23.0264 18.5553 22.9857 18.7587 22.7009 18.9214Z" fill="white"/>
-                                    </svg>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-text">Salary</span>
-                        </a>
-                    </li>
-                    @endif
-
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.salary.list" || $currentRoute  ==  "admin.salary.add" || $currentRoute  ==  "admin.salary.edit" || $currentRoute  ==  "admin.salary.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('admin.salary.list') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.5753 4.31617C17.5753 5.12984 16.9243 5.78077 16.1107 5.78077H11.1473C10.3336 5.78077 9.68267 5.12984 9.68267 4.31617C9.68267 3.5025 10.3336 2.85156 11.1473 2.85156H16.1107C16.8836 2.85156 17.5753 3.5025 17.5753 4.31617ZM3.05126 16.7653H1.13914C0.528885 16.7653 0 17.2535 0 17.9044V24.0883C0 24.7393 0.528885 25.2275 1.13914 25.2275H3.05126C3.66151 25.2275 4.1904 24.7393 4.1904 24.0883V17.9044C4.1904 17.2535 3.66151 16.7653 3.05126 16.7653ZM2.48169 23.0712C2.48169 23.2747 2.31896 23.4781 2.07486 23.4781C1.87144 23.4781 1.66802 23.3153 1.66802 23.0712V22.0948C1.66802 21.8914 1.83076 21.688 2.07486 21.688C2.27827 21.688 2.48169 21.8507 2.48169 22.0948V23.0712ZM2.48169 19.8573C2.48169 20.0607 2.31896 20.2641 2.07486 20.2641C1.87144 20.2641 1.66802 20.1014 1.66802 19.8573V18.8809C1.66802 18.6774 1.83076 18.474 2.07486 18.474C2.27827 18.474 2.48169 18.6368 2.48169 18.8809V19.8573ZM13.5883 9.97117C12.2457 9.97117 11.188 11.0696 11.188 12.3715C11.188 13.714 12.2864 14.7718 13.5883 14.7718C14.9308 14.7718 15.9886 13.6734 15.9886 12.3715C16.0293 11.0289 14.9308 9.97117 13.5883 9.97117ZM14.3613 13.5106C14.2392 13.6327 14.0765 13.714 13.8324 13.7547V14.1209H13.5476V13.7547C13.3035 13.714 13.1408 13.6327 12.978 13.5106C12.856 13.3479 12.7746 13.1852 12.7746 12.9411H13.2221C13.2221 13.1038 13.2628 13.2258 13.3442 13.3072C13.4255 13.3886 13.5476 13.4293 13.6696 13.4293C13.7917 13.4293 13.9137 13.3886 13.9951 13.3072C14.0765 13.2258 14.1172 13.1445 14.1172 13.0631C14.1172 12.9411 14.0765 12.8597 14.0358 12.819C13.9544 12.7376 13.8731 12.697 13.7103 12.6156C13.5476 12.5749 13.4255 12.4935 13.3442 12.4529C13.0594 12.2901 12.9373 12.0867 12.9373 11.8019C12.9373 11.5985 13.0187 11.4358 13.1408 11.3137C13.2628 11.1917 13.4255 11.1103 13.629 11.0696V10.6628H13.9137V11.0696C14.1172 11.1103 14.2799 11.1917 14.4019 11.3544C14.524 11.5171 14.5647 11.6799 14.5647 11.924H14.1172C14.1172 11.7612 14.0765 11.6392 13.9951 11.5578C13.9137 11.4765 13.8324 11.4358 13.7103 11.4358C13.5883 11.4358 13.5069 11.4765 13.4255 11.5171C13.3442 11.5985 13.3442 11.6799 13.3442 11.8019C13.3442 11.924 13.3849 12.0053 13.4255 12.046C13.5069 12.1274 13.5883 12.1681 13.751 12.2088C13.9137 12.2494 14.0358 12.3308 14.1172 12.3715C14.1985 12.4122 14.2799 12.4935 14.3206 12.5342C14.4019 12.6156 14.4426 12.6563 14.4426 12.7376C14.4833 12.819 14.4833 12.9004 14.4833 13.0224C14.524 13.2258 14.4833 13.3886 14.3613 13.5106Z" fill="white"/>
+                                <path d="M16.842 6.47234C16.4352 7.89626 15.1333 8.91335 13.5873 8.91335C12.0413 8.91335 10.7395 7.89626 10.3326 6.47234C7.76958 7.77421 6.10156 10.5 6.10156 13.5106C6.10156 15.2193 6.42703 16.4805 7.11865 17.3755H7.40343C8.37984 17.3755 9.27487 17.5382 9.96649 17.9044C10.3326 18.1078 10.6988 18.1892 11.0649 18.1892H11.309L17.1268 17.4162H17.2082C17.8591 17.4162 18.388 17.8637 18.4693 18.474V18.6367C20.2594 17.9451 21.1138 16.3177 21.1138 13.5513C21.1138 10.5 19.4051 7.77421 16.842 6.47234ZM13.5873 15.5854C11.8379 15.5854 10.3733 14.1615 10.3733 12.3714C10.3733 10.6221 11.7972 9.15745 13.5873 9.15745C15.3367 9.15745 16.8013 10.5814 16.8013 12.3714C16.8013 14.1208 15.3774 15.5854 13.5873 15.5854ZM16.1911 0.410503V2.07853H11.0243V0.410503C11.0243 0.247769 11.1056 0.125719 11.2277 0.0443519C11.3497 -0.037015 11.5125 0.00366843 11.6345 0.0850354L13.628 1.50896L15.5808 0.0850354C15.7029 0.00366843 15.8656 0.00366842 15.9876 0.0443519C16.1097 0.125719 16.1911 0.247769 16.1911 0.410503Z" fill="white"/>
+                                <path d="M15.9485 6.59473C15.5416 7.48976 14.6466 8.10001 13.5888 8.10001C12.531 8.10001 11.636 7.48976 11.2292 6.59473H15.9485ZM11.0258 18.1488C10.7003 18.1488 10.3748 18.0268 10.0087 17.864C10.3341 18.0675 10.6596 18.1488 11.0258 18.1488ZM18.4301 18.3929V18.7184C18.4708 18.637 18.4708 18.515 18.4301 18.3929C18.3895 17.864 17.9419 17.3352 17.1283 17.3352C17.9419 17.3758 18.3895 17.9047 18.4301 18.3929Z" fill="white"/>
+                                <path d="M22.7009 18.9214L13.9133 23.478C13.1403 23.8848 12.2045 23.9662 11.3909 23.7221L4.96289 22.9898V18.4739C6.46818 18.1078 8.29894 17.945 9.64149 18.596C10.2517 18.8807 10.862 19.0028 11.4316 18.9214L17.1679 18.1484C17.4527 18.1484 17.6561 18.3112 17.6561 18.5146C17.6968 18.7587 17.4934 19.0842 17.0052 19.2062L11.6757 20.9556C11.4722 21.037 11.3502 21.2404 11.4316 21.4438C11.4722 21.6065 11.635 21.7286 11.7977 21.7286H11.9198L17.2493 19.9385C17.3307 19.8978 17.412 19.8978 17.4934 19.8571L21.8058 18.4739C22.5788 18.1891 22.945 18.3519 22.9857 18.4332C23.0264 18.5553 22.9857 18.7587 22.7009 18.9214Z" fill="white"/>
+                                </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Salary</span>
+                    </a>
+                </li>
+                @endif
                 {{-- salary Menu End --}}
+
                 @php
                 $target = [];
                 $target = array(48, 49, 50, 51, 52, 53);
@@ -345,11 +347,11 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                     </a>
                 </li>
                 @endif
-
                 {{-- Revenue Menu End --}}
+
                 @php
                 $target = [];
-                $target = array(60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71);
+                $target = array(60, 61, 62, 63, 64, 65);
                 @endphp
                 {{-- Hr Menu End --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
@@ -373,8 +375,13 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                     <span class="menu-text">Hr Manager</span>
                                 </span>
                             </li>
-
+                            @php
+                            $target = [];
+                            $target = array(66, 67, 68, 69, 70, 71);
+                            @endphp
                              {{-- Income Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+
                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit" || $currentRoute  ==  "admin.hr.income.view" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.hr.income.list') }}" class="menu-link">
                                      <span class="svg-icon menu-icon">
@@ -388,9 +395,16 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                      <span class="menu-text">Income</span>
                                  </a>
                              </li>
-                             {{-- Income Menu End --}}
+                             @endif
 
+                             {{-- Income Menu End --}}
+                             @php
+                             $target = [];
+                             $target = array(60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71);
+                             @endphp
                             {{-- Expense Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+
                                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.expense.view"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.hr.expense.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
@@ -404,6 +418,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                     <span class="menu-text">Expense</span>
                                 </a>
                                 </li>
+                            @endif
+
                             {{-- Expense Menu End --}}
 
                         </ul>
@@ -412,7 +428,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endif
                 {{-- Hr Menu End --}}
 
+                @php
+                $target = [];
+                $target = array(72, 73, 74, 75, 76, 77, 78, 79, 80);
+                @endphp
                 {{-- Employee Menu --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee.list" || $currentRoute  ==  "admin.employee.add" || $currentRoute  ==  "admin.employee.edit" || $currentRoute  ==  "admin.employee.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.employee.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -425,9 +446,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Employee</span>
                     </a>
                 </li>
+                @endif
                 {{-- Employee Menu End --}}
 
+                @php
+                $target = [];
+                $target = array(81, 82, 83, 84, 85, 86, 87);
+                @endphp
                 {{-- Counter Menu --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.counter.list" || $currentRoute  ==  "admin.counter.add" || $currentRoute  ==  "admin.counter.edit" || $currentRoute  ==  "admin.counter.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.counter.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -440,9 +467,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Counter</span>
                     </a>
                 </li>
+                @endif
                 {{-- Counter Menu End --}}
 
+                @php
+                $target = [];
+                $target = array(88, 89);
+                @endphp
                 {{-- Attendance Menu --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.list" || $currentRoute  ==  "admin.attendance.add" || $currentRoute  ==  "admin.attendance.edit" || $currentRoute  ==  "admin.attendance.view" || $currentRoute  ==  "admin.attendance.day-edit" || $currentRoute  ==  "admin.attendance.day-list" || $currentRoute  ==  "admin.attendance.day-save-edit-attendance"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.attendance.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -455,9 +488,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Attendance</span>
                     </a>
                 </li>
+                @endif
                 {{-- Attendance Menu End --}}
 
+                @php
+                $target = [];
+                $target = array(90, 91, 92, 93, 94, 95, 96);
+                @endphp
                 {{-- report Menu --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-daye.list" || $currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -478,8 +517,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                     <span class="menu-text">Reports</span>
                                 </span>
                             </li>
-
+                            @php
+                            $target = [];
+                            $target = array(90);
+                            @endphp
                              {{-- Expense Menu --}}
+                             @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.report.expense"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.report.expense') }}" class="menu-link">
                                      <span class="svg-icon menu-icon">
@@ -492,9 +535,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                      <span class="menu-text">Expense</span>
                                  </a>
                              </li>
+                             @endif
                              {{-- Expense Menu End --}}
 
+                             @php
+                             $target = [];
+                             $target = array(91);
+                             @endphp
                             {{-- revenue Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.report.revenue"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                <a href="{{ route('admin.report.revenue') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
@@ -507,28 +556,39 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                     <span class="menu-text">Revenue</span>
                                 </a>
                             </li>
+                            @endif
                             {{-- revenue Menu End --}}
 
+                            @php
+                            $target = [];
+                            $target = array( 92);
+                            @endphp
                             {{-- salary Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.report.salary"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.report.salary') }}" class="menu-link">
                                         <span class="svg-icon menu-icon">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
-
                                                 <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M7.497 11.2049C7.66947 11.2049 7.84025 11.2388 7.9996 11.3048C8.15895 11.3708 8.30374 11.4675 8.4257 11.5894C8.54767 11.7113 8.64442 11.8561 8.71043 12.0154C8.77644 12.1748 8.81041 12.3456 8.81041 12.518C8.8103 12.8031 8.71752 13.0805 8.54604 13.3082C8.37456 13.536 8.13369 13.7018 7.85973 13.7807V13.9331C7.85993 13.9808 7.85068 14.0281 7.83251 14.0722C7.81435 14.1162 7.78764 14.1563 7.75392 14.19C7.7202 14.2238 7.68014 14.2505 7.63604 14.2686C7.59195 14.2868 7.54469 14.296 7.497 14.2958C7.29743 14.2958 7.13427 14.1327 7.13427 13.9331V13.7807C6.58653 13.6211 6.18359 13.1167 6.18359 12.518C6.18359 12.3187 6.34675 12.1553 6.54633 12.1553C6.7459 12.1553 6.90935 12.3184 6.90935 12.518C6.90935 12.8411 7.17419 13.106 7.497 13.106C7.82331 13.106 8.08466 12.8408 8.08466 12.518C8.08466 12.1917 7.82361 11.9304 7.497 11.9304C6.77504 11.9304 6.18359 11.3389 6.18359 10.6135C6.18359 10.0185 6.58624 9.51071 7.13427 9.35105V9.19867C7.13427 8.99909 7.29743 8.83594 7.497 8.83594C7.70007 8.83594 7.85973 8.99909 7.85973 9.19867V9.35105C8.40747 9.51071 8.81041 10.015 8.81041 10.6135C8.81041 10.8165 8.65046 10.9762 8.44739 10.9762C8.3997 10.9764 8.35244 10.9671 8.30835 10.949C8.26425 10.9308 8.22419 10.9041 8.19047 10.8704C8.15675 10.8367 8.13004 10.7966 8.11187 10.7525C8.09371 10.7084 8.08446 10.6612 8.08466 10.6135C8.08466 10.5363 8.06946 10.4599 8.03992 10.3886C8.01039 10.3173 7.9671 10.2525 7.91254 10.1979C7.85797 10.1434 7.79319 10.1001 7.72189 10.0705C7.65059 10.041 7.57417 10.0258 7.497 10.0258C7.34134 10.0264 7.19222 10.0885 7.08215 10.1986C6.97207 10.3087 6.90996 10.4578 6.90935 10.6135C6.90935 10.9398 7.17419 11.2049 7.497 11.2049Z" fill="white"/>
                                                     <path d="M14.9827 5.6372H10.8298C9.87649 5.6372 9.10062 4.86425 9.10062 3.91095V0.00656254C9.01205 -0.00305203 2.80454 0.000735535 2.71568 0.000735535C2.35898 0.000582346 2.00575 0.0707305 1.67618 0.20717C1.34662 0.34361 1.04717 0.543665 0.794959 0.7959C0.542751 1.04814 0.342728 1.34761 0.206324 1.67719C0.0699194 2.00677 -0.000191064 2.36001 3.91055e-07 2.7167V15.9289C3.91055e-07 17.4293 1.21493 18.6475 2.71539 18.6475H12.2825C13.78 18.6475 14.9981 17.4296 14.9981 15.9289C14.9981 15.7482 15.0078 5.81522 14.9833 5.6372H14.9827ZM2.11724 2.45099H7.60978C7.68953 2.45099 7.766 2.48267 7.82239 2.53906C7.87878 2.59545 7.91046 2.67192 7.91046 2.75167C7.91046 2.83141 7.87878 2.90789 7.82239 2.96427C7.766 3.02066 7.68953 3.05234 7.60978 3.05234H2.11695C2.03721 3.05234 1.96073 3.02066 1.90434 2.96427C1.84796 2.90789 1.81628 2.83141 1.81628 2.75167C1.81628 2.67192 1.84796 2.59545 1.90434 2.53906C1.96073 2.48267 2.03721 2.45099 2.11695 2.45099H2.11724ZM2.11724 4.66467C2.07776 4.66467 2.03866 4.6569 2.00218 4.64179C1.9657 4.62668 1.93256 4.60453 1.90464 4.57661C1.87672 4.54869 1.85457 4.51554 1.83946 4.47906C1.82435 4.44258 1.81657 4.40348 1.81657 4.364C1.81657 4.32451 1.82435 4.28542 1.83946 4.24894C1.85457 4.21246 1.87672 4.17931 1.90464 4.15139C1.93256 4.12347 1.9657 4.10132 2.00218 4.08621C2.03866 4.0711 2.07776 4.06333 2.11724 4.06333H7.60978C7.64927 4.06333 7.68837 4.0711 7.72485 4.08621C7.76133 4.10132 7.79447 4.12347 7.82239 4.15139C7.85031 4.17931 7.87246 4.21246 7.88757 4.24894C7.90268 4.28542 7.91046 4.32451 7.91046 4.364C7.91046 4.40348 7.90268 4.44258 7.88757 4.47906C7.87246 4.51554 7.85031 4.54869 7.82239 4.57661C7.79447 4.60453 7.76133 4.62668 7.72485 4.64179C7.68837 4.6569 7.64927 4.66467 7.60978 4.66467H2.11695H2.11724ZM7.50023 15.9166C5.09426 15.9166 3.14833 13.9678 3.14833 11.565C3.14833 9.16487 5.09426 7.21603 7.50023 7.21603C9.90009 7.21603 11.8489 9.16516 11.8489 11.565C11.8489 13.9678 9.90038 15.9166 7.50023 15.9166Z" fill="white"/>
                                                     <path d="M10.8272 5.03709H14.8584C14.7155 4.61703 14.473 4.23785 14.1515 3.932L10.8124 0.748409C10.4979 0.450449 10.117 0.23172 9.70117 0.110352V3.91102C9.70133 4.20962 9.82002 4.49595 10.0312 4.7071C10.2423 4.91824 10.5286 5.03693 10.8272 5.03709Z" fill="white"/>
                                                     </svg>
-
                                             <!--end::Svg Icon-->
                                         </span>
                                         <span class="menu-text">Salary</span>
                                     </a>
                              </li>
-                            {{-- salary Menu End --}}
+                             @endif
 
+                            {{-- salary Menu End --}}
+                            @php
+                            $target = [];
+                            $target = array( 93);
+                            @endphp
                             {{-- Profit and loss Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.report.profit-loss" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.report.profit-loss') }}" class="menu-link">
                                         <span class="svg-icon menu-icon">
@@ -544,6 +604,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                         <span class="menu-text">Profit and Loss</span>
                                  </a>
                             </li>
+                            @endif
+
                             {{-- Profit and loss Menu End --}}
 
                             {{-- Profit and loss by time Menu --}}
@@ -565,8 +627,13 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                  </a>
                             </li> --}}
                             {{-- Profit and loss Menu by time End --}}
-
+                            @php
+                            $target = [];
+                            $target = array(94);
+                            @endphp
                             {{-- Attendance Report Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.countersheet.list"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.countersheet.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
@@ -579,14 +646,19 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                     <span class="menu-text">Counter Sheet</span>
                                 </a>
                             </li>
-                            {{-- Attendance Report Menu End --}}
+                            @endif
 
+                            {{-- Attendance Report Menu End --}}
+                            @php
+                            $target = [];
+                            $target = array(95);
+                            @endphp
                             {{-- Employee Birthday Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee.birthday.list"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.employee.birthday.list') }}" class="menu-link">
                                         <span class="svg-icon menu-icon">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
-
                                                 <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M7.497 11.2049C7.66947 11.2049 7.84025 11.2388 7.9996 11.3048C8.15895 11.3708 8.30374 11.4675 8.4257 11.5894C8.54767 11.7113 8.64442 11.8561 8.71043 12.0154C8.77644 12.1748 8.81041 12.3456 8.81041 12.518C8.8103 12.8031 8.71752 13.0805 8.54604 13.3082C8.37456 13.536 8.13369 13.7018 7.85973 13.7807V13.9331C7.85993 13.9808 7.85068 14.0281 7.83251 14.0722C7.81435 14.1162 7.78764 14.1563 7.75392 14.19C7.7202 14.2238 7.68014 14.2505 7.63604 14.2686C7.59195 14.2868 7.54469 14.296 7.497 14.2958C7.29743 14.2958 7.13427 14.1327 7.13427 13.9331V13.7807C6.58653 13.6211 6.18359 13.1167 6.18359 12.518C6.18359 12.3187 6.34675 12.1553 6.54633 12.1553C6.7459 12.1553 6.90935 12.3184 6.90935 12.518C6.90935 12.8411 7.17419 13.106 7.497 13.106C7.82331 13.106 8.08466 12.8408 8.08466 12.518C8.08466 12.1917 7.82361 11.9304 7.497 11.9304C6.77504 11.9304 6.18359 11.3389 6.18359 10.6135C6.18359 10.0185 6.58624 9.51071 7.13427 9.35105V9.19867C7.13427 8.99909 7.29743 8.83594 7.497 8.83594C7.70007 8.83594 7.85973 8.99909 7.85973 9.19867V9.35105C8.40747 9.51071 8.81041 10.015 8.81041 10.6135C8.81041 10.8165 8.65046 10.9762 8.44739 10.9762C8.3997 10.9764 8.35244 10.9671 8.30835 10.949C8.26425 10.9308 8.22419 10.9041 8.19047 10.8704C8.15675 10.8367 8.13004 10.7966 8.11187 10.7525C8.09371 10.7084 8.08446 10.6612 8.08466 10.6135C8.08466 10.5363 8.06946 10.4599 8.03992 10.3886C8.01039 10.3173 7.9671 10.2525 7.91254 10.1979C7.85797 10.1434 7.79319 10.1001 7.72189 10.0705C7.65059 10.041 7.57417 10.0258 7.497 10.0258C7.34134 10.0264 7.19222 10.0885 7.08215 10.1986C6.97207 10.3087 6.90996 10.4578 6.90935 10.6135C6.90935 10.9398 7.17419 11.2049 7.497 11.2049Z" fill="white"/>
                                                     <path d="M14.9827 5.6372H10.8298C9.87649 5.6372 9.10062 4.86425 9.10062 3.91095V0.00656254C9.01205 -0.00305203 2.80454 0.000735535 2.71568 0.000735535C2.35898 0.000582346 2.00575 0.0707305 1.67618 0.20717C1.34662 0.34361 1.04717 0.543665 0.794959 0.7959C0.542751 1.04814 0.342728 1.34761 0.206324 1.67719C0.0699194 2.00677 -0.000191064 2.36001 3.91055e-07 2.7167V15.9289C3.91055e-07 17.4293 1.21493 18.6475 2.71539 18.6475H12.2825C13.78 18.6475 14.9981 17.4296 14.9981 15.9289C14.9981 15.7482 15.0078 5.81522 14.9833 5.6372H14.9827ZM2.11724 2.45099H7.60978C7.68953 2.45099 7.766 2.48267 7.82239 2.53906C7.87878 2.59545 7.91046 2.67192 7.91046 2.75167C7.91046 2.83141 7.87878 2.90789 7.82239 2.96427C7.766 3.02066 7.68953 3.05234 7.60978 3.05234H2.11695C2.03721 3.05234 1.96073 3.02066 1.90434 2.96427C1.84796 2.90789 1.81628 2.83141 1.81628 2.75167C1.81628 2.67192 1.84796 2.59545 1.90434 2.53906C1.96073 2.48267 2.03721 2.45099 2.11695 2.45099H2.11724ZM2.11724 4.66467C2.07776 4.66467 2.03866 4.6569 2.00218 4.64179C1.9657 4.62668 1.93256 4.60453 1.90464 4.57661C1.87672 4.54869 1.85457 4.51554 1.83946 4.47906C1.82435 4.44258 1.81657 4.40348 1.81657 4.364C1.81657 4.32451 1.82435 4.28542 1.83946 4.24894C1.85457 4.21246 1.87672 4.17931 1.90464 4.15139C1.93256 4.12347 1.9657 4.10132 2.00218 4.08621C2.03866 4.0711 2.07776 4.06333 2.11724 4.06333H7.60978C7.64927 4.06333 7.68837 4.0711 7.72485 4.08621C7.76133 4.10132 7.79447 4.12347 7.82239 4.15139C7.85031 4.17931 7.87246 4.21246 7.88757 4.24894C7.90268 4.28542 7.91046 4.32451 7.91046 4.364C7.91046 4.40348 7.90268 4.44258 7.88757 4.47906C7.87246 4.51554 7.85031 4.54869 7.82239 4.57661C7.79447 4.60453 7.76133 4.62668 7.72485 4.64179C7.68837 4.6569 7.64927 4.66467 7.60978 4.66467H2.11695H2.11724ZM7.50023 15.9166C5.09426 15.9166 3.14833 13.9678 3.14833 11.565C3.14833 9.16487 5.09426 7.21603 7.50023 7.21603C9.90009 7.21603 11.8489 9.16516 11.8489 11.565C11.8489 13.9678 9.90038 15.9166 7.50023 15.9166Z" fill="white"/>
@@ -597,9 +669,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                         <span class="menu-text">Employee Birthday</span>
                                     </a>
                                 </li>
+                             @endif
                             {{-- Employee Birthday Menu --}}
-
+                            @php
+                            $target = [];
+                            $target = array(96);
+                            @endphp
                             {{-- Employee Bond Last Date Menu --}}
+                            @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+
                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee.bond-last-daye.list"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.employee.bond-last-daye.list') }}" class="menu-link">
                                         <span class="svg-icon menu-icon">
@@ -615,11 +693,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                         <span class="menu-text">Employee Bond Last Date</span>
                                     </a>
                                 </li>
+                                @endif
                             {{-- Employee Bond Last Date Menu --}}
-
                         </ul>
                     </div>
                 </li>
+                @endif
                 {{-- report Menu End --}}
             </ul>
             <!--end::Menu Nav-->

@@ -1,6 +1,10 @@
 var User = function(){
     var list = function(){
-        var dataArr = {};
+
+        $('.select2').select2();
+        var userType = $("#user_role").val();
+        var userStatus = $("#user_status").val();
+        var dataArr = { 'userType': userType, 'userStatus':userStatus,};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#user-list',
@@ -8,14 +12,13 @@ var User = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
+            'noSortingApply': [0],
+            'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
-
 
         $("body").on("click", ".delete-records", function() {
             var id = $(this).data('id');
@@ -89,6 +92,58 @@ var User = function(){
             });
         });
 
+        $("body").on("click", "#show-user-filter", function() {
+            $("div .user-filter").slideToggle("slow");
+        })
+
+        $('body').on('change', '.user-filter', function() {
+            // var permissionArray = permission.split(',');
+            var target = [3, 4, 5];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            var html = '<table class="table table-bordered table-checkable" id="user-list">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>#</th>' +
+                '<th>First Name</th>' +
+                '<th>Last Name</th>' +
+                '<th>Email</th>' +
+                '<th>Password</th>' +
+                '<th>User Type</th>' +
+                '<th>Status</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+
+            html += '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                '</tbody>' +
+                '</table>';
+
+            $('.user-list-div').html(html);
+
+            var userType = $("#user_role").val();
+            var userStatus = $("#user_status").val();
+            var dataArr = { 'userType': userType, 'userStatus': userStatus, };
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#user-list',
+                'ajaxURL': baseurl + "admin/user/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0],
+                'noSearchApply': [0],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        });
+        $("body").on("click", ".reset", function () {
+            location.reload(true);
+        });
     }
 
     var addUser = function(){

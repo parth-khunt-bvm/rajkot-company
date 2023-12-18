@@ -7,7 +7,10 @@
     }else{
         $favicon = url("upload/company_image/favicon.png");
     }
+
+
 @endphp
+
 <head>
     <base href="">
     <meta charset="utf-8" />
@@ -52,13 +55,21 @@
             @endforeach
         @endif
 
-        <script>
-            var baseurl = "{{ asset('/') }}";
-        </script>
+
          @php
             $systemsetting = get_system_details();
-         @endphp
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            $isAdmin = Auth()->guard('admin')->user()->is_admin;
+            if(empty($permission_array)){
+                $permission_array[0]['permission'] = null;
+            }
 
+         @endphp
+         <script>
+            var baseurl = "{{ asset('/') }}";
+            var permission = "{{ $permission_array[0]['permission'] }}";
+            var isAdmin = "{{ $isAdmin }}";
+        </script>
 
 </head>
 <!--end::Head-->

@@ -66,6 +66,18 @@ class User extends Authenticatable
             ->where("users.is_admin", "=", "N")
             ->where("users.user_type", "!=", 0);
 
+            if($fillterdata['userStatus'] != null && $fillterdata['userStatus'] != ''){
+                if($fillterdata['userStatus'] == 1){
+                    $query->where("users.status", "A");
+                } else {
+                    $query->where("users.status", "I");
+                }
+            }
+
+            if($fillterdata['userType'] != null && $fillterdata['userType'] != ''){
+                $query->where("user_role.id", $fillterdata['userType']);
+            }
+
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -98,16 +110,25 @@ class User extends Authenticatable
         $i = 0;
         $max_length = 30;
         foreach ($resultArr as $row) {
-            $actionhtml = '';
-            $actionhtml .= '<a href="' . route('admin.user.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
-            if ($row['status'] == 'A') {
-                $status = '<span class="label label-lg label-light-success label-inline">Active</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
-            } else {
-                $status = '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+            $target = [];
+            $target = [3, 4, 5];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
             }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(3, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.user.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(4, explode(',', $permission_array[0]['permission'])) ){
+                if ($row['status'] == 'A') {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                } else {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                }
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(5, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
@@ -116,15 +137,10 @@ class User extends Authenticatable
             $nestedData[] = $row['email'];
             $nestedData[] = $row['password'];
             $nestedData[] = $row['user_role'];
-            $nestedData[] = $status;
-            $nestedData[] = $actionhtml;
-
-            if (strlen($row['remarks']) > $max_length) {
-                $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
-            } else {
-                $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
-            }
-            $nestedData[] = $actionhtml;
+            $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
+                if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                    $nestedData[] = $actionhtml;
+                }
             $data[] = $nestedData;
         }
         $json_data = array(
