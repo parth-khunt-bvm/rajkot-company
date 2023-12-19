@@ -22,6 +22,8 @@
                     '11'  => 'user role permission',
                 ],
             ],
+
+
             'setting' =>    [
                 'type' => [
                     '12'  => 'type list',
