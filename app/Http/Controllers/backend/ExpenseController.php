@@ -67,7 +67,7 @@ class ExpenseController extends Controller
     {
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
-        if(in_array(50, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(50, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -141,7 +141,7 @@ class ExpenseController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(52, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(52, explode(',', $permission_array[0]['permission']))){
 
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
@@ -252,7 +252,7 @@ class ExpenseController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(51, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(51, explode(',', $permission_array[0]['permission']))){
             $objExpense = new Expense();
             $data['expense_details'] = $objExpense->get_expense_details($viewId);
 

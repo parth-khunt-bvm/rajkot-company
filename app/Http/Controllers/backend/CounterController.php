@@ -69,7 +69,7 @@ class CounterController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(83, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(83, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -138,7 +138,7 @@ class CounterController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(85, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(85, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -245,7 +245,7 @@ class CounterController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(84, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(84, explode(',', $permission_array[0]['permission']))){
             $objCounter = new Counter();
             $data['counter_detail'] = $objCounter->get_counter_detail($viewId);
 

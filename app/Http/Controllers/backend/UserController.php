@@ -53,7 +53,7 @@ class UserController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(2, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(2, explode(',', $permission_array[0]['permission']))){
             $objUserRole = new UserRole();
             $data['userRole'] = $objUserRole->get_admin_user_role_details();
 
@@ -118,7 +118,7 @@ class UserController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(3, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(3, explode(',', $permission_array[0]['permission']))){
             $objUserRole = new UserRole();
             $data['userRole'] = $objUserRole->get_admin_user_role_details();
 

@@ -180,9 +180,10 @@ class Counter extends Model
             $objCounter->created_at = date('Y-m-d H:i:s');
             $objCounter->updated_at = date('Y-m-d H:i:s');
             if ($objCounter->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('I', $requestData, 'Counter');
+                $res = $objAudittrails->add_audit('I', $inputData, 'Counter');
                 return 'added';
             }
             return 'wrong';
@@ -216,9 +217,10 @@ class Counter extends Model
             $objCounter->note = $requestData['note'];
             $objCounter->updated_at = date('Y-m-d H:i:s');
             if ($objCounter->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Counter');
+                $objAudittrails->add_audit('U', $inputData, 'Counter');
                 return 'added';
             }
             return 'wrong';

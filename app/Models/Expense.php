@@ -161,9 +161,11 @@ class Expense extends Model
             $objExpense->created_at = date('Y-m-d H:i:s');
             $objExpense->updated_at = date('Y-m-d H:i:s');
             if ($objExpense->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+               // unset($requestData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('A', $requestData, 'Expense');
+                $res = $objAudittrails->add_audit('A', $inputData, 'Expense');
                 return 'added';
             }
             return 'wrong';
@@ -193,9 +195,11 @@ class Expense extends Model
             $objExpense->amount = $requestData['amount'];
             $objExpense->updated_at = date('Y-m-d H:i:s');
             if ($objExpense->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                //unset($requestData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Expense');
+                $objAudittrails->add_audit('U', $inputData, 'Expense');
                 return 'added';
             }
             return 'wrong';

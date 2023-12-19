@@ -57,7 +57,7 @@ class ManagerController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(26, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(26, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
@@ -117,7 +117,7 @@ class ManagerController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(27, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(27, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager_details'] = $objManager->get_manager_details($managerId);
 

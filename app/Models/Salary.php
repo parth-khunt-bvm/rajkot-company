@@ -162,9 +162,11 @@ class Salary extends Model
             $objSalary->created_at = date('Y-m-d H:i:s');
             $objSalary->updated_at = date('Y-m-d H:i:s');
             if ($objSalary->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 unset($requestData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('I', $requestData, 'Salary');
+                $res = $objAudittrails->add_audit('I', $inputData, 'Salary');
                 return 'added';
             }
             return 'wrong';
@@ -194,9 +196,11 @@ class Salary extends Model
             $objSalary->amount = $requestData['amount'];
             $objSalary->updated_at = date('Y-m-d H:i:s');
             if ($objSalary->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                //unset($requestData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Salary');
+                $objAudittrails->add_audit('U', $inputData, 'Salary');
                 return 'added';
             }
             return 'wrong';

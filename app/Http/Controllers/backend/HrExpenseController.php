@@ -60,7 +60,7 @@ class HrExpenseController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(68, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' ||in_array(68, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
             $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
@@ -123,7 +123,7 @@ class HrExpenseController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(70, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(70, explode(',', $permission_array[0]['permission']))){
             $objHrExpense = new HrExpense();
             $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($editId);
 
@@ -221,7 +221,7 @@ class HrExpenseController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(69, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(69, explode(',', $permission_array[0]['permission']))){
 
             $objHrExpense = new HrExpense();
             $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($viewId);

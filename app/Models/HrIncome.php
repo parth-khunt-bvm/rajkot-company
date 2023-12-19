@@ -149,9 +149,10 @@ class HrIncome extends Model
             $objHrIncome->created_at = date('Y-m-d H:i:s');
             $objHrIncome->updated_at = date('Y-m-d H:i:s');
             if ($objHrIncome->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('I', $requestData, 'HrIncome');
+                $res = $objAudittrails->add_audit('I', $inputData, 'HrIncome');
                 return 'added';
             }
             return 'wrong';
@@ -180,9 +181,10 @@ class HrIncome extends Model
             $objHrIncome->amount = $requestData['amount'];
             $objHrIncome->updated_at = date('Y-m-d H:i:s');
             if ($objHrIncome->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'HrIncome');
+                $objAudittrails->add_audit('U', $inputData, 'HrIncome');
                 return 'added';
             }
             return 'wrong';

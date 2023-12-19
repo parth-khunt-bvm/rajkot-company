@@ -73,7 +73,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(95, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(95, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -123,7 +123,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(96, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(96, explode(',', $permission_array[0]['permission']))){
 
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
@@ -174,7 +174,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(74, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(74, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -253,7 +253,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(76, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(76, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -426,7 +426,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(75, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(75, explode(',', $permission_array[0]['permission']))){
 
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($viewId);

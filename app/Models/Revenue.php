@@ -164,9 +164,10 @@ class Revenue extends Model
             $objRevenue->created_at = date('Y-m-d H:i:s');
             $objRevenue->updated_at = date('Y-m-d H:i:s');
             if ($objRevenue->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('I', $requestData, 'Revenue');
+                $res = $objAudittrails->add_audit('I', $inputData, 'Revenue');
                 return 'added';
             }
             return 'wrong';
@@ -198,9 +199,10 @@ class Revenue extends Model
             $objRevenue->holder_name = $requestData['holder_name'];
             $objRevenue->updated_at = date('Y-m-d H:i:s');
             if ($objRevenue->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Revenue');
+                $objAudittrails->add_audit('U', $inputData, 'Revenue');
                 return 'added';
             }
             return 'wrong';

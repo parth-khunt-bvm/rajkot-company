@@ -68,7 +68,7 @@ class RevenueController extends Controller
     {
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
-        if(in_array(56, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(56, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -136,7 +136,7 @@ class RevenueController extends Controller
     {
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
-        if(in_array(58, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(58, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -242,7 +242,7 @@ class RevenueController extends Controller
     public function view($viewId){
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
-        if(in_array(57, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(57, explode(',', $permission_array[0]['permission']))){
             $objRevenue = new Revenue();
             $data['revenue_details'] = $objRevenue->get_revenue_details($viewId);
 

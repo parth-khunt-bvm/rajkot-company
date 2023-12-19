@@ -60,7 +60,7 @@ class TechnologyController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(32, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(32, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
             $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
@@ -121,7 +121,7 @@ class TechnologyController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(33, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(33, explode(',', $permission_array[0]['permission']))){
             $objTechnology = new Technology();
             $data['user_details'] = $objTechnology->get_technology_details($technologyId);
 
