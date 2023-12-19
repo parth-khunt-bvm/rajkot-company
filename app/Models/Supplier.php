@@ -68,11 +68,11 @@ class Supplier extends Model
                 $actionhtml = '';
             }
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission'])) )
+            // $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(102, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="' . route('admin.counter.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            $actionhtml .= '<a href="' . route('admin.supplier.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(103, explode(',', $permission_array[0]['permission'])) ){
                 if ($row['status'] == 'A') {
@@ -138,6 +138,38 @@ class Supplier extends Model
         return 'supplier_exists';
     }
 
+    public function saveEdit($requestData)
+    {
+        $countSupplier = Supplier::from('supplier')
+            ->where('supplier.suppiler_name', $requestData['supplier_name'])
+            ->where('supplier.supplier_shop_name', $requestData['shop_name'])
+            ->where('supplier.is_deleted', 'N')
+            ->where('supplier.id', "!=", $requestData['supplier_id'])
+            ->count();
+        if ($countSupplier == 0) {
+            $objSupplier = Supplier::find($requestData['supplier_id']);
+            $objSupplier->suppiler_name = $requestData['supplier_name'];
+            $objSupplier->supplier_shop_name = $requestData['shop_name'];
+            $objSupplier->personal_contact = $requestData['personal_contact'];
+            $objSupplier->shop_contact = $requestData['shop_contact'];
+            $objSupplier->address = $requestData['address'];
+            $objSupplier->priority = $requestData['priority'];
+            $objSupplier->status = $requestData['status'];
+            $objSupplier->updated_at = date('Y-m-d H:i:s');
+            if ($objSupplier->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                //unset($requestData['_token']);
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit('U', $inputData, 'Supplier');
+                return 'added';
+            }
+            return 'wrong';
+        }
+        return 'supplier_name_exists';
+    }
+
+
     public function common_activity($requestData)
     {
         $objSupplier = Supplier::find($requestData['id']);
@@ -164,5 +196,13 @@ class Supplier extends Model
         } else {
             return false;
         }
+    }
+
+    public function get_Supplier_details($supplierId)
+    {
+        return Salary::from('supplier')
+        ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact','supplier.priority','supplier.address','supplier.status')
+        ->where('supplier.id', $supplierId)
+        ->first();
     }
 }
