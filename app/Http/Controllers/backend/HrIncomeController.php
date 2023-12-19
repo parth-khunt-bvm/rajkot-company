@@ -66,39 +66,46 @@ class HrIncomeController extends Controller
 
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add c";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_income.js',
-        );
-        $data['funinit'] = array(
-            'HrIncome.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Hr Income',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'Add Hr Income' => 'Add Hr Income',
-            )
-        );
-        return view('backend.pages.hr.income.add', $data);
+        if(in_array(62, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add c";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_income";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_income.js',
+            );
+            $data['funinit'] = array(
+                'HrIncome.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Hr Income',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Income List' => route('admin.hr.income.list'),
+                    'Add Hr Income' => 'Add Hr Income',
+                )
+            );
+            return view('backend.pages.hr.income.add', $data);
+        }else{
+            return redirect()->route('admin.hr.income.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -125,43 +132,49 @@ class HrIncomeController extends Controller
 
     public function edit($editId)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        if(in_array(64, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objHrIncome = new HrIncome();
-        $data['hr_income_details'] = $objHrIncome->get_hr_income_details($editId);
+            $objHrIncome = new HrIncome();
+            $data['hr_income_details'] = $objHrIncome->get_hr_income_details($editId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_income.js',
-        );
-        $data['funinit'] = array(
-            'HrIncome.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Hr Income',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'Edit Hr Income' => 'Edit Hr Income',
-            )
-        );
-        return view('backend.pages.hr.income.edit', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Income";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_income.js',
+            );
+            $data['funinit'] = array(
+                'HrIncome.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Hr Income',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Income List' => route('admin.hr.income.list'),
+                    'Edit Hr Income' => 'Edit Hr Income',
+                )
+            );
+            return view('backend.pages.hr.income.edit', $data);
+        }else{
+            return redirect()->route('admin.hr.income.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -220,39 +233,46 @@ class HrIncomeController extends Controller
 
     public function view($viewId){
 
-        $objHrIncome = new HrIncome();
-        $data['hr_income_details'] = $objHrIncome->get_hr_income_details($viewId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_income.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Income List' => route('admin.hr.income.list'),
-                'View hr income detail' => 'View hr income detail',
-            )
-        );
-        return view('backend.pages.hr.income.view', $data);
+        if(in_array(63, explode(',', $permission_array[0]['permission']))){
+            $objHrIncome = new HrIncome();
+            $data['hr_income_details'] = $objHrIncome->get_hr_income_details($viewId);
 
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_income.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Income List' => route('admin.hr.income.list'),
+                    'View hr income detail' => 'View hr income detail',
+                )
+            );
+            return view('backend.pages.hr.income.view', $data);
+
+        }else{
+            return redirect()->route('admin.hr.income.list');
+        }
     }
 
     public function save_import(Request $request){

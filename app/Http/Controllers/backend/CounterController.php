@@ -66,42 +66,49 @@ class CounterController extends Controller
 
     public function add()
     {
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objEmployee = new Employee();
-        $data['employee'] = $objEmployee->get_admin_employee_details();
+        if(in_array(83, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'counter.js',
-        );
-        $data['funinit'] = array(
-            'Counter.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Counter',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Counter List' => route('admin.counter.list'),
-                'Add Counter' => 'Add Counter',
-            )
-        );
-        return view('backend.pages.counter.add', $data);
+            $objEmployee = new Employee();
+            $data['employee'] = $objEmployee->get_admin_employee_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Counter";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'counter.js',
+            );
+            $data['funinit'] = array(
+                'Counter.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Counter',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Counter List' => route('admin.counter.list'),
+                    'Add Counter' => 'Add Counter',
+                )
+            );
+            return view('backend.pages.counter.add', $data);
+        }else{
+            return redirect()->route('admin.counter.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -128,46 +135,52 @@ class CounterController extends Controller
 
     public function edit($editId)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        if(in_array(85, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $objEmployee = new Employee();
-        $data['employee'] = $objEmployee->get_admin_employee_details();
+            $objEmployee = new Employee();
+            $data['employee'] = $objEmployee->get_admin_employee_details();
 
-        $objCounter = new Counter();
-        $data['counter_detail'] = $objCounter->get_counter_detail($editId);
+            $objCounter = new Counter();
+            $data['counter_detail'] = $objCounter->get_counter_detail($editId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'counter.js',
-        );
-        $data['funinit'] = array(
-            'Counter.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Counter',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Counter List' => route('admin.counter.list'),
-                'Edit Counter' => 'Edit Counter',
-            )
-        );
-        return view('backend.pages.counter.edit', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Counter";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'counter.js',
+            );
+            $data['funinit'] = array(
+                'Counter.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Counter',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Counter List' => route('admin.counter.list'),
+                    'Edit Counter' => 'Edit Counter',
+                )
+            );
+            return view('backend.pages.counter.edit', $data);
+        }else{
+            return redirect()->route('admin.counter.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -229,39 +242,45 @@ class CounterController extends Controller
     }
 
     public function view($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objCounter = new Counter();
-        $data['counter_detail'] = $objCounter->get_counter_detail($viewId);
+        if(in_array(84, explode(',', $permission_array[0]['permission']))){
+            $objCounter = new Counter();
+            $data['counter_detail'] = $objCounter->get_counter_detail($viewId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'counter.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Counter List' => route('admin.counter.list'),
-                'View counter detail' => 'View counter detail',
-            )
-        );
-        return view('backend.pages.counter.view', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Counter";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'counter.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Counter List' => route('admin.counter.list'),
+                    'View counter detail' => 'View counter detail',
+                )
+            );
+            return view('backend.pages.counter.view', $data);
+        }else{
+            return redirect()->route('admin.counter.list');
+        }
 
     }
 
@@ -272,7 +291,6 @@ class CounterController extends Controller
         $return['status'] = 'success';
         $return['message'] = 'Counter added successfully.';
         $return['redirect'] = route('admin.counter.list');
-
         echo json_encode($return);
         exit;
     }

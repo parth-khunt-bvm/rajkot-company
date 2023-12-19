@@ -7,8 +7,6 @@
     }else{
         $favicon = url("upload/company_image/favicon.png");
     }
-
-
 @endphp
 
 <head>
@@ -38,7 +36,7 @@
     <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{{  asset('backend/css/style.css') }}" rel="stylesheet" type="text/css" />
-    @if (!empty($css))
+        @if (!empty($css))
             @foreach ($css as $value)
                 @if(!empty($value))
                     <link rel="stylesheet" href="{{ asset('backend/css/customcss/'.$value) }}">

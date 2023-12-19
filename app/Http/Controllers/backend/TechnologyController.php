@@ -57,34 +57,41 @@ class TechnologyController extends Controller
 
     public function add()
     {
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'technology.js',
-        );
-        $data['funinit'] = array(
-            'Technology.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Technology',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Technology List' => 'Technology List',
-            )
-        );
-        return view('backend.pages.technology.add', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(32, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Technology List";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'technology.js',
+            );
+            $data['funinit'] = array(
+                'Technology.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Technology',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Technology List' => 'Technology List',
+                )
+            );
+            return view('backend.pages.technology.add', $data);
+        }else{
+            return redirect()->route('admin.technology.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -111,38 +118,45 @@ class TechnologyController extends Controller
 
     public function edit($technologyId)
     {
-        $objTechnology = new Technology();
-        $data['user_details'] = $objTechnology->get_technology_details($technologyId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'technology.js',
-        );
-        $data['funinit'] = array(
-            'Technology.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit technology',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Admin users' => route('admin.technology.list'),
-                'Edit admin users' => 'Edit admin users',
-            )
-        );
-        return view('backend.pages.technology.edit', $data);
+        if(in_array(33, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['user_details'] = $objTechnology->get_technology_details($technologyId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Technology";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'technology.js',
+            );
+            $data['funinit'] = array(
+                'Technology.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit technology',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Admin users' => route('admin.technology.list'),
+                    'Edit admin users' => 'Edit admin users',
+                )
+            );
+            return view('backend.pages.technology.edit', $data);
+        }else{
+            return redirect()->route('admin.technology.list');
+        }
     }
 
     public function saveEdit(Request $request)

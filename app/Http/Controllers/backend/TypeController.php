@@ -53,37 +53,44 @@ class TypeController extends Controller
     }
 
     public function add (){
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'type.js',
-        );
-        $data['funinit'] = array(
-            'Type.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Type',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Type List' => route('admin.type.list'),
-                'Add Type' => 'Add Type',
-            )
-        );
-        return view('backend.pages.type.add', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(14, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'type.js',
+            );
+            $data['funinit'] = array(
+                'Type.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Type',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Type List' => route('admin.type.list'),
+                    'Add Type' => 'Add Type',
+                )
+            );
+            return view('backend.pages.type.add', $data);
+        }else{
+            return redirect()->route('admin.type.list');
+        }
     }
 
     public function saveAdd(Request $request){
@@ -109,39 +116,47 @@ class TypeController extends Controller
 
     public function edit ($typeId){
 
-        $objType = new Type();
-        $data['type_details'] = $objType->get_type_details($typeId);
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'type.js',
-        );
-        $data['funinit'] = array(
-            'Type.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Type',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'type List' => route('admin.type.list'),
-                'Edit type' => 'Edit Type',
-            )
-        );
-        return view('backend.pages.type.edit', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(15, explode(',', $permission_array[0]['permission']))){
+
+            $objType = new Type();
+            $data['type_details'] = $objType->get_type_details($typeId);
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Type";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'type.js',
+            );
+            $data['funinit'] = array(
+                'Type.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Type',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'type List' => route('admin.type.list'),
+                    'Edit type' => 'Edit Type',
+                )
+            );
+            return view('backend.pages.type.edit', $data);
+        }else{
+            return redirect()->route('admin.type.list');
+        }
     }
 
     public function saveEdit(Request $request){

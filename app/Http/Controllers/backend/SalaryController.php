@@ -70,46 +70,55 @@ class SalaryController extends Controller
 
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
+        if(in_array(44, explode(',', $permission_array[0]['permission']))){
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'salary.js',
-        );
-        $data['funinit'] = array(
-            'Salary.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Salary',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Salary List' => route('admin.salary.list'),
-                'Add Salary' => 'Add Salary',
-            )
-        );
-        return view('backend.pages.salary.add', $data);
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Salary";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'salary.js',
+            );
+            $data['funinit'] = array(
+                'Salary.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Salary',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Salary List' => route('admin.salary.list'),
+                    'Add Salary' => 'Add Salary',
+                )
+            );
+            return view('backend.pages.salary.add', $data);
+
+        }else{
+            return redirect()->route('admin.salary.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -136,49 +145,58 @@ class SalaryController extends Controller
 
     public function edit($editId)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        if(in_array(46, explode(',', $permission_array[0]['permission']))){
 
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
-        $objSalary = new Salary();
-        $data['salary_details'] = $objSalary->get_salary_details($editId);
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'salary.js',
-        );
-        $data['funinit'] = array(
-            'Salary.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit salary',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Salary List' => route('admin.salary.list'),
-                'Edit salary' => 'Edit salary',
-            )
-        );
-        return view('backend.pages.salary.edit', $data);
+            $objSalary = new Salary();
+            $data['salary_details'] = $objSalary->get_salary_details($editId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Salary";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'salary.js',
+            );
+            $data['funinit'] = array(
+                'Salary.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit salary',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Salary List' => route('admin.salary.list'),
+                    'Edit salary' => 'Edit salary',
+                )
+            );
+            return view('backend.pages.salary.edit', $data);
+
+        }else{
+            return redirect()->route('admin.salary.list');
+        }
+
     }
 
     public function saveEdit(Request $request)
@@ -239,40 +257,46 @@ class SalaryController extends Controller
     }
 
     public function view($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objSalary = new Salary();
-        $data['salary_details'] = $objSalary->get_salary_details($viewId);
+        if(in_array(45, explode(',', $permission_array[0]['permission']))){
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'salary.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Salary List' => route('admin.salary.list'),
-                'View salary detail' => 'View salary detail',
-            )
-        );
-        return view('backend.pages.salary.view', $data);
+            $objSalary = new Salary();
+            $data['salary_details'] = $objSalary->get_salary_details($viewId);
 
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Salary";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'salary.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Salary List' => route('admin.salary.list'),
+                    'View salary detail' => 'View salary detail',
+                )
+            );
+            return view('backend.pages.salary.view', $data);
+        }else{
+            return redirect()->route('admin.salary.list');
+        }
     }
 
     public function save_import(Request $request){
