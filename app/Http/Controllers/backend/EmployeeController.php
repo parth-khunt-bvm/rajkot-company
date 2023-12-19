@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\Attendance;
+use App\Models\CompanyInfo;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Manager;
@@ -30,6 +31,9 @@ class EmployeeController extends Controller
 
         $objDesignation = new Designation();
         $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $objCompanyinfo = new CompanyInfo();
+        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee list';
@@ -351,6 +355,14 @@ class EmployeeController extends Controller
                     echo json_encode($attendanceData);
                     exit;
 
+                }elseif($inputData['type'] == 'salary-slip'){
+                    $objEmployee = new Employee();
+                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.salary_slip', $data);
+                    echo $details;
+                    break;
+
+
                 } else {
                     $objEmployee = new Employee();
                     $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
@@ -480,39 +492,31 @@ class EmployeeController extends Controller
     public function offerLetterPdf($viewId){
 
         $objEmployee = new Employee();
-        $employeeData['employee_details'] = $objEmployee->get_employee_details($viewId);
+        $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 
-        $data = [
-            'title' => 'Offer Letter',
-            'employee_name' =>  $employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'],
-            'designation' => $employeeData['employee_details']['designation_name'],
-            'date_of_joining'=> date_formate($employeeData['employee_details']['DOJ']),
-            'salary'=> numberformat($employeeData['employee_details']['salary'], 0),
-            'created_at'=> date_formate($employeeData['employee_details']['created_at']),
-            'date' => date_formate(date('Y-m-d H:i:s', strtotime($employeeData['employee_details']['created_at'] . ' +1 day'))),
-        ];
+        $objCompanyinfo = new CompanyInfo();
+        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+
+        $data['title'] = 'Offer Letter';
 
         $customPaper = [0, 0, 612.00, 792.00];
         $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data)->setPaper($customPaper, 'portrait');
-        return $pdf->download($employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'] .'_offer_letter.pdf');
+
+        return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_offer_letter.pdf');
     }
     public function coverLetterPdf($viewId){
 
         $objEmployee = new Employee();
-        $employeeData['employee_details'] = $objEmployee->get_employee_details($viewId);
-        dd($employeeData['employee_details']);
+        $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 
-        $data = [
-            'title' => 'Cover Letter',
-            'date' => date('m/d/Y'),
-            'employee_name' =>  $employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'],
-            'designation' => $employeeData['employee_details']['designation_name'],
-            'date_of_joining'=> date_formate($employeeData['employee_details']['DOJ']),
-            'salary'=> numberformat($employeeData['employee_details']['salary'], 0),
-        ];
+        $objCompanyinfo = new CompanyInfo();
+        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
 
-        $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data);
+        $data['title'] = 'Appoinment Letter';
 
-        return $pdf->download($employeeData['employee_details']['first_name'].' '. $employeeData['employee_details']['last_name'] .'_offer_letter.pdf');
+        $customPaper = [0, 0, 612.00, 792.00];
+        $pdf = PDF::loadView('backend.pages.employee.appoinment_letter', $data)->setPaper($customPaper, 'portrait');
+
+        return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_appoinment_letter.pdf');
     }
 }

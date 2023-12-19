@@ -8,40 +8,56 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="mt-5">
+    <div class="mt-5 ml-5 mr-5">
         <div class="m-4">
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                <img fetchpriority="high" width="130" height="80" src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" class="attachment-full entered lazyloaded" alt="" data-lazy-src="https://bvminfotech.com/wp-content/uploads/2021/11/48388161_341641513233735_3100381932857327616_n-removebg-preview-1.png" data-ll-status="loaded">
-                </div>
+                    @php
+                        if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]['logo']) &&$systemDetails[0]['logo'] != ''){
+                            $logo= public_path("upload/company_info/".$systemDetails[0]['logo']);
+                        }else{
+                            $logo = public_path("upload/company_image/logo.png");
+                        }
+                    @endphp
 
-                <h1 class="text-center mt-2">Offer Letter</h1>
-                <p class="text-center"> <b>To Whom It May Concern</b></p>
-                <address class="text-end">
+                    <img src="{{ $logo }}" width="200" height="80">
+                </div>
+                <h1 class="text-center mt-3" style="font-size: 39px;">{{ $title}}</h1>
+                <p class="text-center mt-3"> <b>To Whom It May Concern</b></p>
+                <address class="text-end mt-4" style="">
                     BVM Infotech<br>
                     Address: 1051, Silver Business Point<br>
                     VIP Circle, Uttran, Surat, Gujarat<br>
                     Email: info@bvminfotech.com<br>
                     Mobile Number: +91 70694 59872<br><br>
-                    Date: {{ $created_at }}
+                    Date: {{ date_formate($employee_details['created_at']) }}
                 </address>
             </div>
             <div class="col-md-12">
-                <p class="text-star ">Dear Mr. {{ $employee_name }},</p>
-                <p>We are pleased to offer you the full-time position of {{ $designation }} at BVM InfoTech with a start date of {{ $date_of_joining }}. We believe that your abilities and experience will be the perfect fit for our company.</p>
+                <p class="text-star">Dear {{ $employee_details['first_name'] }} {{ $employee_details['last_name'] }},</p>
+                <p >We are pleased to offer you the full-time position of {{ $employee_details['designation_name'] }} at BVM InfoTech with a start date of {{ $employee_details['DOJ'] }}. We believe that your abilities and experience will be the perfect fit for our company.</p>
                 <p>We are starting with a probationary period of two months starting from the date of your joining. However, this period can be cut short or extended based on the individual’s performance and at the discretion of the management.</p>
-                <p>After successfully completing the probation period, you'll be a regular team member of BVM InfoTech, and you will get paid    {{$salary}}/- on a monthly basis by direct deposit.</p>
+                <p>After successfully completing the probation period, you'll be a regular team member of BVM InfoTech, and you will get paid    {{$employee_details['salary']}}/- on a monthly basis by direct deposit.</p>
                 <p>We look forward to having you on our team! If you have any questions, please feel free to reach out at
                     your earliest convenience.</p>
-                <p>To accept our offer, please sign and date this full-time offer letter as indicated below and email it back to us by {{ $date }}.</p>
+                <p>To accept our offer, please sign and date this full-time offer letter as indicated below and email it back to us by {{ date_formate(date('Y-m-d H:i:s', strtotime($employee_details['created_at'] . ' +1 day'))) }}.</p>
+
             </div>
         </div>
         <div class="row mt-4">
             <div class="col-md-6">
-                <div>Sincerely,<span style="padding-left: 400px;">Date:</span></div>
+                <div>Sincerely, <span style="padding-left: 400px;">Date:</span></div>
+                @php
+                    if(file_exists( public_path().'/upload/company_info/'. $systemDetails[0]['signature']) && $systemDetails[0]['signature'] != ''){
+                        $signature = public_path("upload/company_info/". $systemDetails[0]['signature']);
+                    }else{
+                        $signature = public_path("upload/company_image/sign.png");
+                    }
+                @endphp
+
                 {{-- <img src="{{ asset('employee/signature/sign.png') }}" width="200" height="80"> --}}
-                <img src="{{ public_path('employee/signature/sign.png') }}" width="150" height="50">
+                <img src="{{ $signature }}" width="150" height="50">
             </div>
         </div>
         <div class="row mt-4">

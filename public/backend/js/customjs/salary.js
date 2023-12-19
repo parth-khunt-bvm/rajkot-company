@@ -14,8 +14,8 @@ var Salary = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 8],
-            'noSearchApply': [0, 8],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -60,7 +60,9 @@ var Salary = function(){
         });
 
         $("body").on("change", ".change", function() {
-
+            var target = [45,46,47];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html = '';
             html ='<table class="table table-bordered table-checkable" id="admin-salary-list">'+
             '<thead>'+
@@ -72,9 +74,11 @@ var Salary = function(){
             '<th>Technology Name</th>'+
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
-            '<th>Rmark</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
+            '<th>Rmark</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html +='</tr>'+
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
@@ -95,8 +99,8 @@ var Salary = function(){
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 7],
-                'noSearchApply': [0, 7],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
                 'defaultSortColumn': [4],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth

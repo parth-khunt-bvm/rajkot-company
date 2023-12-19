@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\AttendanceController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\backend\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
@@ -19,6 +19,9 @@ use App\Http\Controllers\backend\DesignationController;
 use App\Http\Controllers\backend\HrExpenseController;
 use App\Http\Controllers\backend\HrIncomeController;
 use App\Http\Controllers\backend\CountersheetController;
+use App\Http\Controllers\backend\SystemsettingController;
+use App\Http\Controllers\backend\UserController;
+use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -31,11 +34,17 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('save-password', [DashboardController::class, 'save_password'])->name('save-password');
     Route::post('admin/dashboard/ajaxcall', [DashboardController::class, 'ajaxcall'])->name('admin.dashboard.ajaxcall');
 
+    Route::get('admin-system-setting', [SystemsettingController::class, 'systemColorSetting'])->name('system-color-setting');
+    Route::post('admin-system-setting/save-add', [SystemsettingController::class, 'saveAdd'])->name('system-color-setting.save-add');
+
+
+
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
         Route::get('audit-trails', [AuditTrailsController::class, 'list'])->name('audit-trails');
         Route::post('audit-trails-ajaxcall', [AuditTrailsController::class, 'ajaxcall'])->name('audit-trails-ajaxcall');
     });
+
     //  branch
 
     Route::get('admin/branch/list', [BranchController::class, 'list'])->name('admin.branch.list');
@@ -100,7 +109,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/expense/add', [ExpenseController::class, 'add'])->name('admin.expense.add');
     Route::post('admin/expense/save-add-expense', [ExpenseController::class, 'saveAdd'])->name('admin.expense.save-add-expense');
     Route::get('admin/expense/edit/{id}', [ExpenseController::class, 'edit'])->name('admin.expense.edit');
-    Route::post('admin/expense/save-edit-expense', [ExpenseController::class, 'saveEdit'])->name('admin.expense.save-edit-expense');
+    Route::post('admin/expense/save-edit-expense', [ExpenseController::class,   'saveEdit'])->name('admin.expense.save-edit-expense');
     Route::post('admin/expense/ajaxcall', [ExpenseController::class, 'ajaxcall'])->name('admin.expense.ajaxcall');
     Route::get('admin/expense/view/{id}', [ExpenseController::class, 'view'])->name('admin.expense.view');
     Route::post('admin/expense/save-import-expense', [ExpenseController::class, 'save_import'])->name('admin.expense.save-import-expense');
@@ -192,4 +201,28 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     // Countersheet
     Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
     Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
+
+
+    //  User Role
+    Route::get('admin/user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
+    Route::get('admin/user-role/add', [UserroleController::class, 'add'])->name('admin.user-role.add');
+    Route::post('admin/user-role/save-add-user-role', [UserroleController::class, 'saveAdd'])->name('admin.user-role.save-add-user-role');
+    Route::get('admin/user-role/edit/{id}', [UserroleController::class, 'edit'])->name('admin.user-role.edit');
+    Route::post('admin/user-role/save-edit-user-role', [UserroleController::class, 'saveEdit'])->name('admin.user-role.save-edit-user-role');
+    Route::post('admin/user-role/ajaxcall', [UserroleController::class, 'ajaxcall'])->name('admin.user-role.ajaxcall');
+    Route::post('admin/user-role/save-import-user-role', [UserroleController::class, 'save_import'])->name('admin.user-role.save-import-type');
+    Route::get('admin/user-role/view/{id}', [UserroleController::class, 'view'])->name('admin.user-role.view');
+    Route::post('admin/user-role/permission/{id}', [UserroleController::class, 'permission'])->name('admin.user-role.permission');
+
+    //user
+    Route::get('admin/user/add', [UserController::class, 'add'])->name('admin.user.add');
+    Route::post('admin/user/save-add-user', [UserController::class, 'saveAdd'])->name('admin.user.save-add-user');
+    Route::get('admin/user/list', [UserController::class, 'list'])->name('admin.user.list');
+    Route::post('admin/user/ajaxcall', [UserController::class, 'ajaxcall'])->name('admin.user.ajaxcall');
+    Route::get('admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::post('admin/user/save-edit-user', [UserController::class, 'saveEdit'])->name('admin.user.save-edit-user');
+
+
+
+
 });

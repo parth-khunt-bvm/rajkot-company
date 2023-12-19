@@ -67,6 +67,10 @@ var Countersheet = function(){
             getDataTable(arrList);
 
         })
+
+        $("body").on("click", "#report-list-filter", function() {
+            $("div .report-list-filter").slideToggle("slow");
+        })
     }
 
     var countersheetcalender = function () {

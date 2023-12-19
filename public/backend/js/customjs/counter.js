@@ -13,8 +13,8 @@ var Counter = function () {
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 11],
-            'noSearchApply': [0, 11],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -112,6 +112,9 @@ var Counter = function () {
         });
 
         $("body").on("change", ".change", function () {
+            var target = [75, 76, 77, 78, 79, 80];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html = '';
             html = '<table class="table table-bordered table-checkable" id="admin-counter-list">' +
                 '<thead>' +
@@ -125,9 +128,12 @@ var Counter = function () {
                 '<th>Half Leaves</th>' +
                 '<th>Full Leaves</th>' +
                 '<th>Paid Leave Details</th>' +
-                '<th>Total Days</th>' +
-                '<th>Action</th>' +
-                '</tr>' +
+                '<th>Total Days</th>'+
+                '<th>Salary Counted</th>';
+                if (isAdmin == 'Y' || intersectCount > 0 ) {
+                    html += '<th>Action</th>';
+                }
+                html += '</tr>' +
                 '</thead>' +
                 '<tbody>' +
                 ' </tbody>' +

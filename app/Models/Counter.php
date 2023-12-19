@@ -68,8 +68,6 @@ class Counter extends Model
         }
 
 
-
-
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -102,17 +100,28 @@ class Counter extends Model
         $i = 0;
         $max_length = 30;
         foreach ($resultArr as $row) {
+            $target = [];
+            $target = [84, 85, 86, 87];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            $actionhtml = '';
-            $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
-            $actionhtml .= '<a href="' . route('admin.counter.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
-            if ($row['salary_counted'] == 'Y') {
-                $salaryCounted = '<span class="label label-lg label-light-success label-inline">Yes</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryNotCounted" class="btn btn-icon  salary-not-counted" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
-            } else {
-                $salaryCounted = '<span class="label label-lg label-light-danger  label-inline">No</span>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryCounted" class="btn btn-icon  salary-counted" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
             }
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(84, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(85, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.counter.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(86, explode(',', $permission_array[0]['permission'])) ){
+                if ($row['salary_counted'] == 'Y') {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryNotCounted" class="btn btn-icon  salary-not-counted" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                } else {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#salaryCounted" class="btn btn-icon  salary-counted" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                }
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(87, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -127,15 +136,10 @@ class Counter extends Model
             $nestedData[] = $row['full_leaves'];
             $nestedData[] = $row['paid_leaves_details'];
             $nestedData[] = numberformat($row['total_days'], 0);
-            $nestedData[] = $salaryCounted;
-            $nestedData[] = $actionhtml;
-
-            if (strlen($row['remarks']) > $max_length) {
-                $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
-            } else {
-                $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
+            $nestedData[] = $row['salary_counted'] == 'Y' ? '<span class="label label-lg label-light-success label-inline">Yes</span>' : '<span class="label label-lg label-light-danger  label-inline">No</span>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
             }
-            $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }
         $json_data = array(

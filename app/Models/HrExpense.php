@@ -64,10 +64,20 @@ class HrExpense extends Model
         $max_length = 30;
 
         foreach ($resultArr as $row) {
+            $target = [];
+            $target = [69, 70, 71];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            $actionhtml = '';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(69, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.hr.expense.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(70, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.hr.expense.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(71, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -81,7 +91,9 @@ class HrExpense extends Model
             }else {
                 $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
             }
-            $nestedData[] = $actionhtml;
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

@@ -24,9 +24,6 @@ class CountersheetController extends Controller
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        // $attendance = new Attendance();
-        // $data['attendance_details'] = $attendance->get_attendance_details($editId);
-
         $data['date'] = $request->date;
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';

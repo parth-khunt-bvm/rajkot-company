@@ -12,8 +12,8 @@ var HrIncome = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 7],
-            'noSearchApply': [0, 7],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -47,6 +47,9 @@ var HrIncome = function(){
         $('.select2').select2();
 
         $('body').on('change', '.change', function() {
+            var target = [63,64,65];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html  = '';
             html = '<table class="table table-bordered table-checkable" id="hr-income-list">'+
             '<thead>'+
@@ -57,9 +60,11 @@ var HrIncome = function(){
             '<th>Payment Mode</th>'+
             '<th>Salary Month</th>'+
             '<th>Amount</th>'+
-            '<th>Remark</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
+            '<th>Remark</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html += '</tr>'+
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
@@ -78,8 +83,8 @@ var HrIncome = function(){
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 7],
-                'noSearchApply': [0, 7],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth

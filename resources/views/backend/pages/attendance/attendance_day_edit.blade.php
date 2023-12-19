@@ -12,7 +12,6 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
-
                      <!--begin::Form-->
                      <form class="form" id="edit-attendance-form" method="POST" action="{{ route('admin.attendance.day-save-edit-attendance') }}">@csrf
                         <input type="hidden" name="attendance_id" class="form-control" value="{{ $attendance_details->id}}">

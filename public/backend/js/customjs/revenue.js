@@ -14,8 +14,8 @@ var Revenue = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 10],
-            'noSearchApply': [0, 10],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -62,7 +62,9 @@ var Revenue = function(){
 
 
         $('body').on('change', '.change', function() {
-
+            var target = [57,58,59];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html  = '';
             html = '<table class="table table-bordered table-checkable" id="admin-revenue-list">'+
             '<thead>'+
@@ -76,9 +78,11 @@ var Revenue = function(){
             '<th>Amount</th>'+
             '<th>Bank Name</th>'+
             '<th>Holder Name</th>'+
-            '<th>Remark</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
+            '<th>Remark</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html +='</tr>'+
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
