@@ -54,37 +54,44 @@ class BranchController extends Controller
     }
 
     public function add (){
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'branch.js',
-        );
-        $data['funinit'] = array(
-            'Branch.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Branch',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Branch List' => route('admin.branch.list'),
-                'Add Branch' => 'Add Branch',
-            )
-        );
-        return view('backend.pages.branch.add', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(20, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Branch";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'branch.js',
+            );
+            $data['funinit'] = array(
+                'Branch.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Branch',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Branch List' => route('admin.branch.list'),
+                    'Add Branch' => 'Add Branch',
+                )
+            );
+            return view('backend.pages.branch.add', $data);
+        }else{
+            return redirect()->route('admin.branch.list');
+        }
     }
 
     public function saveAdd(Request $request){
@@ -109,40 +116,46 @@ class BranchController extends Controller
     }
 
     public function edit ($branchId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objBranch = new Branch();
-        $data['branch_details'] = $objBranch->get_branch_details($branchId);
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'branch.js',
-        );
-        $data['funinit'] = array(
-            'Branch.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Branch',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Branch List' => route('admin.branch.list'),
-                'Edit Branch' => 'Edit Branch',
-            )
-        );
-        return view('backend.pages.branch.edit', $data);
+        if(in_array(21, explode(',', $permission_array[0]['permission']))){
+            $objBranch = new Branch();
+            $data['branch_details'] = $objBranch->get_branch_details($branchId);
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Branch";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'branch.js',
+            );
+            $data['funinit'] = array(
+                'Branch.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Branch',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Branch List' => route('admin.branch.list'),
+                    'Edit Branch' => 'Edit Branch',
+                )
+            );
+            return view('backend.pages.branch.edit', $data);
+        }else{
+            return redirect()->route('admin.branch.list');
+        }
     }
 
     public function saveEdit(Request $request){

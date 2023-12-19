@@ -19,7 +19,6 @@ class ExpenseController extends Controller
     }
     public function list(Request $request)
     {
-
         $objManager = new Manager();
         $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -66,48 +65,54 @@ class ExpenseController extends Controller
     }
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+        if(in_array(50, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
-        $objType = new Type();
-        $data['type'] = $objType->get_admin_type_details();
+            $objType = new Type();
+            $data['type'] = $objType->get_admin_type_details();
 
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add expense";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
 
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'expense.js',
-        );
-        $data['funinit'] = array(
-            'Expense.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Expense',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Expense List' => route('admin.expense.list'),
-                'Add Expense' => 'Add Expense',
-            )
-        );
-        return view('backend.pages.expense.add', $data);
-    }
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'expense.js',
+            );
+            $data['funinit'] = array(
+                'Expense.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Expense',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Expense List' => route('admin.expense.list'),
+                    'Add Expense' => 'Add Expense',
+                )
+            );
+            return view('backend.pages.expense.add', $data);
+        }else{
+            return redirect()->route('admin.expense.list');
+        }
+        }
 
     public function saveAdd(Request $request)
     {
@@ -133,49 +138,56 @@ class ExpenseController extends Controller
 
     public function edit($editId)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        if(in_array(52, explode(',', $permission_array[0]['permission']))){
 
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objType = new Type();
-        $data['type'] = $objType->get_admin_type_details();
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
-        $objExpense = new Expense();
-        $data['expense_details'] = $objExpense->get_expense_details($editId);
+            $objType = new Type();
+            $data['type'] = $objType->get_admin_type_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'expense.js',
-        );
-        $data['funinit'] = array(
-            'Expense.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Expense',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Expense List' => route('admin.expense.list'),
-                'Edit expense' => 'Edit expense',
-            )
-        );
-        return view('backend.pages.expense.edit', $data);
+            $objExpense = new Expense();
+            $data['expense_details'] = $objExpense->get_expense_details($editId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Expense";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'expense.js',
+            );
+            $data['funinit'] = array(
+                'Expense.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Expense',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Expense List' => route('admin.expense.list'),
+                    'Edit expense' => 'Edit expense',
+                )
+            );
+            return view('backend.pages.expense.edit', $data);
+        }else{
+            return redirect()->route('admin.expense.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -237,39 +249,45 @@ class ExpenseController extends Controller
     }
 
     public function view($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objExpense = new Expense();
-        $data['expense_details'] = $objExpense->get_expense_details($viewId);
+        if(in_array(51, explode(',', $permission_array[0]['permission']))){
+            $objExpense = new Expense();
+            $data['expense_details'] = $objExpense->get_expense_details($viewId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'expense.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Expense List' => route('admin.expense.list'),
-                'View expense detail' => 'View expense detail',
-            )
-        );
-        return view('backend.pages.expense.view', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Expense";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'expense.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Expense List' => route('admin.expense.list'),
+                    'View expense detail' => 'View expense detail',
+                )
+            );
+            return view('backend.pages.expense.view', $data);
+        }else{
+            return redirect()->route('admin.expense.list');
+        }
 
     }
 

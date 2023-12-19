@@ -19,7 +19,6 @@ class HrExpenseController extends Controller
 
     public function list(Request $request)
     {
-
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
@@ -58,37 +57,43 @@ class HrExpenseController extends Controller
 
     public function add()
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_expense.js',
-        );
-        $data['funinit'] = array(
-            'HrExpense.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Hr Expense',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Expense List' => route('admin.hr.expense.list'),
-                'Add Hr Expense' => 'Add Hr Expense',
-            )
-        );
-        return view('backend.pages.hr.expense.add', $data);
+        if(in_array(68, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add hr_expense";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_expense.js',
+            );
+            $data['funinit'] = array(
+                'HrExpense.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Hr Expense',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Expense List' => route('admin.hr.expense.list'),
+                    'Add Hr Expense' => 'Add Hr Expense',
+                )
+            );
+            return view('backend.pages.hr.expense.add', $data);
+        }else{
+            return redirect()->route('admin.hr.expense.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -115,39 +120,46 @@ class HrExpenseController extends Controller
 
     public function edit($editId)
     {
-        $objHrExpense = new HrExpense();
-        $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($editId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_expense.js',
-        );
-        $data['funinit'] = array(
-            'HrExpense.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Hr Expense',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Expense List' => route('admin.hr.expense.list'),
-                'Edit Hr Expense' => 'Edit Hr Expense',
-            )
-        );
-        return view('backend.pages.hr.expense.edit', $data);
+        if(in_array(70, explode(',', $permission_array[0]['permission']))){
+            $objHrExpense = new HrExpense();
+            $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($editId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Hr Expense";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_expense.js',
+            );
+            $data['funinit'] = array(
+                'HrExpense.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Hr Expense',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Expense List' => route('admin.hr.expense.list'),
+                    'Edit Hr Expense' => 'Edit Hr Expense',
+                )
+            );
+            return view('backend.pages.hr.expense.edit', $data);
+        }else{
+            return redirect()->route('admin.hr.expense.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -206,40 +218,46 @@ class HrExpenseController extends Controller
 
     public function view($viewId){
 
-        $objHrExpense = new HrExpense();
-        $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($viewId);
-        // dd($data['hr_expense_details']);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'hr_expense.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Hr Expense List' => route('admin.hr.expense.list'),
-                'View hr expense detail' => 'View hr expense detail',
-            )
-        );
-        return view('backend.pages.hr.expense.view', $data);
+        if(in_array(69, explode(',', $permission_array[0]['permission']))){
 
+            $objHrExpense = new HrExpense();
+            $data['hr_expense_details'] = $objHrExpense->get_hr_expense_details($viewId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Hr Income";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'hr_expense.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Hr Expense List' => route('admin.hr.expense.list'),
+                    'View hr expense detail' => 'View hr expense detail',
+                )
+            );
+            return view('backend.pages.hr.expense.view', $data);
+        }else{
+            return redirect()->route('admin.hr.expense.list');
+        }
     }
 
     public function save_import(Request $request){

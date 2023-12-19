@@ -54,35 +54,42 @@ class ManagerController extends Controller
     }
 
     public function add (){
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'manager.js',
-        );
-        $data['funinit'] = array(
-            'Manager.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Manager',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Manager List' => 'Manager List',
-            )
-        );
-        return view('backend.pages.manager.add', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(26, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'manager.js',
+            );
+            $data['funinit'] = array(
+                'Manager.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Manager',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Manager List' => 'Manager List',
+                )
+            );
+            return view('backend.pages.manager.add', $data);
+        }else{
+            return redirect()->route('admin.manager.list');
+        }
     }
 
     public function saveAdd(Request $request){
@@ -107,39 +114,46 @@ class ManagerController extends Controller
     }
 
     public function edit($managerId){
-        $objManager = new Manager();
-        $data['manager_details'] = $objManager->get_manager_details($managerId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'manager.js',
-        );
-        $data['funinit'] = array(
-            'Manager.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit manager',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Managers' => route('admin.manager.list'),
-                'Edit Managers' => 'Edit Managers',
-            )
-        );
-        return view('backend.pages.manager.edit', $data);
+        if(in_array(27, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager_details'] = $objManager->get_manager_details($managerId);
+
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'manager.js',
+            );
+            $data['funinit'] = array(
+                'Manager.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit manager',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Managers' => route('admin.manager.list'),
+                    'Edit Managers' => 'Edit Managers',
+                )
+            );
+            return view('backend.pages.manager.edit', $data);
+        }else{
+            return redirect()->route('admin.manager.list');
+        }
     }
 
     public function saveEdit(Request $request){

@@ -47,45 +47,50 @@ class UserController extends Controller
             )
         );
         return view('backend.pages.user.user.list', $data);
-
     }
 
     public function add(){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objTechnology = new UserRole();
-        $data['userRole'] = $objTechnology->get_admin_user_role_details();
+        if(in_array(2, explode(',', $permission_array[0]['permission']))){
+            $objUserRole = new UserRole();
+            $data['userRole'] = $objUserRole->get_admin_user_role_details();
 
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'user.js',
-        );
-        $data['funinit'] = array(
-            'User.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add User',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'User List' => route('admin.user.list'),
-                'Add User' => 'Add User',
-            )
-        );
-        return view('backend.pages.user.user.add', $data);
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'user.js',
+            );
+            $data['funinit'] = array(
+                'User.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add User',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'User List' => route('admin.user.list'),
+                    'Add User' => 'Add User',
+                )
+            );
+            return view('backend.pages.user.user.add', $data);
+        }else{
+            return redirect()->route('admin.user.list');
+        }
     }
 
     public function saveAdd(Request $request){
@@ -110,43 +115,49 @@ class UserController extends Controller
     }
 
     public function edit ($userId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objTechnology = new UserRole();
-        $data['userRole'] = $objTechnology->get_admin_user_role_details();
+        if(in_array(3, explode(',', $permission_array[0]['permission']))){
+            $objUserRole = new UserRole();
+            $data['userRole'] = $objUserRole->get_admin_user_role_details();
 
-        $objUser = new User();
-        $data['user_detail'] = $objUser->get_user_details($userId);
-        $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
-        $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
-        $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'user.js',
-        );
-        $data['funinit'] = array(
-            'User.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit User',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'User List' => route('admin.user.list'),
-                'Edit User' => 'Edit User',
-            )
-        );
-        return view('backend.pages.user.user.edit', $data);
+            $objUser = new User();
+            $data['user_detail'] = $objUser->get_user_details($userId);
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'user.js',
+            );
+            $data['funinit'] = array(
+                'User.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit User',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'User List' => route('admin.user.list'),
+                    'Edit User' => 'Edit User',
+                )
+            );
+            return view('backend.pages.user.user.edit', $data);
+        }else{
+            return redirect()->route('admin.user.list');
+        }
     }
 
     public function saveEdit(Request $request){
@@ -170,7 +181,6 @@ class UserController extends Controller
         exit;
     }
 
-
     public function ajaxcall(Request $request){
 
         $action = $request->input('action');
@@ -181,28 +191,28 @@ class UserController extends Controller
                 echo json_encode($list);
                 break;
 
-                case 'common-activity':
-                    $objUser = new User();
-                    $data = $request->input('data');
-                    $result = $objUser->common_activity($data);
-                    if ($result) {
-                        $return['status'] = 'success';
-                        if($data['activity'] == 'delete-records'){
-                            $return['message'] = 'User details successfully deleted.';;
-                        }elseif($data['activity'] == 'active-records'){
-                            $return['message'] = 'User details successfully actived.';;
-                        }else{
-                            $return['message'] = 'User details successfully deactived.';;
-                        }
-                        $return['redirect'] = route('admin.user.list');
-                    } else {
-                        $return['status'] = 'error';
-                        $return['jscode'] = '$("#loader").hide();';
-                        $return['message'] = 'It seems like something is wrong';;
+            case 'common-activity':
+                $objUser = new User();
+                $data = $request->input('data');
+                $result = $objUser->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = 'User details successfully deleted.';;
+                    }elseif($data['activity'] == 'active-records'){
+                        $return['message'] = 'User details successfully actived.';;
+                    }else{
+                        $return['message'] = 'User details successfully deactived.';;
                     }
+                    $return['redirect'] = route('admin.user.list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
 
-                    echo json_encode($return);
-                    exit;
+                echo json_encode($return);
+                exit;
             }
 
     }

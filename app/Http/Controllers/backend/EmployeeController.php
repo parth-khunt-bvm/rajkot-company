@@ -70,134 +70,155 @@ class EmployeeController extends Controller
     }
     public function birthDayList(Request $request)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        if(in_array(95, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $objDesignation = new Designation();
-        $data['designation'] = $objDesignation->get_admin_designation_details();
+            $objDesignation = new Designation();
+            $data['designation'] = $objDesignation->get_admin_designation_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-            'plugins/custom/datatables/datatables.bundle.css'
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'employee.js',
-        );
-        $data['funinit'] = array(
-            'Employee.init()',
-            'Employee.employee_birthday()',
-        );
-        $data['header'] = array(
-            'title' => 'Employee Birthday list',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Employee Birthday list' => 'Employee Birthday list',
-            )
-        );
-        return view('backend.pages.employee.birthday_list', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+            $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Birthday list';
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+                'plugins/custom/datatables/datatables.bundle.css'
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'plugins/custom/datatables/datatables.bundle.js',
+                'pages/crud/datatables/data-sources/html.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'employee.js',
+            );
+            $data['funinit'] = array(
+                'Employee.init()',
+                'Employee.employee_birthday()',
+            );
+            $data['header'] = array(
+                'title' => 'Employee Birthday list',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Employee Birthday list' => 'Employee Birthday list',
+                )
+            );
+            return view('backend.pages.employee.birthday_list', $data);
+        }else{
+            return redirect()->route('my-dashboard');
+        }
     }
 
     public function bondLastDateList(Request $request)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        if(in_array(96, explode(',', $permission_array[0]['permission']))){
 
-        $objDesignation = new Designation();
-        $data['designation'] = $objDesignation->get_admin_designation_details();
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date list';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-            'plugins/custom/datatables/datatables.bundle.css'
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'employee.js',
-        );
-        $data['funinit'] = array(
-            'Employee.init()',
-            'Employee.employee_bond_last_date()',
-        );
-        $data['header'] = array(
-            'title' => 'Employee Bond Last Date list',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Employee Bond Last Date list' => 'Employee Bond Last Date list',
-            )
-        );
-        return view('backend.pages.employee.bond_last_date_list', $data);
+            $objDesignation = new Designation();
+            $data['designation'] = $objDesignation->get_admin_designation_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date list';
+            $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Bond Last Date  list';
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+                'plugins/custom/datatables/datatables.bundle.css'
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'plugins/custom/datatables/datatables.bundle.js',
+                'pages/crud/datatables/data-sources/html.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'employee.js',
+            );
+            $data['funinit'] = array(
+                'Employee.init()',
+                'Employee.employee_bond_last_date()',
+            );
+            $data['header'] = array(
+                'title' => 'Employee Bond Last Date list',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Employee Bond Last Date list' => 'Employee Bond Last Date list',
+                )
+            );
+            return view('backend.pages.employee.bond_last_date_list', $data);
+        }else{
+            return redirect()->route('my-dashboard');
+        }
+
     }
     public function add()
     {
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objDesignation = new Designation();
-        $data['designation'] = $objDesignation->get_admin_designation_details();
+        if(in_array(74, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+            $objDesignation = new Designation();
+            $data['designation'] = $objDesignation->get_admin_designation_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-            'pages/crud/file-upload/image-input.js'
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'employee.js',
-        );
-        $data['funinit'] = array(
-            'Employee.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Employee',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Employee List' => route('admin.employee.list'),
-                'Add Employee' => 'Add Employee',
-            )
-        );
-        return view('backend.pages.employee.add', $data);
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+                'pages/crud/file-upload/image-input.js'
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'employee.js',
+            );
+            $data['funinit'] = array(
+                'Employee.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Employee',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Employee List' => route('admin.employee.list'),
+                    'Add Employee' => 'Add Employee',
+                )
+            );
+            return view('backend.pages.employee.add', $data);
+        }else{
+            return redirect()->route('admin.employee.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -229,49 +250,54 @@ class EmployeeController extends Controller
 
     public function edit($editId)
     {
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objDesignation = new Designation();
-        $data['designation'] = $objDesignation->get_admin_designation_details();
+        if(in_array(76, explode(',', $permission_array[0]['permission']))){
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $objEmployee = new Employee();
-        $data['employee_details'] = $objEmployee->get_employee_details($editId);
+            $objDesignation = new Designation();
+            $data['designation'] = $objDesignation->get_admin_designation_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-            // 'css/pages/wizard/wizard-3.css',
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-            // 'pages/custom/wizard/wizard-3.js',
-            'pages/crud/file-upload/image-input.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'employee.js',
-        );
-        $data['funinit'] = array(
-            'Employee.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit Employee',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Employee List' => route('admin.employee.list'),
-                'Edit employee' => 'Edit employee',
-            )
-        );
-        return view('backend.pages.employee.edit', $data);
+            $objEmployee = new Employee();
+            $data['employee_details'] = $objEmployee->get_employee_details($editId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Employee";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+                'pages/crud/file-upload/image-input.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'employee.js',
+            );
+            $data['funinit'] = array(
+                'Employee.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit Employee',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Employee List' => route('admin.employee.list'),
+                    'Edit employee' => 'Edit employee',
+                )
+            );
+            return view('backend.pages.employee.edit', $data);
+        }else{
+            return redirect()->route('admin.employee.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -397,44 +423,51 @@ class EmployeeController extends Controller
 
     public function view($viewId){
 
-        $objEmployee = new Employee();
-        $data['employee_details'] = $objEmployee->get_employee_details($viewId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array(
-            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
-        );
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+        if(in_array(75, explode(',', $permission_array[0]['permission']))){
 
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'employee.js',
-        );
-        $data['funinit'] = array(
-            'Employee.view()',
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Employee List' => route('admin.employee.list'),
-                'View employee detail' => 'View employee detail',
-            )
-        );
-        return view('backend.pages.employee.view', $data);
+            $objEmployee = new Employee();
+            $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array(
+                'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+            );
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+                'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'employee.js',
+            );
+            $data['funinit'] = array(
+                'Employee.view()',
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Employee List' => route('admin.employee.list'),
+                    'View employee detail' => 'View employee detail',
+                )
+            );
+            return view('backend.pages.employee.view', $data);
+        }else{
+            return redirect()->route('admin.employee.list');
+        }
     }
 
     public function save_import(Request $request){
@@ -490,33 +523,46 @@ class EmployeeController extends Controller
     }
 
     public function offerLetterPdf($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objEmployee = new Employee();
-        $data['employee_details'] = $objEmployee->get_employee_details($viewId);
+        if(in_array(79, explode(',', $permission_array[0]['permission']))){
 
-        $objCompanyinfo = new CompanyInfo();
-        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+            $objEmployee = new Employee();
+            $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 
-        $data['title'] = 'Offer Letter';
+            $objCompanyinfo = new CompanyInfo();
+            $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
 
-        $customPaper = [0, 0, 612.00, 792.00];
-        $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data)->setPaper($customPaper, 'portrait');
+            $data['title'] = 'Offer Letter';
 
-        return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_offer_letter.pdf');
+            $customPaper = [0, 0, 612.00, 792.00];
+            $pdf = PDF::loadView('backend.pages.employee.offer_letter', $data)->setPaper($customPaper, 'portrait');
+
+            return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_offer_letter.pdf');
+        }else{
+            return redirect()->route('my-dashboard');
+        }
     }
     public function coverLetterPdf($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $objEmployee = new Employee();
-        $data['employee_details'] = $objEmployee->get_employee_details($viewId);
+        if(in_array(80, explode(',', $permission_array[0]['permission']))){
+            $objEmployee = new Employee();
+            $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 
-        $objCompanyinfo = new CompanyInfo();
-        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+            $objCompanyinfo = new CompanyInfo();
+            $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
 
-        $data['title'] = 'Appoinment Letter';
+            $data['title'] = 'Appoinment Letter';
 
-        $customPaper = [0, 0, 612.00, 792.00];
-        $pdf = PDF::loadView('backend.pages.employee.appoinment_letter', $data)->setPaper($customPaper, 'portrait');
+            $customPaper = [0, 0, 612.00, 792.00];
+            $pdf = PDF::loadView('backend.pages.employee.appoinment_letter', $data)->setPaper($customPaper, 'portrait');
 
-        return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_appoinment_letter.pdf');
+            return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_appoinment_letter.pdf');
+        }else{
+            return redirect()->route('my-dashboard');
+        }
     }
 }

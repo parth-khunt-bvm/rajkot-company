@@ -58,34 +58,41 @@ class DesignationController extends Controller
 
     public function add()
     {
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'designation.js',
-        );
-        $data['funinit'] = array(
-            'Designation.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Designation',
-            'breadcrumb' => array(
-                'Dashboard' => route('my-dashboard'),
-                'Designation List' => 'Designation List',
-            )
-        );
-        return view('backend.pages.designation.add', $data);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(in_array(38, explode(',', $permission_array[0]['permission']))){
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'designation.js',
+            );
+            $data['funinit'] = array(
+                'Designation.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Designation',
+                'breadcrumb' => array(
+                    'Dashboard' => route('my-dashboard'),
+                    'Designation List' => 'Designation List',
+                )
+            );
+            return view('backend.pages.designation.add', $data);
+        }else{
+            return redirect()->route('admin.designation.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -112,38 +119,45 @@ class DesignationController extends Controller
 
     public function edit($designationId)
     {
-        $objDesignation = new Designation();
-        $data['user_details'] = $objDesignation->get_designation_details($designationId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'designation.js',
-        );
-        $data['funinit'] = array(
-            'Designation.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit designation',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Admin users' => route('admin.designation.list'),
-                'Edit admin users' => 'Edit admin users',
-            )
-        );
-        return view('backend.pages.designation.edit', $data);
+        if(in_array(39, explode(',', $permission_array[0]['permission']))){
+            $objDesignation = new Designation();
+            $data['user_details'] = $objDesignation->get_designation_details($designationId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Designation";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'designation.js',
+            );
+            $data['funinit'] = array(
+                'Designation.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit designation',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Admin users' => route('admin.designation.list'),
+                    'Edit admin users' => 'Edit admin users',
+                )
+            );
+            return view('backend.pages.designation.edit', $data);
+        }else{
+            return redirect()->route('admin.designation.list');
+        }
     }
 
     public function saveEdit(Request $request)

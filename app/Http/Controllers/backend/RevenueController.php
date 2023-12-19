@@ -22,8 +22,6 @@ class RevenueController extends Controller
 
     public function list(Request $request)
     {
-
-
         $objManager = new Manager();
         $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -68,42 +66,48 @@ class RevenueController extends Controller
 
     public function add()
     {
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+        if(in_array(56, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'revenue.js',
-        );
-        $data['funinit'] = array(
-            'Revenue.add()'
-        );
-        $data['header'] = array(
-            'title' => 'Add Revenue',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Revenue List' => route('admin.revenue.list'),
-                'Add Revenue' => 'Add Revenue',
-            )
-        );
-        return view('backend.pages.revenue.add', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Revenue";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'revenue.js',
+            );
+            $data['funinit'] = array(
+                'Revenue.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Revenue',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Revenue List' => route('admin.revenue.list'),
+                    'Add Revenue' => 'Add Revenue',
+                )
+            );
+            return view('backend.pages.revenue.add', $data);
+        }else{
+            return redirect()->route('admin.revenue.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -130,46 +134,51 @@ class RevenueController extends Controller
 
     public function edit($editId)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+        if(in_array(58, explode(',', $permission_array[0]['permission']))){
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
-        $objManager = new Manager();
-        $data['manager'] = $objManager->get_admin_manager_details();
+            $objTechnology = new Technology();
+            $data['technology'] = $objTechnology->get_admin_technology_details();
 
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+            $objRevenue = new Revenue();
+            $data['revenue_details'] = $objRevenue->get_revenue_details($editId);
 
-        $objRevenue = new Revenue();
-        $data['revenue_details'] = $objRevenue->get_revenue_details($editId);
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'revenue.js',
-        );
-        $data['funinit'] = array(
-            'Revenue.edit()'
-        );
-        $data['header'] = array(
-            'title' => 'Edit revenue',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Revenue List' => route('admin.revenue.list'),
-                'Edit revenue' => 'Edit revenue',
-            )
-        );
-        return view('backend.pages.revenue.edit', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Revenue";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'revenue.js',
+            );
+            $data['funinit'] = array(
+                'Revenue.edit()'
+            );
+            $data['header'] = array(
+                'title' => 'Edit revenue',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Revenue List' => route('admin.revenue.list'),
+                    'Edit revenue' => 'Edit revenue',
+                )
+            );
+            return view('backend.pages.revenue.edit', $data);
+        }else{
+            return redirect()->route('admin.revenue.list');
+        }
     }
 
     public function saveEdit(Request $request)
@@ -231,39 +240,44 @@ class RevenueController extends Controller
     }
 
     public function view($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+        if(in_array(57, explode(',', $permission_array[0]['permission']))){
+            $objRevenue = new Revenue();
+            $data['revenue_details'] = $objRevenue->get_revenue_details($viewId);
 
-        $objRevenue = new Revenue();
-        $data['revenue_details'] = $objRevenue->get_revenue_details($viewId);
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
-        $data['css'] = array(
-            'toastr/toastr.min.css'
-        );
-        $data['plugincss'] = array();
-        $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'pages/crud/forms/widgets/select2.js',
-            'validate/jquery.validate.min.js',
-        );
-        $data['js'] = array(
-            'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'revenue.js',
-        );
-        $data['funinit'] = array(
-        );
-        $data['header'] = array(
-            'title' => 'Basic Detail',
-            'breadcrumb' => array(
-                'My Dashboard' => route('my-dashboard'),
-                'Revenue List' => route('admin.revenue.list'),
-                'View revenue detail' => 'View revenue detail',
-            )
-        );
-        return view('backend.pages.revenue.view', $data);
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Revenue";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'revenue.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Revenue List' => route('admin.revenue.list'),
+                    'View revenue detail' => 'View revenue detail',
+                )
+            );
+            return view('backend.pages.revenue.view', $data);
+        }else{
+            return redirect()->route('admin.revenue.list');
+        }
 
     }
 
