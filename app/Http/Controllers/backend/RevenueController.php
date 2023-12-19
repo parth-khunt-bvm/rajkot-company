@@ -115,7 +115,7 @@ class RevenueController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Revenue details successfully added.';
             $return['redirect'] = route('admin.revenue.list');
-        } elseif ($result == "revenue_name_exists") {
+        } elseif ($result == "revenue_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Revenue has already exists.';
@@ -181,7 +181,7 @@ class RevenueController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Revenue details successfully updated.';
             $return['redirect'] = route('admin.revenue.list');
-        } elseif ($result == "revenue_name_exists") {
+        } elseif ($result == "revenue_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Revenue has already exists.';

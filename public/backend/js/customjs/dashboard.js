@@ -20,7 +20,6 @@ var Dashboard = function(){
             handleAjaxFormSubmit(form,true);
         });
     }
-
     var password = function(){
         var form = $('#change-password');
         var rules = {
@@ -48,6 +47,6 @@ var Dashboard = function(){
         },
         change_password:function(){
             password();
-        }
+        },
     }
 }();

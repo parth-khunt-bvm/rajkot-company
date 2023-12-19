@@ -1,3 +1,9 @@
+<style>
+    .select2 {
+        width: 100% !important;
+    }
+
+</style>
 <div class="modal fade " id="viewAuditTrails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -101,14 +107,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -146,14 +150,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -191,14 +193,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -235,14 +235,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -279,14 +277,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -324,14 +320,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -369,14 +363,12 @@
                                         <label>Upload Excel File<span class="text-danger">*</span></label>
                                         <div></div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
                                     </div>
-                                   <h5 class="text-danger">Note: Please remove the header from the excel sheet before importing the data.
-                                     {{-- <a href="{{ url('public/upload/excel/demo.xlsx') }}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a> --}}
-                                    </h5>
+
                                 </div>
                             </div>
                         </div>
@@ -385,7 +377,6 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
                         <a href="{{ route('admin.revenue.list') }}" class="btn btn-secondary">Cancel</a>
-
                     </div>
                 </form>
             </div>
@@ -393,4 +384,398 @@
     </div>
 </div>
 
+<!-- Import Employee Model-->
+<div class="modal fade" id="importEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-employee" enctype="multipart/form-data" method="POST" action="{{ route('admin.employee.save-import-employee') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.employee.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Counter Model-->
+<div class="modal fade" id="importCounter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Counter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-counter" enctype="multipart/form-data" method="POST" action="{{ route('admin.counter.save-import-counter') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label> Month</label><br>
+                                    <select class="form-control select2 month change" id="month" name="month">
+                                        <option value="">Select Month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>year</label><br>
+                                    <select class="form-control select2 year change" id="year" name="year">
+                                        <option value="">Select Year</option>
+                                        @for ($i = 2019; $i <= date('Y'); $i++) <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Upload Excel File<span class="text-danger">*</span></label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.counter.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Salary Not Counted Model-->
+<div class="modal fade" id="salaryNotCounted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Salary Not Counted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Are you sure you want to not counted salary ? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-not-counted">Yes , I am sure</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Salary Counted Model-->
+<div class="modal fade" id="salaryCounted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Salary Counted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Are you sure you want to counted salary ? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-counted">Yes , I am sure</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Import Type Model-->
+<div class="modal fade " id="addType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" id="add-type-modal" method="POST" action="{{ route('admin.type.save-add-type') }}">@csrf
+                    <div class="card-body">
+                        <div id="addTypeDiv">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label>Type name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="type_name[]" class="form-control typeinput" placeholder="Enter type name">
+                                        <span class="type_error text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 padding-left-5 padding-right-5">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label><br>
+                                        <a href="javascript:;" class="my-btn btn btn-success add-type-button"><i class="my-btn fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Status <span class="text-danger">*</span></label>
+                                    <div class="radio-inline" style="margin-top:10px">
+                                        <label class="radio radio-lg radio-success">
+                                            <input type="radio" name="status" class="radio-btn" value="A" checked="checked" />
+                                            <span></span>Active</label>
+                                        <label class="radio radio-lg radio-danger">
+                                            <input type="radio" name="status" class="radio-btn" value="I" />
+                                            <span></span>Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Designation Model-->
+<div class="modal fade" id="importDesignation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Designation </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-designation" enctype="multipart/form-data" method="POST" action="{{ route('admin.designation.save-import-designation') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.designation.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Hr Income Model-->
+<div class="modal fade" id="importHrIncome" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Hr Income</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-hr-income" enctype="multipart/form-data" method="POST" action="{{ route('admin.hr.income.save-import-income') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.hr.income.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Hr Expense Model-->
+<div class="modal fade" id="importHrExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Hr Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-hr-expense" enctype="multipart/form-data" method="POST" action="{{ route('admin.hr.expense.save-import-expense') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.hr.expense.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import counter sheet Model-->
+<div class="modal fade" id="countersheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Attendance Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div id="counter-sheet-cal"></div>
+            <div class="modal-body" id="counter-sheet-view-model">
+
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="importUserRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import User Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-user-role" enctype="multipart/form-data" method="POST" action="{{ route('admin.user-role.save-import-type') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.user-role.add') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 

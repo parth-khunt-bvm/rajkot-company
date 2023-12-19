@@ -13,7 +13,10 @@ use App\Models\Type;
 
 class ExpenseController extends Controller
 {
-
+    function __construct()
+    {
+        $this->middleware('admin');
+    }
     public function list(Request $request)
     {
 

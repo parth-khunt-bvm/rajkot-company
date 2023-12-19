@@ -8,8 +8,8 @@ var Technology = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 3],
-            'noSearchApply': [0, 3],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -100,6 +100,18 @@ var Technology = function(){
         handleFormValidateWithMsg(importform, rules,message, function(importform) {
             handleAjaxFormSubmit(importform,true);
         });
+
+        $("body").on("click", ".show-technology-form", function() {
+            $("#show-technology-form").html('-').addClass('remove-technology-form');
+            $("#show-technology-form").html('-').removeClass('show-technology-form');
+            $("#add-technology-users").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-technology-form", function() {
+            $("#show-technology-form").html('+').removeClass('remove-technology-form');
+            $("#show-technology-form").html('+').addClass('show-technology-form');
+            $("#add-technology-users").slideToggle("slow");
+        })
     }
     var addTechnology = function(){
         var form = $('#add-technology-users');
@@ -117,7 +129,6 @@ var Technology = function(){
         });
     }
     var editTechnology = function(){
-        console.log('test')
         var form = $('#edit-technology-users');
         var rules = {
             technology_name: {required: true},

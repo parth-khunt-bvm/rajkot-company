@@ -4,8 +4,9 @@ var Revenue = function(){
         var technology = $("#technology_id").val();
         var receivedMonth = $("#received_month").val();
         var monthOf = $('#month_of').val();
+        var year = $('#revenueYearId').val();
 
-        var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf};
+        var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf, 'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-revenue-list',
@@ -13,9 +14,9 @@ var Revenue = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
-            'defaultSortColumn': [4],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
+            'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -61,34 +62,40 @@ var Revenue = function(){
 
 
         $('body').on('change', '.change', function() {
-
+            var target = [57,58,59];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
             var html  = '';
             html = '<table class="table table-bordered table-checkable" id="admin-revenue-list">'+
-            '<thead>' +
-            '<tr>' +
+            '<thead>'+
+            '<tr>'+
             '<th>#</th>'+
+            '<th>Date</th>'+
             '<th>Manager Name</th>'+
             '<th>Technology Name</th>'+
-            '<th>Date</th>'+
             '<th>Received Month  </th>'+
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
             '<th>Bank Name</th>'+
             '<th>Holder Name</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
+            '<th>Remark</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html +='</tr>'+
             '</thead>'+
-            '<tbody>' +
+            '<tbody>'+
             '</tbody>'+
-            '</table>' ;
+            '</table>';
 
             $('.revenue-list').html(html);
             var manager = $('#manager_id').val();
             var technology = $("#technology_id").val();
             var receivedMonth = $("#received_month").val();
             var monthOf = $('#month_of').val();
+            var year = $('#revenueYearId').val();
 
-            var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf};
+            var dataArr = {'manager':manager, 'technology':technology, 'receivedMonth':receivedMonth, 'monthOf': monthOf, 'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#admin-revenue-list',
@@ -137,8 +144,26 @@ var Revenue = function(){
                     }
                 });
             }
-            $("#month_of").html(html);
+            $("#revenue_month_of").html(html);
         });
+
+        $("body").on("click", ".show-revenue-form", function() {
+            $("#show-revenue-form").html('-').addClass('remove-revenue-form');
+            $("#show-revenue-form").html('-').removeClass('show-revenue-form');
+            $("#add-revenue-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", ".remove-revenue-form", function() {
+            $("#show-revenue-form").html('+').removeClass('remove-revenue-form');
+            $("#show-revenue-form").html('+').addClass('show-revenue-form');
+            $("#add-revenue-users").slideToggle("slow");
+
+        })
+
+        $("body").on("click", "#show-revenue-filter", function() {
+            $("div .revenue-filter").slideToggle("slow");
+        })
 
     }
     var addRevenue= function(){
@@ -150,6 +175,7 @@ var Revenue = function(){
             date: {required: true},
             received_month: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
             bank_name: {required: true},
             holder_name: {required: true},
@@ -169,6 +195,9 @@ var Revenue = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"
@@ -252,6 +281,7 @@ var Revenue = function(){
             date: {required: true},
             received_month: {required: true},
             month_of: {required: true},
+            year: {required: true},
             amount: {required: true},
             bank_name: {required: true},
             holder_name: {required: true},
@@ -271,6 +301,9 @@ var Revenue = function(){
             },
             month_of : {
                 required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
             },
             amount : {
                 required : "Please enter amount"

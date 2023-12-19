@@ -1,34 +1,50 @@
 <?php
 
+use App\Http\Controllers\backend\AttendanceController;
+use App\Http\Controllers\backend\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
 use App\Http\Controllers\backend\AuditTrailsController;
 use App\Http\Controllers\backend\BranchController;
+use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\ManagerController;
 use App\Http\Controllers\backend\TechnologyController;
 use App\Http\Controllers\backend\SalaryController;
 use App\Http\Controllers\backend\TypeController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\RevenueController;
+use App\Http\Controllers\backend\CounterController;
+use App\Http\Controllers\backend\DesignationController;
+use App\Http\Controllers\backend\HrExpenseController;
+use App\Http\Controllers\backend\HrIncomeController;
+use App\Http\Controllers\backend\CountersheetController;
+use App\Http\Controllers\backend\SystemsettingController;
+use App\Http\Controllers\backend\UserController;
+use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
 $adminPrefix = "";
 Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('my-dashboard', [DashboardController::class, 'myDashboard'])->name('my-dashboard');
-
     Route::get('edit-profile', [DashboardController::class, 'editProfile'])->name('edit-profile');
     Route::post('save-profile', [DashboardController::class, 'saveProfile'])->name('save-profile');
-
     Route::get('change-password', [DashboardController::class, 'change_password'])->name('change-password');
     Route::post('save-password', [DashboardController::class, 'save_password'])->name('save-password');
+    Route::post('admin/dashboard/ajaxcall', [DashboardController::class, 'ajaxcall'])->name('admin.dashboard.ajaxcall');
+
+    Route::get('admin-system-setting', [SystemsettingController::class, 'systemColorSetting'])->name('system-color-setting');
+    Route::post('admin-system-setting/save-add', [SystemsettingController::class, 'saveAdd'])->name('system-color-setting.save-add');
+
+
 
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
         Route::get('audit-trails', [AuditTrailsController::class, 'list'])->name('audit-trails');
         Route::post('audit-trails-ajaxcall', [AuditTrailsController::class, 'ajaxcall'])->name('audit-trails-ajaxcall');
     });
+
     //  branch
 
     Route::get('admin/branch/list', [BranchController::class, 'list'])->name('admin.branch.list');
@@ -59,15 +75,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
    //  technology
 
     Route::get('admin/technology/list', [TechnologyController::class, 'list'])->name('admin.technology.list');
-
     Route::get('admin/technology/add', [TechnologyController::class, 'add'])->name('admin.technology.add');
     Route::post('admin/technology/save-add-technology', [TechnologyController::class, 'saveAdd'])->name('admin.technology.save-add-technology');
-
     Route::get('admin/technology/edit/{id}', [TechnologyController::class, 'edit'])->name('admin.technology.edit');
     Route::post('admin/technology/save-edit-technology', [TechnologyController::class, 'saveEdit'])->name('admin.technology.save-edit-technology');
-
     Route::post('admin/technology/ajaxcall', [TechnologyController::class, 'ajaxcall'])->name('admin.technology.ajaxcall');
-
     Route::post('admin/technology/save-import-technology', [TechnologyController::class, 'save_import'])->name('admin.technology.save-import-technology');
 
     // salary
@@ -91,21 +103,18 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
      Route::post('admin/type/ajaxcall', [TypeController::class, 'ajaxcall'])->name('admin.type.ajaxcall');
      Route::post('admin/type/save-import-type', [TypeController::class, 'save_import'])->name('admin.type.save-import-type');
 
-
     // expense
 
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
     Route::get('admin/expense/add', [ExpenseController::class, 'add'])->name('admin.expense.add');
     Route::post('admin/expense/save-add-expense', [ExpenseController::class, 'saveAdd'])->name('admin.expense.save-add-expense');
     Route::get('admin/expense/edit/{id}', [ExpenseController::class, 'edit'])->name('admin.expense.edit');
-    Route::post('admin/expense/save-edit-expense', [ExpenseController::class, 'saveEdit'])->name('admin.expense.save-edit-expense');
+    Route::post('admin/expense/save-edit-expense', [ExpenseController::class,   'saveEdit'])->name('admin.expense.save-edit-expense');
     Route::post('admin/expense/ajaxcall', [ExpenseController::class, 'ajaxcall'])->name('admin.expense.ajaxcall');
     Route::get('admin/expense/view/{id}', [ExpenseController::class, 'view'])->name('admin.expense.view');
     Route::post('admin/expense/save-import-expense', [ExpenseController::class, 'save_import'])->name('admin.expense.save-import-expense');
 
-
     // Revenue
-
     Route::get('admin/revenue/list', [RevenueController::class, 'list'])->name('admin.revenue.list');
     Route::get('admin/revenue/add', [RevenueController::class, 'add'])->name('admin.revenue.add');
     Route::post('admin/revenue/save-add-revenue', [RevenueController::class, 'saveAdd'])->name('admin.revenue.save-add-revenue');
@@ -115,6 +124,103 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/revenue/view/{id}', [RevenueController::class, 'view'])->name('admin.revenue.view');
     Route::post('admin/revenue/save-import-revenue', [RevenueController::class, 'save_import'])->name('admin.revenue.save-import-revenue');
 
+    //  Hr income
+    Route::get('admin/hr/income/list', [HrIncomeController::class, 'list'])->name('admin.hr.income.list');
+    Route::get('admin/hr/income/add', [HrIncomeController::class, 'add'])->name('admin.hr.income.add');
+    Route::post('admin/hr/income/save-add-income', [HrIncomeController::class, 'saveAdd'])->name('admin.hr.income.save-add-income');
+    Route::get('admin/hr/income/edit/{id}', [HrIncomeController::class, 'edit'])->name('admin.hr.income.edit');
+    Route::post('admin/hr/income/save-edit-income', [HrIncomeController::class, 'saveEdit'])->name('admin.hr.income.save-edit-income');
+    Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
+    Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
+    Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
+
+
+    //  Hr expense
+    Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');
+    Route::get('admin/hr/expense/add', [HrExpenseController::class, 'add'])->name('admin.hr.expense.add');
+    Route::post('admin/hr/expense/save-add-expense', [HrExpenseController::class, 'saveAdd'])->name('admin.hr.expense.save-add-expense');
+    Route::get('admin/hr/expense/edit/{id}', [HrExpenseController::class, 'edit'])->name('admin.hr.expense.edit');
+    Route::post('admin/hr/expense/save-edit-expense', [HrExpenseController::class, 'saveEdit'])->name('admin.hr.expense.save-edit-expense');
+    Route::post('admin/hr/expense/ajaxcall', [HrExpenseController::class, 'ajaxcall'])->name('admin.hr.expense.ajaxcall');
+    Route::get('admin/hr/expense/view/{id}', [HrExpenseController::class, 'view'])->name('admin.hr.expense.view');
+    Route::post('admin/hr/expense/save-import-expense', [HrExpenseController::class, 'save_import'])->name('admin.hr.expense.save-import-expense');
+
+    // Employee
+    Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');
+    Route::get('admin/employee/birthday/list', [EmployeeController::class, 'birthDayList'])->name('admin.employee.birthday.list');
+    Route::get('admin/employee/bond/last/date/list', [EmployeeController::class, 'bondLastDateList'])->name('admin.employee.bond-last-daye.list');
+    Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
+    Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
+    Route::get('admin/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('admin.employee.edit');
+    Route::post('admin/employee/save-edit-employee', [EmployeeController::class, 'saveEdit'])->name('admin.employee.save-edit-employee');
+    Route::post('admin/employee/ajaxcall', [EmployeeController::class, 'ajaxcall'])->name('admin.employee.ajaxcall');
+    Route::get('admin/employee/view/{id}', [EmployeeController::class, 'view'])->name('admin.employee.view');
+    Route::post('admin/employee/save-import-employee', [EmployeeController::class, 'save_import'])->name('admin.employee.save-import-employee');
+    Route::get('admin/employee/attendance/list', [EmployeeController::class, 'attendancelist'])->name('admin.employee.attendance.list');
+    Route::get('admin/employee/offer/letter/pdf/{id}', [EmployeeController::class, 'offerLetterPdf'])->name('admin.employee.offer-letter');
+    Route::get('admin/employee/cover/letter/pdf/{id}', [EmployeeController::class, 'coverLetterPdf'])->name('admin.employee.cover-letter');
+
+
+    // Counter
+    Route::get('admin/counter/list', [CounterController::class, 'list'])->name('admin.counter.list');
+    Route::get('admin/counter/add', [CounterController::class, 'add'])->name('admin.counter.add');
+    Route::post('admin/counter/save-add-counter', [CounterController::class, 'saveAdd'])->name('admin.counter.save-add-counter');
+    Route::get('admin/counter/edit/{id}', [CounterController::class, 'edit'])->name('admin.counter.edit');
+    Route::post('admin/counter/save-edit-counter', [CounterController::class, 'saveEdit'])->name('admin.counter.save-edit-counter');
+    Route::post('admin/counter/ajaxcall', [CounterController::class, 'ajaxcall'])->name('admin.counter.ajaxcall');
+    Route::get('admin/counter/view/{id}', [CounterController::class, 'view'])->name('admin.counter.view');
+    Route::post('admin/counter/save-import-counter', [CounterController::class, 'save_import'])->name('admin.counter.save-import-counter');
+
+    // report
+    Route::get('admin/report/expense', [ReportController::class, 'expense'])->name('admin.report.expense');
+    Route::get('admin/report/revenue', [ReportController::class, 'revenue'])->name('admin.report.revenue');
+    Route::get('admin/report/salary', [ReportController::class, 'salary'])->name('admin.report.salary');
+    Route::get('admin/report/profit-loss', [ReportController::class, 'profitLoss'])->name('admin.report.profit-loss');
+    Route::get('admin/report/profit-loss-by-time', [ReportController::class, 'profitLossByTime'])->name('admin.report.profit-loss-by-time');
+    Route::post('admin/report/ajaxcall', [ReportController::class, 'ajaxcall'])->name('admin.report.ajaxcall');
+
+    // designation
+    Route::get('admin/designation/list', [DesignationController::class, 'list'])->name('admin.designation.list');
+    Route::get('admin/designation/add', [DesignationController::class, 'add'])->name('admin.designation.add');
+    Route::post('admin/designation/save-add-designation', [DesignationController::class, 'saveAdd'])->name('admin.designation.save-add-designation');
+    Route::get('admin/designation/edit/{id}', [DesignationController::class, 'edit'])->name('admin.designation.edit');
+    Route::post('admin/designation/save-edit-designation', [DesignationController::class, 'saveEdit'])->name('admin.designation.save-edit-designation');
+    Route::post('admin/designation/ajaxcall', [DesignationController::class, 'ajaxcall'])->name('admin.designation.ajaxcall');
+    Route::post('admin/designation/save-import-designation', [DesignationController::class, 'save_import'])->name('admin.designation.save-import-designation');
+
+    // Attendance
+    Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
+    Route::get('admin/attendance/day/list', [AttendanceController::class, 'dayList'])->name('admin.attendance.day-list');
+    Route::get('admin/attendance/day/edit/{id}', [AttendanceController::class, 'dayEdit'])->name('admin.attendance.day-edit');
+    Route::post('admin/attendance/day/save-edit-attendance', [AttendanceController::class, 'daysaveEdit'])->name('admin.attendance.day-save-edit-attendance');
+    Route::get('admin/attendance/add', [AttendanceController::class, 'add'])->name('admin.attendance.add');
+    Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
+    Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
+    Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
+
+    // Countersheet
+    Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
+    Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
+
+
+    //  User Role
+    Route::get('admin/user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
+    Route::get('admin/user-role/add', [UserroleController::class, 'add'])->name('admin.user-role.add');
+    Route::post('admin/user-role/save-add-user-role', [UserroleController::class, 'saveAdd'])->name('admin.user-role.save-add-user-role');
+    Route::get('admin/user-role/edit/{id}', [UserroleController::class, 'edit'])->name('admin.user-role.edit');
+    Route::post('admin/user-role/save-edit-user-role', [UserroleController::class, 'saveEdit'])->name('admin.user-role.save-edit-user-role');
+    Route::post('admin/user-role/ajaxcall', [UserroleController::class, 'ajaxcall'])->name('admin.user-role.ajaxcall');
+    Route::post('admin/user-role/save-import-user-role', [UserroleController::class, 'save_import'])->name('admin.user-role.save-import-type');
+    Route::get('admin/user-role/view/{id}', [UserroleController::class, 'view'])->name('admin.user-role.view');
+    Route::post('admin/user-role/permission/{id}', [UserroleController::class, 'permission'])->name('admin.user-role.permission');
+
+    //user
+    Route::get('admin/user/add', [UserController::class, 'add'])->name('admin.user.add');
+    Route::post('admin/user/save-add-user', [UserController::class, 'saveAdd'])->name('admin.user.save-add-user');
+    Route::get('admin/user/list', [UserController::class, 'list'])->name('admin.user.list');
+    Route::post('admin/user/ajaxcall', [UserController::class, 'ajaxcall'])->name('admin.user.ajaxcall');
+    Route::get('admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::post('admin/user/save-edit-user', [UserController::class, 'saveEdit'])->name('admin.user.save-edit-user');
 
 
 

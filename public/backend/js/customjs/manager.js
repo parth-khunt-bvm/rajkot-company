@@ -8,8 +8,8 @@ var Manager = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 3],
-            'noSearchApply': [0, 3],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -100,6 +100,18 @@ var Manager = function(){
         handleFormValidateWithMsg(importform, rules,message, function(importform) {
             handleAjaxFormSubmit(importform,true);
         });
+
+        $("body").on("click", ".show-manager-form", function() {
+            $("#show-manager-form").html('-').addClass('remove-manager-form');
+            $("#show-manager-form").html('-').removeClass('show-manager-form');
+            $("#add-manager").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-manager-form", function() {
+            $("#show-manager-form").html('+').removeClass('remove-manager-form');
+            $("#show-manager-form").html('+').addClass('show-manager-form');
+            $("#add-manager").slideToggle("slow");
+        })
     }
     var addManager = function(){
         var form = $('#add-manager');
@@ -117,7 +129,6 @@ var Manager = function(){
         });
     }
     var editManager = function(){
-        console.log('test')
         var form = $('#edit-manager');
         var rules = {
             manager_name: {required: true},

@@ -17,13 +17,13 @@ class TechnologyImport implements ToModel, WithStartRow
     public function model(array $row)
     {
         if (Technology::where('technology_name', $row[0])->where('is_deleted', 'N')->count() == 0) {
-            $objManager = new Technology();
-            $objManager->technology_name = $row[0];
-            $objManager->status = 'A';
-            $objManager->is_deleted = 'N';
-            $objManager->created_at = date('Y-m-d H:i:s');
-            $objManager->updated_at = date('Y-m-d H:i:s');
-            $objManager->save();
+            $objTechnology = new Technology();
+            $objTechnology->technology_name = $row[0];
+            $objTechnology->status = 'A';
+            $objTechnology->is_deleted = 'N';
+            $objTechnology->created_at = date('Y-m-d H:i:s');
+            $objTechnology->updated_at = date('Y-m-d H:i:s');
+            $objTechnology->save();
         }
     }
     public function startRow(): int

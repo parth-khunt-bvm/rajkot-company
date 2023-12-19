@@ -210,7 +210,6 @@ class SalaryController extends Controller
             case 'getdatatable':
                 $objSalary = new Salary();
                 $list = $objSalary->getdatatable($request->input('data'));
-
                 echo json_encode($list);
                 break;
 

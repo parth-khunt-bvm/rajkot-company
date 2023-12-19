@@ -8,8 +8,8 @@ var Branch = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 3],
-            'noSearchApply': [0, 3],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -98,6 +98,19 @@ var Branch = function(){
         handleFormValidateWithMsg(importform, rules,message, function(importform) {
             handleAjaxFormSubmit(importform,true);
         });
+
+        $("body").on("click", ".show-branch-form", function() {
+            $("#show-branch-form").html('-').addClass('remove-branch-form');
+            $("#show-branch-form").html('-').removeClass('show-branch-form');
+            $("#add-branch").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-branch-form", function() {
+            $("#show-branch-form").html('+').removeClass('remove-branch-form');
+            $("#show-branch-form").html('+').addClass('show-branch-form');
+            $("#add-branch").slideToggle("slow");
+        })
+
     }
     var addBranch = function(){
         var form = $('#add-branch');
