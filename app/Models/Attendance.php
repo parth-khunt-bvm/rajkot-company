@@ -224,8 +224,10 @@ class Attendance extends Model
             $objAttendance->save();
             }
             if($objAttendance->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Attendance');
+                $objAudittrails->add_audit("I", $inputData, 'Attendance');
                 return 'added';
             }else{
                 return 'wrong';
@@ -241,9 +243,10 @@ class Attendance extends Model
             $objattendance->reason = $requestData['reason'];
             $objattendance->updated_at = date('Y-m-d H:i:s');
             if ($objattendance->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Attendance');
+                $objAudittrails->add_audit('U', $inputData, 'Attendance');
                 return 'added';
             }
             return 'wrong';

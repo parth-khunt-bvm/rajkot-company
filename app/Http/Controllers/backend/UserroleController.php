@@ -56,7 +56,7 @@ class UserroleController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(7, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(7, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User Role";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User Role";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User Role";
@@ -118,7 +118,7 @@ class UserroleController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(8, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(8, explode(',', $permission_array[0]['permission']))){
 
             $objUserRole = new UserRole();
             $data['user_role_details'] = $objUserRole->get_user_role_details($userRoleId);

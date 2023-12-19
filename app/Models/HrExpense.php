@@ -123,9 +123,10 @@ class HrExpense extends Model
             $objHrHrExpense->created_at = date('Y-m-d H:i:s');
             $objHrHrExpense->updated_at = date('Y-m-d H:i:s');
             if ($objHrHrExpense->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('I', $requestData, 'HrExpense');
+                $res = $objAudittrails->add_audit('I', $inputData, 'HrExpense');
                 return 'added';
             }
             return 'wrong';
@@ -150,9 +151,10 @@ class HrExpense extends Model
             $objHrExpense->amount = $requestData['amount'];
             $objHrExpense->updated_at = date('Y-m-d H:i:s');
             if ($objHrExpense->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'HrExpense');
+                $objAudittrails->add_audit('U', $inputData, 'HrExpense');
                 return 'added';
             }
             return 'wrong';

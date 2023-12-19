@@ -69,7 +69,7 @@ class HrIncomeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(62, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(62, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -135,7 +135,7 @@ class HrIncomeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(64, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(64, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
@@ -236,7 +236,7 @@ class HrIncomeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(63, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(63, explode(',', $permission_array[0]['permission']))){
             $objHrIncome = new HrIncome();
             $data['hr_income_details'] = $objHrIncome->get_hr_income_details($viewId);
 

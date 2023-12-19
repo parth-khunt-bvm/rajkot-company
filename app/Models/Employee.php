@@ -353,8 +353,11 @@ class Employee extends Model
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if($objEmployee->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                unset($inputData['slack_password']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Employee');
+                $objAudittrails->add_audit("I", $inputData, 'Employee');
                 return 'added';
             }else{
                 return 'wrong';
@@ -425,9 +428,11 @@ class Employee extends Model
             $objEmployee->status = $requestData['status'];
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if ($objEmployee->save()) {
-                unset($requestData['_token']);
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                unset($inputData['slack_password']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $requestData, 'Employee');
+                $objAudittrails->add_audit('U', $inputData, 'Employee');
                 return 'added';
             }
             return 'wrong';

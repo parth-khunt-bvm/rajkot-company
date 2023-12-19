@@ -61,7 +61,7 @@ class DesignationController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(38, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(38, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
             $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Designation List";
@@ -122,7 +122,7 @@ class DesignationController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(39, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(39, explode(',', $permission_array[0]['permission']))){
             $objDesignation = new Designation();
             $data['user_details'] = $objDesignation->get_designation_details($designationId);
 

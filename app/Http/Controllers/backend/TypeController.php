@@ -56,7 +56,7 @@ class TypeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(14, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(14, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Type";
@@ -119,7 +119,7 @@ class TypeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(15, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(15, explode(',', $permission_array[0]['permission']))){
 
             $objType = new Type();
             $data['type_details'] = $objType->get_type_details($typeId);

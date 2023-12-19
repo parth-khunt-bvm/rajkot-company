@@ -91,7 +91,6 @@ class Technology extends Model
             "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
             "data" => $data   // total data array
         );
-
         return $json_data;
     }
 
@@ -110,10 +109,8 @@ class Technology extends Model
             $objTechnology->created_at = date('Y-m-d H:i:s');
             $objTechnology->updated_at = date('Y-m-d H:i:s');
             if ($objTechnology->save()) {
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $inputData, 'Technology');
+                $objAudittrails->add_audit("I", $requestData, 'Technology');
                 return 'added';
             } else {
                 return 'wrong';
@@ -136,10 +133,8 @@ class Technology extends Model
             $objTechnology->status = $requestData['status'];
             $objTechnology->updated_at = date('Y-m-d H:i:s');
             if ($objTechnology->save()) {
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $inputData, 'Technology');
+                $objAudittrails->add_audit("U", $requestData, 'Technology');
                 return 'updated';
             } else {
                 return 'wrong';

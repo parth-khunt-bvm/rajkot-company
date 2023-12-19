@@ -73,7 +73,7 @@ class SalaryController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(44, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission']))){
 
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
@@ -148,7 +148,7 @@ class SalaryController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(46, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission']))){
 
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
@@ -260,7 +260,7 @@ class SalaryController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(45, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(45, explode(',', $permission_array[0]['permission']))){
 
             $objSalary = new Salary();
             $data['salary_details'] = $objSalary->get_salary_details($viewId);
