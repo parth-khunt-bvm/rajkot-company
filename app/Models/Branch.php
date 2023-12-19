@@ -111,8 +111,10 @@ class Branch extends Model
             $objBranch->created_at = date('Y-m-d H:i:s');
             $objBranch->updated_at = date('Y-m-d H:i:s');
             if($objBranch->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Branch');
+                $objAudittrails->add_audit("I", $inputData, 'Branch');
                 return 'added';
             }else{
                 return 'wrong';
@@ -141,8 +143,10 @@ class Branch extends Model
             $objBranch->status = $requestData['status'];
             $objBranch->updated_at = date('Y-m-d H:i:s');
             if($objBranch->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'Branch');
+                $objAudittrails->add_audit("U", $inputData, 'Branch');
                 return 'updated';
             }else{
                 return 'wrong';

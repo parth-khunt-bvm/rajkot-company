@@ -171,8 +171,11 @@ class User extends Authenticatable
             $objUser->created_at = date('Y-m-d H:i:s');
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                unset($inputData['password']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'User');
+                $objAudittrails->add_audit("I", $inputData, 'User');
                 return 'added';
             }else{
                 return 'wrong';
@@ -198,8 +201,10 @@ class User extends Authenticatable
             $objUser->status = $requestData['status'];
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'Branch');
+                $objAudittrails->add_audit("U", $inputData, 'Branch');
                 return 'updated';
             }else{
                 return 'wrong';

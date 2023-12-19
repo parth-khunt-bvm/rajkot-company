@@ -117,8 +117,10 @@ class UserRole extends Model
                     $objUserRole->updated_at = date('Y-m-d H:i:s');
 
                     if ( $objUserRole->save()) {
-                        $objAudittrails = new Audittrails();
-                        $objAudittrails->add_audit("I", $requestData, 'user_role');
+                        $inputData = $requestData->input();
+                        unset($inputData['_token']);
+                       $objAudittrails = new Audittrails();
+                        $objAudittrails->add_audit("I", $inputData, 'user_role');
                         return "added";
                     } else {
                         return 'wrong';
@@ -141,8 +143,10 @@ class UserRole extends Model
             $objUserRole->status = $requestData['status'];
             $objUserRole->updated_at = date('Y-m-d H:i:s');
             if ($objUserRole->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'user_role');
+                $objAudittrails->add_audit("U", $inputData, 'user_role');
                 return 'updated';
             } else {
                 return 'wrong';

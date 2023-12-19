@@ -109,8 +109,10 @@ class Manager extends Model
             $objManager->created_at = date('Y-m-d H:i:s');
             $objManager->updated_at = date('Y-m-d H:i:s');
             if ($objManager->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'Manager');
+                $objAudittrails->add_audit("I", $inputData, 'Manager');
                 return 'added';
             } else {
                 return 'wrong';
@@ -132,8 +134,10 @@ class Manager extends Model
             $objManager->status = $requestData['status'];
             $objManager->updated_at = date('Y-m-d H:i:s');
             if ($objManager->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $requestData, 'Manager');
+                $objAudittrails->add_audit("U", $inputData, 'Manager');
                 return 'updated';
             } else {
                 return 'wrong';

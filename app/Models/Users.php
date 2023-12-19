@@ -42,7 +42,7 @@ class Users extends Model
                     $inputData['userimage'] = $imagename;
                 }
                 $objAudittrails = new Audittrails();
-                $res = $objAudittrails->add_audit('Update','admin/'. $currentRoute , json_encode($inputData) ,'Update Profile' );
+                $res = $objAudittrails->add_audit('Update','admin/'. $currentRoute , $inputData ,'Update Profile' );
                 return true;
             }else{
                 return "false";
@@ -69,7 +69,7 @@ class Users extends Model
                     unset($inputData['new_password']);
                     unset($inputData['new_confirm_password']);
                     $objAudittrails = new Audittrails();
-                    $res = $objAudittrails->add_audit('Update','admin/'. $currentRoute , json_encode($inputData) ,'Change Password' );
+                    $res = $objAudittrails->add_audit('Update','admin/'. $currentRoute , $inputData ,'Change Password' );
                     return true;
                 }else{
                     return 'false';
