@@ -24,9 +24,17 @@
             ],
 
             'Assets'=>[
-                'Assets' => [
+                'Master' => [
                     '97'  => 'asset list',
                     '98'  => 'add asset',
+                ],
+                'Supplier' => [
+                    '99'  => 'supplier list',
+                    '100'  => 'add supplier',
+                    '101'  => 'view supplier',
+                    '102'  => 'edit supplier',
+                    '103'  => 'change supplier status',
+                    '104'  => 'delete supplier',
                 ],
 
             ],

@@ -22,6 +22,7 @@ use App\Http\Controllers\backend\CountersheetController;
 use App\Http\Controllers\backend\SystemsettingController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\AssetController;
+use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -230,6 +231,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::post('admin/user/save-edit-user', [UserController::class, 'saveEdit'])->name('admin.user.save-edit-user');
 
+    Route::get('admin/supplier/list', [SupplierController::class, 'list'])->name('admin.supplier.list');
+    Route::get('admin/supplier/add', [SupplierController::class, 'add'])->name('admin.supplier.add');
+    Route::post('admin/supplier/save-add-supplier', [SupplierController::class, 'saveAdd'])->name('admin.supplier.save-add-supplier');
+    Route::post('admin/supplier/ajaxcall', [SupplierController::class, 'ajaxcall'])->name('admin.supplier.ajaxcall');
+    Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
 
 
 
