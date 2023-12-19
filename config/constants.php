@@ -23,6 +23,13 @@
                 ],
             ],
 
+            'Assets'=>[
+                'Assets' => [
+                    '97'  => 'asset list',
+                    '98'  => 'add asset',
+                ],
+
+            ],
 
             'setting' =>    [
                 'type' => [

@@ -46,6 +46,8 @@ class Audittrails extends Model
         return $objAudittrails->save();
     }
 
+
+
     // public function add_audit($evet , $url , $data,$module){
 
     //     $agent = new Agent();

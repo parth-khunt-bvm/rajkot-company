@@ -119,8 +119,10 @@ class Type extends Model
                     $objtype->updated_at = date('Y-m-d H:i:s');
                     $objtype->save();
                 // }
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $requestData, 'type');
+                $objAudittrails->add_audit("I", $inputData, 'type');
                 return true;
             }
         }
@@ -149,8 +151,10 @@ class Type extends Model
                 $objtype->status = $requestData['status'];
                 $objtype->updated_at = date('Y-m-d H:i:s');
                 if ($objtype->save()) {
+                    $inputData = $requestData->input();
+                    unset($inputData['_token']);
                     $objAudittrails = new Audittrails();
-                    $objAudittrails->add_audit("U", $requestData, 'type');
+                    $objAudittrails->add_audit("U", $inputData, 'type');
                     return 'updated';
                 } else {
                     return 'wrong';

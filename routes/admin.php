@@ -21,6 +21,7 @@ use App\Http\Controllers\backend\HrIncomeController;
 use App\Http\Controllers\backend\CountersheetController;
 use App\Http\Controllers\backend\SystemsettingController;
 use App\Http\Controllers\backend\UserController;
+use App\Http\Controllers\backend\AssetController;
 use App\Http\Controllers\backend\UserroleController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -102,6 +103,13 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
      Route::post('admin/type/save-edit-type', [TypeController::class, 'saveEdit'])->name('admin.type.save-edit-type');
      Route::post('admin/type/ajaxcall', [TypeController::class, 'ajaxcall'])->name('admin.type.ajaxcall');
      Route::post('admin/type/save-import-type', [TypeController::class, 'save_import'])->name('admin.type.save-import-type');
+
+     // asset
+
+    Route::get('admin/asset/list', [AssetController::class, 'list'])->name('admin.asset.list');
+    Route::post('admin/assets/ajaxcall', [AssetController::class, 'ajaxcall'])->name('admin.assets.ajaxcall');
+    Route::get('admin/assets/add', [AssetController::class, 'add'])->name('admin.assets.add');
+    Route::post('admin/assets/save-add-technology', [AssetController::class, 'saveAdd'])->name('admin.assets.save-add-assets');
 
     // expense
 
