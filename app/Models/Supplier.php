@@ -236,4 +236,10 @@ class Supplier extends Model
         ->where('supplier.id', $supplierId)
         ->first();
     }
+
+    public function get_admin_suplier_details(){
+        return Salary::from('supplier')
+            ->select('supplier.id','supplier.suppiler_name','supplier.status','supplier.sort_name','supplier.priority')
+            ->get();
+    }
 }

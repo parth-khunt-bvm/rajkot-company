@@ -1,0 +1,189 @@
+<?php
+
+namespace App\Http\Controllers\backend;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\AssetMaster;
+use App\Models\Branch;
+use App\Models\Supplier;
+use Config;
+use App\Models\Brand;
+use App\Models\Asset;
+
+class AssetMasterController extends Controller
+{
+    function __construct()
+    {
+        $this->middleware('admin');
+    }
+
+    public function list(Request $request)
+    {
+        $objSupplier = new Supplier();
+        $data['suppier'] = $objSupplier->get_admin_suplier_details();
+
+        $objBrand = new Brand();
+        $data['brand'] = $objBrand->get_admin_brand_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objAsset = new Asset();
+        $data['asset'] = $objAsset->get_admin_asset_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'pages/crud/forms/widgets/select2.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'assetmaster.js',
+        );
+        $data['funinit'] = array(
+            'AssetMaster.init()',
+            'AssetMaster.add()'
+        );
+        $data['header'] = array(
+            'title' => 'Asset Master list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'AssetMaster list' => 'Asset Master list',
+            )
+        );
+        return view('backend.pages.assetmaster.list', $data);
+
+    }
+
+
+    public function add()
+    {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission']))){
+
+            $objSupplier = new Supplier();
+            $data['suppier'] = $objSupplier->get_admin_suplier_details();
+
+            $objBrand = new Brand();
+            $data['brand'] = $objBrand->get_admin_brand_details();
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
+
+            $objAsset = new Asset();
+            $data['asset'] = $objAsset->get_admin_asset_details();
+
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Asset Master";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Asset Master";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Asset Master";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'assetmaster.js',
+            );
+            $data['funinit'] = array(
+                'AssetMaster.add()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Asset Master',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Asset Master List' => route('admin.assets-master.list'),
+                    'Add Asset Master' => 'Add Asset Master',
+                )
+            );
+            return view('backend.pages.assetmaster.add', $data);
+
+        }else{
+            return redirect()->route('admin.assets-master.list');
+        }
+    }
+
+    public function saveAdd(Request $request)
+    {
+        $objAssetMaster = new AssetMaster();
+        $result = $objAssetMaster->saveAdd($request->all());
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Assets Master details successfully added.';
+            $return['redirect'] = route('admin.assets-master.list');
+        } elseif ($result == "assets_name_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Assets Master has already exists.';
+        } else {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
+
+
+    public function ajaxcall(Request $request)
+    {
+        $action = $request->input('action');
+        switch ($action) {
+            case 'getdatatable':
+                $objAssetMaster = new AssetMaster();
+                $list = $objAssetMaster->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'common-activity':
+                $data = $request->input('data');
+                $objAssetMaster = new AssetMaster();
+                $result = $objAssetMaster->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if ($data['activity'] == 'delete-records') {
+                        $return['message'] = "Assets details successfully deleted.";
+                    } elseif ($data['activity'] == 'active-records') {
+                        $return['message'] = "Assets details successfully actived.";
+                    } else {
+                        $return['message'] = "Assets details successfully deactived.";
+                    }
+                    $return['redirect'] = route('admin.assets-master.list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
+
+                echo json_encode($return);
+                exit;
+        }
+    }
+
+}
