@@ -38,7 +38,7 @@
                                             <label>Personal Contact
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off"  maxlength="10"/>
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
@@ -46,7 +46,7 @@
                                             <label>Shop Contact
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" maxlength="10"/>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                             <select class="form-control select2 priority" id="priority" name="priority">
                                                 <option value="">Please select priority</option>
                                                 <option value="0">Low</option>
-                                                <option value="1">Normal</option>
+                                                <option value="1">Medium</option>
                                                 <option value="2">High</option>
                                             </select>
                                         </div>

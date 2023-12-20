@@ -2,7 +2,9 @@ var Supplier = function(){
 
     var list = function () {
         $('.select2').select2();
-        var dataArr = { };
+        var Priority = $('#priorityId').val();
+        var status = $("#statusId").val();
+        var dataArr = {  'Priority': Priority, 'status': status};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-supplier-list',
@@ -101,6 +103,99 @@ var Supplier = function(){
             $("#show-supplier-form").html('+').addClass('show-supplier-form');
             $("#add-supplier").slideToggle("slow");
         })
+
+        $("body").on("click", "#show-supplier-filter", function() {
+            $("div .supplier-filter").slideToggle("slow");
+        })
+
+        $("body").on("change", ".supplier-filter", function () {
+
+            var target = [101,102,103,104];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            var html = '';
+            html =  '<table class="table table-bordered table-checkable" id="admin-supplier-list">'+
+            '<thead>'+
+            '<tr>'+
+            '<th>#</th>'+
+            '<th>Supplier Name</th>'+
+            '<th>Shop Name</th>'+
+            '<th>Shop Contact</th>'+
+            '<th>Personal Contact </th>'+
+            '<th>Priority </th>'+
+            '<th>Short Name </th>'+
+            '<th>Status</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html += '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '</tbody>'+
+            '</table>';
+
+            $(".supplier-list").html(html);
+
+            var Priority = $('#priorityId').val();
+            var status = $("#statusId").val();
+            var dataArr = {  'Priority': Priority, 'status': status};
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#admin-supplier-list',
+                'ajaxURL': baseurl + "admin/supplier/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        })
+
+        $("body").on('click','.supplier-view', function(){
+            var id = $(this).data('id');
+            console.log(id);
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/supplier/ajaxcall",
+                data: { 'action': 'supplier-view', 'data': data },
+                success: function (data) {
+                   var supplier=  JSON.parse(data);
+                   console.log(supplier);
+                   $("#md_supplier_name").text(supplier.suppiler_name);
+                   $("#md_shop_name").text(supplier.supplier_shop_name);
+                   $("#md_shop_contact").text(supplier.shop_contact);
+                   $("#md_personal_contact").text(supplier.personal_contact);
+
+                   var priority;
+                   if (supplier.priority === "0") {
+                        priority = "Low";
+                   } else if (supplier.priority === "1") {
+                        priority = "Medium";
+                   } else if (supplier.priority === "2") {
+                        priority = "High";
+                   }
+                    $("#md_priority").text(priority);
+                    $("#md_short_name").text(supplier.sort_name);
+
+                    var status;
+                    if(supplier.status == "A"){
+                        status = "Active";
+                    } else {
+                        status = "DeActive";
+                    }
+                    $("#md_status").text(status);
+                    $("#md_address").text(supplier.address);
+                }
+            });
+        });
     }
 
     var addSupplier = function(){

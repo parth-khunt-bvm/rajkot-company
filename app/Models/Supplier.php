@@ -29,6 +29,24 @@ class Supplier extends Model
         $query = Supplier::from('supplier')
             ->where("supplier.is_deleted", "=", "N");
 
+            if($fillterdata['Priority'] != null && $fillterdata['Priority'] != ''){
+                if($fillterdata['Priority'] == 0){
+                    $query->where("supplier.priority", "0");
+                } elseif($fillterdata['Priority'] == 1){
+                    $query->where("supplier.priority", "1");
+                } else {
+                    $query->where("supplier.priority", "2");
+                }
+            }
+
+            if($fillterdata['status'] != null && $fillterdata['status'] != ''){
+                if($fillterdata['status'] == 1){
+                    $query->where("supplier.status", "A");
+                } else {
+                    $query->where("supplier.status", "I");
+                }
+            }
+
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -70,7 +88,7 @@ class Supplier extends Model
             }
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="' . route('admin.supplier.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            $actionhtml .= '<a href=""data-toggle="modal" data-target="#supplier-view" data-id="'.$row['id'].'" class="btn btn-icon supplier-view"><i class="fa fa-eye text-primary"> </i></a>';
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(102, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.supplier.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';

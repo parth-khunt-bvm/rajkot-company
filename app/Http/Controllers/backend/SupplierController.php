@@ -10,7 +10,6 @@ use Config;
 class SupplierController extends Controller
 {
     public function list(){
-
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Supplier List';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Supplier List';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Supplier List';
@@ -184,6 +183,12 @@ class SupplierController extends Controller
             case 'getdatatable':
                 $objSupplier = new Supplier();
                 $list = $objSupplier->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'supplier-view':
+                $objSupplier = new Supplier();
+                $list = $objSupplier->get_Supplier_details($request->input('data'));
                 echo json_encode($list);
                 break;
 
