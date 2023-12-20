@@ -87,7 +87,7 @@ class AssetController extends Controller
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Assets details successfully added.';
-            $return['redirect'] = route('admin.asset.list');
+            $return['redirect'] = route('admin.assets.list');
         }  elseif ($result == "asset_type_exists" || $result == "asset_code_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -119,7 +119,7 @@ class AssetController extends Controller
                 if ($result) {
                     $return['status'] = 'success';
                         $return['message'] = "Asset details successfully deactived.";
-                    $return['redirect'] = route('admin.asset.list');
+                    $return['redirect'] = route('admin.assets.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';

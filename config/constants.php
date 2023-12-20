@@ -36,6 +36,14 @@
                     '103'  => 'change supplier status',
                     '104'  => 'delete supplier',
                 ],
+                'Brand' => [
+                    '105'  => 'Brand list',
+                    '106'  => 'add Brand',
+                    '107'  => 'view Brand',
+                    '108'  => 'edit Brand',
+                    '109'  => 'change Brand status',
+                    '110'  => 'delete Brand',
+                ],
 
             ],
 

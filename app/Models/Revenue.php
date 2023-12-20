@@ -226,7 +226,7 @@ class Revenue extends Model
         $objRevenue = Revenue::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objRevenue->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'active-records') {
@@ -316,3 +316,4 @@ class Revenue extends Model
     }
 
 }
+

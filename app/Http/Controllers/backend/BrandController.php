@@ -3,23 +3,17 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Imports\ManagerImport;
 use Illuminate\Http\Request;
-use App\Models\Manager;
+use App\Models\Brand;
 use Config;
 
-class ManagerController extends Controller
+class BrandController extends Controller
 {
-    function __construct()
+    public function list()
     {
-        $this->middleware('admin');
-    }
-
-    public function list(Request $request){
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Manager List';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Brand List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Brand List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Brand List';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -31,26 +25,26 @@ class ManagerController extends Controller
             'plugins/custom/datatables/datatables.bundle.js',
             'pages/crud/datatables/data-sources/html.js',
             'validate/jquery.validate.min.js',
+
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'manager.js',
+            'brand.js',
         );
         $data['funinit'] = array(
-            'Manager.init()',
-            'Manager.add()'
+            'Brand.init()',
+            'Brand.add()'
         );
         $data['header'] = array(
-            'title' => 'Manager List',
+            'title' => 'Brand List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Manager List' => 'Manager List',
+                'Brand List' => 'Brand List',
             )
         );
-        return view('backend.pages.manager.list', $data);
-
+        return view('backend.pages.brand.list',$data);
     }
 
     public function add (){
@@ -58,9 +52,9 @@ class ManagerController extends Controller
         $permission_array = get_users_permission($userId);
 
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(26, explode(',', $permission_array[0]['permission']))){
-            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
-            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Manager List";
+            $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Brand List";
+            $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Brand List";
+            $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Brand List";
             $data['css'] = array(
                 'toastr/toastr.min.css'
             );
@@ -74,53 +68,93 @@ class ManagerController extends Controller
                 'comman_function.js',
                 'ajaxfileupload.js',
                 'jquery.form.min.js',
-                'manager.js',
+                'brand.js',
             );
             $data['funinit'] = array(
-                'Manager.add()'
+                'Brand.add()'
             );
             $data['header'] = array(
-                'title' => 'Add Manager',
+                'title' => 'Add Brand',
                 'breadcrumb' => array(
                     'Dashboard' => route('my-dashboard'),
-                    'Manager List' => 'Manager List',
+                    'Brand List' => 'Brand List',
                 )
             );
-            return view('backend.pages.manager.add', $data);
+            return view('backend.pages.brand.add', $data);
         }else{
-            return redirect()->route('admin.manager.list');
+            return redirect()->route('admin.brand.list');
         }
     }
 
+
     public function saveAdd(Request $request){
-        $objManager = new Manager();
-        $result = $objManager->saveAdd($request->all());
+        $objBrand = new Brand();
+        $result = $objBrand->saveAdd($request->all());
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager details successfully added.';
-            $return['redirect'] = route('admin.manager.list');
-        }  elseif ($result == "manager_name_exists") {
+            $return['message'] = 'Brand details successfully added.';
+            $return['redirect'] = route('admin.brand.list');
+        }  elseif ($result == "brand_name_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager has already exists.';
+            $return['message'] = 'Brand has already exists.';
         } else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
         }
+
         echo json_encode($return);
         exit;
     }
 
-    public function edit($managerId){
+
+    public function ajaxcall(Request $request){
+        $action = $request->input('action');
+        switch ($action) {
+            case 'getdatatable':
+                $objBrand = new Brand();
+                $list = $objBrand->getdatatable();
+
+                echo json_encode($list);
+                break;
+
+
+
+            case 'common-activity':
+                $objBrand = new Brand();
+                $data = $request->input('data');
+                $result = $objBrand->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = "Brand's details successfully deleted.";
+                    }elseif($data['activity'] == 'active-records'){
+                        $return['message'] = "Brand's details successfully actived.";
+                    }else{
+                        $return['message'] = "Brand's details successfully deactived.";
+                    }
+                    $return['redirect'] = route('admin.brand.list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
+
+                echo json_encode($return);
+                exit;
+        }
+    }
+
+    public function edit($brandId){
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(27, explode(',', $permission_array[0]['permission']))){
-            $objManager = new Manager();
-            $data['manager_details'] = $objManager->get_manager_details($managerId);
-           
+            $objBrand = new Brand();
+            $data['brand_details'] = $objBrand->get_brand_details($brandId);
+
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
@@ -137,94 +171,42 @@ class ManagerController extends Controller
                 'comman_function.js',
                 'ajaxfileupload.js',
                 'jquery.form.min.js',
-                'manager.js',
+                'brand.js',
             );
             $data['funinit'] = array(
-                'Manager.edit()'
+                'Brand.edit()'
             );
             $data['header'] = array(
-                'title' => 'Edit manager',
+                'title' => 'Edit Brand',
                 'breadcrumb' => array(
                     'My Dashboard' => route('my-dashboard'),
-                    'Managers' => route('admin.manager.list'),
-                    'Edit Managers' => 'Edit Managers',
+                    'Brand' => route('admin.brand.list'),
+                    'Edit Brand' => 'Edit Brand',
                 )
             );
-            return view('backend.pages.manager.edit', $data);
+            return view('backend.pages.brand.edit', $data);
         }else{
-            return redirect()->route('admin.manager.list');
+            return redirect()->route('admin.brand.list');
         }
     }
 
     public function saveEdit(Request $request){
-        $objManager = new Manager();
-        $result = $objManager->saveEdit($request->all());
+        $objBrand = new Brand();
+        $result = $objBrand->saveEdit($request->all());
         if ($result == "updated") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager details successfully updated.';
-            $return['redirect'] = route('admin.manager.list');
-        } elseif ($result == "manager_name_exists") {
+            $return['message'] = 'Brand details successfully updated.';
+            $return['redirect'] = route('admin.brand.list');
+        } elseif ($result == "brand_name_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Manager has already exists.';
+            $return['message'] = 'Brand has already exists.';
         } else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
         }
-        echo json_encode($return);
-        exit;
-    }
-
-    public function ajaxcall(Request $request){
-        $action = $request->input('action');
-        switch ($action) {
-            case 'getdatatable':
-                $objManager = new Manager();
-                $list = $objManager->getdatatable();
-
-                echo json_encode($list);
-                break;
-
-
-
-            case 'common-activity':
-                $objManager = new Manager();
-                $data = $request->input('data');
-                $result = $objManager->common_activity($data);
-                if ($result) {
-                    $return['status'] = 'success';
-                    if($data['activity'] == 'delete-records'){
-                        $return['message'] = "Manager's details successfully deleted.";
-                    }elseif($data['activity'] == 'active-records'){
-                        $return['message'] = "Manager's details successfully actived.";
-                    }else{
-                        $return['message'] = "Manager's details successfully deactived.";
-                    }
-                    $return['redirect'] = route('admin.manager.list');
-                } else {
-                    $return['status'] = 'error';
-                    $return['jscode'] = '$("#loader").hide();';
-                    $return['message'] = 'It seems like something is wrong';;
-                }
-
-                echo json_encode($return);
-                exit;
-        }
-    }
-
-
-
-    public function save_import(Request $request){
-
-
-        $path = $request->file('file')->store('temp');
-        $data = \Excel::import(new ManagerImport($request->file('file')),$path);
-        $return['status'] = 'success';
-        $return['message'] = 'Manager added successfully.';
-        $return['redirect'] = route('admin.manager.list');
-
         echo json_encode($return);
         exit;
     }

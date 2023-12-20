@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-
+use App\Models\CodeGenerator;
 class Asset extends Model
 {
     use HasFactory;
@@ -74,9 +74,7 @@ class Asset extends Model
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = $row['asset_type'];
-            $prefix = $row['asset_code'];
-            $generatedCode = $prefix . now()->format('dmY') . '_' . Str::random(3) . $i . '_DR';
-            $nestedData[] = $generatedCode;
+            $nestedData[] =$row['asset_code'];
             $data[] = $nestedData;
         }
         $json_data = array(
@@ -99,9 +97,10 @@ class Asset extends Model
             ->count();
 
         if ($checkAssetName == 0) {
+            $i = 1;
             $objAsset = new Asset();
             $objAsset->asset_type = $requestData['asset_type'];
-            $objAsset->asset_code = $requestData['asset_code'];
+             $objAsset->asset_code = $requestData['asset_code'];
             $objAsset->is_deleted = 'N';
             $objAsset->created_at = date('Y-m-d H:i:s');
             $objAsset->updated_at = date('Y-m-d H:i:s');
