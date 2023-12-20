@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\SendMail;
 use Hash;
 use DB;
 
@@ -150,8 +151,6 @@ class User extends Authenticatable
         );
         return $json_data;
     }
-
-
     public function saveAdd($requestData){
         $checkUseremail = User::from('users')
                     ->where('users.email', $requestData['email'])
@@ -170,6 +169,23 @@ class User extends Authenticatable
             $objUser->created_at = date('Y-m-d H:i:s');
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
+
+                $receiver_mail = 'krinakakadiya.bvminfotech@gmail.com';
+                $mailData['data']=[];
+                $mailData['data']['first_name'] = $requestData['first_name'];
+                $mailData['data']['last_name'] = $requestData['last_name'];
+                $mailData['data']['email'] = $requestData['email'];
+                $mailData['data']['password'] = $requestData['password'];
+                $mailData['subject'] = 'Rajkot Company - Add User';
+                $mailData['data']['company'] = 'BVM Infotech';
+                $mailData['attachment'] = array(
+                    'image_path' => public_path('upload/company_image/logo.png'),
+                );
+                $mailData['template'] ="backend.pages.user.user.mail";
+                $mailData['mailto'] = $receiver_mail;
+                $sendMail = new Sendmail();
+                $sendMail->sendSMTPMail($mailData);
+
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 unset($inputData['password']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SendMail;
 use Config;
 use Auth;
 use Session;
@@ -72,4 +73,10 @@ class LoginController extends Controller
         Auth::logout();
         Auth::guard('admin')->logout();
     }
+
+    public function testmail(){
+        $objSendmail = new SendMail();
+        $Sendmail = $objSendmail->sendMailltesting();
+    }
+
 }

@@ -183,7 +183,7 @@ class Supplier extends Model
             $objSupplier->personal_contact = $requestData['personal_contact'];
             $objSupplier->sort_name = $requestData['short_name'];
             $objSupplier->address = $requestData['address'];
-            $objSupplier->priority = $requestData['priority'];
+            $objSupplier->shop_contact = $requestData['shop_contact'];
             $objSupplier->priority = $requestData['priority'];
             $objSupplier->status = $requestData['status'];
             $objSupplier->updated_at = date('Y-m-d H:i:s');
