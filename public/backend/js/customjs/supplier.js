@@ -92,7 +92,34 @@ var Supplier = function(){
     }
 
     var addSupplier = function(){
+        $('.select2').select2();
         var form = $('#add-supplier');
+        var rules = {
+            supplier_name: {required: true},
+            shop_name: {required: true},
+            personal_contact: {required: true},
+            shop_contact: {required: true},
+            address: {required: true},
+            priority: {required: true},
+            status: {required: true},
+        };
+        var message = {
+            supplier_name: {required: 'Please enter supplier name'},
+            shop_name: {required: 'Please enter Shop name'},
+            personal_contact: {required: 'Please enter personal contact'},
+            shop_contact: {required: 'Please enter shop contact'},
+            address: {required: 'Please enter address'},
+            priority: {required: 'Please select priority'},
+            status: {required: 'Please select supplier name status'},
+        }
+        handleFormValidateWithMsg(form, rules,message, function(form) {
+            handleAjaxFormSubmit(form,true);
+        });
+    }
+
+    var editSupplier = function(){
+        $('.select2').select2();
+        var form = $('#edit-supplier');
         var rules = {
             supplier_name: {required: true},
             shop_name: {required: true},
@@ -122,6 +149,9 @@ var Supplier = function(){
         },
         add:function(){
             addSupplier();
+        },
+        edit:function(){
+            editSupplier();
         },
 
     }

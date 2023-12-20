@@ -46,10 +46,10 @@ class SupplierController extends Controller
     }
 
     public function add (){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(in_array(7, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(7, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Supplier";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Supplier";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Supplier";
@@ -81,21 +81,41 @@ class SupplierController extends Controller
                 )
             );
             return view('backend.pages.supplier.add', $data);
-        // }else{
-        //     return redirect()->route('admin.user-role.list');
-        // }
+        }else{
+            return redirect()->route('admin.supplier.list');
+        }
     }
 
-
+    public function saveAdd(Request $request)
+    {
+        $objSupplier = new Supplier();
+        $result = $objSupplier->saveAdd($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Supplier details successfully added.';
+            $return['redirect'] = route('admin.supplier.list');
+        } elseif ($result == "supplier_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Supplier has already exists.';
+        } else {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
     public function edit($editId)
     {
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(Auth()->guard('admin')->user()->is_admin == 'Y' ||in_array(102, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(102, explode(',', $permission_array[0]['permission']))){
 
             $objSupplier = new Supplier();
-            $data['supplier_details'] = $objSupplier->get_salary_details($editId);
+            $data['supplier_details'] = $objSupplier->get_Supplier_details($editId);
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Supplier";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Supplier";
@@ -134,16 +154,16 @@ class SupplierController extends Controller
 
     }
 
-    public function saveAdd(Request $request)
+    public function saveEdit(Request $request)
     {
         $objSupplier = new Supplier();
-        $result = $objSupplier->saveAdd($request);
+        $result = $objSupplier->saveEdit($request);
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Supplier details successfully added.';
+            $return['message'] = 'Supplier details successfully updated.';
             $return['redirect'] = route('admin.supplier.list');
-        } elseif ($result == "supplier_exists") {
+        } elseif ($result == "supplier_name_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Supplier has already exists.';
