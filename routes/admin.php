@@ -24,7 +24,7 @@ use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\AssetController;
 use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
-
+use App\Http\Controllers\backend\BrandController;
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
 $adminPrefix = "";
@@ -107,10 +107,20 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
      // asset
 
-    Route::get('admin/asset/list', [AssetController::class, 'list'])->name('admin.asset.list');
+    Route::get('admin/asset/list', [AssetController::class, 'list'])->name('admin.assets.list');
     Route::post('admin/assets/ajaxcall', [AssetController::class, 'ajaxcall'])->name('admin.assets.ajaxcall');
     Route::get('admin/assets/add', [AssetController::class, 'add'])->name('admin.assets.add');
     Route::post('admin/assets/save-add-technology', [AssetController::class, 'saveAdd'])->name('admin.assets.save-add-assets');
+
+    //brand
+
+    Route::get('admin/brand/list', [BrandController::class, 'list'])->name('admin.brand.list');
+    Route::post('admin/brand/ajaxcall', [BrandController::class, 'ajaxcall'])->name('admin.brand.ajaxcall');
+    Route::get('admin/brand/add', [BrandController::class, 'add'])->name('admin.brand.add');
+    Route::post('admin/brand/save-add-brand', [BrandController::class, 'saveAdd'])->name('admin.brand.save-add-brand');
+    Route::get('admin/brand/edit/{id}', [BrandController::class, 'edit'])->name('admin.brand.edit');
+    Route::post('admin/brand/save-edit-expense', [BrandController::class,   'saveEdit'])->name('admin.brand.save-edit-brand');
+
 
     // expense
 

@@ -15,7 +15,7 @@ class Audittrails extends Model
     protected $table = 'audit_trails';
 
     public function add_audit($event , $data, $module){
-      //  dd($event);
+       // dd($event);
         $agent = new Agent();
         $browser = $agent->browser();
         $currentRoute = Route::current()->getName();
@@ -28,7 +28,7 @@ class Audittrails extends Model
         }elseif($event == 'DA'){
             $activity = 'Deactive Records';
         }elseif($event == 'D'){
-            $activity = 'Delete Records';
+            $activity = 'Delete';
         }else{
             $activity = 'Unknow Activity';
         }
