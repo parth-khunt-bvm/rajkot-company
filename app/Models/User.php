@@ -55,16 +55,16 @@ class User extends Authenticatable
             1 => 'users.first_name',
             2 => 'users.last_name',
             3 => 'users.email',
-            4 => 'users.password',
-            5 => 'user_role.user_role',
-            6 => DB::raw('(CASE WHEN users.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            4 => 'user_role.user_role',
+            5 => DB::raw('(CASE WHEN users.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
 
         $query = User::from('users')
             ->join('user_role', 'user_role.id', '=', 'users.user_type')
             ->where("users.is_deleted", "=", "N")
             ->where("users.is_admin", "=", "N")
-            ->where("users.user_type", "!=", 0);
+            ->where("users.user_type", "!=", 0)
+            ->where("users.id", "!=", Auth()->guard('admin')->user()->id);
 
             if($fillterdata['userStatus'] != null && $fillterdata['userStatus'] != ''){
                 if($fillterdata['userStatus'] == 1){
@@ -103,7 +103,7 @@ class User extends Authenticatable
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('users.id','users.first_name','users.last_name','users.email','users.password', 'user_role.user_role','users.status')
+            ->select('users.id','users.first_name','users.last_name','users.email', 'user_role.user_role','users.status')
             ->get();
 
         $data = array();
@@ -135,7 +135,6 @@ class User extends Authenticatable
             $nestedData[] =  $row['first_name'];
             $nestedData[] = $row['last_name'];
             $nestedData[] = $row['email'];
-            $nestedData[] = $row['password'];
             $nestedData[] = $row['user_role'];
             $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
                 if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){

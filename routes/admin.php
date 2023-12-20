@@ -237,6 +237,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/supplier/ajaxcall', [SupplierController::class, 'ajaxcall'])->name('admin.supplier.ajaxcall');
     Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
     Route::post('admin/supplier/save-edit-supplier', [SupplierController::class, 'saveEdit'])->name('admin.supplier.save-edit-supplier');
+    Route::get('admin/supplier/view/{id}', [SupplierController::class, 'view'])->name('admin.supplier.view');
+
 
 
 

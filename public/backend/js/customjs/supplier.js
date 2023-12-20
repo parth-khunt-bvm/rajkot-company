@@ -89,6 +89,18 @@ var Supplier = function(){
                 }
             });
         });
+
+        $("body").on("click", ".show-supplier-form", function() {
+            $("#show-supplier-form").html('-').addClass('remove-supplier-form');
+            $("#show-supplier-form").html('-').removeClass('show-supplier-form');
+            $("#add-supplier").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-supplier-form", function() {
+            $("#show-supplier-form").html('+').removeClass('remove-supplier-form');
+            $("#show-supplier-form").html('+').addClass('show-supplier-form');
+            $("#add-supplier").slideToggle("slow");
+        })
     }
 
     var addSupplier = function(){
@@ -101,6 +113,7 @@ var Supplier = function(){
             shop_contact: {required: true},
             address: {required: true},
             priority: {required: true},
+            short_name: {required: true},
             status: {required: true},
         };
         var message = {
@@ -110,6 +123,7 @@ var Supplier = function(){
             shop_contact: {required: 'Please enter shop contact'},
             address: {required: 'Please enter address'},
             priority: {required: 'Please select priority'},
+            short_name: {required: 'Please enter sort name'},
             status: {required: 'Please select supplier name status'},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {

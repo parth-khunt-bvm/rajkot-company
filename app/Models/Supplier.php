@@ -21,9 +21,10 @@ class Supplier extends Model
             2 => 'supplier.supplier_shop_name',
             3 => 'supplier.shop_contact',
             4 => 'supplier.personal_contact',
-            5 => DB::raw('(CASE WHEN supplier.priority = 0 THEN "Low" WHEN supplier.priority = 1 THEN "Normal" WHEN supplier.priority = 2 THEN "High" ELSE "Deactivated" END)'),
-            6 => 'supplier.address',
-            7 => DB::raw('(CASE WHEN supplier.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            5 => 'supplier.sort_name',
+            6 => DB::raw('(CASE WHEN supplier.priority = 0 THEN "Low" WHEN supplier.priority = 1 THEN "Medium" ELSE "High" END)'),
+            7 => 'supplier.address',
+            8 => DB::raw('(CASE WHEN supplier.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
         $query = Supplier::from('supplier')
             ->where("supplier.is_deleted", "=", "N");
@@ -53,7 +54,7 @@ class Supplier extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact',DB::raw('(CASE WHEN supplier.priority = 0 THEN "Low" WHEN supplier.priority = 1 THEN "Normal" WHEN supplier.priority = 2 THEN "High" ELSE "Deactivated" END) as priority'),'supplier.address','supplier.status')
+            ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact','supplier.sort_name', 'supplier.priority', 'supplier.address','supplier.status')
             ->get();
 
         $data = array();
@@ -68,8 +69,8 @@ class Supplier extends Model
                 $actionhtml = '';
             }
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission'])) )
-            // $actionhtml .= '<a href="' . route('admin.counter.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.supplier.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(102, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.supplier.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
@@ -81,6 +82,15 @@ class Supplier extends Model
                     $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
                 }
             }
+
+            if ($row['priority'] == '0') {
+                $priority = '<span class="label label-lg label-light-danger label-inline">Low</span>';
+            } elseif($row['priority'] == '1') {
+                $priority = '<span class="label label-lg label-light-warning label-inline">Medium</span>';
+            } else {
+                $priority = '<span class="label label-lg label-light-success label-inline">High</span>';
+
+            }
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(104, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -91,7 +101,8 @@ class Supplier extends Model
             $nestedData[] = $row['supplier_shop_name'];
             $nestedData[] = $row['shop_contact'];
             $nestedData[] = $row['personal_contact'];
-            $nestedData[] = $row['priority'];
+            $nestedData[] = $priority;
+            $nestedData[] = $row['sort_name'];
             $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
@@ -123,6 +134,7 @@ class Supplier extends Model
             $objSupplier->shop_contact = $requestData['shop_contact'];
             $objSupplier->address = $requestData['address'];
             $objSupplier->priority = $requestData['priority'];
+            $objSupplier->sort_name = $requestData['short_name'];
             $objSupplier->status = $requestData['status'];
             $objSupplier->is_deleted = 'N';
             $objSupplier->created_at = date('Y-m-d H:i:s');
@@ -151,8 +163,9 @@ class Supplier extends Model
             $objSupplier->suppiler_name = $requestData['supplier_name'];
             $objSupplier->supplier_shop_name = $requestData['shop_name'];
             $objSupplier->personal_contact = $requestData['personal_contact'];
-            $objSupplier->shop_contact = $requestData['shop_contact'];
+            $objSupplier->sort_name = $requestData['short_name'];
             $objSupplier->address = $requestData['address'];
+            $objSupplier->priority = $requestData['priority'];
             $objSupplier->priority = $requestData['priority'];
             $objSupplier->status = $requestData['status'];
             $objSupplier->updated_at = date('Y-m-d H:i:s');
@@ -201,7 +214,7 @@ class Supplier extends Model
     public function get_Supplier_details($supplierId)
     {
         return Salary::from('supplier')
-        ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact','supplier.priority','supplier.address','supplier.status')
+        ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact','supplier.priority','supplier.sort_name','supplier.address','supplier.status')
         ->where('supplier.id', $supplierId)
         ->first();
     }

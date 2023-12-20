@@ -34,6 +34,7 @@ class SupplierController extends Controller
         );
         $data['funinit'] = array(
             'Supplier.init()',
+            'Supplier.add()'
         );
         $data['header'] = array(
             'title' => 'Supplier List',
@@ -208,6 +209,48 @@ class SupplierController extends Controller
 
                 echo json_encode($return);
                 exit;
+        }
+    }
+
+    public function view($viewId){
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(101, explode(',', $permission_array[0]['permission']))){
+
+            $objSupplier = new Supplier();
+            $data['supplier_details'] = $objSupplier->get_Supplier_details($viewId);
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Supplier";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Supplier";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Supplier";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+            );
+            $data['funinit'] = array(
+            );
+            $data['header'] = array(
+                'title' => 'Basic Detail',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Supplier List' => route('admin.supplier.list'),
+                    'View Supplier detail' => 'View Supplier detail',
+                )
+            );
+            return view('backend.pages.supplier.view', $data);
+        }else{
+            return redirect()->route('admin.supplier.list');
         }
     }
 }

@@ -19,12 +19,12 @@
 
                 <div class="card-toolbar">
 
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(56, explode(',', $permission_array[0]['permission'])) )
-                    <button class="btn btn-primary font-weight-bolder mr-5 show-revenue-form" id="show-revenue-form">+</button>
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(100, explode(',', $permission_array[0]['permission'])) )
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-supplier-form" id="show-supplier-form">+</button>
                     @endif
 
                     <!--begin::Button-->
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(56, explode(',', $permission_array[0]['permission'])) )
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(100, explode(',', $permission_array[0]['permission'])) )
 
                     <a href="{{ route('admin.supplier.add') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
@@ -45,9 +45,91 @@
 
             </div>
             <div class="card-body">
-
-
-                {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(54, explode(',', $permission_array[0]['permission'])) ) --}}
+                <form class="form" style="display: none" id="add-supplier" method="POST" action="{{ route('admin.supplier.save-add-supplier') }}" autocomplete="off">@csrf
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Supplier
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="supplier_name" id="supplier_name" placeholder="Supplier Name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Shop Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="shop_name" id="shop_name" placeholder="Shop Name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Personal Contact
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                 <label>Shop Contact
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Address
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="" cols="30" rows="1" name="address" id="address"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Priority
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control select2 priority" id="priority" name="priority">
+                                    <option value="">Please select priority</option>
+                                    <option value="0">Low</option>
+                                    <option value="1">Normal</option>
+                                    <option value="2">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Short Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control " name="short_name" id="short_name" placeholder="Short Name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Status <span class="text-danger">*</span></label>
+                                <div class="radio-inline" style="margin-top:10px">
+                                    <label class="radio radio-lg radio-success" >
+                                    <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
+                                    <span></span>Active</label>
+                                    <label class="radio radio-lg radio-danger" >
+                                    <input type="radio" name="status" class="radio-btn" value="I"/>
+                                    <span></span>Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mt-8">
+                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(99, explode(',', $permission_array[0]['permission'])) )
 
                 {{-- <div class="row revenue-filter" style="display: none">
                     <div class="col-md-5">
@@ -147,10 +229,11 @@
                                 <th>Shop Contact</th>
                                 <th>Personal Contact </th>
                                 <th>Priority </th>
+                                <th>Short Name </th>
                                 <th>Status</th>
                                 @php
                                 $target = [];
-                                $target = [57,58,59];
+                                $target = [101,102,103,104];
                                 @endphp
                                 @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                                     <th>Action</th>
@@ -163,7 +246,7 @@
                     </table>
                     <!--end: Datatable-->
                 </div>
-                {{-- @endif --}}
+                @endif
 
 
             </div>

@@ -38,7 +38,7 @@
                                             <label>Personal Contact
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
@@ -46,7 +46,7 @@
                                             <label>Shop Contact
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" />
+                                            <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" />
                                         </div>
                                     </div>
                                 </div>
@@ -56,12 +56,12 @@
                                             <label>Address
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="address" id="address"></textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="3" name="address" id="address"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Priority
                                                 <span class="text-danger">*</span>
@@ -70,8 +70,16 @@
                                                 <option value="">Please select priority</option>
                                                 <option value="0">Low</option>
                                                 <option value="1">Normal</option>
-                                                <option value="2">Hogh</option>
+                                                <option value="2">High</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <div class="form-group">
+                                            <label>Short Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control " name="short_name" id="short_name" placeholder="Short Name" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
