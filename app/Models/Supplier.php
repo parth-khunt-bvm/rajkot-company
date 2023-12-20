@@ -21,7 +21,7 @@ class Supplier extends Model
             2 => 'supplier.supplier_shop_name',
             3 => 'supplier.shop_contact',
             4 => 'supplier.personal_contact',
-            5 => 'supplier.priority',
+            5 => DB::raw('(CASE WHEN supplier.priority = 0 THEN "Low" WHEN supplier.priority = 1 THEN "Normal" WHEN supplier.priority = 2 THEN "High" ELSE "Deactivated" END)'),
             6 => 'supplier.address',
             7 => DB::raw('(CASE WHEN supplier.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
@@ -53,7 +53,7 @@ class Supplier extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact','supplier.priority','supplier.address','supplier.status')
+            ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.shop_contact','supplier.personal_contact',DB::raw('(CASE WHEN supplier.priority = 0 THEN "Low" WHEN supplier.priority = 1 THEN "Normal" WHEN supplier.priority = 2 THEN "High" ELSE "Deactivated" END) as priority'),'supplier.address','supplier.status')
             ->get();
 
         $data = array();
