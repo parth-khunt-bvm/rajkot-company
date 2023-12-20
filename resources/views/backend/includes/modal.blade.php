@@ -779,3 +779,61 @@
     </div>
 </div>
 
+<!-- view Supplier Model-->
+<div class="modal fade" id="supplier-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-5 mr-5 ml-5" >
+                    <div class="col-4">
+                        <b>Supplier Name</b> <br>
+                        <span id="md_supplier_name"></span>
+                    </div>
+                    <div class="col-4">
+                        <b>Shop Name</b> <br>
+                        <span id="md_shop_name"></span>
+
+                    </div>
+                    <div class="col-4">
+                        <b>Shop Contact</b> <br>
+                        <span id="md_shop_contact"></span>
+
+                    </div>
+                </div>
+
+                <div class="row mt-5 mr-5 mb-5 ml-5" >
+                    <div class="col-4">
+                        <b>Personal Contact</b> <br>
+                        <span id="md_personal_contact"></span>
+                    </div>
+                    <div class="col-4">
+                        <b>Priority</b> <br>
+                        <span id="md_priority"></span>
+                    </div>
+                    <div class="col-4">
+                        <b>Short Name</b> <br>
+                        <span id="md_short_name"></span>
+                    </div>
+                </div>
+
+                <div class="row mt-5 mr-5 mb-5 ml-5" >
+                    <div class="col-4">
+                        <b>Status</b> <br>
+                        <span id="md_status"></span>
+                    </div>
+                    <div class="col-4">
+                        <b>Address</b> <br>
+                        <span id="md_address"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
