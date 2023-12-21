@@ -14,7 +14,7 @@
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">{{ $header['title'] }}</h3>
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(42, explode(',', $permission_array[0]['permission'])) )
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(111, explode(',', $permission_array[0]['permission'])) )
                     <span class="svg-icon svg-icon-primary svg-icon-2x show-assets-master-filter" id="show-assets-master-filter"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Text\Filter.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <rect x="0" y="0" width="24" height="24"/>
@@ -25,18 +25,13 @@
                 </div>
 
                 <div class="card-toolbar">
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission'])) )
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(112, explode(',', $permission_array[0]['permission'])) )
 
                     <button class="btn btn-primary font-weight-bolder mr-5 show-assets-master-form" id="show-assets-master-form">+</button>
                     @endif
 
-
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(43, explode(',', $permission_array[0]['permission'])) )
-
-                    <button data-toggle="modal" data-target="#importSalary" class="import-technology btn btn-danger font-weight-bolder mr-5 ">Import Salary</button>
-                    @endif
                     <!--begin::Button-->
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission'])) )
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(112, explode(',', $permission_array[0]['permission'])) )
 
                     <a href="{{ route('admin.asset-master.add') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
@@ -49,7 +44,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Add Assets
+                        </span>Add Assets Master
                   </a>
                   @endif
                   <!--end::Button-->
@@ -57,11 +52,12 @@
 
             </div>
                 <div class="card-body">
+
                     <form class="form" style="display: none" id="add-asset-master-users" method="POST" action="{{ route('admin.asset-master.save-add-asset-master') }}" autocomplete="off">@csrf
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Suplier Name
+                                    <label>Suplier
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
@@ -80,9 +76,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Asset Name
+                                    <label>Asset
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 asset" id="asset"  name="asset_id">
@@ -93,13 +89,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-
-
-                            </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Brand Name
+                                    <label>Brand
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 brand" id="brand"  name="brand_id">
@@ -112,7 +104,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Branch Name
+                                    <label>Branch
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 branch" id="branch"  name="branch_id">
@@ -126,49 +118,51 @@
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label>Price
-                                        <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" id="price" name="price" class="form-control onlyNumber" placeholder="Enter price" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Status
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control select2 status" id="status"  name="status">
-                                        <option value="">Asset Status</option>
-                                        <option value="1">Working</option>
-                                        <option value="2">Need To Service</option>
-                                        <option value="3">Not Working</option>
-                                    </select>
+                                    <div class="form-group">
+                                        <label>Status
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select2 status" id="status"  name="status">
+                                            <option value="">Asset Status</option>
+                                            <option value="1">Working</option>
+                                            <option value="2">Need To Service</option>
+                                            <option value="3">Not Working</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label>Description
                                     </label>
-                                    <textarea class="form-control" id="" cols="30" rows="10" name="description" id="description"></textarea>
+                                    <textarea class="form-control" id="" cols="30" rows="1" name="description" id="description"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group mt-8">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                    <button type="reset" class="btn btn-secondary"><a href="{{route('admin.assets-master.list')}}">Cancel</a></button>
+                                    <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(42, explode(',', $permission_array[0]['permission'])) )
-                    <div class="row assets-master-filter" style="display: none" >
-                        <div class="col-md-5">
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(111, explode(',', $permission_array[0]['permission'])) )
+
+                    <div class="row asset-master-filter" style="display: none">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Suplier Name
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
+                                        <select class="form-control select2 asset_supplier_id asset_filter_master" id="asset_supplier_id"  name="supplier_id">
                                             <option value="">Please select Suplier Name</option>
                                             @foreach ($suppier  as $key => $value )
                                             @if ($value['priority'] == '2')
@@ -184,40 +178,39 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Asset Name
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control select2 asset" id="asset"  name="asset_id">
-                                        <option value="">Please select asset Name</option>
-                                        @foreach ($asset  as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['asset_type'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
+
                                     <div class="form-group">
-                                    <label>Brand Name
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control select2 brand" id="brand"  name="brand_id">
-                                        <option value="">Please select Brand Name</option>
-                                        @foreach ($brand  as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['brand_name'] }}</option>
-                                        @endforeach
-                                    </select>
+                                        <label>Asset Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select2 asset asset_filter_master" id="asset_id"  name="asset_id">
+                                            <option value="">Please select asset Name</option>
+                                            @foreach ($asset  as $key => $value )
+                                                <option value="{{ $value['id'] }}">{{ $value['asset_type'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Brand Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select2 brand asset_filter_master" id="brand_id"  name="brand_id">
+                                            <option value="">Please select Brand Name</option>
+                                            @foreach ($brand  as $key => $value )
+                                                <option value="{{ $value['id'] }}">{{ $value['brand_name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Branch Name
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 branch" id="branch"  name="branch_id">
+                                        <select class="form-control select2 branch asset_filter_master" id="branch_id"  name="branch_id">
                                             <option value="">Please select Branch Name</option>
                                             @foreach ($branch  as $key => $value )
                                                 <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
@@ -225,7 +218,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-2 mt-5">
                                     <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                                 </div>
@@ -240,16 +232,17 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Asset Code</th>
                                     <th>Suplier Name</th>
                                     <th>Asset Name</th>
                                     <th>Branch Name</th>
                                     <th>Brand Name</th>
-                                    <th>Description</th>
-                                    <th>status</th>
                                     <th>Price</th>
+                                    <th>status</th>
+                                    <th>Description</th>
                                     @php
                                         $target = [];
-                                        $target = [111, 112,113,114,115,116];
+                                        $target = [113 ,114 ,115];
                                     @endphp
 
                                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )

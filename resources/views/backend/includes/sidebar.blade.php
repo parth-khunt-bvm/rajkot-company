@@ -139,7 +139,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- Supplier Menu End --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add" || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add" || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" ||$currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute == "admin.asset-master.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -208,7 +208,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
 
                               @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" || $currentRoute == "admin.asset-master.edit"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.assets-master.list') }}" class="menu-link">
                                        <span class="svg-icon menu-icon">
                                             <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">

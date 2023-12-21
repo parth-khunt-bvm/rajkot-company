@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Route;
 
 class AssetMaster extends Model
 {
@@ -25,12 +26,13 @@ class AssetMaster extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'asset_master.id',
-            1 => 'supplier.suppiler_name',
-            2 => 'asset.asset_type',
-            3 => 'branch.branch_name',
-            4 => 'brand.brand_name',
-            5 => 'asset_master.description',
-            6 => 'asset_master.status',
+            1 => 'asset_master.asset_code',
+            2 => 'supplier.suppiler_name',
+            3 => 'asset.asset_type',
+            4 => 'branch.branch_name',
+            5 => 'brand.brand_name',
+            6 => 'asset_master.description',
+            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
             7 => 'asset_master.price',
         );
 
@@ -38,25 +40,21 @@ class AssetMaster extends Model
             ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
-            ->join("brand", "brand.id", "=", "asset_master.branch_id")
+            ->join("brand", "brand.id", "=", "asset_master.brand_id")
             ->where("asset_master.is_deleted", "=", "N");
 
         if($fillterdata['supplier'] != null && $fillterdata['supplier'] != ''){
             $query->where("supplier.id", $fillterdata['supplier']);
         }
-
-        if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-            $query->where("branch.id", $fillterdata['branch']);
-        }
-
         if($fillterdata['asset'] != null && $fillterdata['asset'] != ''){
             $query->where("asset.id", $fillterdata['asset']);
         }
         if($fillterdata['brand'] != null && $fillterdata['brand'] != ''){
             $query->where("brand.id", $fillterdata['brand']);
         }
-
-
+        if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+            $query->where("branch.id", $fillterdata['branch']);
+        }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -83,31 +81,49 @@ class AssetMaster extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('asset_master.id', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
             ->get();
 
         $data = array();
         $i = 0;
         $max_length = 30;
         foreach ($resultArr as $row) {
-
             $target = [];
-            $target = [111, 112,113,114,115,116];
+            $target = [111, 112,113,114,115];
             $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $actionhtml = '';
             }
 
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(113, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href=""data-toggle="modal" data-target="#asset-master-view" data-id="'.$row['id'].'" class="btn btn-icon asset-master-view"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(114, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="' . route('admin.asset-master.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+            if ($row['status'] == '1') {
+                $status = '<span class="label label-lg label-light-success label-inline">Working</span>';
+            } elseif($row['status'] == '2') {
+                $status = '<span class="label label-lg label-light-warning label-inline">Need To Service</span>';
+            } else {
+                $status = '<span class="label label-lg label-light-danger label-inline">Not Working</span>';
+            }
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(115, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = $row['asset_code'];
             $nestedData[] = $row['suppiler_name'];
-            $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['asset_type'];
+            $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['brand_name'];
-            $nestedData[] = $row['status'];
-            $nestedData[] = numberformat($row['price']);
+            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = $status;
+
             if (strlen($row['description']) > $max_length) {
                 $nestedData[] = substr($row['description'], 0, $max_length) . '...';
             }else {
@@ -127,19 +143,9 @@ class AssetMaster extends Model
 
         return $json_data;
     }
-
     public function saveAdd($requestData)
     {
 
-        $countAssetMaster = AssetMaster::from('asset_master')
-        ->where('asset_master.supplier_id', $requestData['supplier_id'])
-        ->where('asset_master.branch_id', $requestData['branch_id'])
-        ->where('asset_master.asset_id', $requestData['asset_id'])
-        ->where('asset_master.branch_id', $requestData['brand_id'])
-        ->where("asset_master.is_deleted", "=", "N")
-        ->count();
-
-        if ($countAssetMaster == 0) {
             $objAssetMaster = new AssetMaster();
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->asset_id = $requestData['asset_id'];
@@ -148,6 +154,7 @@ class AssetMaster extends Model
             $objAssetMaster->description = $requestData['description'];
             $objAssetMaster->status = $requestData['status'] ?? '-';
             $objAssetMaster->price = $requestData['price'];
+            $objAssetMaster->asset_code = "BV00BN";
             $objAssetMaster->is_deleted = 'N';
             $objAssetMaster->created_at = date('Y-m-d H:i:s');
             $objAssetMaster->updated_at = date('Y-m-d H:i:s');
@@ -158,8 +165,67 @@ class AssetMaster extends Model
             }
 
             return 'wrong';
+
+    }
+
+    public function saveEdit($requestData)
+    {
+            $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+            $objAssetMaster->supplier_id = $requestData['supplier_id'];
+            $objAssetMaster->asset_id = $requestData['asset_id'];
+            $objAssetMaster->brand_id = $requestData['brand_id'];
+            $objAssetMaster->branch_id = $requestData['branch_id'];
+            $objAssetMaster->description = $requestData['description'];
+            $objAssetMaster->status = $requestData['status'] ?? '-';
+            $objAssetMaster->price = $requestData['price'];
+            $objAssetMaster->updated_at = date('Y-m-d H:i:s');
+            if ($objAssetMaster->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit('U', $inputData, 'AssetMaster');
+                return 'added';
+            }
+            return 'wrong';
+
+    }
+
+    public function get_asset_master_details($assetMasterId){
+        return AssetMaster::from('asset_master')
+        ->where("asset_master.id", $assetMasterId)
+        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id')
+        ->first();
+    }
+
+    public function common_activity($requestData)
+    {
+        $objAssetMaster = AssetMaster::find($requestData['id']);
+        if ($requestData['activity'] == 'delete-records') {
+            $objAssetMaster->is_deleted = "Y";
+            $event = 'Delete Records';
         }
-        return 'assets_name_exists';
+
+        if ($objAssetMaster->save()) {
+            $currentRoute = Route::current()->getName();
+            unset($requestData['_token']);
+            $objAudittrails = new Audittrails();
+            $res = $objAudittrails->add_audit($event, $requestData, 'Counter');
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function get_asset_master_details_view($assetMasterId){
+        return AssetMaster::from('asset_master')
+        ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
+        ->join("branch", "branch.id", "=", "asset_master.branch_id")
+        ->join("asset", "asset.id", "=", "asset_master.asset_id")
+        ->join("brand", "brand.id", "=", "asset_master.brand_id")
+        ->where("asset_master.id", $assetMasterId)
+        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id', 'supplier.suppiler_name','supplier.supplier_shop_name', 'branch.branch_name', 'asset.asset_type', 'brand.brand_name')
+        ->first();
     }
 
 }

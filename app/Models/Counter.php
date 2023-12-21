@@ -96,6 +96,7 @@ class Counter extends Model
             ->select('counter.id', DB::raw('CONCAT(first_name, " ", last_name) as fullname'), DB::raw('MONTHNAME(CONCAT("2023-", counter.month, "-01")) as month_name'), 'employee.first_name', 'technology.technology_name', 'counter.present_days', 'counter.half_leaves', 'counter.full_leaves', 'counter.paid_leaves_details', 'counter.total_days', 'counter.month', 'counter.year', 'counter.salary_counted')
             ->get();
 
+
         $data = array();
         $i = 0;
         $max_length = 30;

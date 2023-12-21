@@ -8,8 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\SendMail;
+// use App\Events\SendMail;
 use Hash;
 use DB;
+use Event;
 
 class User extends Authenticatable
 {
@@ -170,7 +172,6 @@ class User extends Authenticatable
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
 
-                $receiver_mail = 'krinakakadiya.bvminfotech@gmail.com';
                 $mailData['data']=[];
                 $mailData['data']['first_name'] = $requestData['first_name'];
                 $mailData['data']['last_name'] = $requestData['last_name'];
@@ -182,9 +183,11 @@ class User extends Authenticatable
                     'image_path' => public_path('upload/company_image/logo.png'),
                 );
                 $mailData['template'] ="backend.pages.user.user.mail";
-                $mailData['mailto'] = $receiver_mail;
+                $mailData['mailto'] = $requestData['email'];
                 $sendMail = new Sendmail();
                 $sendMail->sendSMTPMail($mailData);
+
+                // Event::dispatch(new SendMail(1),$mailData);
 
                 $inputData = $requestData->input();
                 unset($inputData['_token']);

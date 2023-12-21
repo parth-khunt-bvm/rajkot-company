@@ -16,7 +16,7 @@ class SendMail extends Model
         $mailData['subject'] = "Testing Mail";
         $mailData['attachment'] = array();
         $mailData['template'] ="emailtemplate.test";
-        $mailData['mailto'] = 'krinakakadiya.bvminfotech@gmail.com';
+        $mailData['mailto'] = 'krina@yopmail.com';
         $sendMail = new Sendmail();
         return $sendMail->sendSMTPMail($mailData);
     }

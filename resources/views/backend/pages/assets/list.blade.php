@@ -43,10 +43,9 @@
 
             </div>
             <div class="card-body">
-
                 <form class="form" style="display: none;" id="add-assets-users" method="POST" action="{{ route('admin.assets.save-add-assets') }}" autocomplete="off">@csrf
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Asset Type
                                         <span class="text-danger">*</span>
@@ -54,7 +53,7 @@
                                     <input type="text" name="asset_type"  class="form-control" placeholder="Enter Asset Type" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Asset Code
                                         <span class="text-danger">*</span>
@@ -63,7 +62,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-5 mt-8">
+                            <div class="col-md-4 mt-8">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
                                     <button type="reset" class="btn btn-secondary">Cancel</button>

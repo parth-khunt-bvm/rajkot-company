@@ -22,7 +22,7 @@
                                         <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="type_name" class="form-control" placeholder="Enter type name" value="{{ $type_details->type_name}}">
-                                        <input type="hidden" name="type_Id" class="form-control" placeholder="Enter type name" value="{{ $type_details->id}}">
+                                        <input type="hidden" name="type_Id" class="form-control"  value="{{ $type_details->id}}">
                                     </div>
                                 </div>
 

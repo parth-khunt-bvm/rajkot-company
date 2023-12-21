@@ -127,10 +127,12 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/asset-master/ajaxcall', [AssetMasterController::class, 'ajaxcall'])->name('admin.asset-master.ajaxcall');
     Route::get('admin/asset-master/add', [AssetMasterController::class, 'add'])->name('admin.asset-master.add');
     Route::post('admin/asset-master/save-add-asset-master', [AssetMasterController::class, 'saveAdd'])->name('admin.asset-master.save-add-asset-master');
+    Route::get('admin/asset-master/edit/{id}', [AssetMasterController::class, 'edit'])->name('admin.asset-master.edit');
+    Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
+    Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
 
 
     // expense
-
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
     Route::get('admin/expense/add', [ExpenseController::class, 'add'])->name('admin.expense.add');
     Route::post('admin/expense/save-add-expense', [ExpenseController::class, 'saveAdd'])->name('admin.expense.save-add-expense');
@@ -255,9 +257,5 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
     Route::post('admin/supplier/save-edit-supplier', [SupplierController::class, 'saveEdit'])->name('admin.supplier.save-edit-supplier');
     Route::get('admin/supplier/view/{id}', [SupplierController::class, 'view'])->name('admin.supplier.view');
-
-
-
-
 
 });

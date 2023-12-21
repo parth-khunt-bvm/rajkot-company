@@ -45,12 +45,11 @@
                     '110'  => 'delete Brand',
                 ],
                 'Asset Master' => [
-                    '111'  => 'Asset list',
-                    '112'  => 'add Asset',
-                    '113'  => 'view Asset',
-                    '114'  => 'edit Asset',
-                    '115'  => 'change Asset status',
-                    '116'  => 'delete Asset',
+                    '111'  => 'Asset Master list',
+                    '112'  => 'add Asset Master',
+                    '113'  => 'view Asset Master',
+                    '114'  => 'edit Asset Master',
+                    '115'  => 'delete Asset Master',
                 ],
 
             ],
