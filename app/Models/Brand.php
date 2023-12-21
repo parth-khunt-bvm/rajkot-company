@@ -149,6 +149,12 @@ class Brand extends Model
             ->first();
     }
 
+    public function get_admin_brand_details(){
+        return Brand::from('brand')
+            ->select('brand.id','brand.brand_name','brand.status')
+            ->get();
+    }
+
     public function common_activity($requestData){
         $objBrand = Brand::find($requestData['id']);
         if($requestData['activity'] == 'delete-records'){

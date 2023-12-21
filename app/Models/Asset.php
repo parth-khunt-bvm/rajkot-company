@@ -114,4 +114,10 @@ class Asset extends Model
         }
         return 'asset_type_exists,asset_code_exists';
     }
+
+    public function get_admin_asset_details(){
+        return Asset::from('asset')
+            ->select('asset.id','asset.asset_type','asset.asset_code')
+            ->get();
+    }
 }
