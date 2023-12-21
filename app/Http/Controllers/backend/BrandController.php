@@ -9,6 +9,11 @@ use Config;
 
 class BrandController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('admin');
+    }
+    
     public function list()
     {
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Brand List';

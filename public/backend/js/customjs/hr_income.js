@@ -5,6 +5,7 @@ var HrIncome = function(){
         var year = $('#hrIncomeYearId').val();
 
         var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
+
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#hr-income-list',
@@ -18,6 +19,7 @@ var HrIncome = function(){
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
+
         getDataTable(arrList);
 
         $("body").on("click", ".delete-records", function() {
@@ -89,6 +91,7 @@ var HrIncome = function(){
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
+            
             getDataTable(arrList);
 
         });
