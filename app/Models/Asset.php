@@ -120,4 +120,12 @@ class Asset extends Model
             ->select('asset.id','asset.asset_type','asset.asset_code')
             ->get();
     }
+
+    public function get_admin_employee_details($employeIdArray = null){
+        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
+        if($employeIdArray != null){
+           $qurey->whereNotIn('employee.id', $employeIdArray);
+        }
+        return $qurey->get();
+    }
 }

@@ -37,7 +37,6 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-
                                         <div class="form-group">
                                             <label>Asset Name
                                                 <span class="text-danger">*</span>
@@ -80,11 +79,19 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Price
                                             </label>
                                             <input type="text" id="price" name="price" class="form-control onlyNumber" placeholder="Enter price" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Quantity
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" id="quantity" name="quantity" class="form-control onlyNumber" placeholder="Enter quantity" autocomplete="off">
                                         </div>
                                     </div>
 

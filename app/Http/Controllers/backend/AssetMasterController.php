@@ -135,10 +135,6 @@ class AssetMasterController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Assets Master details successfully added.';
             $return['redirect'] = route('admin.assets-master.list');
-        } elseif ($result == "assets_name_exists") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Assets Master has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

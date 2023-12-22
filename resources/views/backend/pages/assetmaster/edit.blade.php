@@ -43,7 +43,7 @@
                                             <label>Asset Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 asset" id="asset"  name="asset_id">
+                                            <select class="form-control select2 asset" id="asset"  name="asset_id" disabled="disabled">
                                                 <option value="">Please select asset Name</option>
                                                 @foreach ($asset  as $key => $value )
                                                     <option value="{{ $value['id'] }}" {{ $value['id'] == $asset_master_details['asset_id'] ? 'selected="selected"' : '' }}>{{ $value['asset_type'] }}</option>

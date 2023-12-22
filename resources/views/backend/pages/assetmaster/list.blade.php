@@ -124,6 +124,14 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
+                                    <label>Quantity
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" id="quantity" name="quantity" class="form-control onlyNumber" placeholder="Enter quantity" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
                                     <div class="form-group">
                                         <label>Status
                                             <span class="text-danger">*</span>

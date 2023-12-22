@@ -171,6 +171,7 @@ var AssetMaster = function(){
             brand_id: {required: true},
             branch_id: {required: true},
             description: {required: true},
+            quantity: {required: true},
             // price: {required: true},
             status: {required: true},
 
@@ -187,6 +188,9 @@ var AssetMaster = function(){
             },
             brand_id : {
                 required : "Please select Brand name"
+            },
+            quantity : {
+                required : "Please enter quantity"
             },
             // price : {
             //     required : "Please enter price"

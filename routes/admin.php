@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AssetAllocationController;
 use App\Http\Controllers\backend\AttendanceController;
 use App\Http\Controllers\backend\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -130,6 +131,12 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/asset-master/edit/{id}', [AssetMasterController::class, 'edit'])->name('admin.asset-master.edit');
     Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
     Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
+
+     //asset allocation
+     Route::get('admin/asset-allocation/list', [AssetAllocationController::class, 'list'])->name('admin.asset-allocation.list');
+     Route::get('admin/asset-allocation/add', [AssetAllocationController::class, 'add'])->name('admin.asset-allocation.add');
+     Route::post('admin/asset-allocation/ajaxcall', [AssetAllocationController::class, 'ajaxcall'])->name('admin.asset-allocation.ajaxcall');
+     Route::post('admin/asset-allocation/save-add-asset-allocation', [AssetAllocationController::class, 'saveAdd'])->name('admin.asset-allocation.save-add-asset-allocation');
 
 
     // expense

@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Codenumber;
 use App\Models\CompanyInfo;
 use App\Models\UserRole;
 use Faker\Provider\ar_EG\Company;
-
 function numberformat($value, $afterDecimal = 4){
     return number_format((float)$value, $afterDecimal,'.', '');
 }
@@ -40,4 +40,12 @@ function get_users_permission($userId){
     return $objUsersroles->get_user_permission_details($userId);
 }
 
+function get_no_by_name($no_for){
+    $objCodenumber = new Codenumber();
+    return $objCodenumber->get_no_by_name($no_for);
+}
+function auto_increment_no($no_for){
+    $objCodenumber = new Codenumber();
+    $res = $objCodenumber->auto_increment_no($no_for);
+}
 ?>
