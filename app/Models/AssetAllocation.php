@@ -9,7 +9,7 @@ class AssetAllocation extends Model
 {
     use HasFactory;
 
-    protected $table = "asset_allocation";
+    protected $table = "asset_master";
 
     public function saveAdd($requestData)
     {

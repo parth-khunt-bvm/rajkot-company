@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetAllocation;
 use App\Models\AssetMaster;
+use App\Models\Branch;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Config;
@@ -14,7 +15,6 @@ class AssetAllocationController extends Controller
 {
     public function list(Request $request)
     {
-
         $objAsset = new Asset();
         $data['asset'] = $objAsset->get_admin_asset_details();
 
@@ -45,7 +45,6 @@ class AssetAllocationController extends Controller
             'asset_allocation.js',
         );
         $data['funinit'] = array(
-            'AssetAllocation.init()',
             'AssetAllocation.add()'
         );
         $data['header'] = array(
@@ -66,11 +65,17 @@ class AssetAllocationController extends Controller
 
         // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(112, explode(',', $permission_array[0]['permission']))){
 
+            $objAsset = new Asset();
+            $data['asset'] = $objAsset->get_admin_asset_details();
+
             $objAsset = new AssetMaster();
             $data['asset_master'] = $objAsset->get_admin_asset_master_details();
 
             $objEmployee = new Employee();
             $data['employee'] = $objEmployee->get_admin_employee_details();
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Asset Allocation";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Asset Allocation";
@@ -131,10 +136,19 @@ class AssetAllocationController extends Controller
         switch ($action) {
             case 'get_asset_master_list':
                 $data = $request->input('data');
-                $objAssetMaster = new AssetMaster();
-                $data['assetMasterList'] = $objAssetMaster->get_admin_asset_master_details(json_decode($data['assetMaster']));
+
+                $objAsset = new Asset();
+                $data['assetList'] = $objAsset->get_admin_asset_details();
+
                 $details =  view('backend.pages.asset_allocation.addAsset', $data);
                 echo $details;
+                break;
+
+            case 'get_asset_list' :
+                $data = $request->input();
+                $objAsset = new Asset();
+                $list = $objAsset->get_asset_list($data['id'], json_decode($data['selectedAsset']));
+                echo json_encode($list);
                 break;
         }
 

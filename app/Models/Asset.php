@@ -128,4 +128,16 @@ class Asset extends Model
         }
         return $qurey->get();
     }
+
+    public function get_asset_list($id, $assetMasterIdArray = []){
+
+        $qurey = AssetMaster::from('asset_master')
+                    ->where('asset_master.asset_id',$id)
+                    ->select('asset_master.asset_code', 'asset_master.id');
+
+        if(!empty($assetMasterIdArray)){
+            $qurey->whereNotIn('asset_master.id' ,$assetMasterIdArray);
+        }
+        return $qurey->get()->toArray();
+    }
 }

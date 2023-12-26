@@ -170,7 +170,7 @@ var AssetMaster = function(){
             asset_id: {required: true},
             brand_id: {required: true},
             branch_id: {required: true},
-            description: {required: true},
+            // description: {required: true},
             quantity: {required: true},
             // price: {required: true},
             status: {required: true},
@@ -195,9 +195,9 @@ var AssetMaster = function(){
             // price : {
             //     required : "Please enter price"
             // },
-            description : {
-                required : "Please Enter Description"
-            },
+            // description : {
+            //     required : "Please Enter Description"
+            // },
             status : {
                 required : "Please select status"
             },
@@ -215,7 +215,7 @@ var AssetMaster = function(){
             asset_id: {required: true},
             brand_id: {required: true},
             branch_id: {required: true},
-            description: {required: true},
+            // description: {required: true},
             // price: {required: true},
             status: {required: true},
 
@@ -236,9 +236,9 @@ var AssetMaster = function(){
             // price : {
             //     required : "Please enter price"
             // },
-            description : {
-                required : "Please Enter Description"
-            },
+            // description : {
+            //     required : "Please Enter Description"
+            // },
             status : {
                 required : "Please select status"
             },

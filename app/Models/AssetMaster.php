@@ -148,7 +148,7 @@ class AssetMaster extends Model
             $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
             $assetCode = Asset::from('asset')->select('asset.asset_code', 'asset.asset_type')->where('asset.id', $requestData['asset_id'])->first();
 
-            for ($i = 0; $i <= $requestData['quantity']; $i++){
+            for ($i = 1; $i <= $requestData['quantity']; $i++){
                 generateCode:
                 $codeNumber = get_no_by_name($assetCode->asset_type);
                 $code = $codeNumber->number > 0 && $codeNumber->number < 10 ? "0".$codeNumber->number : $codeNumber->number;
@@ -157,15 +157,16 @@ class AssetMaster extends Model
                 $count_code = AssetMaster::from('asset_master')
                 ->where("asset_master.asset_code", "=", $asset_code)
                 ->count();
+
                 if($count_code == 0){
                     $objAssetMaster = new AssetMaster();
                     $objAssetMaster->supplier_id = $requestData['supplier_id'];
                     $objAssetMaster->asset_id = $requestData['asset_id'];
                     $objAssetMaster->brand_id = $requestData['brand_id'];
                     $objAssetMaster->branch_id = $requestData['branch_id'];
-                    $objAssetMaster->description = $requestData['description'];
-                    $objAssetMaster->status = $requestData['status'] ?? '-';
-                    $objAssetMaster->price = $requestData['price'];
+                    $objAssetMaster->description = $requestData['description'] ?? '-';
+                    $objAssetMaster->status = $requestData['status'];
+                    $objAssetMaster->price = $requestData['price']?? '-';
                     $objAssetMaster->asset_code = $asset_code;
                     $objAssetMaster->is_deleted = 'N';
                     $objAssetMaster->created_at = date('Y-m-d H:i:s');
@@ -192,9 +193,9 @@ class AssetMaster extends Model
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->brand_id = $requestData['brand_id'];
             $objAssetMaster->branch_id = $requestData['branch_id'];
-            $objAssetMaster->description = $requestData['description'];
-            $objAssetMaster->status = $requestData['status'] ?? '-';
-            $objAssetMaster->price = $requestData['price'];
+            $objAssetMaster->description = $requestData['description']?? '-';
+            $objAssetMaster->status = $requestData['status'];
+            $objAssetMaster->price = $requestData['price'] ?? '-';
             $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -2);
             $objAssetMaster->asset_code = $assetCode;
             $objAssetMaster->updated_at = date('Y-m-d H:i:s');
@@ -206,8 +207,6 @@ class AssetMaster extends Model
                 return 'added';
             }
             return 'wrong';
-
-
     }
 
     public function get_asset_master_details($assetMasterId){
@@ -248,21 +247,11 @@ class AssetMaster extends Model
         ->first();
     }
 
-    // public function get_admin_asset_master_details(){
-    //     return AssetMaster::from('asset_master')
-    //     ->join("asset", "asset.id", "=", "asset_master.asset_id")
-    //     ->select('asset.asset_type','asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code')
-    //     ->get();
-    // }
-
-    public function get_admin_asset_master_details($assetMasterIdArray = null){
-        $qurey = AssetMaster::from('asset_master')
-        ->join("asset", "asset.id", "=", "asset_master.asset_id")
-        ->select('asset.asset_type','asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code');
-        if($assetMasterIdArray != null){
-           $qurey->whereNotIn('asset_master.id', $assetMasterIdArray);
-        }
-        return $qurey->get();
+    public function get_admin_asset_master_details(){
+        return AssetMaster::from('asset_master')
+            ->join("asset", "asset.id", "=", "asset_master.asset_id")
+            ->select('asset.asset_type','asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code')
+            ->get();
     }
 
 

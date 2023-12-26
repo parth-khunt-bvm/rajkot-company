@@ -7,7 +7,7 @@
             <select class="form-control select2 employee_id employee_select" name="employee_id[]">
                 <option value="">Please select Employee Name</option>
                 @foreach ($employeeList as $key => $value )
-                <option value="{{ $value['id'] }}">{{ $value['first_name'] }}</option>
+                <option value="{{ $value['id'] }}">{{ $value['first_name'] . ' ' . $value['last_name']}}</option>
                 @endforeach
             </select>
             <span class="attendance_error text-danger"></span>
