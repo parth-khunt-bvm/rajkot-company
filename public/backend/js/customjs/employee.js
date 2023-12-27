@@ -704,7 +704,50 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
-                    console.log(data);
+                    console.log('data',data);
+                    console.log('type',type);
+
+                    // if(type = 'asset-allocation'){
+                    //     var dataArr = {};
+                    //     var columnWidth = { "width": "5%", "targets": 0 };
+                    //     var arrList = {
+                    //         'tableID': '#asset-allocation-list',
+                    //         'ajaxURL': baseurl + "admin/asset-allocation/ajaxcall",
+                    //         'ajaxAction': 'getdatatable',
+                    //         'postData': dataArr,
+                    //         'hideColumnList': [],
+                    //         'noSortingApply': [0, 0],
+                    //         'noSearchApply': [0, 0],
+                    //         'defaultSortColumn': [0],
+                    //         'defaultSortOrder': 'DESC',
+                    //         'setColumnWidth': columnWidth
+                    //     };
+                    //     getDataTable(arrList);
+
+                    //     $("body").on("click", ".delete-records", function() {
+                    //         var id = $(this).data('id');
+                    //         setTimeout(function() {
+                    //             $('.yes-sure:visible').attr('data-id', id);
+                    //         }, 500);
+                    //     })
+
+                    //     $('body').on('click', '.yes-sure', function() {
+                    //         var id = $(this).attr('data-id');
+                    //         var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
+                    //         $.ajax({
+                    //             type: "POST",
+                    //             headers: {
+                    //                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    //             },
+                    //             url: baseurl + "admin/asset-allocation/ajaxcall",
+                    //             data: { 'action': 'common-activity', 'data': data },
+                    //             success: function(data) {
+                    //                 $("#loader").show();
+                    //                 handleAjaxResponse(data);
+                    //             }
+                    //         });
+                    //     });
+                    // }
 
                     if (type == 'attendance') {
                         var res = JSON.parse(data);
@@ -837,8 +880,6 @@ var Employee = function () {
 
                     $('.user-menu-bar a.active').removeClass('active');
                     element.addClass('active');
-
-
                 },
             });
 

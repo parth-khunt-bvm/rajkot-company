@@ -51,6 +51,12 @@
                     '114'  => 'edit Asset Master',
                     '115'  => 'delete Asset Master',
                 ],
+                'Asset Allocation' => [
+                    '116'  => 'Asset Allocation list',
+                    '117'  => 'add Asset Allocation',
+                    '118'  => 'edit Asset Allocation',
+                    '119'  => 'delete Asset Allocation',
+                ],
 
             ],
 

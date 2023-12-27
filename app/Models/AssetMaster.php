@@ -188,7 +188,6 @@ class AssetMaster extends Model
     public function saveEdit($requestData)
     {
         $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
-
             $objAssetMaster = AssetMaster::find($requestData['edit_id']);
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->brand_id = $requestData['brand_id'];
@@ -212,7 +211,7 @@ class AssetMaster extends Model
     public function get_asset_master_details($assetMasterId){
         return AssetMaster::from('asset_master')
         ->where("asset_master.id", $assetMasterId)
-        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code')
+        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id' )
         ->first();
     }
 

@@ -129,10 +129,24 @@ class Asset extends Model
         return $qurey->get();
     }
 
-    public function get_asset_list($id, $assetMasterIdArray = []){
+    public function get_asset_list($branchid, $assetid, $assetMasterIdArray = []){
 
         $qurey = AssetMaster::from('asset_master')
-                    ->where('asset_master.asset_id',$id)
+                    ->where('asset_master.asset_id',$assetid)
+                    ->where('asset_master.branch_id',$branchid)
+                    ->select('asset_master.asset_code', 'asset_master.id');
+
+        if(!empty($assetMasterIdArray)){
+            $qurey->whereNotIn('asset_master.id' ,$assetMasterIdArray) ;
+        }
+        return $qurey->get()->toArray();
+    }
+
+
+    public function get_asset_master_list_data($id, $assetMasterIdArray = []){
+
+        $qurey = AssetMaster::from('asset_master')
+                    ->where('asset_master.branch_id',$id)
                     ->select('asset_master.asset_code', 'asset_master.id');
 
         if(!empty($assetMasterIdArray)){

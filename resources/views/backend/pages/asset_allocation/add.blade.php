@@ -28,7 +28,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
@@ -66,7 +65,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 asset asset_master_select" id="asset_master_id"  name="asset_master_id[]">
-                                                <option value="">Please select asset Name</option>
+                                                <option value="">Please select asset code</option>
                                             </select>
                                             <span class="asset_master_error text-danger"></span>
                                         </div>
