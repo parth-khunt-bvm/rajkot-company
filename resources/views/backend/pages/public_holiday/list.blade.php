@@ -26,11 +26,15 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(14, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(122, explode(',', $permission_array[0]['permission'])) )
                      <button class="btn btn-primary font-weight-bolder mr-5 show-public-holiday-form" id="show-public-holiday-form">+</button>
-                    {{-- @endif --}}
+                    @endif
 
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(14, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(121, explode(',', $permission_array[0]['permission'])) )
+                    <button data-toggle="modal" data-target="#import-public-holiday" class="import-public-holiday btn btn-danger font-weight-bolder mr-5 ">Import Public Holiday</button>
+                   @endif
+
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(122, explode(',', $permission_array[0]['permission'])) )
                         <a href="{{ route('admin.public-holiday.add') }}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -44,8 +48,7 @@
                                 <!--end::Svg Icon-->
                             </span>Add Public Holiday
                          </a>
-                   {{-- @endif --}}
-
+                   @endif
                     <!--end::Button-->
                 </div>
 
@@ -81,46 +84,56 @@
                     </div>
                 </form>
 
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(120, explode(',', $permission_array[0]['permission'])) )
                 <div class="row public-holiday-filter" style="display: none">
-                    <div class="col-md-5">
+                    <div class="col-md-10">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Date  <span class="text-danger">*</span></label>
-                                    <input type="text" name="date" id="fii_datepicker_date" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
+                                    <label>Start Date:</label>
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="start_date_id" name="start_date" autocomplete="off">
                                 </div>
                             </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>End Date:</label>
+                                    <input type="text" class="form-control datepicker_date change-fillter" id="end_date_id" name="end_date" autocomplete="off">
+                                </div>
+                            </div>
+
                             <div class="col-md-2 mt-5">
                                 <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--begin: Datatable-->
                 <div class="public-holiday-list-div">
-                <table class="table table-bordered table-checkable" id="public-holiday-list">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>Holiday Name</th>
-                            <th>Note</th>
-                            @php
-                            $target = [];
-                            $target = [14,15,16,17];
-                            @endphp
+                     <!--begin: Datatable-->
+                    <table class="table table-bordered table-checkable" id="public-holiday-list">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Holiday Name</th>
+                                <th>Note</th>
+                                @php
+                                $target = [];
+                                $target = [123,124,125];
+                                @endphp
+                                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+                                    <th>Action</th>
+                                @endif
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                                <th>Action</th>
-                            @endif
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-                <!--end: Datatable-->
+                        </tbody>
+                    </table>
+                     <!--end: Datatable-->
                 </div>
+                @endif
+
             </div>
         </div>
         <!--end::Card-->

@@ -779,9 +779,51 @@
     </div>
 </div>
 
+<!-- Import public holiday Model-->
+<div class="modal fade" id="import-public-holiday" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Public holiday</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="import-public-holidays" enctype="multipart/form-data" method="POST" action="{{ route('admin.public-holiday.save-import-public-holiday') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Upload Excel File<span class="text-danger">*</span></label>
+                                        <div></div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2 submitbtn">Import Data</button>
+                        <a href="{{ route('admin.branch.list') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- view Supplier Model-->
 <div class="modal fade" id="supplier-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">View Supplier</h5>
@@ -839,7 +881,7 @@
 
 <!-- view Asset Master Model-->
 <div class="modal fade" id="asset-master-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">View Asset Master</h5>
@@ -882,6 +924,37 @@
                     <div class="col-4">
                         <b>Description</b> <br>
                         <span id="as_description"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- view public holiday Model-->
+<div class="modal fade" id="public-holiday-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Public Holiday</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-5 mr-5 ml-5" >
+                    <div class="col-4">
+                        <b>Date</b> <br>
+                        <span id="holiday_date"></span>
+                    </div>
+                    <div class="col-4">
+                        <b>Holiday Name</b> <br>
+                        <span id="holiday_name"></span>
+
+                    </div>
+                    <div class="col-4">
+                        <b>Note</b> <br>
+                        <span id="holiday_note"></span>
                     </div>
                 </div>
             </div>

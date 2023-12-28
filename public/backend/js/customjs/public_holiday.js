@@ -1,8 +1,9 @@
 var PublicHoliday = function(){
 
     var list = function(){
-        var date = $('#fii_datepicker_date').val();
-        var dataArr = { 'date': date };
+        var startDate = $('#start_date_id').val();
+        var endDate = $('#end_date_id').val();
+        var dataArr = { 'startDate': startDate, 'endDate': endDate };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#public-holiday-list',
@@ -58,14 +59,14 @@ var PublicHoliday = function(){
             $("div .public-holiday-filter").slideToggle("slow");
         })
 
-        $("#fii_datepicker_date").datepicker({
+        $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto"
         });
 
-        $("body").on("change", ".change", function () {
+        $("body").on("change", ".change-fillter", function () {
             var target = [120, 121, 122, 123, 124, 125];
             const permissionValues = permission.length > 0 ? permission.split(",") : [];
             const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
@@ -88,8 +89,9 @@ var PublicHoliday = function(){
 
             $(".public-holiday-list-div").html(html);
 
-                var date = $('#fii_datepicker_date').val();
-                var dataArr = { 'date': date };
+                var startDate = $('#start_date_id').val();
+                var endDate = $('#end_date_id').val();
+                var dataArr = { 'startDate': startDate, 'endDate': endDate };
                 var columnWidth = { "width": "5%", "targets": 0 };
                 var arrList = {
                     'tableID': '#public-holiday-list',
@@ -106,6 +108,43 @@ var PublicHoliday = function(){
                  getDataTable(arrList);
 
         })
+
+        $("body").on("click", ".reset", function () {
+            location.reload(true);
+        });
+
+        $("body").on('click','.public-holiday-view', function(){
+            var id = $(this).data('id');
+            console.log(id);
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/public-holiday/ajaxcall",
+                data: { 'action': 'public-holiday-view', 'data': data },
+                success: function (data) {
+                   var PublicHoliday=  JSON.parse(data);
+                   $("#holiday_date").text(PublicHoliday.date);
+                   $("#holiday_name").text(PublicHoliday.holiday_name);
+                   $("#holiday_note").text(PublicHoliday.note);
+                }
+            });
+        });
+
+        var importform = $('#import-public-holidays');
+        var rules = {
+            file : {required: true},
+        };
+
+        var message = {
+            file : {required: "Please select file"},
+        }
+        handleFormValidateWithMsg(importform, rules,message, function(importform) {
+            handleAjaxFormSubmit(importform,true);
+        });
+
 
     }
     var addPublicHoliday = function(){

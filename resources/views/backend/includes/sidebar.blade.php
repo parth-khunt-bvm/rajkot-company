@@ -608,13 +608,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 </li>
                 @endif
                 {{-- Counter Menu End --}}
-
-                {{-- @php
+                @php
                 $target = [];
-                $target = array(88, 89);
-                @endphp --}}
+                $target = array(120, 121, 122, 123, 124, 125);
+                @endphp
                 {{-- Public holiday Menu --}}
-                {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.public-holiday.list" || $currentRoute  ==  "admin.public-holiday.add" || $currentRoute  ==  "admin.public-holiday.edit"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.public-holiday.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -627,9 +626,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Public Holiday</span>
                     </a>
                 </li>
-                {{-- @endif --}}
+                @endif
                 {{-- Public holiday Menu End --}}
-
                 @php
                 $target = [];
                 $target = array(88, 89);

@@ -87,7 +87,7 @@
                                     <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date" autocomplete="off">
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>End Date:</label>
