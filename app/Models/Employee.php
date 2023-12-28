@@ -20,20 +20,20 @@ class Employee extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            2 => 'technology.technology_name',
-            3 => 'designation.designation_name',
-            4 => 'employee.DOJ',
-            5 => 'employee.gmail',
-            6 => 'employee.emergency_number',
-            7 => 'employee.google_pay_number',
-            8 => 'employee.experience',
-            9 => DB::raw('(CASE WHEN employee.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number )'),
+            3 => 'employee.DOJ',
+            4 => 'employee.experience',
+            5 => DB::raw('(CASE WHEN employee.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
+             ->join("branch", "branch.id", "=", "employee.branch")
              ->join("designation", "designation.id", "=", "employee.designation")
              ->where("employee.is_deleted", "=", "N");
+
+        if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+          $query->where("branch.id", $fillterdata['branch']);
+        }
 
         if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
             $query->where("technology.id", $fillterdata['technology']);
@@ -73,7 +73,7 @@ class Employee extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number', 'employee.experience', 'employee.status')
+            ->select( 'employee.id', DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number ) as full_name'), 'technology.technology_name', 'branch.branch_name','designation.designation_name','employee.DOJ', 'employee.experience', 'employee.status')
             ->get();
 
         $data = array();
@@ -116,12 +116,8 @@ class Employee extends Model
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = $row['full_name'];
-            $nestedData[] = $row['technology_name'];
-            $nestedData[] = $row['designation_name'];
+            $nestedData[] = $row['branch_name'];
             $nestedData[] = date_formate($row['DOJ']);
-            $nestedData[] = $row['gmail'];
-            $nestedData[] = $row['emergency_number'];
-            $nestedData[] = $row['google_pay_number'];
             $nestedData[] = numberformat($row['experience'], 0);
             $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
@@ -312,6 +308,7 @@ class Employee extends Model
             $objEmployee->first_name =ucfirst($requestData['first_name']);
             $objEmployee->last_name =ucfirst($requestData['last_name']);
             $objEmployee->department = $requestData['technology'];
+            $objEmployee->branch = $requestData['branch'];
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
             $objEmployee->gmail = $requestData['gmail'];
@@ -378,6 +375,7 @@ class Employee extends Model
             $objEmployee->first_name = ucfirst($requestData['first_name']);
             $objEmployee->last_name = ucfirst($requestData['last_name']);
             $objEmployee->department = $requestData['technology'];
+            $objEmployee->branch = $requestData['branch'];
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
             $objEmployee->gmail = $requestData['gmail'];
@@ -445,7 +443,7 @@ class Employee extends Model
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch')
              ->where('employee.id', $employeeId)
              ->first();
     }

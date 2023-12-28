@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\AssetAllocation;
 use App\Models\Attendance;
+use App\Models\Branch;
 use App\Models\CompanyInfo;
 use App\Models\Designation;
 use App\Models\Employee;
@@ -32,6 +33,9 @@ class EmployeeController extends Controller
 
         $objDesignation = new Designation();
         $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
 
         $objCompanyinfo = new CompanyInfo();
         $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
@@ -185,6 +189,9 @@ class EmployeeController extends Controller
             $objManager = new Manager();
             $data['manager'] = $objManager->get_admin_manager_details();
 
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
+
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
             $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Employee";
@@ -260,6 +267,9 @@ class EmployeeController extends Controller
 
             $objDesignation = new Designation();
             $data['designation'] = $objDesignation->get_admin_designation_details();
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($editId);

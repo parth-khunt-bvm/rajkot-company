@@ -465,6 +465,19 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Branch Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 branch input-name" id="branch" name="branch">
+                                                <option value="">Please select Branch Name</option>
+                                                @foreach ($branch  as $key => $value )
+                                                    <option value="{{ $value['id'] }}" {{ $value['id'] == $employee_details->branch ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Technology Name
@@ -479,6 +492,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Designation Name
@@ -493,9 +508,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of Birth
@@ -505,6 +517,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of joining
@@ -514,9 +528,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Company Gmail
@@ -526,6 +537,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail Password
@@ -535,9 +548,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Personal Email
@@ -547,6 +557,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Slack Password

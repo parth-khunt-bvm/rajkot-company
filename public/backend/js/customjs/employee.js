@@ -4,13 +4,13 @@ var Employee = function () {
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-
+        var branch = $("#employee_branch").val();
         var technology = $("#technology_id").val();
         var designation = $("#designation_id").val();
         var startDate = $("#start_date").val();
         var endDate = $("#end_date").val();
         var dataArr = {
-            'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate
+            'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate, 'branch': branch
         };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -19,8 +19,8 @@ var Employee = function () {
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -128,12 +128,8 @@ var Employee = function () {
                 '<tr>' +
                 '<th>#</th>' +
                 '<th>Name</th>' +
-                '<th>Department</th>' +
-                '<th>Designation</th>' +
+                '<th>Branch</th>'+
                 '<th>Date of Joining</th>' +
-                '<th>Gmail</th>' +
-                '<th>Emergency Contact</th>' +
-                '<th>G Pay Number</th>' +
                 '<th>Experience</th>' +
                 '<th>Status</th>';
                 if (isAdmin == 'Y' || intersectCount > 0 ) {
@@ -149,12 +145,13 @@ var Employee = function () {
             $(".employee-list").html(html);
 
 
+            var branch = $("#employee_branch").val();
             var technology = $("#technology_id").val();
             var designation = $("#designation_id").val();
             var startDate = $("#start_date").val();
             var endDate = $("#end_date").val();
             var dataArr = {
-                'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate
+                'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate, 'branch': branch
             };
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
@@ -224,6 +221,11 @@ var Employee = function () {
             designation: {
                 validators: {
                     notEmpty: { message: 'Please select designation' },
+                }
+            },
+            branch: {
+                validators: {
+                    notEmpty: { message: 'Please select branch' },
                 }
             },
             dob: {
@@ -477,6 +479,16 @@ var Employee = function () {
             technology: {
                 validators: {
                     notEmpty: { message: 'Please select technology' },
+                }
+            },
+            designation: {
+                validators: {
+                    notEmpty: { message: 'Please select designation' },
+                }
+            },
+            branch: {
+                validators: {
+                    notEmpty: { message: 'Please select branch' },
                 }
             },
             dob: {

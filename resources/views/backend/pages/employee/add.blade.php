@@ -467,6 +467,19 @@ $image = url("upload/userprofile/default.jpg");
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Branch Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control select2 branch input-name" id="branch"  name="branch">
+                                                <option value="">Please select Branch Name</option>
+                                                @foreach ($branch  as $key => $value )
+                                                    <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Technology Name
@@ -481,6 +494,8 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Designation Name
@@ -495,8 +510,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of Birth
@@ -506,6 +519,8 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of joining
@@ -515,9 +530,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Company Gmail
@@ -527,6 +539,8 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Gmail Password
@@ -536,9 +550,6 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Slack Password
@@ -547,6 +558,8 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Personal Email
