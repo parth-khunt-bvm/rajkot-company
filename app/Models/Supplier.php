@@ -107,8 +107,8 @@ class Supplier extends Model
                 $priority = '<span class="label label-lg label-light-warning label-inline">Medium</span>';
             } else {
                 $priority = '<span class="label label-lg label-light-success label-inline">High</span>';
-
             }
+
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(104, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -183,7 +183,7 @@ class Supplier extends Model
             $objSupplier->personal_contact = $requestData['personal_contact'];
             $objSupplier->sort_name = $requestData['short_name'];
             $objSupplier->address = $requestData['address'];
-            $objSupplier->priority = $requestData['priority'];
+            $objSupplier->shop_contact = $requestData['shop_contact'];
             $objSupplier->priority = $requestData['priority'];
             $objSupplier->status = $requestData['status'];
             $objSupplier->updated_at = date('Y-m-d H:i:s');
@@ -239,7 +239,7 @@ class Supplier extends Model
 
     public function get_admin_suplier_details(){
         return Salary::from('supplier')
-            ->select('supplier.id','supplier.suppiler_name','supplier.status','supplier.sort_name','supplier.priority')
+            ->select('supplier.id','supplier.suppiler_name','supplier.supplier_shop_name','supplier.status','supplier.sort_name','supplier.priority')
             ->get();
     }
 }

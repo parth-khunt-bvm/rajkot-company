@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AssetAllocationController;
 use App\Http\Controllers\backend\AttendanceController;
 use App\Http\Controllers\backend\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\PublicHolidayController;
+
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
 $adminPrefix = "";
@@ -127,10 +130,22 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/asset-master/ajaxcall', [AssetMasterController::class, 'ajaxcall'])->name('admin.asset-master.ajaxcall');
     Route::get('admin/asset-master/add', [AssetMasterController::class, 'add'])->name('admin.asset-master.add');
     Route::post('admin/asset-master/save-add-asset-master', [AssetMasterController::class, 'saveAdd'])->name('admin.asset-master.save-add-asset-master');
+    Route::get('admin/asset-master/edit/{id}', [AssetMasterController::class, 'edit'])->name('admin.asset-master.edit');
+    Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
+    Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
+
+     //asset allocation
+     Route::get('admin/asset-allocation/list', [AssetAllocationController::class, 'list'])->name('admin.asset-allocation.list');
+     Route::get('admin/asset-allocation/add', [AssetAllocationController::class, 'add'])->name('admin.asset-allocation.add');
+     Route::post('admin/asset-allocation/ajaxcall', [AssetAllocationController::class, 'ajaxcall'])->name('admin.asset-allocation.ajaxcall');
+     Route::post('admin/asset-allocation/save-add-asset-allocation', [AssetAllocationController::class, 'saveAdd'])->name('admin.asset-allocation.save-add-asset-allocation');
+     Route::get('admin/asset-allocation/edit/{id}', [AssetAllocationController::class, 'edit'])->name('admin.asset-allocation.edit');
+     Route::post('admin/asset-allocation/save-edit-asset-allocation', [AssetAllocationController::class, 'saveEdit'])->name('admin.asset-allocation.save-edit-asset-allocation');
+
+
 
 
     // expense
-
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
     Route::get('admin/expense/add', [ExpenseController::class, 'add'])->name('admin.expense.add');
     Route::post('admin/expense/save-add-expense', [ExpenseController::class, 'saveAdd'])->name('admin.expense.save-add-expense');
@@ -214,6 +229,14 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/designation/ajaxcall', [DesignationController::class, 'ajaxcall'])->name('admin.designation.ajaxcall');
     Route::post('admin/designation/save-import-designation', [DesignationController::class, 'save_import'])->name('admin.designation.save-import-designation');
 
+    //  Type
+    Route::get('admin/public-holiday/list', [PublicHolidayController::class, 'list'])->name('admin.public-holiday.list');
+    Route::get('admin/public-holiday/add', [PublicHolidayController::class, 'add'])->name('admin.public-holiday.add');
+    Route::post('admin/public-holiday/save-add-public-holiday', [PublicHolidayController::class, 'saveAdd'])->name('admin.public-holiday.save-add-public-holiday');
+    Route::get('admin/public-holiday/edit/{id}', [PublicHolidayController::class, 'edit'])->name('admin.public-holiday.edit');
+    Route::post('admin/public-holiday/save-edit-public-holiday', [PublicHolidayController::class, 'saveEdit'])->name('admin.public-holiday.save-edit-public-holiday');
+    Route::post('admin/public-holiday/ajaxcall', [PublicHolidayController::class, 'ajaxcall'])->name('admin.public-holiday.ajaxcall');
+
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
     Route::get('admin/attendance/day/list', [AttendanceController::class, 'dayList'])->name('admin.attendance.day-list');
@@ -255,9 +278,5 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
     Route::post('admin/supplier/save-edit-supplier', [SupplierController::class, 'saveEdit'])->name('admin.supplier.save-edit-supplier');
     Route::get('admin/supplier/view/{id}', [SupplierController::class, 'view'])->name('admin.supplier.view');
-
-
-
-
 
 });

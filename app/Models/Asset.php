@@ -120,4 +120,38 @@ class Asset extends Model
             ->select('asset.id','asset.asset_type','asset.asset_code')
             ->get();
     }
+
+    public function get_admin_employee_details($employeIdArray = null){
+        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
+        if($employeIdArray != null){
+           $qurey->whereNotIn('employee.id', $employeIdArray);
+        }
+        return $qurey->get();
+    }
+
+    public function get_asset_list($branchid, $assetid, $assetMasterIdArray = []){
+
+        $qurey = AssetMaster::from('asset_master')
+                    ->where('asset_master.asset_id',$assetid)
+                    ->where('asset_master.branch_id',$branchid)
+                    ->select('asset_master.asset_code', 'asset_master.id');
+
+        if(!empty($assetMasterIdArray)){
+            $qurey->whereNotIn('asset_master.id' ,$assetMasterIdArray) ;
+        }
+        return $qurey->get()->toArray();
+    }
+
+
+    public function get_asset_master_list_data($id, $assetMasterIdArray = []){
+
+        $qurey = AssetMaster::from('asset_master')
+                    ->where('asset_master.branch_id',$id)
+                    ->select('asset_master.asset_code', 'asset_master.id');
+
+        if(!empty($assetMasterIdArray)){
+            $qurey->whereNotIn('asset_master.id' ,$assetMasterIdArray);
+        }
+        return $qurey->get()->toArray();
+    }
 }

@@ -13,33 +13,32 @@
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
                      <!--begin::Form-->
-                     <form class="form" id="edit-type" method="POST" action="{{ route('admin.type.save-edit-type') }}">@csrf
+                     <form class="form" id="add-public-holiday" method="POST" action="{{ route('admin.public-holiday.save-add-public-holiday') }}">@csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Type name
-                                        <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="type_name" class="form-control" placeholder="Enter type name" value="{{ $type_details->type_name}}">
-                                        <input type="hidden" name="type_Id" class="form-control"  value="{{ $type_details->id}}">
-                                    </div>
-                                </div>
-
+                                         <label>Date  <span class="text-danger">*</span></label>
+                                         <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
+                                     </div>
+                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Status <span class="text-danger">*</span></label>
-                                        <div class="radio-inline" style="margin-top:10px">
-                                            <label class="radio radio-lg radio-success" >
-                                            <input type="radio" name="status" class="radio-btn" value="A" {{ $type_details->status == 'A' ? 'checked="checked"' : '' }}/>
-                                            <span></span>Active</label>
-                                            <label class="radio radio-lg radio-danger" >
-                                            <input type="radio" name="status" class="radio-btn" value="I" {{ $type_details->status == 'I' ? 'checked="checked"' : '' }}/>
-                                            <span></span>Inactive</label>
-                                        </div>
+                                        <label>Public Holiday name <span class="text-danger">*</span></label>
+                                        <input type="text" name="public_holiday_name" class="form-control" placeholder="Enter public holiday name" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Note
+                                        </label>
+                                        <textarea class="form-control" id="" cols="30" rows="10" name="note" id="note"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="card-footer">

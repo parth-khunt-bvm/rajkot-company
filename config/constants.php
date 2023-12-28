@@ -45,17 +45,22 @@
                     '110'  => 'delete Brand',
                 ],
                 'Asset Master' => [
-                    '111'  => 'Asset list',
-                    '112'  => 'add Asset',
-                    '113'  => 'view Asset',
-                    '114'  => 'edit Asset',
-                    '115'  => 'change Asset status',
-                    '116'  => 'delete Asset',
+                    '111'  => 'Asset Master list',
+                    '112'  => 'add Asset Master',
+                    '113'  => 'view Asset Master',
+                    '114'  => 'edit Asset Master',
+                    '115'  => 'delete Asset Master',
+                ],
+                'Asset Allocation' => [
+                    '116'  => 'Asset Allocation list',
+                    '117'  => 'add Asset Allocation',
+                    '118'  => 'edit Asset Allocation',
+                    '119'  => 'delete Asset Allocation',
                 ],
 
             ],
 
-            'setting' =>    [
+            'setting' => [
                 'type' => [
                     '12'  => 'type list',
                     '13'  => 'import type',
@@ -204,6 +209,17 @@
                 ],
                 'employee_bond_last_date' => [
                     '96' => 'view employee bond last date',
+                ],
+            ],
+
+            'Public Holiday' => [
+                'Public Holiday' => [
+                    '120'  => 'Public Holiday list',
+                    '121'  => 'import Public Holiday',
+                    '122'  => 'add Public Holiday',
+                    '123'  => 'view Public Holiday',
+                    '124'  => 'edit Public Holiday ',
+                    '125'  => 'delete Public Holiday',
                 ],
             ],
 

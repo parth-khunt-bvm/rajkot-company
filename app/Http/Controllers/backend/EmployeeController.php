@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
+use App\Models\AssetAllocation;
 use App\Models\Attendance;
 use App\Models\CompanyInfo;
 use App\Models\Designation;
@@ -363,6 +364,14 @@ class EmployeeController extends Controller
                     $objEmployee = new Employee();
                     $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
                     $details =  view('backend.pages.employee.parent_info', $data);
+                    echo $details;
+                    break;
+
+                } elseif($inputData['type'] == 'asset-allocation'){
+
+                    $objAssetAllocation = new AssetAllocation();
+                    $data['asset_allocation_details'] = $objAssetAllocation->get_asset_master_details($inputData['userId']);
+                    $details =  view('backend.pages.employee.asset_allocation', $data);
                     echo $details;
                     break;
 

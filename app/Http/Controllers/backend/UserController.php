@@ -114,7 +114,7 @@ class UserController extends Controller
         exit;
     }
 
-    public function edit ($userId){
+    public function edit ($editId){
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
@@ -123,7 +123,8 @@ class UserController extends Controller
             $data['userRole'] = $objUserRole->get_admin_user_role_details();
 
             $objUser = new User();
-            $data['user_detail'] = $objUser->get_user_details($userId);
+            $data['user_detail'] = $objUser->get_user_details($editId);
+
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
