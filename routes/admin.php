@@ -27,6 +27,8 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\PublicHolidayController;
+
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
 $adminPrefix = "";
@@ -226,6 +228,14 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/designation/save-edit-designation', [DesignationController::class, 'saveEdit'])->name('admin.designation.save-edit-designation');
     Route::post('admin/designation/ajaxcall', [DesignationController::class, 'ajaxcall'])->name('admin.designation.ajaxcall');
     Route::post('admin/designation/save-import-designation', [DesignationController::class, 'save_import'])->name('admin.designation.save-import-designation');
+
+    //  Type
+    Route::get('admin/public-holiday/list', [PublicHolidayController::class, 'list'])->name('admin.public-holiday.list');
+    Route::get('admin/public-holiday/add', [PublicHolidayController::class, 'add'])->name('admin.public-holiday.add');
+    Route::post('admin/public-holiday/save-add-public-holiday', [PublicHolidayController::class, 'saveAdd'])->name('admin.public-holiday.save-add-public-holiday');
+    Route::get('admin/public-holiday/edit/{id}', [PublicHolidayController::class, 'edit'])->name('admin.public-holiday.edit');
+    Route::post('admin/public-holiday/save-edit-public-holiday', [PublicHolidayController::class, 'saveEdit'])->name('admin.public-holiday.save-edit-public-holiday');
+    Route::post('admin/public-holiday/ajaxcall', [PublicHolidayController::class, 'ajaxcall'])->name('admin.public-holiday.ajaxcall');
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
