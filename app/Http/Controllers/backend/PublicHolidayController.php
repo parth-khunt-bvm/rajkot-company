@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Imports\PublicHolidayImport;
+use App\Models\AssetMaster;
 use App\Models\PublicHoliday;
 use Illuminate\Http\Request;
 use Config;
@@ -48,10 +50,10 @@ class PublicHolidayController extends Controller
 
     public function add()
     {
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(112, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(122, explode(',', $permission_array[0]['permission']))){
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Public Holiday";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Public Holiday";
@@ -84,9 +86,9 @@ class PublicHolidayController extends Controller
             );
             return view('backend.pages.public_holiday.add', $data);
 
-        // }else{
-        //     return redirect()->route('admin.public-holiday.list');
-        // }
+        }else{
+            return redirect()->route('admin.public-holiday.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -112,10 +114,10 @@ class PublicHolidayController extends Controller
     }
 
     public function edit ($publicHolidayId){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(21, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(124, explode(',', $permission_array[0]['permission']))){
 
             $objPublicHoliday = new PublicHoliday();
             $data['public_holiday_details'] = $objPublicHoliday->get_public_holiday_details($publicHolidayId);
@@ -150,9 +152,9 @@ class PublicHolidayController extends Controller
                 )
             );
             return view('backend.pages.public_holiday.edit', $data);
-        // }else{
-        //     return redirect()->route('admin.public-holiday.list');
-        // }
+        }else{
+            return redirect()->route('admin.public-holiday.list');
+        }
     }
 
     public function saveEdit(Request $request){
@@ -181,28 +183,45 @@ class PublicHolidayController extends Controller
         switch ($action) {
             case 'getdatatable':
                 $objPublicHoliday = new PublicHoliday();
-                $list = $objPublicHoliday->getdatatable();
+                $list = $objPublicHoliday->getdatatable($request->input('data'));
                 echo json_encode($list);
                 break;
 
-                case 'common-activity':
-                    $objPublicHoliday = new PublicHoliday();
-                    $data = $request->input('data');
-                    $result = $objPublicHoliday->common_activity($data);
-                    if ($result) {
-                        $return['status'] = 'success';
-                        if($data['activity'] == 'delete-records'){
-                            $return['message'] = 'Public Holiday details successfully deleted.';
-                        }
-                        $return['redirect'] = route('admin.public-holiday.list');
-                    } else {
-                        $return['status'] = 'error';
-                        $return['jscode'] = '$("#loader").hide();';
-                        $return['message'] = 'It seems like something is wrong';
-                    }
+            case 'public-holiday-view';
+            $objPublicHoliday = new PublicHoliday();
+            $list = $objPublicHoliday->get_public_holiday_details($request->input('data'));
+            echo json_encode($list);
+            break;
 
-                    echo json_encode($return);
-                    exit;
+            case 'common-activity':
+                $objPublicHoliday = new PublicHoliday();
+                $data = $request->input('data');
+                $result = $objPublicHoliday->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = 'Public Holiday details successfully deleted.';
+                    }
+                    $return['redirect'] = route('admin.public-holiday.list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';
+                }
+
+                echo json_encode($return);
+                exit;
         }
+    }
+
+    public function save_import(Request $request){
+        $path = $request->file('file')->store('temp');
+        $data = \Excel::import(new PublicHolidayImport($request->file('file')),$path);
+        $return['status'] = 'success';
+        $return['message'] = 'Public Holiday added successfully.';
+        $return['redirect'] = route('admin.public-holiday.list');
+
+        echo json_encode($return);
+        exit;
     }
 }

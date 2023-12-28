@@ -142,9 +142,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
      Route::get('admin/asset-allocation/edit/{id}', [AssetAllocationController::class, 'edit'])->name('admin.asset-allocation.edit');
      Route::post('admin/asset-allocation/save-edit-asset-allocation', [AssetAllocationController::class, 'saveEdit'])->name('admin.asset-allocation.save-edit-asset-allocation');
 
-
-
-
     // expense
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
     Route::get('admin/expense/add', [ExpenseController::class, 'add'])->name('admin.expense.add');
@@ -174,7 +171,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
     Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
     Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
-
 
     //  Hr expense
     Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');
@@ -229,13 +225,14 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/designation/ajaxcall', [DesignationController::class, 'ajaxcall'])->name('admin.designation.ajaxcall');
     Route::post('admin/designation/save-import-designation', [DesignationController::class, 'save_import'])->name('admin.designation.save-import-designation');
 
-    //  Type
+    //Public Holiday
     Route::get('admin/public-holiday/list', [PublicHolidayController::class, 'list'])->name('admin.public-holiday.list');
     Route::get('admin/public-holiday/add', [PublicHolidayController::class, 'add'])->name('admin.public-holiday.add');
     Route::post('admin/public-holiday/save-add-public-holiday', [PublicHolidayController::class, 'saveAdd'])->name('admin.public-holiday.save-add-public-holiday');
     Route::get('admin/public-holiday/edit/{id}', [PublicHolidayController::class, 'edit'])->name('admin.public-holiday.edit');
     Route::post('admin/public-holiday/save-edit-public-holiday', [PublicHolidayController::class, 'saveEdit'])->name('admin.public-holiday.save-edit-public-holiday');
     Route::post('admin/public-holiday/ajaxcall', [PublicHolidayController::class, 'ajaxcall'])->name('admin.public-holiday.ajaxcall');
+    Route::post('admin/public-holiday/save-import-public-holiday', [PublicHolidayController::class, 'save_import'])->name('admin.public-holiday.save-import-public-holiday');
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');

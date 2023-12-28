@@ -11,8 +11,7 @@ class PublicHoliday extends Model
 
     protected $table= "public_holiday";
 
-
-    public function getdatatable()
+    public function getdatatable($fillterdata)
     {
         $requestData = $_REQUEST;
         $columns = array(
@@ -24,6 +23,13 @@ class PublicHoliday extends Model
         );
         $query = PublicHoliday::from('public_holiday')
             ->where("public_holiday.is_deleted", "=", "N");
+
+            if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+                $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+            }
+            if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+                $query->whereDate('date', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
+            }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -59,23 +65,26 @@ class PublicHoliday extends Model
         foreach ($resultArr as $row) {
 
             $target = [];
-            $target = [20, 21, 22, 23];
+            $target = [123,124,125];
             $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $actionhtml = '';
             }
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(21, explode(',', $permission_array[0]['permission'])) )
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(123, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href=""data-toggle="modal" data-target="#public-holiday-view" data-id="'.$row['id'].'" class="btn btn-icon public-holiday-view"><i class="fa fa-eye text-primary"> </i></a>';
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(124, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.public-holiday.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
-             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(23, explode(',', $permission_array[0]['permission'])) )
+             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(125, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] =date_formate($row['date']);
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['holiday_name'];
             $nestedData[] = $row['note'];
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
@@ -93,8 +102,7 @@ class PublicHoliday extends Model
     }
     public function saveAdd($requestData){
         $checkPublicHoliday = PublicHoliday::from('public_holiday')
-                    ->where('public_holiday.date', $requestData['date'])
-                    ->where('public_holiday.holiday_name', $requestData['public_holiday_name'])
+                    ->where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))
                     ->where('public_holiday.is_deleted', 'N')
                     ->count();
 
@@ -121,8 +129,7 @@ class PublicHoliday extends Model
 
     public function saveEdit($requestData){
         $checkPublicHoliday = PublicHoliday::from('public_holiday')
-                    ->where('public_holiday.date', $requestData['date'])
-                    ->where('public_holiday.holiday_name', $requestData['public_holiday_name'])
+                    ->where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))
                     ->where('public_holiday.is_deleted', 'N')
                     ->where('public_holiday.id', '!=', $requestData['public_holiday_Id'])
                     ->count();
@@ -170,4 +177,5 @@ class PublicHoliday extends Model
                 ->select( 'public_holiday.id','public_holiday.date','public_holiday.holiday_name','public_holiday.note')
                 ->first();
     }
+
 }
