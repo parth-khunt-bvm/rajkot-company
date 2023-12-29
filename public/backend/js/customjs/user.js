@@ -4,7 +4,8 @@ var User = function(){
         $('.select2').select2();
         var userType = $("#user_role").val();
         var userStatus = $("#user_status").val();
-        var dataArr = { 'userType': userType, 'userStatus':userStatus,};
+        var branch = $("#user_branch").val();
+        var dataArr = { 'userType': userType, 'userStatus': userStatus,'branch': branch, };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#user-list',
@@ -108,6 +109,7 @@ var User = function(){
                 '<th>First Name</th>' +
                 '<th>Last Name</th>' +
                 '<th>Email</th>' +
+                '<th>Branch</th>' +
                 '<th>User Type</th>' +
                 '<th>Status</th>';
             if (isAdmin == 'Y' || intersectCount > 0 ) {
@@ -124,7 +126,8 @@ var User = function(){
 
             var userType = $("#user_role").val();
             var userStatus = $("#user_status").val();
-            var dataArr = { 'userType': userType, 'userStatus': userStatus, };
+            var branch = $("#user_branch").val();
+            var dataArr = { 'userType': userType, 'userStatus': userStatus,'branch': branch, };
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#user-list',
@@ -165,6 +168,7 @@ var User = function(){
             },
             confirm_password: {required: true,equalTo: "#password"},
             user_role : {required: true},
+            branch_id : {required: true},
         };
 
         var message = {
@@ -181,6 +185,7 @@ var User = function(){
                 equalTo: "New Password and confirmn password not match"
             },
             user_role : {required: "Please select User"},
+            branch_id : {required: "Please select Branch Name"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -195,6 +200,7 @@ var User = function(){
             last_name : {required: true},
             email : {required: true},
             user_role : {required: true},
+            branch_id : {required: true},
         };
 
         var message = {
@@ -202,6 +208,7 @@ var User = function(){
             last_name : {required: "Please enter last name"},
             email : {required: "Please enter email"},
             user_role : {required: "Please select User"},
+            branch_id : {required: "Please select Branch Name"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);

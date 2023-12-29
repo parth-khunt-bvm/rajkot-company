@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -56,6 +57,9 @@ class UserController extends Controller
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(2, explode(',', $permission_array[0]['permission']))){
             $objUserRole = new UserRole();
             $data['userRole'] = $objUserRole->get_admin_user_role_details();
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add User";
@@ -119,8 +123,12 @@ class UserController extends Controller
         $permission_array = get_users_permission($userId);
 
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(3, explode(',', $permission_array[0]['permission']))){
+
             $objUserRole = new UserRole();
             $data['userRole'] = $objUserRole->get_admin_user_role_details();
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
 
             $objUser = new User();
             $data['user_detail'] = $objUser->get_user_details($editId);

@@ -59,6 +59,17 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
+                                    <label>Branch</label>
+                                    <select class="form-control select2 branch change-fillter" id="employee_branch"  name="branch_id">
+                                        <option value="">Please select Branch Name</option>
+                                        @foreach ($branch  as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology change-fillter" id="technology_id"  name="technology_id">
                                         <option value="">Please select Technology Name</option>
@@ -87,7 +98,7 @@
                                     <input type="text" class="form-control datepicker_date change-fillter" id="start_date" name="start_date" autocomplete="off">
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>End Date:</label>
@@ -108,12 +119,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Technology</th>
-                                <th>Designation</th>
+                                <th>Branch</th>
                                 <th>Date of Joining</th>
-                                <th>Gmail</th>
-                                <th>Emergency Contact</th>
-                                <th>G Pay Number</th>
                                 <th>Experience</th>
                                 <th>Status</th>
                                 @php
