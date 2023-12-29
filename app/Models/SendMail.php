@@ -29,8 +29,6 @@ class SendMail extends Model
             $m->from('info@hrms.bvminfotech.com', 'BVM Infotech || HRMS');
             $m->to($mailData['mailto'], "BVM Infotech || HRMS")->subject($mailData['subject']);
             $m->subject($mailData['subject']);
-            if(!empty($pathToFile)){
-            }
         });
         if($mailsend){
             return true;
