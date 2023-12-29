@@ -59,18 +59,20 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch Name
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 branch" id="branch"  name="branch_id">
+                                        <select class="form-control select2 branch" id="branch"  name="branch[]" multiple>
                                             <option value="">Please select Branch Name</option>
-                                            @foreach ($branch  as $key => $value )
-                                                <option value="{{ $value['id'] }}" {{ $value['id'] == $user_detail['branch'] ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
-                                            @endforeach
+                                            @foreach ($branch as $key => $value)
+                                                <option value="{{ $value['id'] }}"
+                                                    {{ in_array($value['id'], $user_branch->pluck('branch_id')->toArray()) ? 'selected="selected"' : '' }}>
+                                                    {{ $value['branch_name'] }}
+                                                </option>
+                                           @endforeach
                                         </select>
                                     </div>
                                 </div>

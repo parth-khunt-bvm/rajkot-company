@@ -225,6 +225,14 @@ class User extends Authenticatable
             $objUser->status = $requestData['status'];
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
+                UserBranch::where('user_id', $objUser->id)->delete();
+                foreach ($requestData['branch'] as $key => $value) {
+                    $objUserBranch = new UserBranch();
+                    $objUserBranch->user_id = $objUser->id;
+                    $objUserBranch->branch_id = $value;
+                    $objUserBranch->save();
+                  }
+
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
@@ -240,7 +248,7 @@ class User extends Authenticatable
     {
         return User::from('users')
             ->where("users.id", $userId)
-            ->select('users.id','users.first_name','users.last_name','users.email','users.password','users.user_type', 'users.status',)
+            ->select('users.id','users.first_name','users.last_name','users.email','users.password','users.user_type', 'users.status')
             ->first();
     }
 
