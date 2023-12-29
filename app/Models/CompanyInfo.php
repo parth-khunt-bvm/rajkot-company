@@ -46,9 +46,10 @@ class CompanyInfo extends Model
         }
         $objCompanyinfo->updated_at = date("Y-m-d H:i:s");
         if($objCompanyinfo->save()){
+
             $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("u", $requestData, 'Employee');
-                return 'success';
+            $objAudittrails->add_audit("U", $requestData->all(), 'System Setting');
+            return 'success';
         }else{
             return false;
         }

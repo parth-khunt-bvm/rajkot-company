@@ -154,6 +154,7 @@ class User extends Authenticatable
         return $json_data;
     }
     public function saveAdd($requestData){
+        // dd($requestData);
         $checkUseremail = User::from('users')
                     ->where('users.email', $requestData['email'])
                     ->where('users.is_deleted', 'N')
@@ -171,7 +172,12 @@ class User extends Authenticatable
             $objUser->created_at = date('Y-m-d H:i:s');
             $objUser->updated_at = date('Y-m-d H:i:s');
             if($objUser->save()){
-
+                foreach ($requestData['branch'] as $key => $value) {
+                    $objUserBranch = new UserBranch();
+                    $objUserBranch->user_id = $objUser->id;
+                    $objUserBranch->branch_id = $value;
+                    $objUserBranch->save();
+                  }
                 $mailData['data']=[];
                 $mailData['data']['first_name'] = $requestData['first_name'];
                 $mailData['data']['last_name'] = $requestData['last_name'];
@@ -234,7 +240,7 @@ class User extends Authenticatable
     {
         return User::from('users')
             ->where("users.id", $userId)
-            ->select('users.id','users.first_name','users.last_name','users.email','users.password','users.user_type', 'users.status')
+            ->select('users.id','users.first_name','users.last_name','users.email','users.password','users.user_type', 'users.status',)
             ->first();
     }
 

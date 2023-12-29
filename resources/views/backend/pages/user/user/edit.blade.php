@@ -63,6 +63,19 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Branch Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select2 branch" id="branch"  name="branch_id">
+                                            <option value="">Please select Branch Name</option>
+                                            @foreach ($branch  as $key => $value )
+                                                <option value="{{ $value['id'] }}" {{ $value['id'] == $user_detail['branch'] ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label>Status <span class="text-danger">*</span></label>
                                         <div class="radio-inline" style="margin-top:10px">
                                             <label class="radio radio-lg radio-success" >
