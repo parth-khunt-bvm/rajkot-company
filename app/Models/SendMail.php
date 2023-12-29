@@ -26,8 +26,8 @@ class SendMail extends Model
         $pathToFile = $mailData['attachment'];
 
         $mailsend = Mail::send($mailData['template'], ['data' => $mailData['data']], function ($m) use ($mailData,$pathToFile) {
-            $m->from('hrms@erp.dreamspotacademy.com', 'BVM Infotech || HRMS');
-            $m->to($mailData['mailto'], "Flora Salon")->subject($mailData['subject']);
+            $m->from('info@hrms.bvminfotech.com', 'BVM Infotech || HRMS');
+            $m->to($mailData['mailto'], "BVM Infotech || HRMS")->subject($mailData['subject']);
             $m->subject($mailData['subject']);
             if(!empty($pathToFile)){
             }
