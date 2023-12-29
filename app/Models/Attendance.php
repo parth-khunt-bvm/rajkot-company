@@ -191,6 +191,9 @@ class Attendance extends Model
     }
     public function saveAdd($requestData)
     {
+        $holidayCount = PublicHoliday::where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))->count();
+
+
         $employee = Employee::where("is_deleted", "N")->pluck('id')->toArray();
         $employeeId = $requestData->employee_id;
 
@@ -198,42 +201,45 @@ class Attendance extends Model
         ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
         ->count();
         $allPresent = $requestData['all_present'];
+        if($holidayCount = 0){
+            if($checkAttendance == 0){
 
-        if($checkAttendance == 0){
+            foreach ($employee as $employeeNameKey => $value) {
+                $objAttendance = new Attendance();
+                $objAttendance->employee_id = $value;
+                if ($allPresent) {
+                    $objAttendance->attendance_type = "0";
+                    $objAttendance->reason = NULL;
+                } else
+                if(in_array( $value, $requestData->employee_id)){
+                    $key = array_search ($value, $requestData->employee_id);
+                    $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
+                    $objAttendance->reason = $requestData->input('reason')[$key];
+                    $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+                }else{
+                    $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+                    $objAttendance->attendance_type = "0";
+                    $objAttendance->reason = NULL;
+                }
+                $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+                $objAttendance->created_at = date('Y-m-d H:i:s');
+                $objAttendance->updated_at = date('Y-m-d H:i:s');
+                $objAttendance->save();
+                }
+                if($objAttendance->save()){
+                    $inputData = $requestData->input();
+                    unset($inputData['_token']);
+                    $objAudittrails = new Audittrails();
+                    $objAudittrails->add_audit("I", $inputData, 'Attendance');
+                    return 'added';
+                }else{
+                    return 'wrong';
+                }
+            }
+        return 'attendance_exists';
+        }
+        return 'holiday_day';
 
-        foreach ($employee as $employeeNameKey => $value) {
-            $objAttendance = new Attendance();
-            $objAttendance->employee_id = $value;
-            if ($allPresent) {
-                $objAttendance->attendance_type = "0";
-                $objAttendance->reason = NULL;
-            } else
-            if(in_array( $value, $requestData->employee_id)){
-                $key = array_search ($value, $requestData->employee_id);
-                $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
-                $objAttendance->reason = $requestData->input('reason')[$key];
-                $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-            }else{
-                $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-                $objAttendance->attendance_type = "0";
-                $objAttendance->reason = NULL;
-            }
-            $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-            $objAttendance->created_at = date('Y-m-d H:i:s');
-            $objAttendance->updated_at = date('Y-m-d H:i:s');
-            $objAttendance->save();
-            }
-            if($objAttendance->save()){
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $inputData, 'Attendance');
-                return 'added';
-            }else{
-                return 'wrong';
-            }
-    }
-    return 'attendance_exists';
     }
     public function daySaveEdit($requestData)
     {

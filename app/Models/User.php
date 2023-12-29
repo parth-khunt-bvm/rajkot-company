@@ -154,7 +154,6 @@ class User extends Authenticatable
         return $json_data;
     }
     public function saveAdd($requestData){
-        // dd($requestData);
         $checkUseremail = User::from('users')
                     ->where('users.email', $requestData['email'])
                     ->where('users.is_deleted', 'N')
@@ -257,6 +256,7 @@ class User extends Authenticatable
 
         $objUser = User::find($requestData['id']);
         if($requestData['activity'] == 'delete-records'){
+            UserBranch::where('user_id', $objUser->id)->delete();
             $objUser->is_deleted = "Y";
             $event = 'D';
         }
