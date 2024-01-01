@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\User;
+use App\Models\UserBranch;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Config;
@@ -132,6 +133,9 @@ class UserController extends Controller
 
             $objUser = new User();
             $data['user_detail'] = $objUser->get_user_details($editId);
+
+            $objUserBranch = new UserBranch();
+            $data['user_branch'] = $objUserBranch->get_user_branch_detail($editId);
 
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit User ";

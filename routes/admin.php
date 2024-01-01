@@ -134,13 +134,13 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
     Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
 
-     //asset allocation
-     Route::get('admin/asset-allocation/list', [AssetAllocationController::class, 'list'])->name('admin.asset-allocation.list');
-     Route::get('admin/asset-allocation/add', [AssetAllocationController::class, 'add'])->name('admin.asset-allocation.add');
-     Route::post('admin/asset-allocation/ajaxcall', [AssetAllocationController::class, 'ajaxcall'])->name('admin.asset-allocation.ajaxcall');
-     Route::post('admin/asset-allocation/save-add-asset-allocation', [AssetAllocationController::class, 'saveAdd'])->name('admin.asset-allocation.save-add-asset-allocation');
-     Route::get('admin/asset-allocation/edit/{id}', [AssetAllocationController::class, 'edit'])->name('admin.asset-allocation.edit');
-     Route::post('admin/asset-allocation/save-edit-asset-allocation', [AssetAllocationController::class, 'saveEdit'])->name('admin.asset-allocation.save-edit-asset-allocation');
+    //asset allocation
+    Route::get('admin/asset-allocation/list', [AssetAllocationController::class, 'list'])->name('admin.asset-allocation.list');
+    Route::get('admin/asset-allocation/add', [AssetAllocationController::class, 'add'])->name('admin.asset-allocation.add');
+    Route::post('admin/asset-allocation/ajaxcall', [AssetAllocationController::class, 'ajaxcall'])->name('admin.asset-allocation.ajaxcall');
+    Route::post('admin/asset-allocation/save-add-asset-allocation', [AssetAllocationController::class, 'saveAdd'])->name('admin.asset-allocation.save-add-asset-allocation');
+    Route::get('admin/asset-allocation/edit/{id}', [AssetAllocationController::class, 'edit'])->name('admin.asset-allocation.edit');
+    Route::post('admin/asset-allocation/save-edit-asset-allocation', [AssetAllocationController::class, 'saveEdit'])->name('admin.asset-allocation.save-edit-asset-allocation');
 
     // expense
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');
