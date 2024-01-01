@@ -21,7 +21,7 @@
                                         <label>Type name
                                         <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="type_name" class="form-control" placeholder="Enter type name" >
+                                        <input type="text" name="type_name" class="form-control" placeholder="Enter type name" autocomplete="off" >
                                     </div>
                                 </div>
 

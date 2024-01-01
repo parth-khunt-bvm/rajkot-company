@@ -178,6 +178,32 @@ var Employee = function () {
             location.reload(true);
         });
 
+        $("body").on('click','.add-branch-employee-import', function(){
+            console.log('brnach');
+            var data = {};
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'add-branch-employee-import', 'data': data },
+                success: function (data) {
+                   var Branch=  JSON.parse(data);
+                   console.log(Branch);
+                   var html = '';
+                   html += '<option value="">Please select Branch</option>';
+                   for (var i = 0; i < Branch.length; i++) {
+                       html += '<option value="'+ Branch[i].id +'">'+ Branch[i].branch_name +'</option>';
+                   }
+                   $(".branch").html(html);
+                   $('.select2').select2();
+                },
+
+
+            });
+        });
+
     }
     var addEmployee = function () {
 
@@ -187,14 +213,12 @@ var Employee = function () {
             experience: { required: true },
             hired_by: { required: true },
             salary: { required: true },
-            status: { required: true }
         };
 
         var message = {
             experience: { required: "Please enter experience" },
             hired_by: { required: "Please enter hired by" },
             salary: { required: "Please enter salary" },
-            status: { required: "Please select status" }
         }
         handleFormValidateWithMsg(form, rules, message, function (form) {
             handleAjaxFormSubmit(form, true);
@@ -252,6 +276,11 @@ var Employee = function () {
                 validators: {
                     notEmpty: { message: 'Please enter personal email' },
                     emailonly: { message: 'Please enter a valid email' },
+                }
+            },
+            status: {
+                validators: {
+                    myselect: { message: 'Please select status' },
                 }
             },
             bank_name: {

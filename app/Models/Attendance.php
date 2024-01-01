@@ -192,7 +192,9 @@ class Attendance extends Model
     public function saveAdd($requestData)
     {
         $holidayCount = PublicHoliday::where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))->count();
-
+        if($holidayCount == 1){
+            return 'holiday_day';
+        }
 
         $employee = Employee::where("is_deleted", "N")->pluck('id')->toArray();
         $employeeId = $requestData->employee_id;
@@ -202,7 +204,6 @@ class Attendance extends Model
         ->count();
 
         $allPresent = $requestData['all_present'];
-        // if($holidayCount = 0){
             if($checkAttendance == 0){
 
                 foreach ($employee as $employeeNameKey => $value) {
@@ -238,9 +239,6 @@ class Attendance extends Model
                     }
             }
             return 'attendance_exists';
-        // }
-        // return 'holiday_day';
-
     }
     public function daySaveEdit($requestData)
     {

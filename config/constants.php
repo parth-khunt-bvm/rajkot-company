@@ -162,7 +162,7 @@
                     '74'  => 'add employee',
                     '75'  => 'view employee',
                     '76'  => 'edit employee ',
-                    '77'  => 'change employee status',
+                    // '77'  => 'change employee status',
                     '78'  => 'delete employee',
                     '79'  => 'download offer letter',
                     '80'  => 'download appoinment letter',

@@ -29,7 +29,7 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(73, explode(',', $permission_array[0]['permission'])) )
-                    <button data-toggle="modal" data-target="#importEmployee" class=" import-manager btn btn-danger font-weight-bolder mr-5 ">Import Employee</button>
+                    <button data-toggle="modal" data-target="#importEmployee" class=" import-manager btn btn-danger font-weight-bolder mr-5 add-branch-employee-import">Import Employee</button>
                     @endif
 
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(74, explode(',', $permission_array[0]['permission'])) )

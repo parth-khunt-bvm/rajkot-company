@@ -569,6 +569,20 @@ $image = url("upload/userprofile/default.jpg");
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Status <span class="text-danger">*</span></label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success ">
+                                                    <input type="radio" name="status" class="radio-btn input-name" value="W" />
+                                                    <span></span>Working</label>
+                                                <label class="radio radio-lg radio-danger">
+                                                    <input type="radio" name="status" class="radio-btn input-name" value="L" />
+                                                    <span></span>Left</label>
+                                            </div>
+                                            <span class="type_error text-danger"></span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <button type="button" data-next-page="2" data-current-page="1" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4 float-right mb-2 next-step">Next</button>
                             </div>
@@ -815,20 +829,7 @@ $image = url("upload/userprofile/default.jpg");
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <div class="form-group">
-                                            <label>Status <span class="text-danger">*</span></label>
-                                            <div class="radio-inline" style="margin-top:10px">
-                                                <label class="radio radio-lg radio-success ">
-                                                    <input type="radio" name="status" class="radio-btn input-name" value="A" checked="checked" />
-                                                    <span></span>Active</label>
-                                                <label class="radio radio-lg radio-danger">
-                                                    <input type="radio" name="status" class="radio-btn input-name" value="I" />
-                                                    <span></span>Inactive</label>
-                                            </div>
-                                            <span class="type_error text-danger"></span>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

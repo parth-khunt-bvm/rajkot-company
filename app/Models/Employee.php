@@ -23,7 +23,7 @@ class Employee extends Model
             1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number )'),
             3 => 'employee.DOJ',
             4 => 'employee.experience',
-            5 => DB::raw('(CASE WHEN employee.status = "A" THEN "Actived" ELSE "Deactived" END)'),
+            5 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
@@ -95,14 +95,6 @@ class Employee extends Model
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(76, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(77, explode(',', $permission_array[0]['permission'])) ){
-                if ($row['status'] == 'A') {
-                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
-                } else {
-                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
-                }
-            }
-
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(78, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -119,7 +111,7 @@ class Employee extends Model
             $nestedData[] = $row['branch_name'];
             $nestedData[] = date_formate($row['DOJ']);
             $nestedData[] = numberformat($row['experience'], 0);
-            $nestedData[] = $row['status'] == 'A' ? '<span class="label label-lg label-light-success label-inline">Active</span>' : '<span class="label label-lg label-light-danger  label-inline">Deactive</span>';
+            $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
             }
@@ -443,7 +435,7 @@ class Employee extends Model
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status')
              ->where('employee.id', $employeeId)
              ->first();
     }
@@ -458,12 +450,12 @@ class Employee extends Model
         }
 
         if ($requestData['activity'] == 'active-records') {
-            $objExpense->status = "A";
+            $objExpense->status = "W";
             $event = 'Active Records';
         }
 
         if ($requestData['activity'] == 'deactive-records') {
-            $objExpense->status = "I";
+            $objExpense->status = "L";
             $event = 'Deactive Records';
         }
 

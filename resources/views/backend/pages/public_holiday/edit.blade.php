@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                          <label>Date  <span class="text-danger">*</span></label>
                                         <input type="hidden"  class="form-control" name="public_holiday_Id" value="{{ $public_holiday_details->id}}">
-                                         <input type="text" name="date" id="datepicker_date" class="form-control date" value=" {{date_formate($public_holiday_details->date) }}" placeholder="Select Date" value="" autocomplete="off">
+                                         <input type="text" name="date" id="datepicker_date" class="form-control date" value="{{date_formate($public_holiday_details->date) }}" placeholder="Select Date" value="" autocomplete="off">
                                      </div>
                                  </div>
                                 <div class="col-md-6">
