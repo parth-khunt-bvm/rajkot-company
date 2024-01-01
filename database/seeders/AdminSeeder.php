@@ -18,8 +18,8 @@ class AdminSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => "Admin",
             'last_name' => "Admin",
-            'email' => "rajkot@bvminfotech.com",
-            'password' => Hash::make('Bvminfotech@2023'),
+            'email' => "admin@bvminfotech.com",
+            'password' => Hash::make('Admin@2023'),
             'userimage' => NUll,
             'user_type' => 0,
             'is_admin'=>'Y',

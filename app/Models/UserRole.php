@@ -21,6 +21,7 @@ class UserRole extends Model
             2 => DB::raw('(CASE WHEN user_role.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
         $query = UserRole::from('user_role')
+            ->where("user_role.id", "!=", Auth()->guard('admin')->user()->user_type)
             ->where("user_role.is_deleted", "=", "N");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
