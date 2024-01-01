@@ -309,7 +309,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                             $target = array(12, 13, 14, 15, 16, 17);
                             @endphp
 
-                             {{-- Type Menu --}}
+                             {{-- Expense Type Menu --}}
                              @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.type.list" || $currentRoute  ==  "admin.type.add" || $currentRoute  ==  "admin.type.edit"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.type.list') }}" class="menu-link">
@@ -320,11 +320,11 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                                             </svg>
                                          <!--end::Svg Icon-->
                                      </span>
-                                     <span class="menu-text">Type</span>
+                                     <span class="menu-text">Expense Type</span>
                                  </a>
                              </li>
                              @endif
-                             {{-- Type Menu End --}}
+                             {{-- Expense Type Menu End --}}
 
                              @php
                              $target = [];

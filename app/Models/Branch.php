@@ -183,10 +183,10 @@ class Branch extends Model
         }
     }
 
-
     public function get_admin_branch_details(){
         return Branch::from('branch')
             ->select('branch.id','branch.branch_name','branch.status')
             ->get();
     }
+
 }

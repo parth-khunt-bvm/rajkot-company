@@ -513,7 +513,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Date Of Birth
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control date_of_birth input-name" name="dob" id="dob" value="{{ $employee_details->DOB }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
+                                            <input type="text" class="form-control date_of_birth input-name" name="dob" id="dob" value="{{date_formate($employee_details->DOB)}}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -524,7 +524,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Date Of joining
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control datepicker_date input-name" name="doj" id="doj" value="{{ $employee_details->DOJ }}" placeholder="Date Of Joining" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date input-name" name="doj" id="doj" value="{{ date_formate( $employee_details->DOJ) }}" placeholder="Date Of Joining" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -563,8 +563,22 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Slack Password
                                             </label>
+                                            {{ $employee_details->status }}
                                             <input type="text" class="form-control input-name" name="slack_password" id="slack_password" value="{{ $employee_details->slack_password }}" placeholder="Slack Password" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status <span class="text-danger">*</span></label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success" >
+                                                <input type="radio" name="status" class="radio-btn" value="W" {{ $employee_details->status == 'W' ? 'checked="checked"' : '' }}/>
+                                                <span></span>Working</label>
+                                                <label class="radio radio-lg radio-danger" >
+                                                <input type="radio" name="status" class="radio-btn" value="L" {{ $employee_details->status == 'L' ? 'checked="checked"' : '' }}/>
+                                                <span></span>Left</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -742,7 +756,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Stipend From
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="stipend_from" id="stipend_from" value="{{ $employee_details->stipend_from }}" placeholder="Stippend From" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="stipend_from" id="stipend_from" value="{{ date_formate( $employee_details->stipend_from) }}" placeholder="Stippend From" autocomplete="off" />
                                         </div>
                                     </div>
 
@@ -752,14 +766,14 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Bond Last Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="bond_last_date" id="bond_last_date" value="{{ $employee_details->bond_last_date }}" placeholder="Bond Last Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="bond_last_date" id="bond_last_date" value="{{date_formate(  $employee_details->bond_last_date) }}" placeholder="Bond Last Date" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Resign Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="resign_date" id="resign_date" value="{{ $employee_details->resign_date }}" placeholder="Resign Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="resign_date" id="resign_date" value="{{date_formate( $employee_details->resign_date)}}" placeholder="Resign Date" autocomplete="off" />
                                         </div>
                                     </div>
                                 </div>
@@ -768,7 +782,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Last Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="last_date" id="last_date" value="{{ $employee_details->last_date }}" placeholder="Last Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="last_date" id="last_date" value="{{date_formate( $employee_details->last_date)}}" placeholder="Last Date" autocomplete="off" />
                                         </div>
                                     </div>
 
@@ -805,19 +819,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <div class="form-group">
-                                            <label>Status <span class="text-danger">*</span></label>
-                                            <div class="radio-inline" style="margin-top:10px">
-                                                <label class="radio radio-lg radio-success" >
-                                                <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
-                                                <span></span>Active</label>
-                                                <label class="radio radio-lg radio-danger" >
-                                                <input type="radio" name="status" class="radio-btn" value="I"/>
-                                                <span></span>Inactive</label>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

@@ -340,7 +340,12 @@ class EmployeeController extends Controller
             case 'getdatatable':
                 $objEmployee = new Employee();
                 $list = $objEmployee->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
 
+            case 'add-branch-employee-import';
+                $objBranch = new Branch();
+                $list = $objBranch->get_admin_branch_details();
                 echo json_encode($list);
                 break;
 
@@ -491,9 +496,8 @@ class EmployeeController extends Controller
 
     public function save_import(Request $request){
 
-
         $path = $request->file('file')->store('temp');
-        $data = \Excel::import(new EmployeeImport($request->file('file')),$path);
+        $data = \Excel::import(new EmployeeImport($request->branch,$request->file('file')),$path);
         $return['status'] = 'success';
         $return['message'] = 'Employee added successfully.';
         $return['redirect'] = route('admin.employee.list');
