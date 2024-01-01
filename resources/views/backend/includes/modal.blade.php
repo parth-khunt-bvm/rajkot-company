@@ -404,7 +404,7 @@
                                 <label>Branch Name
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 branch" id="branch"  name="branch">
+                                <select class="form-control select2 branch" id="branchId"  name="branch">
                                     <option value="">Please select Branch Name</option>
                                 </select>
                             </div>
