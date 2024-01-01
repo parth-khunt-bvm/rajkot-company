@@ -200,9 +200,9 @@ class Attendance extends Model
         $checkAttendance = Attendance::from('attendance')
         ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
         ->count();
-        
+
         $allPresent = $requestData['all_present'];
-        if($holidayCount = 0){
+        // if($holidayCount = 0){
             if($checkAttendance == 0){
 
                 foreach ($employee as $employeeNameKey => $value) {
@@ -238,8 +238,8 @@ class Attendance extends Model
                     }
             }
             return 'attendance_exists';
-        }
-        return 'holiday_day';
+        // }
+        // return 'holiday_day';
 
     }
     public function daySaveEdit($requestData)
