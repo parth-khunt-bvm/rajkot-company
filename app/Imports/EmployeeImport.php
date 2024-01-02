@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Employeer;
+use App\Models\Manager;
 use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -26,6 +27,8 @@ class EmployeeImport implements ToModel, WithStartRow
     public function model(array $row)
 
     {
+
+        // dd($row[23]);
         if (Employee::where('branch', $this->branch)->where('gmail', $row[6])->where('personal_number', $row[18])->where('is_deleted', 'N')->count() == 0) {
             $objEmployee = new Employee();
             $objEmployee->first_name = $row[1] ;
@@ -70,9 +73,19 @@ class EmployeeImport implements ToModel, WithStartRow
             $objEmployee->emergency_number = $row[20]  ?? NULL;
             $objEmployee->address = $row[21]  ?? NULL;
             $objEmployee->experience = $row[22]  ?? NULL;
-
-            $objEmployee->hired_by = 1;
-
+            $managerName = $row[23];
+            $managerID = Manager::where('manager_name', $managerName)->value('id');
+            if($managerID == NULL){
+                $objManager = new Manager();
+                $objManager->manager_name = $managerName;
+                $objManager->status = "A";
+                $objManager->is_deleted = 'N';
+                $objManager->created_at = date('Y-m-d H:i:s');
+                $objManager->updated_at = date('Y-m-d H:i:s');
+                $objManager->save();
+                $managerID = $objManager->id;
+            }
+            $objEmployee->hired_by = $managerID;
             $objEmployee->salary = $row[24]  ?? NULL;
             $objEmployee->stipend_from = $row[25] != null && $row[25] != '' ? $this->transformDate($row[25])  : NULL;
             $objEmployee->bond_last_date = $row[26] != null && $row[26] != '' ? $this->transformDate($row[26])  : NULL;

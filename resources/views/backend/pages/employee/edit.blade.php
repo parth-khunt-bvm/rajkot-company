@@ -476,6 +476,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                     <option value="{{ $value['id'] }}" {{ $value['id'] == $employee_details->branch ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
                                                 @endforeach
                                             </select>
+                                            <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
@@ -511,9 +512,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of Birth
-                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control date_of_birth input-name" name="dob" id="dob" value="{{date_formate($employee_details->DOB)}}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
+                                            <input type="text" class="form-control date_of_birth input-name" name="dob" id="dob" value="{{ $employee_details->DOB != null && $employee_details->DOB != '' ? date_formate($employee_details->DOB) : '' }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -522,9 +522,8 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Date Of joining
-                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control datepicker_date input-name" name="doj" id="doj" value="{{ date_formate( $employee_details->DOJ) }}" placeholder="Date Of Joining" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date input-name" name="doj" id="doj" value="{{ $employee_details->DOJ != null && $employee_details->DOJ != '' ? date_formate($employee_details->DOJ) : '' }}" placeholder="Date Of Joining" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -551,7 +550,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Personal Email
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="email" class="form-control input-name" name="personal_email" id="personal_email" value="{{ $employee_details->personal_email }}" placeholder="Personal Email" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -563,7 +561,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Slack Password
                                             </label>
-                                            {{ $employee_details->status }}
                                             <input type="text" class="form-control input-name" name="slack_password" id="slack_password" value="{{ $employee_details->slack_password }}" placeholder="Slack Password" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
@@ -592,7 +589,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Bank Name
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" name="bank_name" id="bank_name" value="{{ $employee_details->bank_name }}" placeholder="Bank Name" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -601,7 +597,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Account Holder Name
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" name="acc_holder_name" id="acc_holder_name" value="{{ $employee_details->acc_holder_name }}" placeholder="Account Holder Name" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -612,7 +607,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Account Number
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name onlyNumber" name="account_number" id="account_number" value="{{ $employee_details->account_number }}" placeholder="Account Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -621,7 +615,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>IFSC Code
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" maxlength="11" name="ifsc_code" id="ifsc_code" value="{{ $employee_details->ifsc_number }}" placeholder="IFSC Code" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -632,7 +625,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Pan Number
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" name="pan_number" id="pan_number" value="{{ $employee_details->pan_number }}" maxlength="11" placeholder="Pan Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -641,7 +633,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Aadhar Card Number
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name onlyNumber " name="aadhar_card_number" id="aadhar_card_number" value="{{ $employee_details->aadhar_card_number }}" maxlength="12" placeholder="Aadhar Card Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -652,7 +643,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Google Pay Number
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" maxlength="10" value="{{ $employee_details->google_pay_number }}" placeholder="Google Pay Number" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -673,7 +663,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-12">
                                         <div class="form-group">
                                             <label>Parents Name
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control input-name" name="parent_name" id="parent_name" value="{{ $employee_details->parents_name }}" placeholder="Parent Name" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -705,7 +694,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Address
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <textarea class="form-control input-name" id="" cols="30" rows="10" name="address" id="address" autocomplete="off">{{ $employee_details->address }}</textarea>
                                             <span class="type_error text-danger"></span>
@@ -726,7 +714,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Experience
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="number" class="form-control input-name" name="experience" id="experience" value="{{numberformat( $employee_details->experience, 0) }}" placeholder="Experience" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -737,7 +724,12 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Hired By
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="hired_by" id="hired_by"  value="{{ $employee_details->hired_by }}" placeholder="Hired By" autocomplete="off" />
+                                            <select class="form-control select2 hired_by input-name" id="hired_by" name="hired_by">
+                                                <option value="">Please select Manager Name</option>
+                                                @foreach ($manager as $key => $value )
+                                                <option value="{{ $value['id'] }}"  {{ $value['id'] == $employee_details->hired_by ? 'selected="selected"' : '' }}>{{ $value['manager_name'] }}</option>
+                                                @endforeach
+                                            </select>
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
@@ -746,7 +738,6 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>salary
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <input type="number" class="form-control input-name" name="salary" id="salary" value="{{ numberformat( $employee_details->salary, 0)  }}" placeholder="Salary" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
@@ -756,7 +747,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Stipend From
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="stipend_from" id="stipend_from" value="{{ date_formate( $employee_details->stipend_from) }}" placeholder="Stippend From" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="stipend_from" id="stipend_from" value="{{ $employee_details->stipend_from != null && $employee_details->stipend_from != '' ? date_formate($employee_details->stipend_from) : '' }}" placeholder="Stippend From" autocomplete="off" />
                                         </div>
                                     </div>
 
@@ -766,14 +757,14 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Bond Last Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="bond_last_date" id="bond_last_date" value="{{date_formate(  $employee_details->bond_last_date) }}" placeholder="Bond Last Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="bond_last_date" id="bond_last_date" value="{{ $employee_details->bond_last_date != null && $employee_details->bond_last_date != '' ? date_formate($employee_details->bond_last_date) : '' }}" placeholder="Bond Last Date" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label>Resign Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="resign_date" id="resign_date" value="{{date_formate( $employee_details->resign_date)}}" placeholder="Resign Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="resign_date" id="resign_date" value="{{ $employee_details->resign_date != null && $employee_details->resign_date != '' ? date_formate($employee_details->resign_date) : '' }}" placeholder="Resign Date" autocomplete="off" />
                                         </div>
                                     </div>
                                 </div>
@@ -782,7 +773,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Last Date
                                             </label>
-                                            <input type="text" class="form-control datepicker_date" name="last_date" id="last_date" value="{{date_formate( $employee_details->last_date)}}" placeholder="Last Date" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date" name="last_date" id="last_date" value="{{ $employee_details->last_date != null && $employee_details->last_date != '' ? date_formate($employee_details->last_date) : '' }}" placeholder="Last Date" autocomplete="off" />
                                         </div>
                                     </div>
 
