@@ -32,7 +32,7 @@ jQuery(document).ready(function () {
 
     $('#loader').show();
     $('#loader').fadeOut(1000);
-
+    $('.select2').select2();
 });
 </script>
 
