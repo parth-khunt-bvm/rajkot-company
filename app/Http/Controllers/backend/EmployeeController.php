@@ -232,18 +232,34 @@ class EmployeeController extends Controller
     public function saveAdd(Request $request)
     {
         $objEmployee = new Employee();
-
         $result = $objEmployee->saveAdd($request);
+
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Employee details successfully added.';
             $return['redirect'] = route('admin.employee.list');
-        } elseif ($result == "personal_gmail_exists") {
+        } elseif ($result == "Employee_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'employee personal gmail has already exists.';
-        } elseif ($result == "personal_number_exists") {
+        } elseif ($result == "company_email_exits") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'employee company email has already exists.';
+        } elseif ($result == "personal_email_exits") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'employee personal email has already exists.';
+        } elseif ($result == "pan_number_exits") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'employee pan numbar has already exists.';
+        } elseif ($result == "aadhar_card_number_exits") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'employee addhar card numbar has already exists.';
+        } elseif ($result == "personal_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'employee personal numbar has already exists.';
@@ -270,6 +286,9 @@ class EmployeeController extends Controller
 
             $objBranch = new Branch();
             $data['branch'] = $objBranch->get_admin_branch_details();
+
+            $objManager = new Manager();
+            $data['manager'] = $objManager->get_admin_manager_details();
 
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($editId);

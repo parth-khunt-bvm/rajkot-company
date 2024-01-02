@@ -210,15 +210,11 @@ var Employee = function () {
         var form = $('#add-employee-form');
 
         var rules = {
-            experience: { required: true },
             hired_by: { required: true },
-            salary: { required: true },
         };
 
         var message = {
-            experience: { required: "Please enter experience" },
             hired_by: { required: "Please enter hired by" },
-            salary: { required: "Please enter salary" },
         }
         handleFormValidateWithMsg(form, rules, message, function (form) {
             handleAjaxFormSubmit(form, true);
@@ -252,16 +248,6 @@ var Employee = function () {
                     notEmpty: { message: 'Please select branch' },
                 }
             },
-            dob: {
-                validators: {
-                    notEmpty: { message: 'Please enter date of birth' },
-                }
-            },
-            doj: {
-                validators: {
-                    notEmpty: { message: 'Please enter date of joining' },
-                }
-            },
             gmail: {
                 validators: {
                     notEmpty: { message: 'Please enter company gmail' },
@@ -272,61 +258,9 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter gmail password' },
                 }
             },
-            personal_email: {
-                validators: {
-                    notEmpty: { message: 'Please enter personal email' },
-                    emailonly: { message: 'Please enter a valid email' },
-                }
-            },
             status: {
                 validators: {
                     myselect: { message: 'Please select status' },
-                }
-            },
-            bank_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter bank name' },
-                    textonly: { message: 'Please enter valid bank name' }
-                }
-            },
-            acc_holder_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter account holder name' },
-                    textonly: { message: 'Please enter valid account holder name' }
-                }
-            },
-            account_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter account number' },
-                    // numberonly: { message: 'Please enter a valid account number'},
-                }
-            },
-            ifsc_code: {
-                validators: {
-                    notEmpty: { message: 'Please enter ifsc code' },
-                }
-            },
-            pan_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter pancard number' },
-                }
-            },
-            aadhar_card_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter aadhar card number' },
-                    numberonly: { message: 'Please enter a valid account number' },
-                }
-            },
-            google_pay: {
-                validators: {
-                    notEmpty: { message: 'Please enter g-pay number' },
-                    numberonly: { message: 'Please enter a valid g-pay number' },
-                }
-            },
-            parent_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter parent name' },
-                    textonly: { message: 'Please enter valid parent name' }
                 }
             },
             personal_number: {
@@ -339,36 +273,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter emergency contact' },
                 }
             },
-            address: {
-                validators: {
-                    notEmpty: { message: 'Please enter address' },
-                }
-            },
-            experience: {
-                validators: {
-                    notEmpty: { message: 'Please enter experience' },
-                }
-            },
             hired_by: {
                 validators: {
                     notEmpty: { message: 'Please select manager' },
                 }
             },
-            salary: {
-                validators: {
-                    notEmpty: { message: 'Please enter salary' },
-                }
-            },
-            // bond_file : {
-            //     validators: {
-            //         notEmpty: { message: 'Please select bond file'},
-            //     }
-            // },
-            status: {
-                validators: {
-                    notEmpty: { message: 'Please select status' },
-                }
-            }
 
         };
 
@@ -520,16 +429,6 @@ var Employee = function () {
                     notEmpty: { message: 'Please select branch' },
                 }
             },
-            dob: {
-                validators: {
-                    notEmpty: { message: 'Please enter date of birth' },
-                }
-            },
-            doj: {
-                validators: {
-                    notEmpty: { message: 'Please enter date of joining' },
-                }
-            },
             gmail: {
                 validators: {
                     notEmpty: { message: 'Please enter company gmail' },
@@ -538,58 +437,6 @@ var Employee = function () {
             gmail_password: {
                 validators: {
                     notEmpty: { message: 'Please enter gmail password' },
-                }
-            },
-            personal_email: {
-                validators: {
-                    notEmpty: { message: 'Please enter personal email' },
-                    emailonly: { message: 'Please enter a valid email' },
-                }
-            },
-            bank_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter bank name' },
-                    textonly: { message: 'Please enter valid bank name' }
-                }
-            },
-            acc_holder_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter account holder name' },
-                    textonly: { message: 'Please enter valid account holder name' }
-                }
-            },
-            account_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter account number' },
-                    // numberonly: { message: 'Please enter a valid account number'},
-                }
-            },
-            ifsc_code: {
-                validators: {
-                    notEmpty: { message: 'Please enter ifsc code' },
-                }
-            },
-            pan_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter pancard number' },
-                }
-            },
-            aadhar_card_number: {
-                validators: {
-                    notEmpty: { message: 'Please enter aadhar card number' },
-                    numberonly: { message: 'Please enter a valid account number' },
-                }
-            },
-            google_pay: {
-                validators: {
-                    notEmpty: { message: 'Please enter g-pay number' },
-                    numberonly: { message: 'Please enter a valid g-pay number' },
-                }
-            },
-            parent_name: {
-                validators: {
-                    notEmpty: { message: 'Please enter parent name' },
-                    textonly: { message: 'Please enter valid parent name' }
                 }
             },
             personal_number: {
@@ -602,24 +449,9 @@ var Employee = function () {
                     notEmpty: { message: 'Please enter emergency contact' },
                 }
             },
-            address: {
-                validators: {
-                    notEmpty: { message: 'Please enter address' },
-                }
-            },
-            experience: {
-                validators: {
-                    notEmpty: { message: 'Please enter experience' },
-                }
-            },
             hired_by: {
                 validators: {
                     notEmpty: { message: 'Please enter hired by' },
-                }
-            },
-            salary: {
-                validators: {
-                    notEmpty: { message: 'Please enter salary' },
                 }
             },
             status: {

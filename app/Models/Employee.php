@@ -289,24 +289,60 @@ class Employee extends Model
         return $json_data;
     }
     public function saveAdd($requestData){
-        $checkEmployee = Employee::from('employee')
-                    ->where('employee.gmail', $requestData['gmail'])
-                    ->orWhere('employee.personal_number', $requestData['personal_number'])
-                    ->orWhere('employee.personal_email', $requestData['personal_email'])
-                    ->Where('employee.is_deleted', 'N')
-                    ->count();
-        if($checkEmployee == 0){
+
+        if($requestData['gmail'] != "" && $requestData['gmail'] != NULL){
+            $checkEmployeegmail = Employee::from('employee')
+                            ->where('is_deleted', 'N')
+                            ->where('gmail', $requestData['gmail'])
+                            ->where('gmail', '!=', NULL)
+                            ->count();
+
+            if($checkEmployeegmail != 0) { return 'company_email_exits'; }
+
+        }
+        if($requestData['personal_email'] != "" && $requestData['personal_email'] != NULL){
+            $checkEmployeePersonalEmail = Employee::from('employee')
+            ->where('is_deleted', 'N')
+            ->where('personal_email', $requestData['personal_email'])
+            ->where('personal_email', '!=', NULL)
+            ->count();
+            if($checkEmployeePersonalEmail != 0) return 'personal_email_exits';
+
+        }
+        if($requestData['pan_number'] != "" && $requestData['pan_number'] != NULL){
+            $checkEmployeePanNo = Employee::from('employee')->where('is_deleted', 'N')
+            ->where('pan_number', $requestData['pan_number'])
+            ->where('pan_number', '!=', NULL)
+            ->count();
+            if($checkEmployeePanNo != 0) return 'pan_number_exits';
+
+        }
+        if($requestData['aadhar_card_number'] != "" && $requestData['aadhar_card_number'] != NULL){
+            $checkEmployeeAadharCard = Employee::from('employee')->where('is_deleted', 'N')
+            ->where('aadhar_card_number', $requestData['aadhar_card_number'])
+            ->where('aadhar_card_number', '!=', NULL)
+            ->count();
+            if($checkEmployeeAadharCard != 0) return 'aadhar_card_number_exits';
+
+        }
+        if($requestData['personal_number'] != "" && $requestData['personal_number'] != NULL){
+            $checkEmployeePrNo = Employee::from('employee')->where('is_deleted', 'N')
+            ->where('personal_number', $requestData['personal_number'])
+            ->where('personal_number', '!=', NULL)
+            ->count();
+            if($checkEmployeePrNo != 0) return 'personal_number_exits';
+        }
             $objEmployee = new Employee();
-            $objEmployee->first_name =ucfirst($requestData['first_name']);
-            $objEmployee->last_name =ucfirst($requestData['last_name']);
+            $objEmployee->first_name = ucfirst($requestData['first_name']);
+            $objEmployee->last_name = ucfirst($requestData['last_name']);
             $objEmployee->department = $requestData['technology'];
             $objEmployee->branch = $requestData['branch'];
             $objEmployee->designation = $requestData['designation'];
-            $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
+            $objEmployee->DOJ = $requestData['doj'] != '' && $requestData['doj'] != NULL ? date('Y-m-d', strtotime($requestData['doj'])) : NULL;
             $objEmployee->gmail = $requestData['gmail'];
             $objEmployee->password = $requestData['gmail_password'];
             $objEmployee->slack_password = $requestData['slack_password'];
-            $objEmployee->DOB = date('Y-m-d', strtotime($requestData['dob']));
+            $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ?   date('Y-m-d', strtotime($requestData['dob'])) : NULL;
             $objEmployee->bank_name = $requestData['bank_name'];
             $objEmployee->acc_holder_name = $requestData['acc_holder_name'];
             $objEmployee->account_number = $requestData['account_number'];
@@ -322,10 +358,10 @@ class Employee extends Model
             $objEmployee->experience = $requestData['experience'];
             $objEmployee->hired_by = $requestData['hired_by'];
             $objEmployee->salary = $requestData['salary'];
-            $objEmployee->stipend_from = date('Y-m-d', strtotime($requestData['stipend_from']));
-            $objEmployee->bond_last_date = date('Y-m-d', strtotime($requestData['bond_last_date']));
-            $objEmployee->resign_date = date('Y-m-d', strtotime($requestData['resign_date']));
-            $objEmployee->last_date = date('Y-m-d', strtotime($requestData['last_date']));
+            $objEmployee->stipend_from = $requestData['stipend_from'] != '' && $requestData['stipend_from'] != NULL ?  date('Y-m-d', strtotime($requestData['stipend_from'])) : NULL;
+            $objEmployee->bond_last_date = $requestData['bond_last_date'] != '' && $requestData['bond_last_date'] != NULL ?  date('Y-m-d', strtotime($requestData['bond_last_date'])) : NULL;
+            $objEmployee->resign_date = $requestData['resign_date'] != '' && $requestData['resign_date'] != NULL ?  date('Y-m-d', strtotime($requestData['resign_date'])) : NULL;
+            $objEmployee->last_date = $requestData['last_date'] != '' && $requestData['last_date'] != NULL ?  date('Y-m-d', strtotime($requestData['last_date'])) : NULL;
             if($requestData->hasFile('cancel_cheque') && $requestData->file('cancel_cheque')->isValid()){
                 $chequeImage = time().'.'.$requestData['cancel_cheque']->extension();
                 $requestData['cancel_cheque']->move(public_path('employee/cheque'), $chequeImage);
@@ -351,8 +387,9 @@ class Employee extends Model
             }else{
                 return 'wrong';
             }
-        }
-        return 'Employee_exists';
+
+
+        // return 'Employee_exists';
     }
 
     public function saveEdit($requestData)
@@ -370,8 +407,8 @@ class Employee extends Model
             $objEmployee->branch = $requestData['branch'];
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
-            $objEmployee->gmail = $requestData['gmail'];
-            $objEmployee->password = $requestData['gmail_password'];
+            $objEmployee->gmail = $requestData['gmail'] ?? Null;
+            $objEmployee->password = $requestData['gmail_password'] ?? Null;
             $objEmployee->slack_password = $requestData['slack_password'];
             $objEmployee->DOB = date('Y-m-d', strtotime($requestData['dob']));
             $objEmployee->bank_name = $requestData['bank_name'];
@@ -395,7 +432,7 @@ class Employee extends Model
             $objEmployee->last_date = date('Y-m-d', strtotime($requestData['last_date']));
 
             $employeeCheque = public_path('employee/cheque/'.$objEmployee['cancel_cheque']);
-            if(File::exists($employeeCheque)){
+            if(file_exists($employeeCheque)){
                 unlink($employeeCheque);
             }
             if($requestData->hasFile('cancel_cheque') && $requestData->file('cancel_cheque')->isValid()){
@@ -404,7 +441,7 @@ class Employee extends Model
             }
 
             $employeeBond = public_path('employee/bond/'.$objEmployee['bond_file']);
-            if(File::exists($employeeBond)){
+            if(file_exists($employeeBond)){
                 unlink($employeeBond);
             }
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
