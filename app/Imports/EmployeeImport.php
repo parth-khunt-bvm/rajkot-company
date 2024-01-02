@@ -34,7 +34,6 @@ class EmployeeImport implements ToModel, WithStartRow
             $departmentID = Technology::where('technology_name', $technology_name)->value('id');
 
             if($departmentID == NULL){
-                ccd($technology_name);
                 $objTechnology = new Technology();
                 $objTechnology->technology_name = $technology_name;
                 $objTechnology->status = "A";
