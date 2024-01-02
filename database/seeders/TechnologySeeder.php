@@ -48,7 +48,7 @@ class TechnologySeeder extends Seeder
                 'updated_at' => date("Y-m-d h:i:s"),
             ],
             [
-                'technology_name' => 'Ui/Ux',
+                'technology_name' => 'UI/UX',
                 'status' => 'A',
                 'is_deleted' => 'N',
                 'created_at' => date("Y-m-d h:i:s"),
@@ -96,9 +96,6 @@ class TechnologySeeder extends Seeder
                 'created_at' => date("Y-m-d h:i:s"),
                 'updated_at' => date("Y-m-d h:i:s"),
             ]
-
-
-
         ];
 
         foreach ($technologies as $technology) {
