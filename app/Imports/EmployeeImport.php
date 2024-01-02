@@ -26,7 +26,7 @@ class EmployeeImport implements ToModel, WithStartRow
     public function model(array $row)
 
     {
-        if (Employee::where('branch', $this->branch)->where('gmail', $row[5])->where('personal_number', $row[17])->where('is_deleted', 'N')->count() == 0) {
+        if (Employee::where('branch', $this->branch)->where('gmail', $row[6])->where('personal_number', $row[18])->where('is_deleted', 'N')->count() == 0) {
             $objEmployee = new Employee();
             $objEmployee->first_name = $row[1] ;
             $objEmployee->last_name = $row[2]  ;

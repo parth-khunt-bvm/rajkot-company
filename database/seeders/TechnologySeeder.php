@@ -27,7 +27,7 @@ class TechnologySeeder extends Seeder
                 'updated_at' => date("Y-m-d h:i:s"),
             ],
             [
-                'technology_name' => 'RecatJs',
+                'technology_name' => 'ReactJs',
                 'status' => 'A',
                 'is_deleted' => 'N',
                 'created_at' => date("Y-m-d h:i:s"),
