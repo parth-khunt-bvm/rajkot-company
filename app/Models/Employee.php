@@ -73,7 +73,7 @@ class Employee extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number ) as full_name'), 'technology.technology_name', 'branch.branch_name','designation.designation_name','employee.DOJ', 'employee.experience', 'employee.status')
+            ->select( 'employee.id', DB::raw('CONCAT("Name :", first_name, " ", last_name) as full_name'), 'technology.technology_name', 'branch.branch_name','designation.designation_name','employee.DOJ', 'employee.experience', 'employee.status', 'employee.gmail','designation.designation_name','employee.emergency_number','employee.google_pay_number')
             ->get();
 
         $data = array();
@@ -107,7 +107,7 @@ class Employee extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = $row['full_name'];
+            $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'] ."<br>G pay : ". $row['google_pay_number'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = date_formate($row['DOJ']);
             $nestedData[] = numberformat($row['experience'], 0);
@@ -465,7 +465,6 @@ class Employee extends Model
             $currentRoute = Route::current()->getName();
             unset($requestData['_token']);
             $objAudittrails = new Audittrails();
-            // $res = $objAudittrails->add_audit($event, str_replace(".", "/", $currentRoute), json_encode($requestData), 'expense');
             $res = $objAudittrails->add_audit($event, $requestData, 'expense');
 
             return true;
