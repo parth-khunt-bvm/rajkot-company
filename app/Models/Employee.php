@@ -21,14 +21,16 @@ class Employee extends Model
         $columns = array(
             0 => 'employee.id',
             1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number )'),
-            3 => 'employee.DOJ',
+            3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
             4 => 'employee.experience',
             5 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
+            6 => 'branch.branch_name',
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("branch", "branch.id", "=", "employee.branch")
              ->join("designation", "designation.id", "=", "employee.designation")
+             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
              ->where("employee.is_deleted", "=", "N");
 
         if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
@@ -432,19 +434,21 @@ class Employee extends Model
             $objEmployee->last_date = date('Y-m-d', strtotime($requestData['last_date']));
 
             $employeeCheque = public_path('employee/cheque/'.$objEmployee['cancel_cheque']);
-            if(file_exists($employeeCheque)){
-                unlink($employeeCheque);
-            }
+
             if($requestData->hasFile('cancel_cheque') && $requestData->file('cancel_cheque')->isValid()){
+                if(file_exists($employeeCheque)){
+                    unlink($employeeCheque);
+                }
                 $chequeImage = time().'.'.$requestData['cancel_cheque']->extension();
                 $requestData['cancel_cheque']->move(public_path('employee/cheque'), $chequeImage);
             }
 
             $employeeBond = public_path('employee/bond/'.$objEmployee['bond_file']);
-            if(file_exists($employeeBond)){
-                unlink($employeeBond);
-            }
+
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
+                if(file_exists($employeeBond)){
+                    unlink($employeeBond);
+                }
             $bondImage = time().'.'.$requestData['bond_file']->extension();
             $requestData['bond_file']->move(public_path('employee/bond'), $chequeImage);
             }
@@ -510,7 +514,9 @@ class Employee extends Model
         }
     }
     public function get_admin_employee_details($employeIdArray = null){
-        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name');
+        $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name')
+                ->join("branch", "branch.id", "=", "employee.branch")
+                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );
         if($employeIdArray != null){
            $qurey->whereNotIn('employee.id', $employeIdArray);
         }

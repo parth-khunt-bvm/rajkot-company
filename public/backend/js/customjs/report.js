@@ -27,6 +27,7 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
+                    console.log(res);
                     const apexChart = "#expense-reports";
                     var options = {
                         series: [{

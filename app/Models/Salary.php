@@ -21,7 +21,7 @@ class Salary extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'salary.id',
-            1 => 'salary.date',
+            1 => DB::raw('DATE_FORMAT(salary.date, "%d-%b-%Y")'),
             2 => 'manager.manager_name',
             3 => 'branch.branch_name',
             4 => 'technology.technology_name',
@@ -34,6 +34,7 @@ class Salary extends Model
             ->join("manager", "manager.id", "=", "salary.manager_id")
             ->join("branch", "branch.id", "=", "salary.branch_id")
             ->join("technology", "technology.id", "=", "salary.technology_id")
+            ->whereIn('salary.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
             ->where("salary.is_deleted", "=", "N");
 
         if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
@@ -359,7 +360,9 @@ class Salary extends Model
         $amount_array = [];
         foreach($data as $key => $value){
 
-            $query = Salary::from('salary');
+            $query = Salary::from('salary')
+            ->join("branch", "branch.id", "=", "salary.branch_id")
+            ->whereIn('salary.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );
                 if($fillterdata['time'] == 'monthly'){
                     $query->where('month_of', $value);
                 } elseif($fillterdata['time'] == 'quarterly'){
@@ -387,7 +390,7 @@ class Salary extends Model
                     }
                 }
 
-                $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+                $query->where('year', $fillterdata['year'])->where('salary.is_deleted', 'N');
 
 
                 if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
@@ -428,7 +431,9 @@ class Salary extends Model
         $revenue_array = [];
         foreach($data as $key => $value){
 
-            $salaryQuery = Salary::from('salary');
+            $salaryQuery = Salary::from('salary')
+            ->join("branch", "branch.id", "=", "salary.branch_id")
+            ->whereIn('salary.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );;
             if($fillterdata['time'] == 'monthly'){
                 $salaryQuery->where('month_of', $value);
             } elseif($fillterdata['time'] == 'quarterly'){
@@ -456,7 +461,7 @@ class Salary extends Model
                 }
             }
 
-            $salaryQuery->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+            $salaryQuery->where('year', $fillterdata['year'])->where('salary.is_deleted', 'N');
 
                 if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
                     $salaryQuery->where("technology_id", $fillterdata['technology']);
@@ -471,7 +476,8 @@ class Salary extends Model
                 $salary = $salaryQuery->select(DB::raw("SUM(amount) as amount"))->get();
                 array_push($salary_array, check_value($salary[0]->amount));
 
-            $expenseQuery = Expense::from('expense');
+            $expenseQuery = Expense::from('expense')->join("branch", "branch.id", "=", "expense.branch_id")
+            ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );;
             if($fillterdata['time'] == 'monthly'){
                 $expenseQuery->where('month', $value);
             } elseif($fillterdata['time'] == 'quarterly'){
@@ -499,7 +505,7 @@ class Salary extends Model
                 }
             }
 
-            $expenseQuery->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+            $expenseQuery->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
 
             if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
                 $expenseQuery->where("branch_id", $fillterdata['branch']);

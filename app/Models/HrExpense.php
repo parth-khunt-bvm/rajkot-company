@@ -18,7 +18,7 @@ class HrExpense extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'hr_expense.id',
-            1 => 'hr_expense.date',
+            1 => DB::raw('DATE_FORMAT(hr_expense.date, "%d-%b-%Y")'),
             2 => DB::raw('MONTHNAME(CONCAT("2023-", hr_expense.month, "-01"))'),
             3 => 'hr_expense.amount',
             4 => 'hr_expense.remarks',

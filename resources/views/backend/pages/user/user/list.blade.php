@@ -84,6 +84,7 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email</th>
+                                <th>Branch</th>
                                 <th>User Type</th>
                                 <th>Status</th>
                                 @php

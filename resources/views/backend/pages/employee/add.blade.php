@@ -475,7 +475,7 @@ $image = url("upload/userprofile/default.jpg");
                                             <select class="form-control select2 branch input-name" id="branch"  name="branch">
                                                 <option value="">Please select Branch Name</option>
                                                 @foreach (user_branch()  as $key => $value )
-                                                    <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                                                <option value="{{ $value['id'] }}" {{  $_COOKIE['branch'] == $value['id'] ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="type_error text-danger"></span>

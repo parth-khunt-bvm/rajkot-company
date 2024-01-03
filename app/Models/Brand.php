@@ -19,7 +19,7 @@ class Brand extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'brand.id',
-            1 => 'brand.brand_name	',
+            1 => 'brand.brand_name',
             2 => DB::raw('(CASE WHEN brand.status = "A" THEN "Actived" ELSE "Deactived" END)'),
         );
         $query = Brand::from('brand')

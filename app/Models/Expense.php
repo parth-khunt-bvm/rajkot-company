@@ -20,7 +20,7 @@ class Expense extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'expense.id',
-            1 => 'expense.date',
+            1 =>  DB::raw('DATE_FORMAT(expense.date, "%d-%b-%Y")'),
             2 => 'manager.manager_name',
             3 => 'branch.branch_name',
             4 => 'type.type_name',
@@ -33,6 +33,7 @@ class Expense extends Model
             ->join("manager", "manager.id", "=", "expense.manager_id")
             ->join("branch", "branch.id", "=", "expense.branch_id")
             ->join("type", "type.id", "=", "expense.type_id")
+            ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
             ->where("expense.is_deleted", "=", "N");
 
             if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
@@ -279,7 +280,9 @@ class Expense extends Model
         $amount_array = [];
         foreach($data as $key => $value){
 
-                $query = Expense::from('expense');
+                $query = Expense::from('expense')
+                    ->join("branch", "branch.id", "=", "expense.branch_id")
+                    ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );
                 if($fillterdata['time'] == 'monthly'){
                     $query->where('month', $value);
                 } elseif($fillterdata['time'] == 'quarterly'){
@@ -307,7 +310,7 @@ class Expense extends Model
                     }
                 }
 
-                $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+                $query->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
 
                 if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
                     $query->where("manager_id", $fillterdata['manager']);

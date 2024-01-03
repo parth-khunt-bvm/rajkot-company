@@ -51,7 +51,7 @@ function auto_increment_no($no_for){
     $res = $objCodenumber->auto_increment_no($no_for);
 }
 
-function user_branch(){
+function user_branch($inArray = false){
 
     $qurey =  Branch::from('branch');
 
@@ -60,9 +60,19 @@ function user_branch(){
         $qurey->join("users", "users.id", "=", "user_branch.user_id");
         $qurey->where("users.id", "=", Auth()->guard('admin')->user()->id);
     }
-    return $qurey->select("branch.branch_name", "branch.id")
+    $result = $qurey->select("branch.branch_name", "branch.id")
                 ->where("branch.status", "=", "A")
                 ->where("branch.is_deleted", "=", "N")
                 ->get()->toArray();
+    if($inArray == false){
+        return $result;
+    } else{
+        $branchIdArray = [];
+        foreach ($result as $key => $value) {
+           array_push($branchIdArray, $value['id']);
+        }
+        return $branchIdArray;
+    }
+
 }
 ?>
