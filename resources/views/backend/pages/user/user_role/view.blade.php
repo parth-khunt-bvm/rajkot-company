@@ -60,7 +60,7 @@
                                         </div>
 
                                         <div class="card-title {{ $i != 0 ? 'collapsed' : '' }}" data-toggle="collapse" data-target="#collapseOne{{$i}}">
-                                            {{ ucfirst($key) }}
+                                            {{ ucfirst(Config::get('permission.'.$key)) }}
                                         </div>
                                     </div>
 
@@ -73,7 +73,7 @@
                                                     <div class="checkbox-inline">
                                                         <label class="checkbox">
                                                             <input type="checkbox"  id="{{$sm_key}}_module_check_box"   class="{{$key}}_module_master master_check_box" data-master-class="{{$key}}_module_master" data-master-id="{{$key}}_master" data-module-id="{{$sm_key}}_module_check_box" data-module-class="{{$sm_key}}_module" data-sub-menu-class-name="{{$sm_key}}_sub_menu_class" />
-                                                            <span></span>{{ ucfirst($sm_key)}}
+                                                            <span></span>{{ ucfirst(Config::get('permission.'.$sm_key))}}
                                                         </label>
                                                     </div>
                                                 </div>

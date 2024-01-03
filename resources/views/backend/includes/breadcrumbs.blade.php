@@ -56,7 +56,7 @@ $currentRoute = Route::current()->getName();
                     <label>Branch Name
                         <span class="text-danger">*</span>
                     </label>
-                    <select class="form-control select2 branch input-name" id="branch"  name="branch">
+                    <select class="form-control select2 branch input-name" id="branch-fill"  name="branch">
                         <option value="">Please select Branch Name</option>
                         @foreach (user_branch()  as $key => $value )
                             <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>

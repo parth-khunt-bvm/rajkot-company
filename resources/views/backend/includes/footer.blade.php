@@ -21,7 +21,6 @@
 @endforeach
 @endif
 
-
 @if (!empty($js))
 @foreach ($js as $value)
 <script src="{{ asset('backend/js/customjs/'.$value) }}" type="text/javascript"></script>
@@ -29,7 +28,6 @@
 @endif
 <script type="text/javascript">
 jQuery(document).ready(function () {
-
     $('#loader').show();
     $('#loader').fadeOut(1000);
     $('.select2').select2();

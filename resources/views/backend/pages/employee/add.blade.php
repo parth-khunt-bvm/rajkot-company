@@ -474,7 +474,7 @@ $image = url("upload/userprofile/default.jpg");
                                             </label>
                                             <select class="form-control select2 branch input-name" id="branch"  name="branch">
                                                 <option value="">Please select Branch Name</option>
-                                                @foreach ($branch  as $key => $value )
+                                                @foreach (user_branch()  as $key => $value )
                                                     <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
                                                 @endforeach
                                             </select>

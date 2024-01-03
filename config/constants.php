@@ -1,11 +1,11 @@
 <?php
     return [
-        'PROJECT_NAME' => 'Company - Rajkot',
+        'PROJECT_NAME' => 'BVM Infotech - HRMS',
 
         'permission_master' => [
 
-            'user'=>[
-                'user' => [
+            'user_menu'=>[
+                'user_sub_menu' => [
                     '1'  => 'user list',
                     '2'  => 'add user',
                     '3'  => 'edit user',
@@ -13,7 +13,7 @@
                     '5'  => 'delete user',
                 ],
 
-                'user role' => [
+                'user_role_sub_menu' => [
                     '6'  => 'user role list',
                     '7'  => 'add user role',
                     '8'  => 'edit user role',
@@ -23,12 +23,12 @@
                 ],
             ],
 
-            'Assets'=>[
-                'Master' => [
+            'assets_menu'=>[
+                'asset_type_sub_menu' => [
                     '97'  => 'asset list',
                     '98'  => 'add asset',
                 ],
-                'Supplier' => [
+                'supplier_sub_menu' => [
                     '99'  => 'supplier list',
                     '100'  => 'add supplier',
                     '101'  => 'view supplier',
@@ -36,7 +36,7 @@
                     '103'  => 'change supplier status',
                     '104'  => 'delete supplier',
                 ],
-                'Brand' => [
+                'brand_sub_menu' => [
                     '105'  => 'Brand list',
                     '106'  => 'add Brand',
                     '107'  => 'view Brand',
@@ -44,14 +44,14 @@
                     '109'  => 'change Brand status',
                     '110'  => 'delete Brand',
                 ],
-                'Asset Master' => [
+                'asset_master_sub_menu' => [
                     '111'  => 'Asset Master list',
                     '112'  => 'add Asset Master',
                     '113'  => 'view Asset Master',
                     '114'  => 'edit Asset Master',
                     '115'  => 'delete Asset Master',
                 ],
-                'Asset Allocation' => [
+                'asset_allocation_sub_menu' => [
                     '116'  => 'Asset Allocation list',
                     '117'  => 'add Asset Allocation',
                     '118'  => 'edit Asset Allocation',
@@ -60,8 +60,8 @@
 
             ],
 
-            'setting' => [
-                'type' => [
+            'setting_menu' => [
+                'type_sub_menu' => [
                     '12'  => 'type list',
                     '13'  => 'import type',
                     '14'  => 'add type',
@@ -69,7 +69,7 @@
                     '16'  => 'change type status',
                     '17'  => 'delete type',
                 ],
-                'branch' => [
+                'branch_sub_menu' => [
                     '18'  => 'branch list',
                     '19'  => 'import branch',
                     '20'  => 'add branch',
@@ -77,7 +77,7 @@
                     '22'  => 'change branch status',
                     '23'  => 'delete branch',
                 ],
-                'manager' => [
+                'manager_sub_menu' => [
                     '24'  => 'manager list',
                     '25'  => 'import manager',
                     '26'  => 'add manager',
@@ -85,7 +85,7 @@
                     '28'  => 'change manager status',
                     '29'  => 'delete manager',
                 ],
-                'technology' => [
+                'technology_sub_menu' => [
                     '30'  => 'technology list',
                     '31'  => 'import technology',
                     '32'  => 'add technology',
@@ -93,7 +93,7 @@
                     '34'  => 'change technology status',
                     '35'  => 'delete technology',
                 ],
-                'designation' => [
+                'designation_sub_menu' => [
                     '36'  => 'designation list',
                     '37'  => 'import designation',
                     '38'  => 'add designation',
@@ -103,8 +103,8 @@
                 ],
             ],
 
-            'salary' => [
-                'salary' =>[
+            'salary_menu' => [
+                'salary_sub_menu' =>[
                     '42'  => 'salary list',
                     '43'  => 'import salary',
                     '44'  => 'add salary',
@@ -114,8 +114,8 @@
                 ]
             ],
 
-            'expense' => [
-                'expense' => [
+            'expense_menu' => [
+                'expense_sub_menu' => [
                     '48'  => 'expense list',
                     '49'  => 'import expense',
                     '50'  => 'add expense',
@@ -125,8 +125,8 @@
                 ],
             ],
 
-            'revenue' => [
-                'revenue' => [
+            'revenue_menu' => [
+                'revenue_sub_menu' => [
                     '54'  => 'revenue list',
                     '55'  => 'import revenue',
                     '56'  => 'add revenue',
@@ -136,8 +136,8 @@
                 ],
             ],
 
-            'hr manager'=>[
-                'income' => [
+            'hr_manager_menu'=>[
+                'hr_income_sub_menu' => [
                     '60'  => 'income list',
                     '61'  => 'import income',
                     '62'  => 'add income',
@@ -145,7 +145,7 @@
                     '64'  => 'edit income ',
                     '65'  => 'delete income',
                 ],
-                'expense' => [
+                'hr_expense_sub_menu' => [
                     '66'  => 'expense list',
                     '67'  => 'import expense',
                     '68'  => 'add expense',
@@ -155,8 +155,8 @@
                 ],
             ],
 
-            'employee' => [
-                'employee' => [
+            'employee_menu' => [
+                'employee_sub_menu' => [
                     '72'  => 'employee list',
                     '73'  => 'import employee',
                     '74'  => 'add employee',
@@ -169,8 +169,8 @@
                 ],
             ],
 
-            'counter' => [
-                'counter' => [
+            'counter_menu' => [
+                'counter_sub_menu' => [
                     '81'  => 'counter list',
                     '82'  => 'import counter',
                     '83'  => 'add counter',
@@ -181,39 +181,39 @@
                 ],
             ],
 
-            'attendance' => [
-                'attendance' => [
+            'attendance_menu' => [
+                'attendance_sub_menu' => [
                     '88'  => 'attendance list',
                     '89'  => 'add attendance',
                 ],
             ],
 
-            'reports' => [
-                'expense' => [
+            'reports_menu' => [
+                'expense_report_sub_menu' => [
                     '90' => 'view expense',
                 ],
-                'revenue' => [
+                'revenue_report_sub_menu' => [
                     '91' => 'view revenue',
                 ],
-                'salary' => [
+                'salary_report_sub_menu' => [
                     '92' => 'view salary',
                 ],
-                'profit_loss' => [
+                'profit_loss_sub_menu' => [
                     '93' => 'view profit loss',
                 ],
-                'counter_sheet' => [
+                'counter_sheet_sub_menu' => [
                     '94' => 'view counter sheet',
                 ],
-                'employee_birthday' => [
+                'employee_birthday_sub_menu' => [
                     '95' => 'view employee birthday',
                 ],
-                'employee_bond_last_date' => [
+                'employee_bond_last_date_sub_menu' => [
                     '96' => 'view employee bond last date',
                 ],
             ],
 
-            'Public Holiday' => [
-                'Public Holiday' => [
+            'public_holiday_menu' => [
+                'public_holiday_sub_menu' => [
                     '120'  => 'Public Holiday list',
                     '121'  => 'import Public Holiday',
                     '122'  => 'add Public Holiday',
