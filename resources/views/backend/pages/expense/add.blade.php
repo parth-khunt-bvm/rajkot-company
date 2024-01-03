@@ -35,7 +35,7 @@
                                             </label>
                                             <select class="form-control select2 branch" id="branch"  name="branch_id">
                                                 <option value="">Please select Branch Name</option>
-                                                @foreach ($branch  as $key => $value )
+                                                @foreach (user_branch() as $key => $value )
                                                     <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
                                                 @endforeach
                                             </select>

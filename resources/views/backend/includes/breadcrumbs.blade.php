@@ -1,6 +1,7 @@
 @php
 
 $currentRoute = Route::current()->getName();
+
 @endphp
 
 <!--begin::Subheader-->
@@ -48,21 +49,24 @@ $currentRoute = Route::current()->getName();
             </ul>
 
         </div>
-        @if ($currentRoute == "analytics-dashboard" || $currentRoute == "analytics-popular-hours" || $currentRoute == "analytics-monthly-pattern" || $currentRoute == "analytics-weekdays" ||
-             $currentRoute == "sales-by-group" || $currentRoute == "sales-by-brand" || $currentRoute == "sales-by-category" || $currentRoute == "revenue-by-staff" || $currentRoute == "top-10-services" ||
-             $currentRoute == "top-10-products" || $currentRoute == "sales-by-employee")
-            <div style="float: right">
-                <select class="form-control select2" id="branch_analytics_dashboard"  name="branch">
-                    {{-- @if($project_name != 'trendsetter') --}}
-                    {{-- @endif --}}
-                    <option value="all">All Branches</option>
-                        @foreach ($branch_list as $key => $value)
-                            <option value="{{ $value['id'] }}" {{ $branch == $value['id'] ? 'selected="selected"' : '' }}>{{ $value['full_name'] }}</option>
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+            <div class="row">
+                <div class="form-group">
+                    <label>Branch Name
+                        <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-control select2 branch input-name" id="branch-fill"  name="branch">
+                        <option value="">Please select Branch Name</option>
+                        @foreach (user_branch()  as $key => $value )
+                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
                         @endforeach
-
-                </select>
-            </div>
-        @endif
+                    </select>
+                    <span class="type_error text-danger"></span>
+                </div>
+                </div>
+        </div>
+        <!--end::Toolbar-->
 
        <!--end::Info-->
 
