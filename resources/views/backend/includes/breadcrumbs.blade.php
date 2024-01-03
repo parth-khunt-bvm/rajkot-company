@@ -12,7 +12,6 @@ $currentRoute = Route::current()->getName();
             <!--begin::Page Title-->
             {{-- <h5 class="text-dark font-weight-bold my-1 mr-5">{{$header['title']}}</h5> --}}
             <!--end::Page Title-->
-
             <!--begin::Breadcrumb-->
             <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 
@@ -47,7 +46,6 @@ $currentRoute = Route::current()->getName();
                 @endforeach
 
             </ul>
-
         </div>
         <!--begin::Toolbar-->
         <div class="d-flex align-items-center">
@@ -56,10 +54,10 @@ $currentRoute = Route::current()->getName();
                     <label>Branch Name
                         <span class="text-danger">*</span>
                     </label>
-                    <select class="form-control select2 branch input-name" id="branch-fill"  name="branch">
-                        <option value="">Please select Branch Name</option>
+                    <select class="form-control select2 branch input-name breadcrumb-branch" id="branch-fill"  name="branch">
+                        <option value="all" {{  $_COOKIE['branch'] == 'all' ? 'selected="selected"' : '' }}>All Branch</option>
                         @foreach (user_branch()  as $key => $value )
-                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
+                            <option value="{{ $value['id'] }}" {{  $_COOKIE['branch'] == $value['id'] ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
                         @endforeach
                     </select>
                     <span class="type_error text-danger"></span>

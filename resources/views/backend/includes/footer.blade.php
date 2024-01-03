@@ -14,7 +14,7 @@
 <script src="{{  asset('backend/js/pages/widgets.js') }}"></script>
 <!--end::Page Scripts-->
 <script src="{{  asset('backend/js/script.js') }}" type="text/javascript"></script>
-
+<script src="{{ asset('backend/js/customjs/common.js') }}" type="text/javascript"></script>
 @if (!empty($pluginjs))
 @foreach ($pluginjs as $value)
     <script src="{{ asset('backend/js/'.$value) }}" type="text/javascript"></script>
@@ -31,6 +31,7 @@ jQuery(document).ready(function () {
     $('#loader').show();
     $('#loader').fadeOut(1000);
     $('.select2').select2();
+
 });
 </script>
 

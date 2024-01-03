@@ -33,7 +33,7 @@ class AssetMaster extends Model
             5 => 'brand.brand_name',
             6 => 'asset_master.description',
             7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
-            7 => 'asset_master.price',
+            8 => 'asset_master.price',
         );
 
         $query = AssetMaster::from('asset_master')
@@ -41,6 +41,7 @@ class AssetMaster extends Model
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
             ->join("brand", "brand.id", "=", "asset_master.brand_id")
+            ->whereIn('asset_master.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
             ->where("asset_master.is_deleted", "=", "N");
 
         if($fillterdata['supplier'] != null && $fillterdata['supplier'] != ''){

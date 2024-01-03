@@ -17,7 +17,7 @@ class HrIncome extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'hr_income.id',
-            1 => 'hr_income.date',
+            1 =>  DB::raw('DATE_FORMAT(hr_income.date, "%d-%b-%Y")'),
             2 => 'manager.manager_name',
             3 => DB::raw('(CASE WHEN hr_income.payment_mode = "1" THEN "Cash" ELSE "Bank Transfer" END)'),
             4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01")), "-", year)'),

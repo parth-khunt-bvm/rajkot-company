@@ -18,7 +18,7 @@ class Revenue extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'revenue.id',
-            1 => 'revenue.date',
+            1 => DB::raw('DATE_FORMAT(revenue.date, "%d-%b-%Y")'),
             2 => 'manager.manager_name',
             3 => 'technology.technology_name',
             4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),

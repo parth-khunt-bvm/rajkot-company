@@ -18,9 +18,9 @@ class UserroleController extends Controller
 
     public function list(){
 
-        $data['title'] =  Config::get('constants.SYSTEM_NAME') . ' || ' .trans('configuration.user_role_list');
-        $data['description'] =  Config::get('constants.SYSTEM_NAME') . ' || ' .trans('configuration.user_role_list');
-        $data['keywords'] =  Config::get('constants.SYSTEM_NAME') . ' || ' .trans('configuration.user_role_list');
+        $data['title'] =  Config::get('constants.PROJECT_NAME') . ' || User Role List';
+        $data['description'] =  Config::get('constants.PROJECT_NAME') . ' || User Role List';
+        $data['keywords'] =  Config::get('constants.PROJECT_NAME') . ' || User Role List';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
