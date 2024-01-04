@@ -513,7 +513,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         <div class="form-group">
                                             <label>Date Of Birth
                                             </label>
-                                            <input type="text" class="form-control date_of_birth input-name" name="dob" id="dob" value="{{ $employee_details->DOB != null && $employee_details->DOB != '' ? date_formate($employee_details->DOB) : '' }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
+                                            <input type="text" class="form-control datepicker_date date_of_birth input-name" name="dob" id="dob" value="{{ $employee_details->DOB != null && $employee_details->DOB != '' ? date_formate($employee_details->DOB) : '' }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>
