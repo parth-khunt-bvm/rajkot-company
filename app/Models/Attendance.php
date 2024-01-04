@@ -17,7 +17,6 @@ class Attendance extends Model
 
     public function getdatatable($fillterdata)
     {
-        // dd($fillterdata);
         $dateObject = Carbon::createFromFormat('d-M-Y', $fillterdata['date']);
         $outputDate = $dateObject->format('Y-m-d');
         $requestData = $_REQUEST;

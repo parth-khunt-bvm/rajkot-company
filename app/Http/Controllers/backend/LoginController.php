@@ -51,6 +51,7 @@ class LoginController extends Controller
             );
 
             Session::push('logindata', $loginData);
+            setcookie("branch", "", time() - 3600, "/");
             setcookie("branch", "all", time() + (86400 * 30), "/"); // 86400 = 1 day
             $return['status'] = 'success';
             $return['message'] = 'You have successfully logged in.';
@@ -67,6 +68,7 @@ class LoginController extends Controller
     public function adminLogout(Request $request) {
         $this->resetGuard();
         $request->session()->forget('logindata');
+        setcookie("branch", "", time() - 3600, "/");
         return redirect()->route('admin-login');
     }
 

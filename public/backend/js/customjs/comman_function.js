@@ -572,9 +572,7 @@ $('body').on('click', '.camp_restore', function() {
     });
 });
 
-$('body').on('click', '.checkContactcookie', function() {
-    Cookies.set('currentLoginType', $(this).attr('data-userType'));
-});
+
 
 var isValidTutor = true;
 var isGettingSide = false;
@@ -651,62 +649,6 @@ function checkNonWorkingDate(field) {
         setTimeout(function() { send = true; }, 200);
     });
 }
-
-/* START FOR LANGUAGE SET USING COOKIE */
-
-//console.log(getCookie('language'));
-$("body").on("change", "#languageSelection", function() {
-    var lang = $(this).val();
-    if (lang != '') {
-        setCookie('language', lang, 365);
-        window.location.reload();
-    } else {
-        lang = 'en';
-        setCookie('language', lang, 365);
-        window.location.reload();
-    }
-});
-//    $("body").on("click", ".language",function(){
-//        var lang = ($(this).attr('data-lang') !== '') ? $(this).attr('data-lang') : 'en';
-//        if(lang){
-//            setCookie('language', lang, 365);
-//            window.location.reload();
-//        }
-//    });
-
-$("body").on("change", ".language", function() {
-    var lang = ($(this).val() !== '') ? $(this).val() : 'en';
-    if (lang) {
-        setCookie('language', lang, 365);
-        window.location.reload();
-    }
-});
-
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-/* END FOR LANGUAGE SET USING COOKIE */
-
 
 
 /* Start manage datatable with Ajax & hide/show column dynamic */

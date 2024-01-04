@@ -139,16 +139,20 @@ class Employee extends Model
             4 => 'designation.designation_name',
         );
 
-        $query = Employee::from('employee')
-             ->join("technology", "technology.id", "=", "employee.department")
-             ->join("designation", "designation.id", "=", "employee.designation")
-             ->where("employee.is_deleted", "=", "N");
+             $query = Employee::from('employee')
+                ->join("technology", "technology.id", "=", "employee.department")
+                ->join("designation", "designation.id", "=", "employee.designation")
+                ->join("branch", "branch.id", "=", "employee.branch")
+                ->whereIn('branch.id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                ->where("employee.is_deleted", "=", "N");
 
              if($fillterdata['bdayTime'] == 0){
                 $query->where(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '=', date("m-d", strtotime("yesterday")));
              }
              if($fillterdata['bdayTime'] == 1){
                 $query->where(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '=', now()->format('m-d'));
+                // ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );;
+                // dd($query->get());
              }
              if($fillterdata['bdayTime'] == 2){
                 $query->where(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '=', date("m-d", strtotime('tomorrow')));
@@ -185,7 +189,7 @@ class Employee extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name', 'employee.DOB')
+            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'branch.branch_name', 'technology.technology_name', 'designation.designation_name', 'employee.DOB')
             ->get();
 
         $data = array();
@@ -196,8 +200,8 @@ class Employee extends Model
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = date_formate($row['DOB']);
-            $nestedData[] = $row['full_name'];
-            $nestedData[] = $row['technology_name'];
+            $nestedData[] = $row['full_name']. " - ". $row['branch_name'];
+            $nestedData[] = $row['technology_name']." - " . $_COOKIE['branch'];
             $nestedData[] = $row['designation_name'];
             $data[] = $nestedData;
         }
@@ -223,6 +227,8 @@ class Employee extends Model
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
+             ->join("branch", "branch.id", "=", "employee.branch")
+             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
              ->where("employee.is_deleted", "=", "N");
 
              if($fillterdata['bondLastDateTime'] == 0){
