@@ -27,6 +27,8 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\EmployeeBirthdayController;
+use App\Http\Controllers\backend\EmployeeBondLastDateController;
 use App\Http\Controllers\backend\PublicHolidayController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -184,8 +186,13 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     // Employee
     Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');
-    Route::get('admin/employee/birthday/list', [EmployeeController::class, 'birthDayList'])->name('admin.employee.birthday.list');
-    Route::get('admin/employee/bond/last/date/list', [EmployeeController::class, 'bondLastDateList'])->name('admin.employee.bond-last-daye.list');
+
+    Route::get('admin/employee/birthday/list', [EmployeeBirthdayController::class, 'birthDayList'])->name('admin.employee.birthday.list');
+    Route::post('admin/employee/birthday/ajaxcall', [EmployeeBirthdayController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
+
+    Route::get('admin/employee/bond/last/date/list', [EmployeeBondLastDateController::class, 'bondLastDateList'])->name('admin.employee.bond-last-daye.list');
+    Route::post('admin/employee/bond/last/date/ajaxcall', [EmployeeBondLastDateController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
+
     Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
     Route::get('admin/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('admin.employee.edit');
