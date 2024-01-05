@@ -565,7 +565,8 @@ var Employee = function () {
             var element = $(this);
             var type = $(this).data('type');
             var userId = $(this).data('user-id');
-            var month = new Date().getMonth() + 1;
+            var formattedMonth = new Date().getMonth() + 1;
+            var month = formattedMonth < 10 ? '0' + formattedMonth : formattedMonth;
             var year = new Date().getFullYear();
 
             var data = { 'type': type, 'userId': userId, 'month': month, 'year': year }
@@ -577,50 +578,28 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
+
                     console.log('data',data);
                     console.log('type',type);
 
-                    // if(type = 'asset-allocation'){
-                    //     var dataArr = {};
-                    //     var columnWidth = { "width": "5%", "targets": 0 };
-                    //     var arrList = {
-                    //         'tableID': '#asset-allocation-list',
-                    //         'ajaxURL': baseurl + "admin/asset-allocation/ajaxcall",
-                    //         'ajaxAction': 'getdatatable',
-                    //         'postData': dataArr,
-                    //         'hideColumnList': [],
-                    //         'noSortingApply': [0, 0],
-                    //         'noSearchApply': [0, 0],
-                    //         'defaultSortColumn': [0],
-                    //         'defaultSortOrder': 'DESC',
-                    //         'setColumnWidth': columnWidth
-                    //     };
-                    //     getDataTable(arrList);
+                    if(type = 'asset-allocation'){
+                        var dataArr = {};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#asset-allocation-list',
+                            'ajaxURL': baseurl + "admin/employee/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0, 0],
+                            'noSearchApply': [0, 0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
 
-                    //     $("body").on("click", ".delete-records", function() {
-                    //         var id = $(this).data('id');
-                    //         setTimeout(function() {
-                    //             $('.yes-sure:visible').attr('data-id', id);
-                    //         }, 500);
-                    //     })
-
-                    //     $('body').on('click', '.yes-sure', function() {
-                    //         var id = $(this).attr('data-id');
-                    //         var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
-                    //         $.ajax({
-                    //             type: "POST",
-                    //             headers: {
-                    //                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                    //             },
-                    //             url: baseurl + "admin/asset-allocation/ajaxcall",
-                    //             data: { 'action': 'common-activity', 'data': data },
-                    //             success: function(data) {
-                    //                 $("#loader").show();
-                    //                 handleAjaxResponse(data);
-                    //             }
-                    //         });
-                    //     });
-                    // }
+                    }
 
                     if (type == 'attendance') {
                         var res = JSON.parse(data);
@@ -714,7 +693,7 @@ var Employee = function () {
                                 var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
                                 var yyyy = clickedDate.getFullYear();
                                 clickedDate = dd + '-' + mm + '-' + yyyy;
-                                window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                                window.location.href = baseurl +'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                             },
                             height: 800,
                             contentHeight: 1200,
@@ -821,7 +800,7 @@ var Employee = function () {
                                     var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
                                     var yyyy = clickedDate.getFullYear();
                                     clickedDate = dd + '-' + mm + '-' + yyyy;
-                                    window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                                    window.location.href = baseurl +'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                                 },
                                 height: 800,
                                 contentHeight: 1200,
@@ -866,10 +845,6 @@ var Employee = function () {
         });
 
     }
-
-
-
-  
     return {
         init: function () {
             list();

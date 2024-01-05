@@ -306,9 +306,8 @@ class EmployeeController extends Controller
                 } elseif($inputData['type'] == 'asset-allocation'){
 
                     $objAssetAllocation = new AssetAllocation();
-                    $data['asset_allocation_details'] = $objAssetAllocation->get_asset_master_details($inputData['userId']);
-                    $details =  view('backend.pages.employee.asset_allocation', $data);
-                    echo $details;
+                    $assetAllocationData = $objAssetAllocation->getassetallocationdatatable($inputData['userId']);
+                    echo json_encode($assetAllocationData);
                     break;
 
                 } elseif($inputData['type'] == 'company'){

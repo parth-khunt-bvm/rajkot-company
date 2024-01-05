@@ -409,18 +409,18 @@ class Attendance extends Model
         $formattedDate = date("Y-m-d");
 
         $data['attendance'] = Attendance::from('attendance')
-                ->join("employee", "employee.id", "=", "attendance.employee_id")
-                ->join("branch", "branch.id", "=", "employee.branch")
+                ->leftjoin("employee", "employee.id", "=", "attendance.employee_id")
+                ->leftjoin("branch", "branch.id", "=", "employee.branch")
                 ->selectRaw('
-                SUM(CASE WHEN attendance.attendance_type = 0 THEN 1 ELSE 0 END) AS present,
-                SUM(CASE WHEN attendance.attendance_type = 1 THEN 1 ELSE 0 END) AS absent,
-                SUM(CASE WHEN attendance.attendance_type = 2 THEN 1 ELSE 0 END) AS half_day,
-                SUM(CASE WHEN attendance.attendance_type = 3 THEN 1 ELSE 0 END) AS short_leave
+                SUM(CASE WHEN attendance.attendance_type = "0" THEN 1 ELSE 0 END) AS present,
+                SUM(CASE WHEN attendance.attendance_type = "1" THEN 1 ELSE 0 END) AS absent,
+                SUM(CASE WHEN attendance.attendance_type = "2" THEN 1 ELSE 0 END) AS half_day,
+                SUM(CASE WHEN attendance.attendance_type = "3" THEN 1 ELSE 0 END) AS short_leave
             ')
             ->where('attendance.date', $formattedDate)
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->where("employee.is_deleted", "=", "N")
             ->first();
-
         $formattedDate = now()->format('Y-m-d');
         $monthDayFormat = now()->format('m-d');
 
@@ -430,6 +430,7 @@ class Attendance extends Model
                     SUM(CASE WHEN bond_last_date = ? THEN 1 ELSE 0 END) AS bond_last_date_count
                 ', [$monthDayFormat, $formattedDate])
                 ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                ->where("employee.is_deleted", "=", "N")
                 ->first();
 
         return $data;
