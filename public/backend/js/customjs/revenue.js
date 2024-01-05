@@ -173,12 +173,12 @@ var Revenue = function(){
             manager_id: {required: true},
             technology_id: {required: true},
             date: {required: true},
-            received_month: {required: true},
+            // received_month: {required: true},
             month_of: {required: true},
             year: {required: true},
             amount: {required: true},
-            bank_name: {required: true},
-            holder_name: {required: true},
+            // bank_name: {required: true},
+            // holder_name: {required: true},
         };
         var message = {
             manager_id :{
@@ -190,9 +190,9 @@ var Revenue = function(){
             date : {
                 required : "Please enter date"
             },
-            received_month : {
-                required : "Please select received month"
-            },
+            // received_month : {
+            //     required : "Please select received month"
+            // },
             month_of : {
                 required : "Please select month"
             },
@@ -202,12 +202,12 @@ var Revenue = function(){
             amount : {
                 required : "Please enter amount"
             },
-            bank_name : {
-                required : "Please enter bank name"
-            },
-            holder_name : {
-                required : "Please enter holder name"
-            }
+            // bank_name : {
+            //     required : "Please enter bank name"
+            // },
+            // holder_name : {
+            //     required : "Please enter holder name"
+            // }
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -279,12 +279,12 @@ var Revenue = function(){
             manager_id: {required: true},
             technology_id: {required: true},
             date: {required: true},
-            received_month: {required: true},
+            // received_month: {required: true},
             month_of: {required: true},
             year: {required: true},
             amount: {required: true},
-            bank_name: {required: true},
-            holder_name: {required: true},
+            // bank_name: {required: true},
+            // holder_name: {required: true},
         };
         var message = {
             manager_id :{
@@ -296,9 +296,9 @@ var Revenue = function(){
             date : {
                 required : "Please enter date"
             },
-            received_month : {
-                required : "Please select received month"
-            },
+            // received_month : {
+            //     required : "Please select received month"
+            // },
             month_of : {
                 required : "Please select month"
             },
@@ -308,12 +308,12 @@ var Revenue = function(){
             amount : {
                 required : "Please enter amount"
             },
-            bank_name : {
-                required : "Please enter bank name"
-            },
-            holder_name : {
-                required : "Please enter holder name"
-            }
+            // bank_name : {
+            //     required : "Please enter bank name"
+            // },
+            // holder_name : {
+            //     required : "Please enter holder name"
+            // }
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);

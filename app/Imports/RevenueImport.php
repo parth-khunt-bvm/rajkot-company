@@ -17,14 +17,16 @@ class RevenueImport implements ToModel, WithStartRow
     */
     public function model(array $row)
     {
-
+    //    dd($row[1]);
+       $monthNumber = date("n", strtotime($row[1]));
+    //    dd($monthNumber);
         $managerId = Manager::where('manager_name', $row[0])->value('id');
         $departmentID = Technology::where('technology_name', $row[1])->value('id');
-        if (Revenue::where('manager_id', $managerId)->where('technology_id', $departmentID)->where('received_month', $row[3])->where('month_of', $row[4])->where('is_deleted', 'N')->count() == 0) {
+        // if (Revenue::where('manager_id', $managerId)->where('technology_id', $departmentID)->where('received_month', $row[3])->where('month_of', $row[4])->where('is_deleted', 'N')->count() == 0) {
             $objRevenue = new Revenue();
             $objRevenue->manager_id = $managerId;
             $objRevenue->technology_id = $departmentID;
-            $objRevenue->date = $this->transformDate($row[2]);
+            $objRevenue->date = $this->transformDate($row[0]);
             $objRevenue->received_month = $row[3];
             $objRevenue->month_of = $row[4];
             $objRevenue->year = $row[5];
@@ -36,7 +38,7 @@ class RevenueImport implements ToModel, WithStartRow
             $objRevenue->created_at = date('Y-m-d H:i:s');
             $objRevenue->updated_at = date('Y-m-d H:i:s');
             $objRevenue->save();
-        }
+        // }
     }
 
     public function transformDate($value, $format = 'Y-m-d')
@@ -50,6 +52,6 @@ class RevenueImport implements ToModel, WithStartRow
 
     public function startRow(): int
     {
-        return 2;
+        return 3;
     }
 }
