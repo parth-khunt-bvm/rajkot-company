@@ -180,4 +180,98 @@ class AssetAllocation extends Model
         ->get();
     }
 
+    // public function getassetallocationdatatable($userId)
+    // {
+    //     $requestData = $_REQUEST;
+    //     $columns = array(
+    //         0 => 'asset_master.id',
+    //         1 => 'asset.asset_type',
+    //         3 => 'brand.brand_name',
+    //         4 => 'supplier.suppiler_name',
+    //         5 => 'asset_master.asset_code',
+    //     );
+    //     $query = AssetMaster::from('asset_master')
+    //     ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
+    //     ->join("branch", "branch.id", "=", "asset_master.branch_id")
+    //     ->join("asset", "asset.id", "=", "asset_master.asset_id")
+    //     ->join("brand", "brand.id", "=", "asset_master.brand_id")
+    //     ->where("asset_master.allocated_user_id",$userId);
+
+    //     if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+    //         $searchVal = $requestData['search']['value'];
+    //         $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+    //             $flag = 0;
+    //             foreach ($columns as $key => $value) {
+    //                 $searchVal = $requestData['search']['value'];
+    //                 if ($requestData['columns'][$key]['searchable'] == 'true') {
+    //                     if ($flag == 0) {
+    //                         $query->where($value, 'like', '%' . $searchVal . '%');
+    //                         $flag = $flag + 1;
+    //                     } else {
+    //                         $query->orWhere($value, 'like', '%' . $searchVal . '%');
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     }
+
+    //     $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+
+    //     $totalData = count($temp->get());
+    //     $totalFiltered = count($temp->get());
+
+    //     $resultArr = $query->skip($requestData['start'])
+    //         ->take($requestData['length'])
+    //         ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id','asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id', 'brand.brand_name', 'asset.asset_type','supplier.suppiler_name','supplier.supplier_shop_name')
+    //         ->get();
+
+    //     $data = array();
+    //     $i = 0;
+
+    //     foreach ($resultArr as $row) {
+
+    //         $target = [];
+    //         $target = [15, 16, 17];
+    //         $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+    //         // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+    //             $actionhtml = '';
+    //         // }
+    //         // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(15, explode(',', $permission_array[0]['permission'])) )
+    //         $actionhtml .= '<a href="' . route('admin.type.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
+    //         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(16, explode(',', $permission_array[0]['permission'])) ){
+    //             if ($row['status'] == 'A') {
+    //                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+    //             } else {
+    //                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+    //             }
+    //         }
+
+    //         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(17, explode(',', $permission_array[0]['permission'])) )
+    //         $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+
+    //         $i++;
+    //         $nestedData = array();
+    //         $nestedData[] = $i;
+    //         $nestedData[] = $row['asset_type'];
+    //         $nestedData[] = $row['brand_name'];
+    //         $nestedData[] = $row['suppiler_name'];
+    //         $nestedData[] = $row['asset_type'];
+    //         $nestedData[] = $row['asset_code'];
+    //         // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+    //             $nestedData[] = $actionhtml;
+    //         // }
+    //         $data[] = $nestedData;
+    //     }
+    //     $json_data = array(
+    //         "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+    //         "recordsTotal" => intval($totalData), // total number of records
+    //         "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
+    //         "data" => $data   // total data array
+    //     );
+    //     return $json_data;
+    // }
+
+
 }

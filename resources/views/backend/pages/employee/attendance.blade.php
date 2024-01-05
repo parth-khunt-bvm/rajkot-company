@@ -1,4 +1,4 @@
-<div class="card card-custom">
+{{-- <div class="card card-custom">
     <div class="card-header">
         <div class="card-title">
             <h3 class="card-label">Attendance Calendar</h3>
@@ -9,4 +9,4 @@
         <div id="attendance_calendar"></div>
         </div>
     </div>
-</div>
+</div> --}}

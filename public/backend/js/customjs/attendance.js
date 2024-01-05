@@ -269,7 +269,7 @@ var Attendance = function () {
                             var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
                             var yyyy = clickedDate.getFullYear();
                             clickedDate = dd + '-' + mm + '-' + yyyy;
-                            window.location.href = 'http://127.0.0.1:8000/admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                            window.location.href = baseurl + 'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                           },
                         height: 800,
                         contentHeight: 1200,
