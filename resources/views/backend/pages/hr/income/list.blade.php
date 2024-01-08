@@ -23,7 +23,6 @@
                         </g>
                     </svg><!--end::Svg Icon--></span>
                    @endif
-
                 </div>
 
                 <div class="card-toolbar">
@@ -32,7 +31,7 @@
                     @endif
 
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(61, explode(',', $permission_array[0]['permission'])) )
-                    <button data-toggle="modal" data-target="#importHrExpense" class="import-hr-expense btn btn-danger font-weight-bolder mr-5 ">Import Hr Income</button>
+                    <button data-toggle="modal" data-target="#importHrIncome" class="import-hr-income btn btn-danger font-weight-bolder mr-5 ">Import Hr Income</button>
                     @endif
 
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(62, explode(',', $permission_array[0]['permission'])) )

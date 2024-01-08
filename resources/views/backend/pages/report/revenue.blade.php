@@ -69,7 +69,8 @@
                                 <div class="dropdown dropdown-inline">
                                     <label>select Time</label>
                                     <select class="form-control select2 month change_report change" id="revenue_report_time" name="report_time">
-                                        <option value="monthly">Monthly</option>
+                                        <option value="custom">Custom</option>
+                                        <option value="monthly" selected>Monthly</option>
                                         <option value="quarterly">Quarterly</option>
                                         <option value="semiannually">SemiAnnually</option>
                                         <option value="annually">annually</option>
@@ -79,6 +80,30 @@
                                 <div class="col-md-2 mt-5">
                                     <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row public-revenue-date-filter" style="display: none">
+                        <div class="col-md-10">
+                            <div class="row justify-content-end">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Start Date:</label>
+                                        <input type="text" class="form-control datepicker_date change" id="start_date_id" name="start_date" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>End Date:</label>
+                                        <input type="text" class="form-control datepicker_date change" id="end_date_id" name="end_date" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-md-2 mt-5">
+                                    <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

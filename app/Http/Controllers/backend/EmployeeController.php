@@ -306,9 +306,10 @@ class EmployeeController extends Controller
                 } elseif($inputData['type'] == 'asset-allocation'){
 
                     $objAssetAllocation = new AssetAllocation();
-                    $assetAllocationData = $objAssetAllocation->getassetallocationdatatable($inputData['userId']);
-                    echo json_encode($assetAllocationData);
-                    break;
+                    $assetAllocationData = $objAssetAllocation->get_asset_master_details($inputData['userId']);
+                    // echo json_encode($assetAllocationData);
+                    // break;
+                    return $assetAllocationData;
 
                 } elseif($inputData['type'] == 'company'){
 
@@ -374,6 +375,9 @@ class EmployeeController extends Controller
 
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($viewId);
+
+            $objAssetAllocation = new AssetAllocation();
+            $data['asset_allocations'] = $objAssetAllocation->get_asset_master_details($viewId);
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";

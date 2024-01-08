@@ -582,25 +582,6 @@ var Employee = function () {
                     console.log('data',data);
                     console.log('type',type);
 
-                    if(type = 'asset-allocation'){
-                        var dataArr = {};
-                        var columnWidth = { "width": "5%", "targets": 0 };
-                        var arrList = {
-                            'tableID': '#asset-allocation-list',
-                            'ajaxURL': baseurl + "admin/employee/ajaxcall",
-                            'ajaxAction': 'getdatatable',
-                            'postData': dataArr,
-                            'hideColumnList': [],
-                            'noSortingApply': [0, 0],
-                            'noSearchApply': [0, 0],
-                            'defaultSortColumn': [0],
-                            'defaultSortOrder': 'DESC',
-                            'setColumnWidth': columnWidth
-                        };
-                        getDataTable(arrList);
-
-                    }
-
                     if (type == 'attendance') {
                         var res = JSON.parse(data);
 

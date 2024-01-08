@@ -154,8 +154,10 @@ var Report = function () {
             var technology = $("#technology_id").val();
             var year = $("#revenue_year_id").val();
             var time = $("#revenue_report_time").val();
+            var startDate = $('#start_date_id').val();
+            var endDate = $('#end_date_id').val();
 
-            var data = {'manager' : manager,'technology' : technology,'year' : year,'time' : time} ;
+            var data = {'manager' : manager,'technology' : technology,'year' : year,'time' : time,'startDate': startDate, 'endDate': endDate } ;
             $.ajax({
                 type: "POST",
                 headers: {
@@ -265,12 +267,24 @@ var Report = function () {
             location.reload(true);
         });
 
+
         $('.select2').select2();
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto",
+        });
+
+        $("body").on("change", ".change_report", function(){
+
+            reportval = $(".change_report").val();
+
+            if(reportval == "custom"){
+                $(".public-revenue-date-filter").slideDown("slow");
+            } else {
+                $(".public-revenue-date-filter").slideUp("slow");
+            }
         });
     }
 
