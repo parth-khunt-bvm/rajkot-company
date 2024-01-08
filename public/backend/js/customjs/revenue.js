@@ -76,8 +76,7 @@ var Revenue = function(){
             '<th>Received Month  </th>'+
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
-            '<th>Bank Name</th>'+
-            '<th>Holder Name</th>'+
+            '<th>Bank Holder Name</th>'+
             '<th>Remark</th>';
             if (isAdmin == 'Y' || intersectCount > 0 ) {
                 html += '<th>Action</th>';

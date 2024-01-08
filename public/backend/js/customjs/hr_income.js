@@ -91,7 +91,7 @@ var HrIncome = function(){
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
-            
+
             getDataTable(arrList);
 
         });

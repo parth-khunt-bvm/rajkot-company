@@ -288,8 +288,7 @@
                                 <th>Received Month  </th>
                                 <th>Month_Of</th>
                                 <th>Amount</th>
-                                <th>Bank Name</th>
-                                <th>Holder Name</th>
+                                <th>Bank Holder Name</th>
                                 <th>Remark</th>
                                 @php
                                 $target = [];

@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Imports;
-
 use App\Models\Manager;
 use App\Models\Revenue;
 use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Carbon;
 
 class RevenueImport implements ToModel, WithStartRow
 {
@@ -17,41 +17,67 @@ class RevenueImport implements ToModel, WithStartRow
     */
     public function model(array $row)
     {
-    //    dd($row[1]);
-       $monthNumber = date("n", strtotime($row[1]));
-    //    dd($monthNumber);
-        $managerId = Manager::where('manager_name', $row[0])->value('id');
-        $departmentID = Technology::where('technology_name', $row[1])->value('id');
-        // if (Revenue::where('manager_id', $managerId)->where('technology_id', $departmentID)->where('received_month', $row[3])->where('month_of', $row[4])->where('is_deleted', 'N')->count() == 0) {
+        $managerId = Manager::where('manager_name', $row[6])->value('id');
+        if($managerId == NULL){
+            $objManager = new Manager();
+            $objManager->manager_name = $row[6];
+            $objManager->status = "A";
+            $objManager->is_deleted = 'N';
+            $objManager->created_at = date('Y-m-d H:i:s');
+            $objManager->updated_at = date('Y-m-d H:i:s');
+            $objManager->save();
+            $managerId = $objManager->id;
+        }
+
+        $departmentID = Technology::where('technology_name', $row[8])->value('id');
+        if($departmentID == NULL){
+            $objTechnology = new Technology();
+            $objTechnology->technology_name =  $row[8];
+            $objTechnology->status = "A";
+            $objTechnology->is_deleted = 'N';
+            $objTechnology->created_at = date('Y-m-d H:i:s');
+            $objTechnology->updated_at = date('Y-m-d H:i:s');
+            $objTechnology->save();
+            $departmentID = $objTechnology->id;
+        }
+
+        if (Revenue::where('manager_id', $managerId)->where('technology_id', $departmentID)->where('received_month', date("n", strtotime($row[1])))->where('month_of', date("n", strtotime($row[2])))->where('is_deleted', 'N')->count() == 0) {
             $objRevenue = new Revenue();
+            // $objRevenue->date = $row[0] != null && $row[0] != '' ? $this->transformDate($row[0]) : NULL;
+            $objRevenue->date =  $this->transformDate($row[0]) ?? '-'   ;
+            $objRevenue->received_month = date("n", strtotime($row[1]));
+            $objRevenue->month_of = date("n", strtotime($row[2]));
+            $objRevenue->year = $row[3];
+            $objRevenue->remarks = $row[4] ?? '-';
+            $objRevenue->amount = $row[5];
             $objRevenue->manager_id = $managerId;
-            $objRevenue->technology_id = $departmentID;
-            $objRevenue->date = $this->transformDate($row[0]);
-            $objRevenue->received_month = $row[3];
-            $objRevenue->month_of = $row[4];
-            $objRevenue->year = $row[5];
-            $objRevenue->amount = $row[6];
             $objRevenue->bank_name = $row[7];
-            $objRevenue->holder_name = $row[8];
-            $objRevenue->remarks = $row[9] ?? '-';
+            $objRevenue->technology_id = $departmentID;
+            $objRevenue->holder_name = $row[9];
             $objRevenue->is_deleted = 'N';
             $objRevenue->created_at = date('Y-m-d H:i:s');
             $objRevenue->updated_at = date('Y-m-d H:i:s');
             $objRevenue->save();
-        // }
-    }
-
-    public function transformDate($value, $format = 'Y-m-d')
-    {
-        try {
-            return \Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value));
-        } catch (\ErrorException $e) {
-            return \Carbon\Carbon::createFromFormat($format, $value);
         }
     }
+
+        public function transformDate($value, $format = 'Y-m-d')
+        {
+            try {
+                if (is_numeric($value)) {
+                    return \Carbon\Carbon::createFromTimestamp(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value));
+                } else {
+                    return \Carbon\Carbon::createFromFormat('d-m-Y', $value);
+                }
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
 
     public function startRow(): int
     {
         return 3;
     }
 }
+
+

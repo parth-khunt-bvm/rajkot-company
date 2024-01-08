@@ -24,9 +24,8 @@ class Revenue extends Model
             4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),
             5 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),
             6 => 'revenue.amount',
-            7 => 'revenue.bank_name',
-            8 => 'revenue.holder_name',
-            9 => 'revenue.remarks',
+            7 =>  DB::raw('CONCAT(revenue.bank_name, "-", revenue.holder_name)'),
+            8 => 'revenue.remarks',
         );
 
         $query = Revenue::from('revenue')
@@ -83,7 +82,7 @@ class Revenue extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year) as monthYear'), 'revenue.amount', 'revenue.bank_name','revenue.holder_name','revenue.remarks')
+            ->select('revenue.id', 'manager.manager_name', 'technology.technology_name','revenue.date', DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01")) as received_month'), DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year) as monthYear'), 'revenue.amount',  DB::raw('CONCAT(revenue.bank_name, "-", revenue.holder_name) as bankDetail'),'revenue.remarks')
             ->get();
 
         $data = array();
@@ -117,8 +116,8 @@ class Revenue extends Model
             $nestedData[] = $row['received_month'];
             $nestedData[] = $row['monthYear'];
             $nestedData[] = numberformat($row['amount'],2);
-            $nestedData[] = $row['bank_name'];
-            $nestedData[] = $row['holder_name'];
+            $nestedData[] = $row['bankDetail'];
+            // $nestedData[] = $row['holder_name'];
             if (strlen($row['remarks']) > $max_length) {
                 $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
             }else {
@@ -253,6 +252,7 @@ class Revenue extends Model
     }
 
     public function getRevenueReportsData($fillterdata){
+
         if($fillterdata['time'] == 'monthly'){
             $data = collect(range(1, 12));
             $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
@@ -266,6 +266,17 @@ class Revenue extends Model
             $data = collect(range(1, 1));
             $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
         }
+
+        // $timestamp = strtotime($fillterdata['startDate']);
+        // $startMonthName = date('F', $timestamp);
+
+        // $timestamp = strtotime($fillterdata['startDate']);
+        // $endMonthName = date('F', $timestamp);
+
+        // if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+        //     $data = collect(range(1, 1));
+        //     $details['month'] = [ $monthName.'-'.$fillterdata['endDate'] .$fillterdata['year']];
+        // }
         $amount_array = [];
         foreach($data as $key => $value){
 
@@ -298,6 +309,15 @@ class Revenue extends Model
             }
 
             $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+
+            if (!empty($fillterdata['start_date'])) {
+                // $query->whereDate('date', '>=', $fillterdata['start_date']);
+                $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+            }
+
+            if (!empty($fillterdata['end_date'])) {
+                $query->whereDate('date', '<=', $fillterdata['end_date']);
+            }
 
             if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
                 $query->where("manager_id", $fillterdata['manager']);
