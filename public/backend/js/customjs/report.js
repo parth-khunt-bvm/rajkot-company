@@ -141,8 +141,14 @@ var Report = function () {
 
         loadRevenueChart();
 
+        // $('body').on('change', '.change', function() {
+        //     var html = '';
+        //     html = '<div id="revenue-reports"></div>';
+        //     $('.revenue-reports-chart').html(html);
+        //     loadRevenueChart();
+        // });
 
-        $('body').on('change', '.change', function() {
+        $('body').on('click', '.change-revenue-report', function() {
             var html = '';
             html = '<div id="revenue-reports"></div>';
             $('.revenue-reports-chart').html(html);
@@ -267,7 +273,6 @@ var Report = function () {
             location.reload(true);
         });
 
-
         $('.select2').select2();
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -277,13 +282,14 @@ var Report = function () {
         });
 
         $("body").on("change", ".change_report", function(){
-
             reportval = $(".change_report").val();
-
             if(reportval == "custom"){
-                $(".public-revenue-date-filter").slideDown("slow");
+                $(".date").slideDown("slow");
             } else {
-                $(".public-revenue-date-filter").slideUp("slow");
+
+                $('#start_date_id').val(" ");
+                $('#end_date_id').val(" ");
+                $(".date").slideUp("slow");
             }
         });
     }

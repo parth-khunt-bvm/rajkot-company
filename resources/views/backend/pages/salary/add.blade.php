@@ -12,7 +12,7 @@
                             <h3 class="card-title">{{ $header['title'] }}</h3>
                         </div>
                         <!--begin::Form-->
-                        <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off">@csrf
+                        <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off" novalidate="novalidate" >@csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">

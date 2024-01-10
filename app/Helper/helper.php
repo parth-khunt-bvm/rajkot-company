@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Branch;
 use Faker\Provider\ar_EG\Company;
-function numberformat($value, $afterDecimal = 4){
-    return number_format((float)$value, $afterDecimal,'.', '');
+
+function numberformat($value, $comma =  null){
+    return number_format((float)$value, 2, '.', $comma ? $comma : '');
 }
 
 function date_formate($date){

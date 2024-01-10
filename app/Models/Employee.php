@@ -128,8 +128,6 @@ class Employee extends Model
         return $json_data;
     }
 
-
-   
     public function saveAdd($requestData){
 
         if($requestData['gmail'] != "" && $requestData['gmail'] != NULL){
@@ -419,6 +417,17 @@ class Employee extends Model
         $countsheetdata['total'] = $total;
 
         return $countsheetdata;
+    }
+
+
+    public function get_employee_salary_slip_detail($departmentId, $designationId){
+        return  Employee::from('employee')
+             ->join("technology", "technology.id", "=", "employee.department")
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation', 'employee.salary')
+             ->where('employee.department', $departmentId)
+             ->where('employee.designation', $designationId)
+             ->get();
     }
 
 }

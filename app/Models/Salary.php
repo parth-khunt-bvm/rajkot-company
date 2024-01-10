@@ -211,8 +211,6 @@ class Salary extends Model
 
     public function get_salary_details($salaryId)
     {
-
-
         return Salary::from('salary')
             ->join("manager", "manager.id", "=", "salary.manager_id")
             ->join("branch", "branch.id", "=", "salary.branch_id")
@@ -221,7 +219,6 @@ class Salary extends Model
             ->where('salary.id', $salaryId)
             ->first();
     }
-
     public function common_activity($requestData)
     {
 
