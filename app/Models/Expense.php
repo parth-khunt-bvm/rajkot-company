@@ -33,32 +33,32 @@ class Expense extends Model
             ->join("manager", "manager.id", "=", "expense.manager_id")
             ->join("branch", "branch.id", "=", "expense.branch_id")
             ->join("type", "type.id", "=", "expense.type_id")
-            ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("expense.is_deleted", "=", "N");
 
-            if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
-                $query->where("manager.id", $fillterdata['manager']);
-            }
+        if ($fillterdata['manager'] != null && $fillterdata['manager'] != '') {
+            $query->where("manager.id", $fillterdata['manager']);
+        }
 
-            if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                $query->where("branch.id", $fillterdata['branch']);
-            }
+        if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+            $query->where("branch.id", $fillterdata['branch']);
+        }
 
-            if($fillterdata['type'] != null && $fillterdata['type'] != ''){
-                $query->where("type.id", $fillterdata['type']);
-            }
+        if ($fillterdata['type'] != null && $fillterdata['type'] != '') {
+            $query->where("type.id", $fillterdata['type']);
+        }
 
-            if($fillterdata['month'] != null && $fillterdata['month'] != ''){
-                $query->where("expense.month", $fillterdata['month']);
-            }
+        if ($fillterdata['month'] != null && $fillterdata['month'] != '') {
+            $query->where("expense.month", $fillterdata['month']);
+        }
 
-            if($fillterdata['year'] != null && $fillterdata['year'] != ''){
-                $query->where("expense.year", $fillterdata['year']);
-            }
+        if ($fillterdata['year'] != null && $fillterdata['year'] != '') {
+            $query->where("expense.year", $fillterdata['year']);
+        }
 
-            if($fillterdata['month'] != null && $fillterdata['month'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
-                $query->where(DB::raw('CONCAT(month, "-", year)'), $fillterdata['month'] . "-" . $fillterdata['year']);
-            }
+        if ($fillterdata['month'] != null && $fillterdata['month'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != '') {
+            $query->where(DB::raw('CONCAT(month, "-", year)'), $fillterdata['month'] . "-" . $fillterdata['year']);
+        }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -85,7 +85,7 @@ class Expense extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('expense.id', 'manager.manager_name', 'branch.branch_name', 'type.type_name','expense.date', 'expense.month', DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", expense.month, "-01")), "-", year) as fullYear'),'expense.amount','expense.remarks')
+            ->select('expense.id', 'manager.manager_name', 'branch.branch_name', 'type.type_name', 'expense.date', 'expense.month', DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", expense.month, "-01")), "-", year) as fullYear'), 'expense.amount', 'expense.remarks')
             ->get();
 
         $data = array();
@@ -97,17 +97,17 @@ class Expense extends Model
             $target = [51, 52, 53];
             $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0) {
                 $actionhtml = '';
             }
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(51, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="' . route('admin.expense.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(51, explode(',', $permission_array[0]['permission'])))
+                $actionhtml .= '<a href="' . route('admin.expense.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(52, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="' . route('admin.expense.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(52, explode(',', $permission_array[0]['permission'])))
+                $actionhtml .= '<a href="' . route('admin.expense.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(53, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(53, explode(',', $permission_array[0]['permission'])))
+                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();
@@ -121,10 +121,10 @@ class Expense extends Model
             $nestedData[] = numberformat($row['amount']);
             if (strlen($row['remarks']) > $max_length) {
                 $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
-            }else {
+            } else {
                 $nestedData[] = $row['remarks']; // If it's not longer than max_length, keep it as is
             }
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0) {
                 $nestedData[] = $actionhtml;
             }
             $data[] = $nestedData;
@@ -164,7 +164,7 @@ class Expense extends Model
             if ($objExpense->save()) {
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
-               // unset($requestData['_token']);
+                // unset($requestData['_token']);
                 $objAudittrails = new Audittrails();
                 $res = $objAudittrails->add_audit('A', $inputData, 'Expense');
                 return 'added';
@@ -214,7 +214,7 @@ class Expense extends Model
             ->join("manager", "manager.id", "=", "expense.manager_id")
             ->join("branch", "branch.id", "=", "expense.branch_id")
             ->join("type", "type.id", "=", "expense.type_id")
-            ->select('expense.id', 'expense.manager_id', 'expense.branch_id', 'expense.type_id','manager.manager_name', 'branch.branch_name', 'type.type_name', 'expense.date', 'expense.month', 'expense.year','expense.remarks', 'expense.amount')
+            ->select('expense.id', 'expense.manager_id', 'expense.branch_id', 'expense.type_id', 'manager.manager_name', 'branch.branch_name', 'type.type_name', 'expense.date', 'expense.month', 'expense.year', 'expense.remarks', 'expense.amount')
             ->where('expense.id', $expenseId)
             ->first();
     }
@@ -253,7 +253,7 @@ class Expense extends Model
         }
     }
 
-    public function get_admin_expense_details($manager,$branch,$type)
+    public function get_admin_expense_details($manager, $branch, $type)
     {
         return Expense::from('expense')
             ->select('expense.id', 'expense.date', 'expense.month', 'expense.remarks', 'expense.amount')
@@ -263,73 +263,208 @@ class Expense extends Model
             ->where('expense.is_deleted', 'N')
             ->get()->toArray();
     }
-    public function getExpenseReportsData($fillterdata){
-        if($fillterdata['time'] == 'monthly'){
+    // public function getExpenseReportsData($fillterdata)
+    // {
+    //     if ($fillterdata['time'] == 'monthly') {
+    //         $data = collect(range(1, 12));
+    //         $details['month'] =  ['January' . $fillterdata['year'], 'February' . $fillterdata['year'], 'March' . $fillterdata['year'], 'April' . $fillterdata['year'], 'May' . $fillterdata['year'], 'June' . $fillterdata['year'], 'July' . $fillterdata['year'], 'August' . $fillterdata['year'], 'September' . $fillterdata['year'], 'October' . $fillterdata['year'], 'November' . $fillterdata['year'], 'December' . $fillterdata['year']];
+    //     } elseif ($fillterdata['time'] == 'quarterly') {
+    //         $data = collect(range(1, 4));
+    //         $details['month'] =  ['Jan-March' . $fillterdata['year'], 'Apr-Jun' . $fillterdata['year'], 'July-Sep' . $fillterdata['year'], 'Oct-Dec' . $fillterdata['year']];
+    //     } elseif ($fillterdata['time'] == 'semiannually') {
+    //         $data = collect(range(1, 2));
+    //         $details['month'] =  ['Jan-June' . $fillterdata['year'], 'July-Dec' . $fillterdata['year']];
+    //     } else {
+    //         $data = collect(range(1, 1));
+    //         $details['month'] = ['Jan-Dec' . $fillterdata['year']];
+    //     }
+    //     $amount_array = [];
+    //     foreach ($data as $key => $value) {
+
+    //         $query = Expense::from('expense')
+    //             ->join("branch", "branch.id", "=", "expense.branch_id")
+    //             ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']]);
+    //         if ($fillterdata['time'] == 'monthly') {
+    //             $query->where('month', $value);
+    //         } elseif ($fillterdata['time'] == 'quarterly') {
+    //             if ($value == 1) {
+    //                 $query->where('month', '>=', 1);
+    //                 $query->where('month', '<=', 3);
+    //             } elseif ($value == 2) {
+    //                 $query->where('month', '>=', 4);
+    //                 $query->where('month', '<=', 6);
+    //             } elseif ($value == 3) {
+    //                 $query->where('month', '>=', 7);
+    //                 $query->where('month', '<=', 9);
+    //             } else {
+    //                 $query->where('month', '>=', 10);
+    //                 $query->where('month', '<=', 12);
+    //             }
+    //         } elseif ($fillterdata['time'] == 'semiannually') {
+    //             if ($value == 1) {
+    //                 $query->where('month', '>=', 1);
+    //                 $query->where('month', '<=', 6);
+    //             } else {
+    //                 $query->where('month', '>=', 7);
+    //                 $query->where('month', '<=', 12);
+    //             }
+    //         }
+
+    //         $query->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
+
+    //         if ($fillterdata['manager'] != null && $fillterdata['manager'] != '') {
+    //             $query->where("manager_id", $fillterdata['manager']);
+    //         }
+
+    //         if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+    //             $query->where("branch_id", $fillterdata['branch']);
+    //         }
+
+    //         if ($fillterdata['type'] != null && $fillterdata['type'] != '') {
+    //             $query->where("type_id", $fillterdata['type']);
+    //         }
+    //         $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+
+    //         array_push($amount_array, check_value($res[0]->amount));
+    //     }
+
+    //     $details['amount'] = $amount_array;
+    //     return $details;
+    // }
+
+    public function getExpenseReportsData($fillterdata)
+    {
+        if ($fillterdata['time'] == 'monthly') {
             $data = collect(range(1, 12));
-            $details['month'] =  [ 'January'.$fillterdata['year'], 'February'.$fillterdata['year'], 'March'.$fillterdata['year'], 'April'.$fillterdata['year'], 'May'.$fillterdata['year'], 'June'.$fillterdata['year'], 'July'.$fillterdata['year'], 'August'.$fillterdata['year'], 'September'.$fillterdata['year'], 'October'.$fillterdata['year'], 'November'.$fillterdata['year'], 'December'.$fillterdata['year']];
-        } elseif($fillterdata['time'] == 'quarterly'){
+            $details['month'] =  ['January' . $fillterdata['year'], 'February' . $fillterdata['year'], 'March' . $fillterdata['year'], 'April' . $fillterdata['year'], 'May' . $fillterdata['year'], 'June' . $fillterdata['year'], 'July' . $fillterdata['year'], 'August' . $fillterdata['year'], 'September' . $fillterdata['year'], 'October' . $fillterdata['year'], 'November' . $fillterdata['year'], 'December' . $fillterdata['year']];
+        } elseif ($fillterdata['time'] == 'quarterly') {
             $data = collect(range(1, 4));
-            $details['month'] =  [ 'Jan-March'.$fillterdata['year'], 'Apr-Jun'.$fillterdata['year'], 'July-Sep'.$fillterdata['year'], 'Oct-Dec'.$fillterdata['year']];
-        } elseif($fillterdata['time'] == 'semiannually'){
+            $details['month'] =  ['Jan-March' . $fillterdata['year'], 'Apr-Jun' . $fillterdata['year'], 'July-Sep' . $fillterdata['year'], 'Oct-Dec' . $fillterdata['year']];
+        } elseif ($fillterdata['time'] == 'semiannually') {
             $data = collect(range(1, 2));
-            $details['month'] =  [ 'Jan-June'.$fillterdata['year'], 'July-Dec'.$fillterdata['year']];
+            $details['month'] =  ['Jan-June' . $fillterdata['year'], 'July-Dec' . $fillterdata['year']];
         } else {
             $data = collect(range(1, 1));
-            $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
+            $details['month'] = ['Jan-Dec' . $fillterdata['year']];
         }
-        $amount_array = [];
-        foreach($data as $key => $value){
+        $katargam_array = [];
+        $silver_array = [];
+        $rajkot_array = [];
+        foreach ($data as $key => $value) {
 
-                $query = Expense::from('expense')
-                    ->join("branch", "branch.id", "=", "expense.branch_id")
-                    ->whereIn('expense.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );
-                if($fillterdata['time'] == 'monthly'){
-                    $query->where('month', $value);
-                } elseif($fillterdata['time'] == 'quarterly'){
-                    if($value == 1){
-                        $query->where('month', '>=', 1);
-                        $query->where('month', '<=', 3);
-                    } elseif($value == 2){
-                        $query->where('month', '>=', 4);
-                        $query->where('month', '<=', 6);
-                    } elseif($value == 3){
-                        $query->where('month', '>=', 7);
-                        $query->where('month', '<=', 9);
-                    } else {
-                        $query->where('month', '>=', 10);
-                        $query->where('month', '<=', 12);
-                    }
-
-                } elseif($fillterdata['time'] == 'semiannually'){
-                    if($value == 1){
-                        $query->where('month', '>=', 1);
-                        $query->where('month', '<=', 6);
-                    } else {
-                        $query->where('month', '>=', 7);
-                        $query->where('month', '<=', 12);
-                    }
+            $silverBranch = Expense::from('expense')
+                ->join("branch", "branch.id", "=", "expense.branch_id")
+                ->where('expense.branch_id', 1);
+            if ($fillterdata['time'] == 'monthly') {
+                $silverBranch->where('month', $value);
+            } elseif ($fillterdata['time'] == 'quarterly') {
+                if ($value == 1) {
+                    $silverBranch->where('month', '>=', 1);
+                    $silverBranch->where('month', '<=', 3);
+                } elseif ($value == 2) {
+                    $silverBranch->where('month', '>=', 4);
+                    $silverBranch->where('month', '<=', 6);
+                } elseif ($value == 3) {
+                    $silverBranch->where('month', '>=', 7);
+                    $silverBranch->where('month', '<=', 9);
+                } else {
+                    $silverBranch->where('month', '>=', 10);
+                    $silverBranch->where('month', '<=', 12);
                 }
-
-                $query->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
-
-                if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
-                    $query->where("manager_id", $fillterdata['manager']);
+            } elseif ($fillterdata['time'] == 'semiannually') {
+                if ($value == 1) {
+                    $silverBranch->where('month', '>=', 1);
+                    $silverBranch->where('month', '<=', 6);
+                } else {
+                    $silverBranch->where('month', '>=', 7);
+                    $silverBranch->where('month', '<=', 12);
                 }
+            }
 
-                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                    $query->where("branch_id", $fillterdata['branch']);
+            $silverBranch->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
+
+            if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+                $silverBranch->where("branch_id", $fillterdata['branch']);
+            }
+
+            $silver = $silverBranch->select(DB::raw("SUM(amount) as amount"))->get();
+            array_push($silver_array, check_value($silver[0]->amount));
+
+            $katargamBranch = Expense::from('expense')
+                ->join("branch", "branch.id", "=", "expense.branch_id")
+                ->where('expense.branch_id', 2);
+            if ($fillterdata['time'] == 'monthly') {
+                $katargamBranch->where('month', $value);
+            } elseif ($fillterdata['time'] == 'quarterly') {
+                if ($value == 1) {
+                    $katargamBranch->where('month', '>=', 1);
+                    $katargamBranch->where('month', '<=', 3);
+                } elseif ($value == 2) {
+                    $katargamBranch->where('month', '>=', 4);
+                    $katargamBranch->where('month', '<=', 6);
+                } elseif ($value == 3) {
+                    $katargamBranch->where('month', '>=', 7);
+                    $katargamBranch->where('month', '<=', 9);
+                } else {
+                    $katargamBranch->where('month', '>=', 10);
+                    $katargamBranch->where('month', '<=', 12);
                 }
-
-                if($fillterdata['type'] != null && $fillterdata['type'] != ''){
-                    $query->where("type_id", $fillterdata['type']);
+            } elseif ($fillterdata['time'] == 'semiannually') {
+                if ($value == 1) {
+                    $katargamBranch->where('month', '>=', 1);
+                    $katargamBranch->where('month', '<=', 6);
+                } else {
+                    $katargamBranch->where('month', '>=', 7);
+                    $katargamBranch->where('month', '<=', 12);
                 }
-                $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
+            }
 
-            array_push($amount_array, check_value($res[0]->amount));
+            $katargamBranch->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
+            if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+                $katargamBranch->where("branch_id", $fillterdata['branch']);
+            }
+            $katargam = $katargamBranch->select(DB::raw("SUM(amount) as amount"))->get();
+            array_push($katargam_array, check_value($katargam[0]->amount));
+
+
+            $rajkotBranch = Expense::from('expense')
+                ->join("branch", "branch.id", "=", "expense.branch_id")
+                ->where('expense.branch_id', 3);
+            if ($fillterdata['time'] == 'monthly') {
+                $rajkotBranch->where('month', $value);
+            } elseif ($fillterdata['time'] == 'quarterly') {
+                if ($value == 1) {
+                    $rajkotBranch->where('month', '>=', 1);
+                    $rajkotBranch->where('month', '<=', 3);
+                } elseif ($value == 2) {
+                    $rajkotBranch->where('month', '>=', 4);
+                    $rajkotBranch->where('month', '<=', 6);
+                } elseif ($value == 3) {
+                    $rajkotBranch->where('month', '>=', 7);
+                    $rajkotBranch->where('month', '<=', 9);
+                } else {
+                    $rajkotBranch->where('month', '>=', 10);
+                    $rajkotBranch->where('month', '<=', 12);
+                }
+            } elseif ($fillterdata['time'] == 'semiannually') {
+                if ($value == 1) {
+                    $rajkotBranch->where('month', '>=', 1);
+                    $rajkotBranch->where('month', '<=', 6);
+                } else {
+                    $rajkotBranch->where('month', '>=', 7);
+                    $rajkotBranch->where('month', '<=', 12);
+                }
+            }
+
+            $rajkotBranch->where('year', $fillterdata['year'])->where('expense.is_deleted', 'N');
+            if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+                $rajkotBranch->where("branch_id", $fillterdata['branch']);
+            }
+            $rajkot = $rajkotBranch->select(DB::raw("SUM(amount) as amount"))->get();
+            array_push($rajkot_array, check_value($rajkot[0]->amount));
         }
 
-        $details['amount'] = $amount_array;
+        $details['amount'] = ['silver' => $silver_array, 'katargam' => $katargam_array, 'rajkot' => $rajkot_array];
         return $details;
     }
-
 }

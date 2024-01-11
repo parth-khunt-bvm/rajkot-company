@@ -27,14 +27,26 @@ var Report = function () {
                 success: function (data) {
                     $("#loader").show();
                     var res = JSON.parse(data);
-                    console.log(res);
+                    console.log("sssss",res);
                     const apexChart = "#expense-reports";
                     var options = {
-                        series: [{
-                            name: 'Expense',
-                            type: 'column',
-                            data: res.amount ,
-                        }],
+                        series: [
+                            {
+                                name: 'silver',
+                                type: 'column',
+                                data: res.amount.silver ,
+                            },
+                            {
+                                name: 'rajkot',
+                                type: 'column',
+                                data: res.amount.rajkot ,
+                            },
+                            {
+                                name: 'katargam',
+                                type: 'column',
+                                data: res.amount.katargam ,
+                            },
+                         ],
                         chart: {
                             type: 'bar',
                             height: 350
