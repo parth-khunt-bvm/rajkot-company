@@ -2,7 +2,11 @@ var SalarySlip = function(){
 
     var list= function(){
 
-        var dataArr = {};
+        var employee = $("#employee_id").val();
+        var month = $('#monthId').val();
+        var year = $("#yearId").val();
+
+        var dataArr = { 'employee': employee, 'month': month, 'year': year };
         var columnWidth = [{"width": "5%", "targets": 0 }, {"width": "30%", "targets": 6 }];
         var arrList = {
             'tableID': '#admin-salary-slip-list',
@@ -41,6 +45,61 @@ var SalarySlip = function(){
                 }
             });
         });
+
+        $("body").on("click", "#show-salary-slip-filter", function() {
+            $("div .salary-slip-filter").slideToggle("slow");
+        })
+
+        $("body").on("change", ".change", function () {
+            $target = [128,129,130,131];
+            const permissionValues = permission.length > 0 ? permission.split(",") : [];
+            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            var html = '';
+            html ='<table class="table table-bordered table-checkable" id="admin-salary-slip-list">'+
+            '<thead>'+
+            '<tr>'+
+            '<th>#</th>'+
+            '<th>Employee Name</th>'+
+            '<th>Department Name</th>'+
+            '<th>Designation Name</th>'+
+            '<th>Month - Year</th>';
+            if (isAdmin == 'Y' || intersectCount > 0 ) {
+                 html += '<th>Action</th>';
+             }
+            html +=  ' </tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '</tbody>'+
+            '</table>';
+
+            $(".salary-slip-list").html(html);
+
+            var employee = $("#employee_id").val();
+            var month = $('#monthId').val();
+            var year = $("#yearId").val();
+
+            var dataArr = { 'employee': employee, 'month': month, 'year': year };
+            var columnWidth = [{"width": "5%", "targets": 0 }, {"width": "30%", "targets": 6 }];
+            var arrList = {
+                'tableID': '#admin-salary-slip-list',
+                'ajaxURL': baseurl + "admin/employee-salaryslip/ajaxcall",
+                'ajaxAction': 'getdatatable',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        })
+
+        $("body").on("click", ".reset", function () {
+            location.reload(true);
+        });
+
+        
     }
 
     var addSalarySlip = function(){
@@ -239,6 +298,14 @@ var SalarySlip = function(){
             }
             return (parseFloat(amount) * 100) / parseFloat(totalAmount);
         }
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = today.toLocaleString('en-US', { month: 'short' });
+        var yyyy = today.getFullYear();
+        today = dd + '-' + mm + '-' + yyyy;
+
+        $(".datepicker_date").val(today);
 
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',

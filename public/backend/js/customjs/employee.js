@@ -51,7 +51,7 @@ var Employee = function () {
             });
         });
 
-        $("body").on("click", ".deactive-records", function () {
+        $("body").on("click", ".left-employee", function () {
             var id = $(this).data('id');
             setTimeout(function () {
                 $('.yes-sure-deactive:visible').attr('data-id', id);
@@ -60,7 +60,7 @@ var Employee = function () {
 
         $('body').on('click', '.yes-sure-deactive', function () {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'deactive-records', _token: $('#_token').val() };
+            var data = { 'id': id, 'activity': 'left-employee', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
@@ -75,7 +75,7 @@ var Employee = function () {
             });
         });
 
-        $("body").on("click", ".active-records", function () {
+        $("body").on("click", ".working-employee", function () {
             var id = $(this).data('id');
             setTimeout(function () {
                 $('.yes-sure-active:visible').attr('data-id', id);
@@ -84,7 +84,7 @@ var Employee = function () {
 
         $('body').on('click', '.yes-sure-active', function () {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'active-records', _token: $('#_token').val() };
+            var data = { 'id': id, 'activity': 'working-employee', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {

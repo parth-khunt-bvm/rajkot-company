@@ -16,6 +16,10 @@ class SalarySlipController extends Controller
 {
     public function list(Request $request)
     {
+
+        $objEmployee = new Employee();
+        $data['employee'] = $objEmployee->get_admin_employee_details();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Salary Slip list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Salary Slip list';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Salary Slip list';
@@ -56,10 +60,10 @@ class SalarySlipController extends Controller
 
     public function add()
     {
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(127, explode(',', $permission_array[0]['permission']))){
 
 
             $objTechnology = new Technology();
@@ -100,9 +104,9 @@ class SalarySlipController extends Controller
             );
             return view('backend.pages.salary_slip.add', $data);
 
-        // }else{
-        //     return redirect()->route('admin.employee-salaryslip.list');
-        // }
+        }else{
+            return redirect()->route('admin.employee-salaryslip.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -129,10 +133,10 @@ class SalarySlipController extends Controller
 
     public function edit($editId)
     {
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(129, explode(',', $permission_array[0]['permission']))){
 
             $objSalaryslip = new SalarySlip();
             $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details($editId);
@@ -177,9 +181,9 @@ class SalarySlipController extends Controller
             );
             return view('backend.pages.salary_slip.edit', $data);
 
-        // }else{
-        //     return redirect()->route('admin.employee-salaryslip.list');
-        // }
+        }else{
+            return redirect()->route('admin.employee-salaryslip.list');
+        }
 
     }
 
@@ -206,10 +210,10 @@ class SalarySlipController extends Controller
     }
 
     public function view($viewId){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(45, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(128, explode(',', $permission_array[0]['permission']))){
 
             $objSalaryslip = new SalarySlip();
             $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details($viewId);
@@ -243,9 +247,9 @@ class SalarySlipController extends Controller
                 )
             );
             return view('backend.pages.salary_slip.view', $data);
-        // }else{
-        //     return redirect()->route('admin.employee-salaryslip.list');
-        // }
+        }else{
+            return redirect()->route('admin.employee-salaryslip.list');
+        }
     }
 
 
@@ -288,10 +292,10 @@ class SalarySlipController extends Controller
     }
 
     public function salarySlipPdf($salarySlipId){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(in_array(79, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(131, explode(',', $permission_array[0]['permission']))){
             $month= ["","January","February","March","April","May","June","July","August","September","October","November","December"];
             $objSalaryslip = new SalarySlip();
             $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details($salarySlipId);
@@ -299,14 +303,12 @@ class SalarySlipController extends Controller
 
             $data['title'] = 'Salary Slip';
 
-            $customPaper = [0, 0, 612.00, 792.00];
-            $pdf = PDF::loadView('backend.pages.salary_slip.pdf', $data)->setPaper($customPaper, 'portrait');
+            $pdf = PDF::loadView('backend.pages.salary_slip.pdf', $data);
 
-            // return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_offer_letter.pdf');
             return $pdf->download($salarySlipDetails->first_name.' '.$salarySlipDetails->last_name.' - '. $month[$salarySlipDetails->month] . ' , ' .$salarySlipDetails->year.'.pdf');
-        // }else{
-        //     return redirect()->route('my-dashboard');
-        // }
+        }else{
+            return redirect()->route('my-dashboard');
+        }
     }
 
 }

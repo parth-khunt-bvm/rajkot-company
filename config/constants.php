@@ -162,7 +162,7 @@
                     '74'  => 'add employee',
                     '75'  => 'view employee',
                     '76'  => 'edit employee ',
-                    // '77'  => 'change employee status',
+                    '77'  => 'change employee status',
                     '78'  => 'delete employee',
                     '79'  => 'download offer letter',
                     '80'  => 'download appoinment letter',
@@ -220,6 +220,17 @@
                     '123'  => 'view Public Holiday',
                     '124'  => 'edit Public Holiday ',
                     '125'  => 'delete Public Holiday',
+                ],
+            ],
+
+            'salary_slip_menu' => [
+                'salary_slip_sub_menu' => [
+                    '126'  => 'Salary Slip list',
+                    '127'  => 'add Salary Slip',
+                    '128'  => 'view Salary Slip',
+                    '129'  => 'edit Salary Slip ',
+                    '130'  => 'delete Salary Slip',
+                    '131'  => 'download Salary Slip',
                 ],
             ],
 

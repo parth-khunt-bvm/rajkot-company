@@ -858,12 +858,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endif
                 {{-- report Menu End --}}
 
-                {{-- @php
+                @php
                 $target = [];
-                $target = array(90);
-                @endphp --}}
+                $target = array(126, 127, 128, 129, 130, 131);
+                @endphp
                 {{-- salary slip Menu --}}
-                {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee-salaryslip.list" || $currentRoute  ==  "admin.employee-salaryslip.add" || $currentRoute  ==  "admin.employee-salaryslip.edit" || $currentRoute  ==  "admin.employee-salaryslip.view"? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                 <a href="{{ route('admin.employee-salaryslip.list') }}" class="menu-link">
@@ -878,7 +878,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                     <span class="menu-text">Salary Slip</span>
                 </a>
                 </li>
-                {{-- @endif --}}
+                @endif
                 {{-- salary slip Menu End --}}
             </ul>
             <!--end::Menu Nav-->

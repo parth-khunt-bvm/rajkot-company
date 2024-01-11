@@ -97,6 +97,22 @@ class Employee extends Model
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(76, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(77, explode(',', $permission_array[0]['permission'])) ){
+                if ($row['status'] == 'W') {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#leftModel" class="btn btn-icon  left-employee" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                } else {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#workingModel" class="btn btn-icon working-employee" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+                }
+             }
+
+            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(28, explode(',', $permission_array[0]['permission'])) ){
+            //     if ($row['status'] == 'W') {
+            //         $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+            //     } else {
+            //         $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
+            //     }
+            //  }
+
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(78, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -321,30 +337,29 @@ class Employee extends Model
 
     public function common_activity($requestData)
     {
-
-        $objExpense = Employee::find($requestData['id']);
+        $objEmployee = Employee::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
-            $objExpense->is_deleted = "Y";
+            $objEmployee->is_deleted = "Y";
             $event = 'Delete Records';
         }
 
-        if ($requestData['activity'] == 'active-records') {
-            $objExpense->status = "W";
-            $event = 'Active Records';
+        if ($requestData['activity'] == 'left-employee') {
+            $objEmployee->status = "L";
+            $event = 'Left Employee';
         }
 
-        if ($requestData['activity'] == 'deactive-records') {
-            $objExpense->status = "L";
-            $event = 'Deactive Records';
+        if ($requestData['activity'] == 'working-employee') {
+            $objEmployee->status = "W";
+            $event = 'Working Employee';
         }
 
-        $objExpense->updated_at = date("Y-m-d H:i:s");
+        $objEmployee->updated_at = date("Y-m-d H:i:s");
 
-        if ($objExpense->save()) {
+        if ($objEmployee->save()) {
             $currentRoute = Route::current()->getName();
             unset($requestData['_token']);
             $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'expense');
+            $res = $objAudittrails->add_audit($event, $requestData, 'employee');
 
             return true;
         } else {

@@ -14,6 +14,7 @@ class SalarySlip extends Model
 
     public function getdatatable($fillterdata)
     {
+
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'salary_slip.id',
@@ -28,6 +29,19 @@ class SalarySlip extends Model
             ->join("designation", "designation.id", "=", "salary_slip.designation")
             ->join("technology", "technology.id", "=", "salary_slip.department")
             ->where("salary_slip.is_deleted", "=", "N");
+
+
+        if($fillterdata['employee'] != null && $fillterdata['employee'] != ''){
+            $query->where("employee.id", $fillterdata['employee']);
+        }
+
+        if($fillterdata['month'] != null && $fillterdata['month'] != ''){
+            $query->where("salary_slip.month", $fillterdata['month']);
+        }
+
+        if($fillterdata['year'] != null && $fillterdata['year'] != ''){
+            $query->where("salary_slip.year", $fillterdata['year']);
+        }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -62,22 +76,23 @@ class SalarySlip extends Model
         $max_length = 30;
         foreach ($resultArr as $row) {
 
-            // $target = [];
-            // $target = [45, 46, 47];
-            // $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            $target = [];
+            $target = [128, 129, 130, 131];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $actionhtml = '';
-            // }
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(45, explode(',', $permission_array[0]['permission'])) )
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(128, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee-salaryslip.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission'])) )
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(129, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee-salaryslip.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(47, explode(',', $permission_array[0]['permission'])) )
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(130, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(131, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee-salaryslip.pdf', $row['id']) . '" class="btn btn-icon" data-toggle="tooltip" data-placement="top" title="salary slip pdf"><i class="far fa-file-pdf text-success"></i></a>';
 
 
@@ -89,9 +104,9 @@ class SalarySlip extends Model
             $nestedData[] = $row['designation_name'];
             $monthName = $row['monthYear'];
             $nestedData[] = $monthName;
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
-            // }
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

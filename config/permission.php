@@ -12,6 +12,7 @@
         'attendance_menu' => 'Attendance',
         'reports_menu' => 'Reports',
         'public_holiday_menu' => 'Public Holiday',
+        'salary_slip_menu' => 'Salary Slip',
 
 
         'user_sub_menu'=> 'Users',
@@ -42,6 +43,7 @@
         'employee_birthday_sub_menu' => 'Employee Birthday',
         'employee_bond_last_date_sub_menu' => 'Employee Bond Last Date',
         'public_holiday_sub_menu' => 'Public Holiday',
+        'salary_slip_sub_menu' => 'Salary Slip'
     ];
 
 ?>
