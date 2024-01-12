@@ -269,7 +269,7 @@ class Expense extends Model
         $details = [];
         if ($fillterdata['time'] == 'monthly') {
             $data = collect(range(1, 12));
-            $details['month'] =  ['January' . $fillterdata['year'], 'February' . $fillterdata['year'], 'March' . $fillterdata['year'], 'April' . $fillterdata['year'], 'May' . $fillterdata['year'], 'June' . $fillterdata['year'], 'July' . $fillterdata['year'], 'August' . $fillterdata['year'], 'September' . $fillterdata['year'], 'October' . $fillterdata['year'], 'November' . $fillterdata['year'], 'December' . $fillterdata['year']];
+            $details['month'] =  ['Jan - ' . $fillterdata['year'], 'Feb - ' . $fillterdata['year'], 'Mar - ' . $fillterdata['year'], 'Apr - ' . $fillterdata['year'], 'May - ' . $fillterdata['year'], 'Jun - ' . $fillterdata['year'], 'Jul - ' . $fillterdata['year'], 'Aug - ' . $fillterdata['year'], 'Sep - ' . $fillterdata['year'], 'Oct - ' . $fillterdata['year'], 'Nov - ' . $fillterdata['year'], 'Dec - ' . $fillterdata['year']];
         } elseif ($fillterdata['time'] == 'quarterly') {
             $data = collect(range(1, 4));
             $details['month'] =  ['Jan-March' . $fillterdata['year'], 'Apr-Jun' . $fillterdata['year'], 'July-Sep' . $fillterdata['year'], 'Oct-Dec' . $fillterdata['year']];
@@ -316,6 +316,14 @@ class Expense extends Model
 
                 $qurey->where('expense.year', $fillterdata['year'])
                     ->where('expense.is_deleted', 'N');
+
+                if ($fillterdata['type'] != null && $fillterdata['type'] != '') {
+                    $qurey->where("type_id", $fillterdata['type']);
+                }
+
+                if ($fillterdata['manager'] != null && $fillterdata['manager'] != '') {
+                    $qurey->where("manager_id", $fillterdata['manager']);
+                }
                 $result = $qurey->select(DB::raw("COALESCE(SUM(expense.amount), 0) as amount"), 'branch.branch_name')->get();
                 $branchName = $result[0]['branch_name'];
                 if (!isset($details['amount'][$branchName])) {

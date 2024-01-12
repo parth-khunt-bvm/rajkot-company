@@ -68,7 +68,7 @@ var Countersheet = function(){
 
         })
 
-        $("body").on("click", "#report-list-filter", function() {
+        $("body").on("click", "#report-list-filter-icon", function() {
             $("div .report-list-filter").slideToggle("slow");
         })
     }

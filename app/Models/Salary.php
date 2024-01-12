@@ -397,10 +397,6 @@ class Salary extends Model
                 if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
                     $query->where("technology_id", $fillterdata['technology']);
                 }
-
-                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                    $query->where("branch_id", $fillterdata['branch']);
-                }
                 $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
 
             array_push($amount_array, check_value($res[0]->amount));

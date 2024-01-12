@@ -359,7 +359,7 @@ var Report = function () {
                         plotOptions: {
                             bar: {
                             borderRadius: 10,
-                            columnWidth: '40%',
+                            columnWidth: '60%',
                             dataLabels: {
                                 orientation: 'vertical',
                                 position: 'top',
