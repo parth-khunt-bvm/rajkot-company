@@ -22,6 +22,7 @@ function check_value($value){
         return (number_format($value, 3, '.', ''));
     }
 }
+
 function ccd($data){
     echo "<pre>";
     print_r($data);

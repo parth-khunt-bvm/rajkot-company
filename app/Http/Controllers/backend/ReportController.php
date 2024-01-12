@@ -37,10 +37,10 @@ class ReportController extends Controller
         $data['pluginjs'] = array(
         );
         $data['js'] = array(
-            'report.js',
+            'expensereport.js',
         );
         $data['funinit'] = array(
-            'Report.expense()',
+            'Expensereport.init()',
         );
         $data['header'] = array(
             'title' => 'Expense Reports',
