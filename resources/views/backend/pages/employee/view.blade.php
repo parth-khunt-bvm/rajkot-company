@@ -389,7 +389,7 @@ $image = url("upload/userprofile/default.jpg");
                     <div class="card-body">
                         <div class="asset-allocation-list-div">
                         <!--begin: Datatable-->
-                            <table class="table table-bordered table-checkable" id="asset-allocation-list">
+                            <table class="table table-bordered table-checkable" id="employee-asset-allocation-list">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -401,7 +401,7 @@ $image = url("upload/userprofile/default.jpg");
                                 </thead>
 
                                 <tbody>
-                                    @php
+                                    {{-- @php
                                     $i = 0;
                                     @endphp
                                     @foreach ( $asset_allocations as $asset_allocation )
@@ -415,7 +415,7 @@ $image = url("upload/userprofile/default.jpg");
                                                 <td>{{ $asset_allocation->suppiler_name . ' - ' . $asset_allocation->supplier_shop_name  }} </td>
                                                 <td>{{ $asset_allocation->asset_code  }} </td>
                                             </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                             <!--end: Datatable-->

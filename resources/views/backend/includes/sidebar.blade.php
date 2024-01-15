@@ -654,7 +654,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- report Menu --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-daye.list" || $currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.report.expense" || $currentRoute  ==  "admin.report.revenue" || $currentRoute  ==  "admin.report.salary" || $currentRoute  ==  "admin.report.ajaxcall" || $currentRoute  == "admin.report.profit-loss" || $currentRoute  == "admin.report.profit-loss-by-time"  || $currentRoute  ==  "admin.employee.birthday.list" || $currentRoute  ==  "admin.employee.bond-last-date.list" || $currentRoute  ==  "admin.countersheet.list" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -835,8 +835,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                             {{-- Employee Bond Last Date Menu --}}
                             @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                            <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee.bond-last-daye.list"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
-                                <a href="{{ route('admin.employee.bond-last-daye.list') }}" class="menu-link">
+                            <li class="menu-item  {{ ( $currentRoute  ==  "admin.employee.bond-last-date.list"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                                <a href="{{ route('admin.employee.bond-last-date.list') }}" class="menu-link">
                                         <span class="svg-icon menu-icon">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
 

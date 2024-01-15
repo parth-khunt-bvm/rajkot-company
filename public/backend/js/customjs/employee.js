@@ -579,12 +579,13 @@ var Employee = function () {
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
 
-                    console.log('data',data);
-                    console.log('type',type);
+                    if (calendar) {
+                        calendar.destroy();
+                    }
 
                     if (type == 'attendance') {
+                        $(".employee-detail-view").html(" ");
                         var res = JSON.parse(data);
-
                         var html = "";
                         var html = '<div class="row mt-5 ml-5">' +
                             '<div class="col-md-3">' +
@@ -635,6 +636,7 @@ var Employee = function () {
 
                         $(".employee-detail-view").html(html);
                         $('.select2').select2();
+
                         eventArray = [];
                         $.each(res, function (key, value) {
                             console.log(value);
@@ -707,7 +709,32 @@ var Employee = function () {
                             }
                         });
                         calendar.render();
-                    } else {
+                    } else if (type == 'asset-allocation') {
+
+                        var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
+
+                        if ($.fn.DataTable.isDataTable('#employee-asset-allocation-list')) {
+                            $('#employee-asset-allocation-list').DataTable().destroy();
+                        }
+
+                        $('.select2').select2();
+                        var dataArr = {'userId': userId,};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#employee-asset-allocation-list',
+                            'ajaxURL': baseurl + "admin/employee/asset-allocation/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0],
+                            'noSearchApply': [0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
+                    }
+                    else {
                         $(".employee-detail-view").html(data);
                     }
 

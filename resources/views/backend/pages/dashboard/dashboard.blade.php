@@ -126,7 +126,7 @@
                     </svg>
                     <!--end::Svg Icon-->
                 </span>
-                <a href="{{ route('admin.employee.bond-last-daye.list') }}" class="text-primary font-weight-bold font-size-h6 mt-2">Bond Last Date {{ $employee['employee']->bond_last_date_count ?? 0 }}</a>
+                <a href="{{ route('admin.employee.bond-last-date.list') }}" class="text-primary font-weight-bold font-size-h6 mt-2">Bond Last Date {{ $employee['employee']->bond_last_date_count ?? 0 }}</a>
             </div>
         </div>
     </div>

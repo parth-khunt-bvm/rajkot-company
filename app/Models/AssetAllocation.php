@@ -12,7 +12,6 @@ class AssetAllocation extends Model
 
     protected $table = "asset_master";
 
-
     public function getdatatable($fillterdata)
     {
         $requestData = $_REQUEST;

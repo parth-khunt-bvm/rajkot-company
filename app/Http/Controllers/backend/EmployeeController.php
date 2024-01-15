@@ -387,12 +387,15 @@ class EmployeeController extends Controller
             );
             $data['plugincss'] = array(
                 'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+                'plugins/custom/datatables/datatables.bundle.css'
             );
             $data['pluginjs'] = array(
                 'toastr/toastr.min.js',
                 'pages/crud/forms/widgets/select2.js',
                 'validate/jquery.validate.min.js',
                 'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+                'plugins/custom/datatables/datatables.bundle.js',
+                'pages/crud/datatables/data-sources/html.js',
 
             );
             $data['js'] = array(

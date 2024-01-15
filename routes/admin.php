@@ -28,6 +28,7 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
 use App\Http\Controllers\backend\PublicHolidayController;
@@ -198,8 +199,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/employee/birthday/list', [EmployeeBirthdayController::class, 'birthDayList'])->name('admin.employee.birthday.list');
     Route::post('admin/employee/birthday/ajaxcall', [EmployeeBirthdayController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
 
-    Route::get('admin/employee/bond/last/date/list', [EmployeeBondLastDateController::class, 'bondLastDateList'])->name('admin.employee.bond-last-daye.list');
-    Route::post('admin/employee/bond/last/date/ajaxcall', [EmployeeBondLastDateController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
+    Route::get('admin/employee/bond/last/date/list', [EmployeeBondLastDateController::class, 'bondLastDateList'])->name('admin.employee.bond-last-date.list');
+    Route::post('admin/employee/bond/last/date/ajaxcall', [EmployeeBondLastDateController::class, 'ajaxcall'])->name('admin.employee.bond-last-date.ajaxcall');
+
+    Route::get('admin/employee/asset-allocation/list', [EmployeeAssetAllocationController::class, 'assetAllocationList'])->name('admin.employee.asset-allocation.list');
+    Route::post('admin/employee/asset-allocation/ajaxcall', [EmployeeAssetAllocationController::class, 'ajaxcall'])->name('admin.employee.asset-allocation.ajaxcall');
 
     Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
