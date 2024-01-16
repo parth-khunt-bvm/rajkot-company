@@ -211,8 +211,6 @@ class Salary extends Model
 
     public function get_salary_details($salaryId)
     {
-
-
         return Salary::from('salary')
             ->join("manager", "manager.id", "=", "salary.manager_id")
             ->join("branch", "branch.id", "=", "salary.branch_id")
@@ -221,7 +219,6 @@ class Salary extends Model
             ->where('salary.id', $salaryId)
             ->first();
     }
-
     public function common_activity($requestData)
     {
 
@@ -399,10 +396,6 @@ class Salary extends Model
 
                 if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
                     $query->where("technology_id", $fillterdata['technology']);
-                }
-
-                if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                    $query->where("branch_id", $fillterdata['branch']);
                 }
                 $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
 

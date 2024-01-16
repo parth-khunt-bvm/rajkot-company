@@ -39,17 +39,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Branch Name</label>
-                                        <select class="form-control select2 branch change" id="branch_id"  name="branch_id">
-                                            <option value="">Please select Branch Name</option>
-                                            @foreach (user_branch()  as $key => $value )
-                                                <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label>Technology Name</label>
                                         <select class="form-control select2 type change" id="technology_id"  name="technology_id">
                                             <option value="">Please select type Name</option>
@@ -59,10 +48,6 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>year</label>
@@ -74,7 +59,10 @@
                                         </select>
                                     </div>
                                 </div>
-
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
                                 <div class="dropdown dropdown-inline">
                                     <label>select Time</label>
                                     <select class="form-control select2 month change_report change" id="salary_report_time" name="report_time">

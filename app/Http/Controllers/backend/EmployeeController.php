@@ -349,10 +349,10 @@ class EmployeeController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Employee details successfully deleted.";
-                    } elseif ($data['activity'] == 'active-records') {
-                        $return['message'] = "Employee details successfully actived.";
+                    } elseif ($data['activity'] == 'left-employee') {
+                        $return['message'] = "Employee details successfully left.";
                     } else {
-                        $return['message'] = "Employee details successfully deactived.";
+                        $return['message'] = "Employee details successfully working.";
                     }
                     $return['redirect'] = route('admin.employee.list');
                 } else {
@@ -387,12 +387,15 @@ class EmployeeController extends Controller
             );
             $data['plugincss'] = array(
                 'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+                'plugins/custom/datatables/datatables.bundle.css'
             );
             $data['pluginjs'] = array(
                 'toastr/toastr.min.js',
                 'pages/crud/forms/widgets/select2.js',
                 'validate/jquery.validate.min.js',
                 'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+                'plugins/custom/datatables/datatables.bundle.js',
+                'pages/crud/datatables/data-sources/html.js',
 
             );
             $data['js'] = array(
@@ -473,7 +476,7 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(79, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(79, explode(',', $permission_array[0]['permission']))){
 
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($viewId);
@@ -495,7 +498,8 @@ class EmployeeController extends Controller
         $userId = Auth()->guard('admin')->user()->user_type;
         $permission_array = get_users_permission($userId);
 
-        if(in_array(80, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(80, explode(',', $permission_array[0]['permission']))){
+
             $objEmployee = new Employee();
             $data['employee_details'] = $objEmployee->get_employee_details($viewId);
 

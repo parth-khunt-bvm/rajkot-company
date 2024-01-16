@@ -52,6 +52,7 @@ class Brand extends Model
             ->take($requestData['length'])
             ->select('brand.id', 'brand.brand_name','brand.status')
             ->get();
+            dd($resultArr);
 
         $data = array();
         $i = 0;

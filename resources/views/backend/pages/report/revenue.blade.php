@@ -24,86 +24,94 @@
                     </div>
 
                     <div class="row ml-5 mt-5 revenue-filter" style="display: none">
-                        <div class="col-md-5">
+                        {{-- <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Manager Name</label>
-                                        <select class="form-control select2 manager_id change" id="manager_id"  name="manager_id">
-                                            <option value="">Please select Manager Name</option>
-                                            @foreach ($manager  as $key => $value )
-                                                <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Technology Name</label>
-                                        <select class="form-control select2 type change" id="technology_id"  name="technology_id">
-                                            <option value="">Please select type Name</option>
-                                            @foreach ($technology  as $key => $value )
-                                                <option value="{{ $value['id'] }}">{{ $value['technology_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
                             </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="row">
+                        </div> --}}
 
+
+                        <div class="col-md-12">
+                            <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>year</label>
-                                        <select class="form-control select2 year change" id="revenue_year_id"  name="year">
-                                            <option value="">Select Year</option>
-                                            @for ($i = 2019; $i <= date('Y'); $i++)
-                                            <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
-                                        @endfor
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Manager Name</label>
+                                                <select class="form-control select2 manager_id " id="manager_id"  name="manager_id">
+                                                    <option value="">Manager Name</option>
+                                                    @foreach ($manager  as $key => $value )
+                                                        <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Technology Name</label>
+                                                <select class="form-control select2 type " id="technology_id"  name="technology_id">
+                                                    <option value="">Type Name</option>
+                                                    @foreach ($technology  as $key => $value )
+                                                        <option value="{{ $value['id'] }}">{{ $value['technology_name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Year</label>
+                                                        <select class="form-control select2 year " id="revenue_year_id"  name="year">
+                                                            <option value="">Select Year</option>
+                                                            @for ($i = 2019; $i <= date('Y'); $i++)
+                                                            <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                                        @endfor
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Select Time</label>
+                                                        <select class="form-control select2 month change_report" id="revenue_report_time" name="report_time">
+                                                            <option value="custom" selected>custom</option>
+                                                            <option value="monthly" selected>Monthly</option>
+                                                            <option value="quarterly">Quarterly</option>
+                                                            <option value="semiannually">SemiAnnually</option>
+                                                            <option value="annually">annually</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-4 date" style="display: none">
+                                                    <div class="form-group">
+                                                        <label>Start Date</label>
+                                                        <input type="text" class="form-control datepicker_date " id="start_date_id" name="start_date" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 date" style="display: none">
+                                                    <div class="form-group">
+                                                        <label>End Date</label>
+                                                        <input type="text" class="form-control datepicker_date " id="end_date_id" name="end_date" autocomplete="off">
+                                                    </div>
+                                                </div>
 
-                                <div class="dropdown dropdown-inline">
-                                    <label>select Time</label>
-                                    <select class="form-control select2 month change_report change" id="revenue_report_time" name="report_time">
-                                        <option value="custom">Custom</option>
-                                        <option value="monthly" selected>Monthly</option>
-                                        <option value="quarterly">Quarterly</option>
-                                        <option value="semiannually">SemiAnnually</option>
-                                        <option value="annually">annually</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 mt-5">
-                                    <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row public-revenue-date-filter" style="display: none">
-                        <div class="col-md-10">
-                            <div class="row justify-content-end">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Start Date:</label>
-                                        <input type="text" class="form-control datepicker_date change" id="start_date_id" name="start_date" autocomplete="off">
+                                                <div class="col-md-4 mt-5">
+                                                    <button type="button" class="btn btn-primary mt-2 change-revenue-report">Change</button>
+                                                    <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>End Date:</label>
-                                        <input type="text" class="form-control datepicker_date change" id="end_date_id" name="end_date" autocomplete="off">
-                                    </div>
-                                </div>
-
-                                {{-- <div class="col-md-2 mt-5">
-                                    <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

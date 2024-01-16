@@ -267,19 +267,18 @@ class Revenue extends Model
             $details['month'] = [ 'Jan-Dec'.$fillterdata['year']];
         }
 
-        // $timestamp = strtotime($fillterdata['startDate']);
-        // $startMonthName = date('F', $timestamp);
+        $timestamp = strtotime($fillterdata['startDate']);
+        $startMonthName = date('M', $timestamp);
+        $fullYear = date('Y', $timestamp);
+        $timestamp = strtotime($fillterdata['endDate']);
+        $endMonthName = date('M', $timestamp);
 
-        // $timestamp = strtotime($fillterdata['startDate']);
-        // $endMonthName = date('F', $timestamp);
-
-        // if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
-        //     $data = collect(range(1, 1));
-        //     $details['month'] = [ $monthName.'-'.$fillterdata['endDate'] .$fillterdata['year']];
-        // }
+        if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+            $data = collect(range(1, 1));
+            $details['month'] = [ $startMonthName.'-'.$endMonthName . $fullYear];
+        }
         $amount_array = [];
         foreach($data as $key => $value){
-
             $query = Revenue::from('revenue');
             if($fillterdata['time'] == 'monthly'){
                 $query->where('month_of', $value);
@@ -308,15 +307,19 @@ class Revenue extends Model
                 }
             }
 
-            $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
+            if (!empty($fillterdata['startDate']) ){
+                $query->where('year', $fullYear)->where('is_deleted', 'N');
 
-            if (!empty($fillterdata['start_date'])) {
-                // $query->whereDate('date', '>=', $fillterdata['start_date']);
+            } elseif($fillterdata['startDate'] == null) {
                 $query->where('year', $fillterdata['year'])->where('is_deleted', 'N');
             }
 
-            if (!empty($fillterdata['end_date'])) {
-                $query->whereDate('date', '<=', $fillterdata['end_date']);
+            if (!empty($fillterdata['startDate'])) {
+                $query->whereDate('date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+            }
+
+            if (!empty($fillterdata['endDate'])) {
+                $query->whereDate('date', '<=', date('Y-m-d', strtotime($fillterdata['endDate'])));
             }
 
             if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
@@ -327,7 +330,6 @@ class Revenue extends Model
                 $query->where("technology_id", $fillterdata['technology']);
             }
             $res = $query->select(DB::raw("SUM(amount) as amount"))->get();
-
             array_push($amount_array, check_value($res[0]->amount));
         }
 

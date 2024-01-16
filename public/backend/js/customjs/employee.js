@@ -51,7 +51,7 @@ var Employee = function () {
             });
         });
 
-        $("body").on("click", ".deactive-records", function () {
+        $("body").on("click", ".left-employee", function () {
             var id = $(this).data('id');
             setTimeout(function () {
                 $('.yes-sure-deactive:visible').attr('data-id', id);
@@ -60,7 +60,7 @@ var Employee = function () {
 
         $('body').on('click', '.yes-sure-deactive', function () {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'deactive-records', _token: $('#_token').val() };
+            var data = { 'id': id, 'activity': 'left-employee', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
@@ -75,7 +75,7 @@ var Employee = function () {
             });
         });
 
-        $("body").on("click", ".active-records", function () {
+        $("body").on("click", ".working-employee", function () {
             var id = $(this).data('id');
             setTimeout(function () {
                 $('.yes-sure-active:visible').attr('data-id', id);
@@ -84,7 +84,7 @@ var Employee = function () {
 
         $('body').on('click', '.yes-sure-active', function () {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'active-records', _token: $('#_token').val() };
+            var data = { 'id': id, 'activity': 'working-employee', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
@@ -578,13 +578,13 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
-
-                    console.log('data',data);
-                    console.log('type',type);
-
                     if (type == 'attendance') {
-                        var res = JSON.parse(data);
+                        var html = '';
+                        html = '<div id="attendance_calendar"></div>';
 
+                        $(".attendance-list").html(html);
+
+                        var res = JSON.parse(data);
                         var html = "";
                         var html = '<div class="row mt-5 ml-5">' +
                             '<div class="col-md-3">' +
@@ -635,6 +635,7 @@ var Employee = function () {
 
                         $(".employee-detail-view").html(html);
                         $('.select2').select2();
+
                         eventArray = [];
                         $.each(res, function (key, value) {
                             console.log(value);
@@ -707,7 +708,32 @@ var Employee = function () {
                             }
                         });
                         calendar.render();
-                    } else {
+                    } else if (type == 'asset-allocation') {
+
+                        var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
+
+                        if ($.fn.DataTable.isDataTable('#employee-asset-allocation-list')) {
+                            $('#employee-asset-allocation-list').DataTable().destroy();
+                        }
+
+                        $('.select2').select2();
+                        var dataArr = {'userId': userId,};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#employee-asset-allocation-list',
+                            'ajaxURL': baseurl + "admin/employee/asset-allocation/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0],
+                            'noSearchApply': [0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
+                    }
+                    else {
                         $(".employee-detail-view").html(data);
                     }
 

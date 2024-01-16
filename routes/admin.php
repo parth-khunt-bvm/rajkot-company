@@ -3,6 +3,7 @@
 use App\Http\Controllers\backend\AssetAllocationController;
 use App\Http\Controllers\backend\AttendanceController;
 use App\Http\Controllers\backend\ReportController;
+use App\Http\Controllers\backend\SalarySlipController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\LoginController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
 use App\Http\Controllers\backend\PublicHolidayController;
@@ -101,25 +103,32 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/salary/view/{id}', [SalaryController::class, 'view'])->name('admin.salary.view');
     Route::post('admin/salary/save-import-salary', [SalaryController::class, 'save_import'])->name('admin.salary.save-import-salary');
 
+    // salary slip
+    Route::get('admin/employee-salaryslip/list', [SalarySlipController::class, 'list'])->name('admin.employee-salaryslip.list');
+    Route::get('admin/employee-salaryslip/add', [SalarySlipController::class, 'add'])->name('admin.employee-salaryslip.add');
+    Route::post('admin/employee-salaryslip/ajaxcall', [SalarySlipController::class, 'ajaxcall'])->name('admin.employee-salaryslip.ajaxcall');
+    Route::post('admin/employee-salaryslip/save-add-employee-salaryslip', [SalarySlipController::class, 'saveAdd'])->name('admin.employee-salaryslip.save-add-employee-salaryslip');
+    Route::get('admin/employee-salaryslip/edit/{id}', [SalarySlipController::class, 'edit'])->name('admin.employee-salaryslip.edit');
+    Route::post('admin/employee-salaryslip/save-edit-employee-salaryslip', [SalarySlipController::class, 'saveEdit'])->name('admin.employee-salaryslip.save-edit-employee-salaryslip');
+    Route::get('admin/employee-salaryslip/view/{id}', [SalarySlipController::class, 'view'])->name('admin.employee-salaryslip.view');
+    Route::get('admin/employee-salaryslip/pdf/{id}', [SalarySlipController::class, 'salarySlipPdf'])->name('admin.employee-salaryslip.pdf');
 
-     //  Type
-     Route::get('admin/type/list', [TypeController::class, 'list'])->name('admin.type.list');
-     Route::get('admin/type/add', [TypeController::class, 'add'])->name('admin.type.add');
-     Route::post('admin/type/save-add-type', [TypeController::class, 'saveAdd'])->name('admin.type.save-add-type');
-     Route::get('admin/type/edit/{id}', [TypeController::class, 'edit'])->name('admin.type.edit');
-     Route::post('admin/type/save-edit-type', [TypeController::class, 'saveEdit'])->name('admin.type.save-edit-type');
-     Route::post('admin/type/ajaxcall', [TypeController::class, 'ajaxcall'])->name('admin.type.ajaxcall');
-     Route::post('admin/type/save-import-type', [TypeController::class, 'save_import'])->name('admin.type.save-import-type');
+    //  Type
+    Route::get('admin/type/list', [TypeController::class, 'list'])->name('admin.type.list');
+    Route::get('admin/type/add', [TypeController::class, 'add'])->name('admin.type.add');
+    Route::post('admin/type/save-add-type', [TypeController::class, 'saveAdd'])->name('admin.type.save-add-type');
+    Route::get('admin/type/edit/{id}', [TypeController::class, 'edit'])->name('admin.type.edit');
+    Route::post('admin/type/save-edit-type', [TypeController::class, 'saveEdit'])->name('admin.type.save-edit-type');
+    Route::post('admin/type/ajaxcall', [TypeController::class, 'ajaxcall'])->name('admin.type.ajaxcall');
+    Route::post('admin/type/save-import-type', [TypeController::class, 'save_import'])->name('admin.type.save-import-type');
 
      // asset
-
     Route::get('admin/asset/list', [AssetController::class, 'list'])->name('admin.assets.list');
     Route::post('admin/assets/ajaxcall', [AssetController::class, 'ajaxcall'])->name('admin.assets.ajaxcall');
     Route::get('admin/assets/add', [AssetController::class, 'add'])->name('admin.assets.add');
     Route::post('admin/assets/save-add-technology', [AssetController::class, 'saveAdd'])->name('admin.assets.save-add-assets');
 
     //brand
-
     Route::get('admin/brand/list', [BrandController::class, 'list'])->name('admin.brand.list');
     Route::post('admin/brand/ajaxcall', [BrandController::class, 'ajaxcall'])->name('admin.brand.ajaxcall');
     Route::get('admin/brand/add', [BrandController::class, 'add'])->name('admin.brand.add');
@@ -190,8 +199,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/employee/birthday/list', [EmployeeBirthdayController::class, 'birthDayList'])->name('admin.employee.birthday.list');
     Route::post('admin/employee/birthday/ajaxcall', [EmployeeBirthdayController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
 
-    Route::get('admin/employee/bond/last/date/list', [EmployeeBondLastDateController::class, 'bondLastDateList'])->name('admin.employee.bond-last-daye.list');
-    Route::post('admin/employee/bond/last/date/ajaxcall', [EmployeeBondLastDateController::class, 'ajaxcall'])->name('admin.employee.birthday.ajaxcall');
+    Route::get('admin/employee/bond/last/date/list', [EmployeeBondLastDateController::class, 'bondLastDateList'])->name('admin.employee.bond-last-date.list');
+    Route::post('admin/employee/bond/last/date/ajaxcall', [EmployeeBondLastDateController::class, 'ajaxcall'])->name('admin.employee.bond-last-date.ajaxcall');
+
+    Route::get('admin/employee/asset-allocation/list', [EmployeeAssetAllocationController::class, 'assetAllocationList'])->name('admin.employee.asset-allocation.list');
+    Route::post('admin/employee/asset-allocation/ajaxcall', [EmployeeAssetAllocationController::class, 'ajaxcall'])->name('admin.employee.asset-allocation.ajaxcall');
 
     Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');
