@@ -237,4 +237,15 @@ class SalarySlip extends Model
             return false;
         }
     }
+
+    public function get_employee_salary_slip_details($employeeId)
+    {
+    return  SalarySlip::from('salary_slip')
+            ->join("employee", "employee.id", "=", "salary_slip.employee")
+            ->join("designation", "designation.id", "=", "salary_slip.designation")
+            ->join("technology", "technology.id", "=", "salary_slip.department")
+            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt','employee.first_name', 'employee.last_name')
+            ->where('salary_slip.employee', $employeeId)
+            ->first();
+    }
 }

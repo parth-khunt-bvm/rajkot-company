@@ -11,6 +11,7 @@ use App\Models\CompanyInfo;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Manager;
+use App\Models\SalarySlip;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
@@ -327,10 +328,18 @@ class EmployeeController extends Controller
                     exit;
 
                 }elseif($inputData['type'] == 'salary-slip'){
-                    $objEmployee = new Employee();
-                    $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);
-                    $details =  view('backend.pages.employee.salary_slip', $data);
-                    echo $details;
+                    // $objSalaryslip = new SalarySlip();
+                    // $data['salary_slip_details'] = $objSalaryslip->get_employee_salary_slip_details($inputData['userId']);
+
+                    // dd($data['salary_slip_details']);
+
+                    // $details =  view('backend.pages.employee.salary_slip', $data);
+                    // echo $details;
+                    // break;
+
+                    $objSalaryslip = new SalarySlip();
+                    $salary_slip_details = $objSalaryslip->get_employee_salary_slip_details($inputData['userId']);
+                    echo json_encode($salary_slip_details);
                     break;
 
 
@@ -378,6 +387,9 @@ class EmployeeController extends Controller
 
             $objAssetAllocation = new AssetAllocation();
             $data['asset_allocations'] = $objAssetAllocation->get_asset_master_details($viewId);
+
+            $objSalaryslip = new SalarySlip();
+            $data['salary_slip_details'] = $objSalaryslip->get_employee_salary_slip_details($viewId);
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
