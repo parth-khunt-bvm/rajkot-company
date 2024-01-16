@@ -578,13 +578,12 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
-
-                    if (calendar) {
-                        calendar.destroy();
-                    }
-
                     if (type == 'attendance') {
-                        $(".employee-detail-view").html(" ");
+                        var html = '';
+                        html = '<div id="attendance_calendar"></div>';
+
+                        $(".attendance-list").html(html);
+
                         var res = JSON.parse(data);
                         var html = "";
                         var html = '<div class="row mt-5 ml-5">' +
