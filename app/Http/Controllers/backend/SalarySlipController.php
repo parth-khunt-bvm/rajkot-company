@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\SalarySlip;
@@ -315,6 +316,28 @@ class SalarySlipController extends Controller
         }else{
             return redirect()->route('my-dashboard');
         }
+    }
+
+    public function employeeSalarySlip(Request $request){
+
+            $SalarySlip = new SalarySlip();
+            $result = $SalarySlip->employeeSalarySlip($request);
+            if ($result == "added") {
+                $return['status'] = 'success';
+                $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Salary Slip details successfully added.';
+                $return['redirect'] = route('admin.employee-salaryslip.list');
+            } elseif ($result == "salary_slip_exists") {
+                $return['status'] = 'error';
+                $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Salary Slip has already exists.';
+            } else {
+                $return['status'] = 'error';
+                $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Something goes to wrong';
+            }
+            echo json_encode($return);
+            exit;
     }
 
 }

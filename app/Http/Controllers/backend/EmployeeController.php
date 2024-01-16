@@ -327,22 +327,6 @@ class EmployeeController extends Controller
                     echo json_encode($attendanceData);
                     exit;
 
-                }elseif($inputData['type'] == 'salary-slip'){
-                    // $objSalaryslip = new SalarySlip();
-                    // $data['salary_slip_details'] = $objSalaryslip->get_employee_salary_slip_details($inputData['userId']);
-
-                    // dd($data['salary_slip_details']);
-
-                    // $details =  view('backend.pages.employee.salary_slip', $data);
-                    // echo $details;
-                    // break;
-
-                    $objSalaryslip = new SalarySlip();
-                    $salary_slip_details = $objSalaryslip->get_employee_salary_slip_details($inputData['userId']);
-                    echo json_encode($salary_slip_details);
-                    break;
-
-
                 } else {
                     $objEmployee = new Employee();
                     $data['employee_details'] = $objEmployee->get_employee_details($inputData['userId']);

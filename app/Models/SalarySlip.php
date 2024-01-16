@@ -238,5 +238,47 @@ class SalarySlip extends Model
         }
     }
 
+    public function employeeSalarySlip($requestData){
+        $branchs = Branch::from('branch')
+        ->where("branch.is_deleted", "=", "N")
+        ->pluck('branch.branch_name','branch.id')->toArray();
+
+        foreach($branchs as $branchKey => $branchValue){
+              print_r($branchKey);
+              $employees = Employee::from('employee')
+              ->where("employee.is_deleted", "=", "N")
+              ->where("employee.branch", "=",$branchKey)
+              ->select('employee.*')->get()->toArray();
+
+              foreach($employees as $employeeKey => $employeeValue){
+
+                $objSalaryslip = new Salaryslip();
+                $objSalaryslip->department = $employeeValue['department'];
+                $objSalaryslip->designation = $employeeValue['designation'];
+                $objSalaryslip->employee = $employeeValue['id'];
+                $objSalaryslip->month = 12;
+                $objSalaryslip->year = 2024;
+                $objSalaryslip->pay_salary_date = 1;
+                $objSalaryslip->basic_salary = 1;
+                $objSalaryslip->working_day = 1;
+                $objSalaryslip->loss_of_pay = 1;
+                $objSalaryslip->house_rent_allow_pr = 1;
+                $objSalaryslip->house_rent_allow = 1;
+                $objSalaryslip->income_tax_pr = 1;
+                $objSalaryslip->income_tax = 1;
+                $objSalaryslip->pf_pr = 1;
+                $objSalaryslip->pf = 1;
+                $objSalaryslip->pt_pr = 1;
+                $objSalaryslip->pt = 1;
+                $objSalaryslip->is_deleted = 'N';
+                $objSalaryslip->created_at = date("Y-m-d h:i:s");
+                $objSalaryslip->updated_at = date("Y-m-d h:i:s");
+                $objSalaryslip->save();
+
+              }
+        }
+
+    }
+
 
 }
