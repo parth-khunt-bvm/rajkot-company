@@ -369,7 +369,8 @@ class Employee extends Model
     public function get_admin_employee_details($employeIdArray = null){
         $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name')
                 ->join("branch", "branch.id", "=", "employee.branch")
-                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] );
+                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                ->where("employee.is_deleted", "=", "N");
         if($employeIdArray != null){
            $qurey->whereNotIn('employee.id', $employeIdArray);
         }
@@ -439,10 +440,16 @@ class Employee extends Model
         return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation', 'employee.salary')
+             ->select('employee.id','employee.first_name','employee.last_name','employee.salary')
              ->where('employee.department', $departmentId)
              ->where('employee.designation', $designationId)
              ->get();
+    }
+
+    public function getEmployeeBasicSalary($data){
+
+        return Employee::select('salary')->where("id",$data['employee'])->get();
+
     }
 
 }

@@ -263,6 +263,12 @@ class SalarySlipController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'changeEmployee':
+                $objEmployee = new Employee();
+                $list = $objEmployee->getEmployeeBasicSalary(($request->input('data')));
+                echo json_encode($list);
+                break;
+
             case 'get-employee-detail':
                 $data = $request->input('data');
                 $objEmployee = new Employee();

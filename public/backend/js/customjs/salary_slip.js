@@ -99,7 +99,7 @@ var SalarySlip = function(){
             location.reload(true);
         });
 
-        
+
     }
 
     var addSalarySlip = function(){
@@ -182,8 +182,22 @@ var SalarySlip = function(){
                    }
                    $(".employee").html(html);
                    $('.select2').select2();
-                   $("#basic").val(Employee[0].salary);
-                   salaryCount();
+
+                   $("body").on("change",".employee",function(){
+
+                    var selectedEmployeeId = $(this).val();
+
+                    var selectedEmployee = Employee.find(function (employee) {
+                        return employee.id == selectedEmployeeId;
+                    });
+
+                    if (selectedEmployee) {
+                        $("#basic").val(selectedEmployee.salary);
+                        salaryCount();
+                    }
+
+                    });
+
                 },
             });
         });
@@ -375,7 +389,6 @@ var SalarySlip = function(){
         $('body').on('change', '.employee-change', function(){
             var department = $('#empDepartment').val();
             var designation = $('#empDesignation').val();
-
             var data = { 'department': department, 'designation': designation,};
             $.ajax({
                 type: "POST",
@@ -398,14 +411,27 @@ var SalarySlip = function(){
             });
         });
 
+           $("body").on("change",".employee",function(){
+            console.log('employee');
+            var employee = $(this).val();
+            var data = { employee: employee, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee-salaryslip/ajaxcall",
+                data: { 'action': 'changeEmployee', 'data': data },
 
+                success: function(data) {
+                    var output = JSON.parse(data);
+                    $("#basic").val(output[0].salary);
+                }
+            });
+        });
 
          var getDaysInMonth = function(month,year) {
-            // Here January is 1 based
-            //Day 0 is the last day in the previous month
            return new Date(year, month, 0).getDate();
-          // Here January is 0 based
-          // return new Date(year, month+1, 0).getDate();
           };
 
         $("body").on("change","#monthId",function(){
