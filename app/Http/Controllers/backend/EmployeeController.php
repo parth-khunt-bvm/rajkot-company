@@ -389,7 +389,7 @@ class EmployeeController extends Controller
             $data['asset_allocations'] = $objAssetAllocation->get_asset_master_details($viewId);
 
             $objSalaryslip = new SalarySlip();
-            $data['salary_slip_details'] = $objSalaryslip->get_employee_salary_slip_details($viewId);
+            $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details($viewId);
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
