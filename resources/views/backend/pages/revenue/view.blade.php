@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-3">
                                 <b>Date</b> <br>
-                                 {{ $revenue_details->date }}
+                                 {{ date_formate($revenue_details->date) }}
                             </div>
                             <div class="col-3">
                                 <b>Month Of</b> <br>
