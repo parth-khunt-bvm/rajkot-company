@@ -113,6 +113,10 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/employee-salaryslip/view/{id}', [SalarySlipController::class, 'view'])->name('admin.employee-salaryslip.view');
     Route::get('admin/employee-salaryslip/pdf/{id}', [SalarySlipController::class, 'salarySlipPdf'])->name('admin.employee-salaryslip.pdf');
 
+    Route::get('admin/all-employee-salaryslip/add', [SalarySlipController::class, 'salarySlipAdd'])->name('admin.all-employee-salaryslip.add');
+    Route::post('admin/all-employee-salaryslip/save-add-all-employee-salaryslip', [SalarySlipController::class, 'salarySlipSaveAdd'])->name('admin.all-employee-salaryslip.save-add-all-employee-salaryslip');
+
+
     //  Type
     Route::get('admin/type/list', [TypeController::class, 'list'])->name('admin.type.list');
     Route::get('admin/type/add', [TypeController::class, 'add'])->name('admin.type.add');

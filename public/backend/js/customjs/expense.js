@@ -165,6 +165,7 @@ var Expense = function(){
             $("div .expense-filter").slideToggle("slow");
         })
     }
+
     var addExpense= function(){
         $('.select2').select2();
         var form = $('#add-expense-users');
@@ -230,7 +231,7 @@ var Expense = function(){
                     }
                 });
             }
-            $("#month").html(html);
+            $("#monthId").html(html);
         });
     }
 

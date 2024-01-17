@@ -62,7 +62,7 @@
                                             <label>Date
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" value="{{ $expense_details->date }}" autocomplete="off">
+                                            <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" value="{{ date_formate($expense_details->date) }}" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>

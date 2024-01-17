@@ -173,7 +173,7 @@ class Counter extends Model
             $objCounter->full_leaves = $requestData['full_leaves'] ?? '-';
             $objCounter->total_days = $requestData['total_days'] ?? '-';
             $objCounter->paid_leaves_details = $requestData['paid_leaves_details'];
-            $objCounter->paid_date = date('Y-m-d', strtotime($requestData['date']));
+            $objCounter->paid_date = $requestData['paid_date'] != '' && $requestData['paid_date'] != NULL ? date('Y-m-d', strtotime($requestData['paid_date'])) : NULL;
             $objCounter->salary_status = $requestData['salary_status'];
             $objCounter->salary_counted = $requestData['salary_counted'];
             $objCounter->note = $requestData['note'];
@@ -194,7 +194,7 @@ class Counter extends Model
 
     public function saveEdit($requestData)
     {
-        $countCounter = Counter::from('counter')
+         $countCounter = Counter::from('counter')
             ->where('counter.month', $requestData['month'])
             ->where('counter.year', $requestData['year'])
             ->where('counter.employee_id', $requestData['employee_id'])
@@ -212,7 +212,7 @@ class Counter extends Model
             $objCounter->full_leaves = $requestData['full_leaves'] ?? '-';
             $objCounter->total_days = $requestData['total_days'] ?? '-';
             $objCounter->paid_leaves_details = $requestData['paid_leaves_details'];
-            $objCounter->paid_date = date('Y-m-d', strtotime($requestData['date']));
+            $objCounter->paid_date = $requestData['paid_date'] != '' && $requestData['paid_date'] != NULL ? date('Y-m-d', strtotime($requestData['paid_date'])) : NULL;
             $objCounter->salary_status = $requestData['salary_status'];
             $objCounter->salary_counted = $requestData['salary_counted'];
             $objCounter->note = $requestData['note'];

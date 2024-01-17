@@ -26,6 +26,11 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
+
+                    {{-- <a href="{{ route('admin.all-employee-salaryslip.add') }}" class="btn btn-primary font-weight-bolder m-2">
+                        Generate Salary Slip
+                    </a> --}}
+
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(127, explode(',', $permission_array[0]['permission'])) )
 
                     <a href="{{ route('admin.employee-salaryslip.add') }}" class="btn btn-primary font-weight-bolder">
@@ -40,8 +45,10 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>Add Salary Slip
-                  </a>
+                    </a>
                   @endif
+
+
                   <!--end::Button-->
                 </div>
 

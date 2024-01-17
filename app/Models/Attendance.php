@@ -23,7 +23,7 @@ class Attendance extends Model
         $columns = array(
             0 => 'attendance.id',
             1 => 'attendance.date',
-            2 => 'employee.first_name',
+            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
             3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Actived"
                                 WHEN attendance.attendance_type = "1" THEN "Absent"
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
@@ -62,7 +62,7 @@ class Attendance extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('attendance.id', 'employee.first_name','attendance.date','attendance.attendance_type','attendance.reason')
+            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'attendance.date','attendance.attendance_type','attendance.reason')
             ->get();
 
         $data = array();
@@ -87,7 +87,7 @@ class Attendance extends Model
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = date_formate($row['date']);
-            $nestedData[] = $row['first_name'];
+            $nestedData[] = $row['fullName'];
             $nestedData[] = $attendance_type;
             if (strlen($row['reason']) > $max_length) {
                 $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
@@ -200,6 +200,7 @@ class Attendance extends Model
         $employee = Employee::from('employee')
              ->join("branch", "branch.id", "=", "employee.branch")
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.status", "=", "W")
              ->where("employee.is_deleted", "=", "N")
              ->pluck('employee.id')->toArray();
 

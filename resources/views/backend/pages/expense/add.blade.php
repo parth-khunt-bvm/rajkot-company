@@ -71,7 +71,7 @@
                                             <label>Month
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 month" id="month"  name="month" disabled="disabled">
+                                            <select class="form-control select2 month" id="monthId"  name="month" disabled="disabled">
                                                 <option value="">Month of salary</option>
                                             </select>
                                         </div>

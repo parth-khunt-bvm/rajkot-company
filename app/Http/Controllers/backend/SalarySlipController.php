@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\SalarySlip;
@@ -42,6 +43,7 @@ class SalarySlipController extends Controller
             'ajaxfileupload.js',
             'jquery.form.min.js',
             'salary_slip.js',
+
         );
         $data['funinit'] = array(
             'SalarySlip.init()',
@@ -252,6 +254,75 @@ class SalarySlipController extends Controller
         }
     }
 
+    public function salarySlipAdd()
+    {
+        // $userId = Auth()->guard('admin')->user()->user_type;
+        // $permission_array = get_users_permission($userId);
+
+        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(127, explode(',', $permission_array[0]['permission']))){
+
+            $objBranch = new Branch();
+            $data['branch'] = $objBranch->get_admin_branch_details();
+
+            $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Salary Slip";
+            $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Salary Slip";
+            $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Salary Slip";
+            $data['css'] = array(
+                'toastr/toastr.min.css'
+            );
+            $data['plugincss'] = array();
+            $data['pluginjs'] = array(
+                'toastr/toastr.min.js',
+                'pages/crud/forms/widgets/select2.js',
+                'validate/jquery.validate.min.js',
+
+            );
+            $data['js'] = array(
+                'comman_function.js',
+                'ajaxfileupload.js',
+                'jquery.form.min.js',
+                'salary_slip.js',
+            );
+            $data['funinit'] = array(
+                'SalarySlip.addAll()'
+            );
+            $data['header'] = array(
+                'title' => 'Add Salary Slip',
+                'breadcrumb' => array(
+                    'My Dashboard' => route('my-dashboard'),
+                    'Salary Slip List' => route('admin.employee-salaryslip.list'),
+                    'Add Salary Slip' => 'Add Salary Slip',
+                )
+            );
+            return view('backend.pages.salary_slip.employee_salary_slip', $data);
+
+        // }else{
+        //     return redirect()->route('admin.employee-salaryslip.list');
+        // }
+    }
+
+    public function salarySlipSaveAdd(Request $request)
+    {
+        $objSalarySlip = new SalarySlip();
+        $result = $objSalarySlip->salarySlipSaveAdd($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Salary Slip details successfully added.';
+            $return['redirect'] = route('admin.employee-salaryslip.list');
+        } elseif ($result == "salary_slip_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Salary Slip has already exists.';
+        } else {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
+
 
     public function ajaxcall(Request $request)
     {
@@ -285,8 +356,12 @@ class SalarySlipController extends Controller
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Salary slip details successfully deleted.";
                     }
+                    elseif ($data['activity'] == 'generate-salary-slip') {
+                        $return['message'] = "Employee salary slip details successfully generated.";
+                    }
                     $return['redirect'] = route('admin.employee-salaryslip.list');
-                } else {
+                }
+                 else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
                     $return['message'] = 'It seems like something is wrong';;
