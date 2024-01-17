@@ -43,6 +43,15 @@ class Employee extends Model
         if($fillterdata['designation'] != null && $fillterdata['designation'] != ''){
             $query->where("designation.id", $fillterdata['designation']);
         }
+
+        if($fillterdata['status'] != null && $fillterdata['status'] != ''){
+            if($fillterdata['status'] == 1){
+                $query->where("employee.status", "W");
+            } else {
+                $query->where("employee.status", "L");
+            }
+        }
+
         if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
             $query->whereDate('DOJ', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
         }
@@ -104,15 +113,6 @@ class Employee extends Model
                     $actionhtml .= '<a href="#" data-toggle="modal" data-target="#workingModel" class="btn btn-icon working-employee" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
                 }
              }
-
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(28, explode(',', $permission_array[0]['permission'])) ){
-            //     if ($row['status'] == 'W') {
-            //         $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deactiveModel" class="btn btn-icon  deactive-records" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
-            //     } else {
-            //         $actionhtml .= '<a href="#" data-toggle="modal" data-target="#activeModel" class="btn btn-icon  active-records" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
-            //     }
-            //  }
-
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(78, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -127,7 +127,7 @@ class Employee extends Model
             $nestedData[] = $i;
             $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'] ."<br>G pay : ". $row['google_pay_number'];
             $nestedData[] = $row['branch_name'];
-            $nestedData[] = date_formate($row['DOJ']);
+            $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
             $nestedData[] = numberformat($row['experience'], 0);
             $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
@@ -198,7 +198,7 @@ class Employee extends Model
             $objEmployee->gmail = $requestData['gmail'];
             $objEmployee->password = $requestData['gmail_password'];
             $objEmployee->slack_password = $requestData['slack_password'];
-            $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ?   date('Y-m-d', strtotime($requestData['dob'])) : NULL;
+            $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ? date('Y-m-d', strtotime($requestData['dob'])) : NULL;
             $objEmployee->bank_name = $requestData['bank_name'];
             $objEmployee->acc_holder_name = $requestData['acc_holder_name'];
             $objEmployee->account_number = $requestData['account_number'];
@@ -262,11 +262,11 @@ class Employee extends Model
             $objEmployee->department = $requestData['technology'];
             $objEmployee->branch = $requestData['branch'];
             $objEmployee->designation = $requestData['designation'];
-            $objEmployee->DOJ = date('Y-m-d', strtotime($requestData['doj']));
+            $objEmployee->DOJ = $requestData['doj'] != '' && $requestData['doj'] != NULL ? date('Y-m-d', strtotime($requestData['doj'])) : NULL;
             $objEmployee->gmail = $requestData['gmail'] ?? Null;
             $objEmployee->password = $requestData['gmail_password'] ?? Null;
             $objEmployee->slack_password = $requestData['slack_password'];
-            $objEmployee->DOB = date('Y-m-d', strtotime($requestData['dob']));
+            $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ? date('Y-m-d', strtotime($requestData['dob'])) : NULL;
             $objEmployee->bank_name = $requestData['bank_name'];
             $objEmployee->acc_holder_name = $requestData['acc_holder_name'];
             $objEmployee->account_number = $requestData['account_number'];
@@ -282,10 +282,10 @@ class Employee extends Model
             $objEmployee->experience = $requestData['experience'];
             $objEmployee->hired_by = $requestData['hired_by'];
             $objEmployee->salary = $requestData['salary'];
-            $objEmployee->stipend_from = date('Y-m-d', strtotime($requestData['stipend_from']));
-            $objEmployee->bond_last_date = date('Y-m-d', strtotime($requestData['bond_last_date']));
-            $objEmployee->resign_date = date('Y-m-d', strtotime($requestData['resign_date']));
-            $objEmployee->last_date = date('Y-m-d', strtotime($requestData['last_date']));
+            $objEmployee->stipend_from = $requestData['stipend_from'] != '' && $requestData['stipend_from'] != NULL ?  date('Y-m-d', strtotime($requestData['stipend_from'])) : NULL;
+            $objEmployee->bond_last_date = $requestData['bond_last_date'] != '' && $requestData['bond_last_date'] != NULL ?  date('Y-m-d', strtotime($requestData['bond_last_date'])) : NULL;
+            $objEmployee->resign_date = $requestData['resign_date'] != '' && $requestData['resign_date'] != NULL ?  date('Y-m-d', strtotime($requestData['resign_date'])) : NULL;
+            $objEmployee->last_date = $requestData['last_date'] != '' && $requestData['last_date'] != NULL ?  date('Y-m-d', strtotime($requestData['last_date'])) : NULL;
 
             $employeeCheque = public_path('employee/cheque/'.$objEmployee['cancel_cheque']);
 
@@ -370,6 +370,7 @@ class Employee extends Model
         $qurey = Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name')
                 ->join("branch", "branch.id", "=", "employee.branch")
                 ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                ->where("employee.status", "=", "W")
                 ->where("employee.is_deleted", "=", "N");
         if($employeIdArray != null){
            $qurey->whereNotIn('employee.id', $employeIdArray);

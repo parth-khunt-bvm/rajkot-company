@@ -7,10 +7,12 @@ var Employee = function () {
         var branch = $("#employee_branch").val();
         var technology = $("#technology_id").val();
         var designation = $("#designation_id").val();
+        var status = $("#status_id").val();
         var startDate = $("#start_date").val();
         var endDate = $("#end_date").val();
+
         var dataArr = {
-            'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate, 'branch': branch
+            'technology': technology, 'designation': designation, 'status': status, 'startDate': startDate, 'endDate': endDate, 'branch': branch
         };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -148,11 +150,14 @@ var Employee = function () {
             var branch = $("#employee_branch").val();
             var technology = $("#technology_id").val();
             var designation = $("#designation_id").val();
+            var status = $("#status_id").val();
             var startDate = $("#start_date").val();
             var endDate = $("#end_date").val();
             var dataArr = {
-                'technology': technology, 'designation': designation, 'startDate': startDate, 'endDate': endDate, 'branch': branch
+                'technology': technology, 'designation': designation,'status': status, 'startDate': startDate, 'endDate': endDate, 'branch': branch
             };
+
+            console.log(dataArr);
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#employee-list',

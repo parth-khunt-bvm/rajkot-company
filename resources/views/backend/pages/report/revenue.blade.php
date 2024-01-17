@@ -24,14 +24,6 @@
                     </div>
 
                     <div class="row ml-5 mt-5 revenue-filter" style="display: none">
-                        {{-- <div class="col-md-12">
-                            <div class="row">
-
-
-                            </div>
-                        </div> --}}
-
-
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4">

@@ -29,7 +29,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 received_month" id="monthId"  name="month">
-                                                <option value="">Month</option>
+                                                <option value="">Please select month name</option>
                                                 <option value="1">January</option>
                                                 <option value="2">February</option>
                                                 <option value="3">March</option>

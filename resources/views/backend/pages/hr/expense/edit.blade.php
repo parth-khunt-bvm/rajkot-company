@@ -21,7 +21,7 @@
                                             <label>Date
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off" value="{{ $hr_expense_details->date }}">
+                                            <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off" value="{{ date_formate($hr_expense_details->date) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -30,7 +30,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 month" id="monthId"  name="month" >
-                                                <option value="">Month</option>
+                                                <option value="">Please Select month name</option>
                                                 <option value="1" {{ $hr_expense_details->month == 1 ? 'selected="selected"' : '' }}>January</option>
                                                 <option value="2" {{ $hr_expense_details->month == 2 ? 'selected="selected"' : '' }}>February</option>
                                                 <option value="3" {{ $hr_expense_details->month == 3 ? 'selected="selected"' : '' }}>March</option>

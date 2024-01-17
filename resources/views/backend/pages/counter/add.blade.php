@@ -20,7 +20,7 @@
                                         <label>Month
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 month" id="month"  name="month">
+                                        <select class="form-control select2 month" id="monthId"  name="month">
                                             <option value="">select Month</option>
                                             <option value="1">January</option>
                                             <option value="2">February</option>
@@ -39,10 +39,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Year
+                                        <label>year
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="year" id="year" class="form-control onlyNumber" placeholder="Enter Year" autocomplete="off">
+                                        <select class="form-control select2 year change" id="yearID"  name="year">
+                                            <option value="">Select Year</option>
+                                            @for ($i = 2019; $i <= date('Y'); $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -116,14 +121,14 @@
                                     <div class="form-group">
                                         <label>Paid Date
                                         </label>
-                                        <input type="text" name="paid_date" id="datepicker_date" class="form-control date" placeholder="Enter Present Days" autocomplete="off">
+                                        <input type="text" name="paid_date" id="datepicker_date" class="form-control date" placeholder="Please select paid date" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Salary Status
                                         </label>
-                                        <input type="text" name="salary_status" id="salary_status" class="form-control " placeholder="Enter Salary Detail" autocomplete="off">
+                                        <input type="text" name="salary_status" id="salary_status" class="form-control " placeholder="Enter Salary status" autocomplete="off">
                                     </div>
                                 </div>
                             </div>

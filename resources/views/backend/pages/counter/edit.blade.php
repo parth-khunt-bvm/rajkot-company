@@ -39,10 +39,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Year
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="year" id="year" class="form-control onlyNumber" placeholder="Enter Year" value="{{ $counter_detail->year }}" autocomplete="off">
+                                        <label>year</label>
+                                        <select class="form-control select2 year change" id="yearID" name="year">
+                                            <option value="">Select Year</option>
+                                            @for ($i = 2019; $i <= date('Y'); $i++)
+                                                <option value="{{ $i }}" {{ $i == $counter_detail->year ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +118,7 @@
                                     <div class="form-group">
                                         <label>Paid Date
                                         </label>
-                                        <input type="text" name="paid_date" id="datepicker_date" class="form-control date" placeholder="Enter Present Days" value="{{ $counter_detail->paid_date }}" autocomplete="off">
+                                        <input type="text" name="paid_date" id="datepicker_date" class="form-control date" placeholder="Enter Present Days" value="{{ date_formate($counter_detail->paid_date) }}" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

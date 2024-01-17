@@ -46,6 +46,28 @@ var SalarySlip = function(){
             });
         });
 
+        $('body').on('click', '.generate-salary-slip', function() {
+            console.log("click");
+            var id = $(this).attr('data-id');
+            var data = { id: id, 'activity': 'generate-salary-slip', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/employee-salaryslip/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    console.log("success");
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                },
+                error: function (err) {
+                    console.log("success");
+                }
+            });
+        });
+
         $("body").on("click", "#show-salary-slip-filter", function() {
             $("div .salary-slip-filter").slideToggle("slow");
         })
@@ -544,6 +566,104 @@ var SalarySlip = function(){
             orientation: "bottom auto",
         });
     }
+
+    var addAllEmployeeSalarySlip = function(){
+
+        $('.select2').select2();
+        var form = $('#add-all-employee-salary-slip');
+        var rules = {
+            empBranch:  { required: true, number: true },
+            month:  { required: true},
+            year:  { required: true},
+            wd:  { required: true, number: true },
+            ext_tax_pr:  { required: true, number: true },
+            ext_tax:  { required: true, number: true },
+            hra_pr:  { required: true, number: true },
+            hra:  { required: true, number: true },
+            pro_tax_pr:  { required: true, number: true },
+            pro_tax:  { required: true, number: true },
+        };
+
+        var message = {
+            empBranch :{
+                required : "Please select Branch name",
+            },
+            month : {
+                required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
+            },
+            wd : {
+                required : "Please enter working day"
+            },
+            hra_pr : {
+                required : "Please enter house rent allowence percentage"
+            },
+            hra : {
+                required : "Please enter house rent allowence "
+            },
+            pro_tax_pr : {
+                required : "Please enter professional text percentage"
+            },
+            pro_tax : {
+                required : "Please enter professional text percentage"
+            },
+
+        }
+
+        handleFormValidateWithMsg(form, rules,message, function(form) {
+            handleAjaxFormSubmit(form, true);
+        });
+
+        var getDaysInMonth = function(month,year) {
+        // Here January is 1 based
+        //Day 0 is the last day in the previous month
+        return new Date(year, month, 0).getDate();
+        // Here January is 0 based
+        // return new Date(year, month+1, 0).getDate();
+        };
+
+        $("body").on("change","#monthId",function(){
+            var currentYear = new Date().getFullYear();
+            var month = $(this).val();
+            var html = '<option  value="">Select Salary Slip Year </option>';
+            var temp_html = '';
+            for (var i = 2015; i <= currentYear; i++) {
+                temp_html = '<option value="' + i + '">' + i + '</option>';
+                html = html + temp_html;
+            }
+            $("#yearId").html(html);
+
+            if(month == '' || month == null){
+
+                $("#yearId").attr("disabled","true");
+            }else{
+                $("#yearId").removeAttr("disabled");
+            }
+        });
+
+        $("body").on("change","#yearId",function(){
+            var month = $("#monthId").val();
+            var year = $(this).val();
+            $("#wd").val(getDaysInMonth(month, year));
+        });
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = today.toLocaleString('en-US', { month: 'short' });
+        var yyyy = today.getFullYear();
+        today = dd + '-' + mm + '-' + yyyy;
+
+        $(".datepicker_date").val(today);
+
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+    }
     return {
         init:function(){
             list();
@@ -554,5 +674,10 @@ var SalarySlip = function(){
         edit:function(){
             editSalarySlip();
         },
+        addAll:function(){
+            addAllEmployeeSalarySlip();
+        },
+
+
     }
 }();
