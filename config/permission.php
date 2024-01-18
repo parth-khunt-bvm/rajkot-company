@@ -9,9 +9,9 @@
         'hr_manager_menu' => 'HR Management',
         'employee_menu' => 'Employee Management',
         'counter_menu' => 'Counter',
+        'public_holiday_menu' => 'Public Holiday',
         'attendance_menu' => 'Attendance',
         'reports_menu' => 'Reports',
-        'public_holiday_menu' => 'Public Holiday',
         'salary_slip_menu' => 'Salary Slip',
 
 
@@ -40,9 +40,9 @@
         'salary_report_sub_menu' => 'Salary Report',
         'profit_loss_sub_menu' => 'Profit Loss Report',
         'counter_sheet_sub_menu' => 'Counter Sheet',
+        'public_holiday_sub_menu' => 'Public Holiday',
         'employee_birthday_sub_menu' => 'Employee Birthday',
         'employee_bond_last_date_sub_menu' => 'Employee Bond Last Date',
-        'public_holiday_sub_menu' => 'Public Holiday',
         'salary_slip_sub_menu' => 'Salary Slip'
     ];
 

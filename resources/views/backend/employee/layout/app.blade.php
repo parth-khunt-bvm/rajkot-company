@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    @include('backend.includes.header')
+    @include('backend.employee.includes.header')
 	<!--begin::Body-->
 	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 		<!--begin::Main-->
@@ -48,18 +48,17 @@
 		<div class="d-flex flex-column flex-root">
 			<!--begin::Page-->
 			<div class="d-flex flex-row flex-column-fluid page">
-                @include('backend.includes.sidebar')
+                @include('backend.employee.includes.sidebar')
 				<!--begin::Wrapper-->
 				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-                    @include('backend.includes.body_header')
+                    @include('backend.employee.includes.body_header')
 					<!--begin::Content-->
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                        @include('backend.includes.breadcrumbs')
+                        @include('backend.employee.includes.breadcrumbs')
                         @yield('section')
 					</div>
 					<!--end::Content-->
-                    @include('backend.includes.body_footer')
-                    @include('backend.includes.modal')
+                    @include('backend.employee.includes.body_footer')
 				</div>
 				<!--end::Wrapper-->
 			</div>
@@ -67,7 +66,7 @@
 		</div>
 		<!--end::Main-->
 
-        @include('backend.includes.user_panel')
+        @include('backend.employee.includes.user_panel')
 
 		<!--begin::Scrolltop-->
 		<div id="kt_scrolltop" class="scrolltop">
@@ -84,7 +83,9 @@
 			</span>
 		</div>
 		<!--end::Scrolltop-->
-        @include('backend.includes.footer')
+
+
+        @include('backend.employee.includes.footer')
 	</body>
 	<!--end::Body-->
 </html>

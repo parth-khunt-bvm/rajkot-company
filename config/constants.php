@@ -181,6 +181,17 @@
                 ],
             ],
 
+            'public_holiday_menu' => [
+                'public_holiday_sub_menu' => [
+                    '120'  => 'Public Holiday list',
+                    '121'  => 'import Public Holiday',
+                    '122'  => 'add Public Holiday',
+                    '123'  => 'view Public Holiday',
+                    '124'  => 'edit Public Holiday ',
+                    '125'  => 'delete Public Holiday',
+                ],
+            ],
+
             'attendance_menu' => [
                 'attendance_sub_menu' => [
                     '88'  => 'attendance list',
@@ -212,16 +223,7 @@
                 ],
             ],
 
-            'public_holiday_menu' => [
-                'public_holiday_sub_menu' => [
-                    '120'  => 'Public Holiday list',
-                    '121'  => 'import Public Holiday',
-                    '122'  => 'add Public Holiday',
-                    '123'  => 'view Public Holiday',
-                    '124'  => 'edit Public Holiday ',
-                    '125'  => 'delete Public Holiday',
-                ],
-            ],
+
 
             'salary_slip_menu' => [
                 'salary_slip_sub_menu' => [
