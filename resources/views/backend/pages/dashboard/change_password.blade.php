@@ -28,21 +28,21 @@ if (!empty(Auth()->guard('admin')->user())) {
                                 <label>Old Password
                                 <span class="text-danger">*</span>
                                 </label>
-                                <input type="password" name="old_password" class="form-control" placeholder="Enter Old Password" >
+                                <input type="password" name="old_password" class="form-control" placeholder="Enter Old Password" autocomplete="off">
                             </div>
 
                             <div class="form-group">
                                 <label>New Password
                                 <span class="text-danger">*</span>
                                 </label>
-                                <input type="password" name="new_password" id="password" class="form-control" placeholder="Enter New Password" >
+                                <input type="password" name="new_password" id="password" class="form-control" placeholder="Enter New Password" autocomplete="off">
                             </div>
 
                             <div class="form-group">
                                 <label>New Confirm Password
                                 <span class="text-danger">*</span>
                                 </label>
-                                <input type="password" name="new_confirm_password" class="form-control" placeholder="Enter Confirm Password" >
+                                <input type="password" name="new_confirm_password" class="form-control" placeholder="Enter Confirm Password" autocomplete="off">
                             </div>
 
                         </div>

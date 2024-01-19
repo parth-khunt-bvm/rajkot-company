@@ -3,8 +3,8 @@ if (!empty(Auth()->guard('employee')->user())) {
    $data = Auth()->guard('employee')->user();
 }
 
-if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $data['userimage'] != ''){
-    $image = url("upload/userprofile/".$data['userimage']);
+if(file_exists( public_path().'/upload/userprofile/'.$data['employee_image']) && $data['employee_image'] != ''){
+    $image = url("upload/userprofile/".$data['employee_image']);
 }else{
     $image = url("upload/userprofile/default.jpg");
 }
@@ -47,7 +47,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                         <!--end::Svg Icon-->
                                     </span>
                                 </span>
-                                <span class="navi-text text-muted text-hover-primary">{{ $data['email'] }}</span>
+                                <span class="navi-text text-muted text-hover-primary">{{ $data['gmail'] }}</span>
                             </span>
                         </a>
                         <a href="{{ route('employee-logout') }}" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>

@@ -12,6 +12,11 @@ use Config;
 
 class EmployeeDashboardController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('employee');
+    }
+
     /**
      * Display a listing of the resource.
      *

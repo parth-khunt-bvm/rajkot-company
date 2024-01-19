@@ -9,7 +9,6 @@ class SendMail extends Model
 {
     use HasFactory;
 
-
     public function sendMailltesting(){
         $mailData['data']=[];
         $mailData['data']['firstName']='Krina Kakadiya';

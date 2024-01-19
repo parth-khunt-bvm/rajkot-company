@@ -14,7 +14,6 @@ class Employees extends Model
     protected $table = 'employee';
 
     public function saveProfile($request){
-        // dd($request);
         $countEmployee = Employees::where("gmail",$request->input('email'))
                         ->where("id",'!=',$request->input('edit_id'))
                         ->count();

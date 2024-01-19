@@ -543,7 +543,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                             <label>Gmail Password
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control input-name" name="gmail_password" id="gmail_password" value="{{ $employee_details->password }}" placeholder="Gmail Password" autocomplete="off" />
+                                            <input type="text" class="form-control input-name" name="gmail_password" id="gmail_password" value="{{ $employee_details->gmail_password }}" placeholder="Gmail Password" autocomplete="off" />
                                             <span class="type_error text-danger"></span>
                                         </div>
                                     </div>

@@ -3,8 +3,8 @@ $currentRoute = Route::current()->getName();
 if (!empty(Auth()->guard('employee')->user())) {
    $data = Auth()->guard('employee')->user();
 }
-if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $data['userimage'] != ''){
-    $image = url("upload/userprofile/".$data['userimage']);
+if(file_exists( public_path().'/upload/userprofile/'.$data['employee_image']) && $data['employee_image'] != ''){
+    $image = url("upload/userprofile/".$data['employee_image']);
 }else{
     $image = url("upload/userprofile/default.jpg");
 }

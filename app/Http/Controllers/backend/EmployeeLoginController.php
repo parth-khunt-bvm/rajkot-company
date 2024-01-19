@@ -74,6 +74,7 @@ class EmployeeLoginController extends Controller
     public function resetGuard() {
         Auth::logout();
         Auth::guard('employee')->logout();
+        Auth::guard('admin')->logout();
     }
 
 }

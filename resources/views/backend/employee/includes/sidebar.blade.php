@@ -15,7 +15,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
-        <a href="{{ route('my-dashboard') }}" class="brand-logo">
+        <a href="{{ route('my-dashboard.index') }}" class="brand-logo">
             {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}
             <img width="100" height="50" alt="Logo" src="{{$logo }}" />
         </a>
@@ -43,7 +43,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
         <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
             <!--begin::Menu Nav-->
             <ul class="menu-nav">
-                <li class="menu-item  {{ ( $currentRoute  ==  "edit-profile" || $currentRoute  ==  "change-password" || $currentRoute  ==  "my-dashboard"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "employee.edit-profile" || $currentRoute  ==  "employee.change-password" || $currentRoute  ==  "my-dashboard.index" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('my-dashboard.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
