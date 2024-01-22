@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\employee\LeaveRequestController;
 use App\Http\Controllers\backend\EmployeeDashboardController;
 use App\Http\Controllers\backend\EmployeeLoginController;
 use Illuminate\Support\Facades\Route;
@@ -12,4 +13,8 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('save-profile', [EmployeeDashboardController::class, 'saveProfile'])->name('employee.save-profile');
     Route::get('change-password', [EmployeeDashboardController::class, 'change_password'])->name('employee.change-password');
     Route::post('save-password', [EmployeeDashboardController::class, 'save_password'])->name('employee.save-password');
+
+    Route::resource('leave-request', LeaveRequestController::class);
+    Route::post('admin/leave-request/ajaxcall', [LeaveRequestController::class, 'ajaxcall'])->name('admin.leave-request.ajaxcall');
+
 });

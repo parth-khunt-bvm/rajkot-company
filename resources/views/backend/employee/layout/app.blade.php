@@ -59,6 +59,7 @@
 					</div>
 					<!--end::Content-->
                     @include('backend.employee.includes.body_footer')
+                    @include('backend.employee.includes.modal')
 				</div>
 				<!--end::Wrapper-->
 			</div>

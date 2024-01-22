@@ -55,6 +55,19 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="menu-item  {{ ( $currentRoute  ==  "leave-request.index" || $currentRoute  ==  "leave-request.create" || $currentRoute  ==  "leave-request.edit" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('leave-request.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24.4826 10.8198L13.1237 0.240933C13.042 0.164557 12.9448 0.103965 12.8379 0.0626224C12.7309 0.0212801 12.6163 0 12.5005 0C12.3847 0 12.2701 0.0212801 12.1632 0.0626224C12.0562 0.103965 11.9591 0.164557 11.8773 0.240933L0.518442 10.8198C0.187522 11.1282 0 11.5471 0 11.984C0 12.8913 0.791451 13.629 1.76491 13.629H2.96174V21.1775C2.96174 21.6325 3.35608 22 3.84419 22H10.7356V16.2428H13.8242V22H21.1568C21.645 22 22.0393 21.6325 22.0393 21.1775V13.629H23.2361C23.7049 13.629 24.1544 13.4568 24.4853 13.1458C25.172 12.5032 25.172 11.4623 24.4826 10.8198Z" fill="white"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Leave Request</span>
+                    </a>
+                </li>
             </ul>
             <!--end::Menu Nav-->
         </div>
