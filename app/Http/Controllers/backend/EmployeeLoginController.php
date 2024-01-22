@@ -34,7 +34,7 @@ class EmployeeLoginController extends Controller
             'EmployeeLogin.init()'
         );
 
-        return view('backend.pages.employee_login', $data);
+        return view('backend.employee.pages.employee_login', $data);
     }
 
     public function auth_employee_login(Request $request){
@@ -44,7 +44,7 @@ class EmployeeLoginController extends Controller
                 'first_name' => Auth::guard('employee')->user()->first_name,
                 'last_name' => Auth::guard('employee')->user()->last_name,
                 'gmail' => Auth::guard('employee')->user()->email,
-                // 'userimage' => Auth::guard('employee')->user()->userimage,
+                'employee_image' => Auth::guard('employee')->user()->employee_image,
                 // 'usertype' => Auth::guard('employee')->user()->user_type,
                 'id' => Auth::guard('employee')->user()->id
             );

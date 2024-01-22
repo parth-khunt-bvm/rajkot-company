@@ -69,7 +69,7 @@
         <div id="loader"></div>
 
 		<script src="{{ asset('backend/js/pages/jquery/jquery.min.js') }}"></script>
-        
+
 
         @if (!empty($pluginjs))
 			@foreach ($pluginjs as $value)
