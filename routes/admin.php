@@ -31,6 +31,7 @@ use App\Http\Controllers\backend\AssetMasterController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
+use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -266,6 +267,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
     Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
+
+    // Leave Request
+    Route::get('admin/leave-request/list', [LeaveRequestController::class, 'list'])->name('admin.leave-request.list');
+    Route::post('admin/leave-request/ajaxcall', [LeaveRequestController::class, 'ajaxcall'])->name('admin.leave-request.ajaxcall');
+    Route::post('admin/reject-leave-request', [LeaveRequestController::class, 'rejectLeaveReq'])->name('admin.reject-leave-request');
 
     // Countersheet
     Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');

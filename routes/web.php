@@ -32,6 +32,5 @@ Route::get('my-login', [EmployeeLoginController::class, 'login'])->name('my-logi
 Route::post('auth-employee-login', [EmployeeLoginController::class, 'auth_employee_login'])->name('auth-employee-login');
 
 Route::get('test-mail-view', [LoginController::class, 'testmail'])->name('test-mail-view');
-
-
+Route::get('create-password/{password}', [LoginController::class, 'create_password'])->name('create-password');
 

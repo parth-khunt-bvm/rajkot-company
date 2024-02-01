@@ -83,4 +83,7 @@ class LoginController extends Controller
         $Sendmail = $objSendmail->sendMailltesting();
     }
 
+    public function create_password($password){
+        ccd(Hash::make($password));
+    }
 }
