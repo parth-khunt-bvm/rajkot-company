@@ -43,7 +43,7 @@ class EmployeeLoginController extends Controller
             $loginData = array(
                 'first_name' => Auth::guard('employee')->user()->first_name,
                 'last_name' => Auth::guard('employee')->user()->last_name,
-                'gmail' => Auth::guard('employee')->user()->email,
+                'gmail' => Auth::guard('employee')->user()->gmail,
                 'employee_image' => Auth::guard('employee')->user()->employee_image,
                 // 'usertype' => Auth::guard('employee')->user()->user_type,
                 'id' => Auth::guard('employee')->user()->id

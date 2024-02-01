@@ -4,13 +4,9 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
-use App\Models\Branch;
 use App\Models\Employee;
-use App\Models\Manager;
-use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
-use Illuminate\Support\Carbon;
 
 class AttendanceController extends Controller
 {

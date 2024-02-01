@@ -37,12 +37,10 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Manager
                                             <span class="text-danger">*</span>
-
                                         </label>
                                         <select class="form-control select2 manager input-name" id="manager" name="manager">
                                             <option value="">Please select Manager Name</option>
@@ -52,7 +50,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Reson
@@ -60,10 +57,6 @@
                                         <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason"></textarea>
                                     </div>
                                 </div>
-
-
-
-
                             </div>
                         </div>
 

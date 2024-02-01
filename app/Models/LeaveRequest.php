@@ -15,10 +15,11 @@ class LeaveRequest extends Model
     {
         $requestData = $_REQUEST;
         $columns = array(
-            0 =>  DB::raw('DATE_FORMAT(leave_request.date, "%d-%b-%Y")'),
-            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            2 => 'manager.manager_name',
-            3 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
+            0 => 'leave_request.id',
+            1 =>  DB::raw('DATE_FORMAT(leave_request.date, "%d-%b-%Y")'),
+            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            3 => 'manager.manager_name',
+            4 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
                     WHEN leave_request.leave_type = "1" THEN "Absent"
                     WHEN leave_request.leave_type = "2" THEN "Half Day"
                     ELSE "Sort Leave" END)'),
@@ -26,13 +27,11 @@ class LeaveRequest extends Model
             WHEN leave_request.leave_status = "M" THEN "Manager Approved"
             ELSE "Hr Approved" END)'),
             6 => 'leave_request.reason',
-
-
         );
         $query = LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
-            ->join("manager", "manager.id", "=", "leave_request.manager_id");
-
+            ->join("manager", "manager.id", "=", "leave_request.manager_id")
+            ->where("leave_request.employee_id", "=", Auth()->guard('employee')->user()->id);
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -67,6 +66,7 @@ class LeaveRequest extends Model
 
         foreach ($resultArr as $row) {
             $actionhtml = '';
+            $actionhtml .= '<a href=""data-toggle="modal" data-target="#leave-request-view" data-id="'.$row['id'].'" class="btn btn-icon leave-request-view"><i class="fa fa-eye text-primary"> </i></a>';
             $actionhtml .= '<a href="leave-request/'.$row["id"].'/edit" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -174,8 +174,27 @@ class LeaveRequest extends Model
         return LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
             ->join("manager", "manager.id", "=", "leave_request.manager_id")
-            ->select('leave_request.id', 'leave_request.date','leave_request.employee_id','leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status')
+            ->select('leave_request.id', 'leave_request.date','leave_request.employee_id','leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status','employee.first_name','employee.last_name','manager.manager_name')
             ->where('leave_request.id', $id)
             ->first();
     }
+
+    public function common_activity($requestData){
+
+        $objLeaveRequest = LeaveRequest::find($requestData['id']);
+        if($requestData['activity'] == 'delete-records'){
+            $objLeaveRequest->where('id',$requestData['id'])->delete();
+            $event = 'D';
+        }
+
+        $objLeaveRequest->updated_at = date("Y-m-d H:i:s");
+        if($objLeaveRequest->save()){
+            $objAudittrails = new Audittrails();
+            $res = $objAudittrails->add_audit($event, $requestData, 'Branch');
+            return true;
+        }else{
+            return false ;
+        }
+    }
+
 }

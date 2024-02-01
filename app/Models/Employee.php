@@ -231,7 +231,7 @@ class Employee extends Authenticatable
             }
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
             $bondImage = time().'.'.$requestData['bond_file']->extension();
-            $requestData['bond_file']->move(public_path('employee/bond'), $chequeImage);
+            $requestData['bond_file']->move(public_path('employee/bond'), $bondImage);
             }
             $objEmployee->cancel_cheque = $chequeImage ?? '-';
             $objEmployee->bond_file = $bondImage ?? '-';

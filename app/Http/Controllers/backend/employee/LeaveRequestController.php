@@ -17,6 +17,9 @@ class LeaveRequestController extends Controller
      */
     public function index()
     {
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Leave Request List';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Leave Request List';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Leave Request List';
@@ -227,9 +230,33 @@ class LeaveRequestController extends Controller
             case 'getdatatable':
                 $objLeaveRequest = new LeaveRequest();
                 $list = $objLeaveRequest->getdatatable();
-
                 echo json_encode($list);
                 break;
+
+                case 'leave-request-view';
+                $objLeaveRequest = new LeaveRequest();
+                $list = $objLeaveRequest->get_Leave_request_details($request->input('data'));
+                echo json_encode($list);
+                break;
+
+                case 'common-activity':
+                    $objLeaveRequest = new LeaveRequest();
+                    $data = $request->input('data');
+                    $result = $objLeaveRequest->common_activity($data);
+                    if ($result) {
+                        $return['status'] = 'success';
+                        if($data['activity'] == 'delete-records'){
+                            $return['message'] = 'Leave Request details successfully deleted.';;
+                        }
+                        $return['redirect'] = route('leave-request.index');
+                    } else {
+                        $return['status'] = 'error';
+                        $return['jscode'] = '$("#loader").hide();';
+                        $return['message'] = 'It seems like something is wrong';;
+                    }
+
+                    echo json_encode($return);
+                    exit;
         }
     }
 }

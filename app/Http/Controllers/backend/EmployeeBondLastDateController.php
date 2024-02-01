@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Designation;
 use App\Models\EmployeeBondLastDate;
-use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
 

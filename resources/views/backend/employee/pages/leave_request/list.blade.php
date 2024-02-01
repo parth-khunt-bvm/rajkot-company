@@ -15,6 +15,9 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
+
+                    <button class="btn btn-primary font-weight-bolder mr-5 show-leave-request-form" id="show-leave-request-form">+</button>
+
                     {{-- <button class="btn btn-primary font-weight-bolder mr-5 show-branch-form" id="show-branch-form">+</button> --}}
                     <a href="{{ route('leave-request.create') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
@@ -34,6 +37,60 @@
 
             </div>
             <div class="card-body">
+
+                <form class="form" style="display: none;" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}" autocomplete="off">@csrf
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Date
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Leave Type
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control select2 leave_type leave_select" name="leave_type" id="leave_type">
+                                    <option value="">Please select Leave Type</option>
+                                    <option value="1">Full Day Leave</option>
+                                    <option value="2">Half Day Leave</option>
+                                    <option value="3">Sort Leave</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Manager
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control select2 manager input-name" id="manager" name="manager">
+                                    <option value="">Please select Manager Name</option>
+                                    @foreach ($manager as $key => $value )
+                                    <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Reson
+                                </label>
+                                <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mt-8">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+            </form>
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="leave-request-list">
                     <thead>
@@ -49,7 +106,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
                 <!--end: Datatable-->
