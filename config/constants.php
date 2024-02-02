@@ -223,8 +223,6 @@
                 ],
             ],
 
-
-
             'salary_slip_menu' => [
                 'salary_slip_sub_menu' => [
                     '126'  => 'Salary Slip list',
@@ -233,6 +231,25 @@
                     '129'  => 'edit Salary Slip ',
                     '130'  => 'delete Salary Slip',
                     '131'  => 'download Salary Slip',
+                ],
+            ],
+
+            'leave_request_menu' => [
+                'leave_request_sub_menu' => [
+                    '132'  => 'Leave Request list',
+                    '133'  => 'view Leave Request',
+                    '134'  => 'Approved Leave Request ',
+                    '135'  => 'rejected Leave Request',
+                ],
+            ],
+
+            'employee_overtime_menu' => [
+                'employee_overtime_sub_menu' => [
+                    '136'  => 'Employee Overtime list',
+                    '137'  => 'add Employee Overtime',
+                    '138'  => 'view Employee Overtime',
+                    '139'  => 'edit Employee Overtime ',
+                    '140'  => 'delete Employee Overtime',
                 ],
             ],
 

@@ -102,6 +102,9 @@
                             <th>Leave Type</th>
                             <th>Leave Status</th>
                             <th>Leave Reason</th>
+                            <th>Approved By</th>
+                            <th>Rejected Reason</th>
+                            <th>Approved Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\employee\EmpOvertimeController;
 use App\Http\Controllers\backend\employee\LeaveRequestController;
 use App\Http\Controllers\backend\EmployeeDashboardController;
 use App\Http\Controllers\backend\EmployeeLoginController;
@@ -16,5 +17,8 @@ Route::group(['prefix' => 'employee'], function () {
 
     Route::resource('leave-request', LeaveRequestController::class);
     Route::post('admin/leave-request/ajaxcall', [LeaveRequestController::class, 'ajaxcall'])->name('admin.leave-request.ajaxcall');
+
+    Route::get('emp-overtime/list', [EmpOvertimeController::class, 'list'])->name('emp-overtime.list');
+    Route::post('emp-overtime/ajaxcall', [EmpOvertimeController::class, 'ajaxcall'])->name('emp-overtime.ajaxcall');
 
 });

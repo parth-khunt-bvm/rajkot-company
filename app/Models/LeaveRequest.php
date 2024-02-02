@@ -17,20 +17,24 @@ class LeaveRequest extends Model
         $columns = array(
             0 => 'leave_request.id',
             1 =>  DB::raw('DATE_FORMAT(leave_request.date, "%d-%b-%Y")'),
-            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
             3 => 'manager.manager_name',
             4 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
                     WHEN leave_request.leave_type = "1" THEN "Absent"
                     WHEN leave_request.leave_type = "2" THEN "Half Day"
                     ELSE "Sort Leave" END)'),
             5 => DB::raw('(CASE WHEN leave_request.leave_status = "P" THEN "Pending"
-            WHEN leave_request.leave_status = "M" THEN "Manager Approved"
-            ELSE "Hr Approved" END)'),
+            WHEN leave_request.leave_status = "R" THEN "Rejected"
+            ELSE "Approved" END)'),
             6 => 'leave_request.reason',
+            7 => DB::raw('CONCAT(users.first_name, " ", users.last_name)'),
+            8 => 'leave_request.reject_reason',
+            9 => 'leave_request.approved_date',
         );
         $query = LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
             ->join("manager", "manager.id", "=", "leave_request.manager_id")
+            ->leftJoin("users", "users.id", "=", "leave_request.approved_by")
             ->where("leave_request.employee_id", "=", Auth()->guard('employee')->user()->id);
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -58,7 +62,7 @@ class LeaveRequest extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('leave_request.id','leave_request.date', DB::raw('CONCAT(first_name, " ", last_name) as fullName'), 'manager.manager_name','leave_request.leave_type','leave_request.leave_status','leave_request.reason')
+            ->select('leave_request.id', 'leave_request.date', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as fullName'),DB::raw('CONCAT(users.first_name, " ", users.last_name) as UserFullName') ,'manager.manager_name', 'leave_request.leave_type', 'leave_request.leave_status', 'leave_request.reason', 'leave_request.reject_reason','leave_request.approved_date')
             ->get();
 
         $data = array();
@@ -73,7 +77,7 @@ class LeaveRequest extends Model
             if ($row['leave_type'] == '0') {
                 $leave_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
             } else if ($row['leave_type'] == '1') {
-                $leave_type = '<span class="label label-lg label-light-danger label-inline">Absent</span>';
+                $leave_type = '<span class="label label-lg label-light-danger label-inline">Full Day</span>';
             } else if ($row['leave_type'] == '2') {
                 $leave_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
@@ -82,12 +86,11 @@ class LeaveRequest extends Model
 
             if ($row['leave_status'] == 'P') {
                 $leave_status = '<span class="label label-lg label-light-success label-inline">Pending</span>';
-            } else if ($row['leave_status'] == 'M') {
-                $leave_status = '<span class="label label-lg label-light-danger label-inline">Manager Approved</span>';
+            } else if ($row['leave_status'] == 'R') {
+                $leave_status = '<span class="label label-lg label-light-danger label-inline">Rejected</span>';
             } else {
-                $leave_status = '<span class="label label-lg label-light-info  label-inline">Hr Approved</span>';
+                $leave_status = '<span class="label label-lg label-light-info  label-inline">Approved</span>';
             }
-
 
             $i++;
             $nestedData = array();
@@ -98,6 +101,9 @@ class LeaveRequest extends Model
             $nestedData[] = $leave_type;
             $nestedData[] = $leave_status;
             $nestedData[] = $row['reason'] ?? '-';
+            $nestedData[] =$row['UserFullName'] != '' && $row['UserFullName'] != NULL ? $row['UserFullName'] : '-';
+            $nestedData[] = $row['reject_reason'] != '' && $row['reject_reason'] != NULL ? $row['reject_reason'] : '-';
+            $nestedData[] = $row['approved_date'] != '' && $row['approved_date'] != NULL ? date_formate($row['approved_date']) : '-';
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }

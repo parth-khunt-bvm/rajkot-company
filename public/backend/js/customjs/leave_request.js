@@ -94,10 +94,10 @@ var LeaveRequest = function(){
                    var leave_status;
                    if (LeaveRequest.leave_status === "P") {
                         leave_status = "Pending";
-                   } else if (LeaveRequest.leave_status === "M") {
-                        leave_status = "Approved By Manager";
-                   } else if (LeaveRequest.leave_status === "H") {
-                        leave_status = "Approved By Hr";
+                   } else if (LeaveRequest.leave_status === "R") {
+                        leave_status = "Rejected";
+                   } else if (LeaveRequest.leave_status === "A") {
+                        leave_status = "Approved";
                    }
                    $("#leave_status").text(leave_status);
                    $("#leave_reason").text(LeaveRequest.reason ? LeaveRequest.reason : "-");

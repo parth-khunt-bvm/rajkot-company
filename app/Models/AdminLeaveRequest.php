@@ -35,7 +35,7 @@ class AdminLeaveRequest extends Model
         $query = LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
             ->join("manager", "manager.id", "=", "leave_request.manager_id")
-            ->join("users", "users.id", "=", "leave_request.approved_by");
+            ->leftJoin("users", "users.id", "=", "leave_request.approved_by");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -62,21 +62,34 @@ class AdminLeaveRequest extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('leave_request.id', 'leave_request.date', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as fullName'),DB::raw('CONCAT(users.first_name, " ", users.last_name) as UserFullName') ,'manager.manager_name', 'leave_request.leave_type', 'leave_request.leave_status', 'leave_request.reason', 'leave_request.reject_reason','leave_request.approved_date')
+            ->select('leave_request.id', 'leave_request.date', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as fullName'), DB::raw('CONCAT(users.first_name, " ", users.last_name) as UserFullName'), 'manager.manager_name', 'leave_request.leave_type', 'leave_request.leave_status', 'leave_request.reason', 'leave_request.reject_reason', 'leave_request.approved_date')
             ->get();
 
         $data = array();
         $i = 0;
 
         foreach ($resultArr as $row) {
-            $actionhtml = '';
-            if(($row['leave_status']  === "P")){
-                $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-view" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-view"><i class="fa fa-eye text-primary"> </i></a>';
-                $actionhtml .= '<a href="#" data-toggle="modal" data-target="#leave-request-approved" class="btn btn-icon  leave-request-approved" data-id="' . $row["id"] . '" ><i class="fa fa-check text-success"> </i></a>';
 
-                $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-reject" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-reject"><i class="fa fa-times text-danger"> </i></a>';
+            $target = [];
+            $target = [132, 133, 134, 135];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if (Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0) {
+                $actionhtml = '';
+            }
+            if (($row['leave_status']  === "P")) {
+
+                if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(133, explode(',', $permission_array[0]['permission'])))
+                    $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-view" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-view"><i class="fa fa-eye text-primary"> </i></a>';
+
+                if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(134, explode(',', $permission_array[0]['permission'])))
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#leave-request-approved" class="btn btn-icon  leave-request-approved" data-id="' . $row["id"] . '" ><i class="fa fa-check text-success"> </i></a>';
+
+                if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(135, explode(',', $permission_array[0]['permission'])))
+                    $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-reject" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-reject"><i class="fa fa-times text-danger"> </i></a>';
             } else {
-                $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-view" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-view"><i class="fa fa-eye text-primary"> </i></a>';
+                if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(133, explode(',', $permission_array[0]['permission'])))
+                    $actionhtml .= '<a href=""data-toggle="modal" data-target="#admin-leave-request-view" data-id="' . $row['id'] . '" class="btn btn-icon admin-leave-request-view"><i class="fa fa-eye text-primary"> </i></a>';
             }
 
             if ($row['leave_type'] == '0') {
@@ -97,7 +110,6 @@ class AdminLeaveRequest extends Model
                 $leave_status = '<span class="label label-lg label-light-info  label-inline">Approved</span>';
             }
 
-
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
@@ -107,10 +119,12 @@ class AdminLeaveRequest extends Model
             $nestedData[] = $leave_type;
             $nestedData[] = $leave_status;
             $nestedData[] = $row['reason'] ?? '-';
-            $nestedData[] = $row['UserFullName'] ?? '-';
-            $nestedData[] = $row['reject_reason'] ??'-';
-            $nestedData[] = date_formate($row['approved_date']) ??'-';
-            $nestedData[] = $actionhtml;
+            $nestedData[] = $row['UserFullName'] != '' && $row['UserFullName'] != NULL ? $row['UserFullName'] : '-';
+            $nestedData[] = $row['reject_reason'] != '' && $row['reject_reason'] != NULL ? $row['reject_reason'] : '-';
+            $nestedData[] = $row['approved_date'] != '' && $row['approved_date'] != NULL ? date_formate($row['approved_date']) : '-';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(
@@ -151,11 +165,12 @@ class AdminLeaveRequest extends Model
         }
     }
 
-    public function common_activity($requestData){
+    public function common_activity($requestData)
+    {
 
         $objAdminLeaveRequest = AdminLeaveRequest::find($requestData['id']);
 
-        if($requestData['activity'] == 'approved-leave-request'){
+        if ($requestData['activity'] == 'approved-leave-request') {
             $objAdminLeaveRequest->approved_by = Auth()->guard('admin')->user()->id;
             $objAdminLeaveRequest->approved_date = date('Y-m-d', strtotime(date('Y-m-d H:i:s')));
             $objAdminLeaveRequest->leave_status = "A";
@@ -163,12 +178,12 @@ class AdminLeaveRequest extends Model
         }
 
         $objAdminLeaveRequest->updated_at = date("Y-m-d H:i:s");
-        if($objAdminLeaveRequest->save()){
+        if ($objAdminLeaveRequest->save()) {
             $objAudittrails = new Audittrails();
             $res = $objAudittrails->add_audit($event, $requestData, 'Leave Request');
             return true;
-        }else{
-            return false ;
+        } else {
+            return false;
         }
     }
 }

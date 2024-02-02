@@ -13,7 +13,7 @@ class BrandController extends Controller
     {
         $this->middleware('admin');
     }
-    
+
     public function list()
     {
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Brand List';
@@ -121,11 +121,8 @@ class BrandController extends Controller
             case 'getdatatable':
                 $objBrand = new Brand();
                 $list = $objBrand->getdatatable();
-
                 echo json_encode($list);
                 break;
-
-
 
             case 'common-activity':
                 $objBrand = new Brand();

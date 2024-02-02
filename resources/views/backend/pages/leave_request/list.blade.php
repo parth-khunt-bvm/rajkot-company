@@ -1,6 +1,8 @@
 @extends('backend.layout.app')
 @section('section')
-
+@php
+$permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+@endphp
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -20,8 +22,8 @@
 
             </div>
             <div class="card-body">
-
                 <!--begin: Datatable-->
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(132, explode(',', $permission_array[0]['permission'])) )
                 <table class="table table-bordered table-checkable" id="admin-leave-request-list">
                     <thead>
                         <tr>
@@ -34,13 +36,14 @@
                             <th>Leave Reason</th>
                             <th>Approved By</th>
                             <th>Rejected Reason</th>
-                            <th>Date</th>
+                            <th>Approved Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
+                @endif
                 <!--end: Datatable-->
             </div>
         </div>
@@ -49,5 +52,4 @@
     <!--end::Container-->
 </div>
 <!--end::Entry-->
-
 @endsection

@@ -13,6 +13,8 @@
         'attendance_menu' => 'Attendance',
         'reports_menu' => 'Reports',
         'salary_slip_menu' => 'Salary Slip',
+        'leave_request_menu'=> 'Leave Request',
+        'employee_overtime_menu' => 'Employee Overtime',
 
 
         'user_sub_menu'=> 'Users',
@@ -43,7 +45,9 @@
         'public_holiday_sub_menu' => 'Public Holiday',
         'employee_birthday_sub_menu' => 'Employee Birthday',
         'employee_bond_last_date_sub_menu' => 'Employee Bond Last Date',
-        'salary_slip_sub_menu' => 'Salary Slip'
+        'salary_slip_sub_menu' => 'Salary Slip',
+        'leave_request_sub_menu' => 'Leave Request',
+        'employee_overtime_sub_menu' => 'Employee Overtime',
     ];
 
 ?>
