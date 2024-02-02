@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-3">
                                 <b>Date</b> <br>
-                                 {{ $salary_details->date }}
+                                 {{ date_formate($salary_details->date) }}
                             </div>
                         </div>
 

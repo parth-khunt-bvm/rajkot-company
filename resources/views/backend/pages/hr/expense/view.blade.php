@@ -18,7 +18,7 @@
                         <div class="row mt-5 mr-5 ml-5 mb-5">
                             <div class="col-3">
                                 <b>Date</b> <br>
-                                 {{ $hr_expense_details->date }}
+                                 {{date_formate($hr_expense_details->date)  }}
                             </div>
                             <div class="col-3">
                                 <b>Month</b> <br>

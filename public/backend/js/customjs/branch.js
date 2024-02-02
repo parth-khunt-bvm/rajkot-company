@@ -49,6 +49,7 @@ var Branch = function(){
 
         $('body').on('click', '.yes-sure-deactive', function() {
             var id = $(this).attr('data-id');
+            console.log(id);
             var data = { 'id': id, 'activity': 'deactive-records', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",

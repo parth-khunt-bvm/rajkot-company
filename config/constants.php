@@ -181,6 +181,17 @@
                 ],
             ],
 
+            'public_holiday_menu' => [
+                'public_holiday_sub_menu' => [
+                    '120'  => 'Public Holiday list',
+                    '121'  => 'import Public Holiday',
+                    '122'  => 'add Public Holiday',
+                    '123'  => 'view Public Holiday',
+                    '124'  => 'edit Public Holiday ',
+                    '125'  => 'delete Public Holiday',
+                ],
+            ],
+
             'attendance_menu' => [
                 'attendance_sub_menu' => [
                     '88'  => 'attendance list',
@@ -212,17 +223,6 @@
                 ],
             ],
 
-            'public_holiday_menu' => [
-                'public_holiday_sub_menu' => [
-                    '120'  => 'Public Holiday list',
-                    '121'  => 'import Public Holiday',
-                    '122'  => 'add Public Holiday',
-                    '123'  => 'view Public Holiday',
-                    '124'  => 'edit Public Holiday ',
-                    '125'  => 'delete Public Holiday',
-                ],
-            ],
-
             'salary_slip_menu' => [
                 'salary_slip_sub_menu' => [
                     '126'  => 'Salary Slip list',
@@ -231,6 +231,25 @@
                     '129'  => 'edit Salary Slip ',
                     '130'  => 'delete Salary Slip',
                     '131'  => 'download Salary Slip',
+                ],
+            ],
+
+            'leave_request_menu' => [
+                'leave_request_sub_menu' => [
+                    '132'  => 'Leave Request list',
+                    '133'  => 'view Leave Request',
+                    '134'  => 'Approved Leave Request ',
+                    '135'  => 'rejected Leave Request',
+                ],
+            ],
+
+            'employee_overtime_menu' => [
+                'employee_overtime_sub_menu' => [
+                    '136'  => 'Employee Overtime list',
+                    '137'  => 'add Employee Overtime',
+                    '138'  => 'view Employee Overtime',
+                    '139'  => 'edit Employee Overtime ',
+                    '140'  => 'delete Employee Overtime',
                 ],
             ],
 

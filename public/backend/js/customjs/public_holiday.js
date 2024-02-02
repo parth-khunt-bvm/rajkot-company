@@ -126,7 +126,19 @@ var PublicHoliday = function(){
                 data: { 'action': 'public-holiday-view', 'data': data },
                 success: function (data) {
                    var PublicHoliday=  JSON.parse(data);
-                   $("#holiday_date").text(PublicHoliday.date);
+
+                   function formatDate(inputDate) {
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const day = inputDate.getDate();
+                    const month = months[inputDate.getMonth()];
+                    const year = inputDate.getFullYear();
+                    return `${day}-${month}-${year}`;
+                  }
+
+                  const inputDate = new Date(PublicHoliday.date);
+                  const formattedDate = formatDate(inputDate);
+
+                   $("#holiday_date").text(formattedDate);
                    $("#holiday_name").text(PublicHoliday.holiday_name);
                    $("#holiday_note").text(PublicHoliday.note);
                 }

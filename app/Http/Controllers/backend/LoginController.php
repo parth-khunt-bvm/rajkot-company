@@ -49,8 +49,8 @@ class LoginController extends Controller
                 'usertype' => Auth::guard('admin')->user()->user_type,
                 'id' => Auth::guard('admin')->user()->id
             );
-
             Session::push('logindata', $loginData);
+
             setcookie("branch", "", time() - 3600, "/");
             setcookie("branch", "all", time() + (86400 * 30), "/"); // 86400 = 1 day
             $return['status'] = 'success';
@@ -75,6 +75,7 @@ class LoginController extends Controller
     public function resetGuard() {
         Auth::logout();
         Auth::guard('admin')->logout();
+        Auth::guard('employee')->logout();
     }
 
     public function testmail(){
@@ -82,4 +83,7 @@ class LoginController extends Controller
         $Sendmail = $objSendmail->sendMailltesting();
     }
 
+    public function create_password($password){
+        ccd(Hash::make($password));
+    }
 }

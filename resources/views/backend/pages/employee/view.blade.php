@@ -66,7 +66,7 @@ $image = url("upload/userprofile/default.jpg");
                                 <span class="text-dark text-bold">Gmail Password</span>
                             </div>
                             <div class="col-xl-9 col-md-9">
-                                <span class="text-muted font-size-lg">{{ $employee_details->password }}</span>
+                                <span class="text-muted font-size-lg">{{ $employee_details->gmail_password }}</span>
                             </div>
                         </div>
                         <div class="row mt-2">

@@ -64,17 +64,17 @@
                             </div>
                             <div class="col-3">
                                 <b>Paid Date</b> <br>
-                                 {{ $counter_detail->paid_date }}
+                                 {{date_formate($counter_detail->paid_date)}}
                             </div>
                             <div class="col-3">
                                 <b>Salary Status</b> <br>
-                                 {{ $counter_detail->salary_status }}
+                                 {{ $counter_detail->salary_status ?? '-'}}
                             </div>
                         </div>
                         <div class="row mt-5 mr-5 ml-5" >
                             <div class="col-3">
                                 <b>Note</b> <br>
-                                 {{ $counter_detail->note }}
+                                 {{ $counter_detail->note ?? '-'}}
                             </div>
                         </div>
                     </div>

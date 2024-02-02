@@ -31,6 +31,8 @@ use App\Http\Controllers\backend\AssetMasterController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
+use App\Http\Controllers\backend\EmpOverTimeController;
+use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -267,6 +269,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
     Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
 
+    // Leave Request
+    Route::get('admin/leave-request/list', [LeaveRequestController::class, 'list'])->name('admin.leave-request.list');
+    Route::post('admin/leave-request/ajaxcall', [LeaveRequestController::class, 'ajaxcall'])->name('admin.leave-request.ajaxcall');
+    Route::post('admin/reject-leave-request', [LeaveRequestController::class, 'rejectLeaveReq'])->name('admin.reject-leave-request');
+
     // Countersheet
     Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
     Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
@@ -298,5 +305,14 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
     Route::post('admin/supplier/save-edit-supplier', [SupplierController::class, 'saveEdit'])->name('admin.supplier.save-edit-supplier');
     Route::get('admin/supplier/view/{id}', [SupplierController::class, 'view'])->name('admin.supplier.view');
+
+
+    //Employee Overtime
+    Route::get('admin/emp-overtime/list', [EmpOverTimeController::class, 'list'])->name('admin.emp-overtime.list');
+    Route::get('admin/emp-overtime/add', [EmpOverTimeController::class, 'add'])->name('admin.emp-overtime.add');
+    Route::post('admin/emp-overtime/save-add-emp-overtime', [EmpOverTimeController::class, 'saveAdd'])->name('admin.emp-overtime.save-add-emp-overtime');
+    Route::get('admin/emp-overtime/edit/{id}', [EmpOverTimeController::class, 'edit'])->name('admin.emp-overtime.edit');
+    Route::post('admin/emp-overtime/save-edit-emp-overtime', [EmpOverTimeController::class, 'saveEdit'])->name('admin.emp-overtime.save-edit-emp-overtime');
+    Route::post('admin/emp-overtime/ajaxcall', [EmpOverTimeController::class, 'ajaxcall'])->name('admin.emp-overtime.ajaxcall');
 
 });

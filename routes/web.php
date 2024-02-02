@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\EmployeeLoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\backend\LoginController;
@@ -27,7 +28,9 @@ Route::get('/clear-cache', function() {
 Route::get('/', [LoginController::class, 'login'])->name('admin-login');
 Route::post('auth-admin-login', [LoginController::class, 'auth_admin_login'])->name('auth-admin-login');
 
+Route::get('my-login', [EmployeeLoginController::class, 'login'])->name('my-login');
+Route::post('auth-employee-login', [EmployeeLoginController::class, 'auth_employee_login'])->name('auth-employee-login');
+
 Route::get('test-mail-view', [LoginController::class, 'testmail'])->name('test-mail-view');
-
-
+Route::get('create-password/{password}', [LoginController::class, 'create_password'])->name('create-password');
 

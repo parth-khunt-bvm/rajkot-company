@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Audittrails;
 use App\Models\Branch;
 use App\Models\Designation;
 use App\Models\Employee;
@@ -10,6 +11,9 @@ use App\Models\Manager;
 use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Hash;
+use Str;
+use App\Models\Sendmail;
 
 class EmployeeImport implements ToModel, WithStartRow
 {
@@ -28,6 +32,7 @@ class EmployeeImport implements ToModel, WithStartRow
 
     {
         if (Employee::where('branch', $this->branch)->where('gmail', $row[6])->where('personal_number', $row[18])->where('is_deleted', 'N')->count() == 0) {
+            $password = Str::random(8);
             $objEmployee = new Employee();
             $objEmployee->first_name = $row[1] ;
             $objEmployee->last_name = $row[2]  ;
@@ -55,7 +60,8 @@ class EmployeeImport implements ToModel, WithStartRow
                 $objEmployee->status = 'L';
             }
             $objEmployee->gmail = $row[6]  ?? NULL;
-            $objEmployee->password = $row[7]  ?? NULL;
+            $objEmployee->password = Hash::make($password);
+            $objEmployee->gmail_password = $row[7]  ?? NULL;
             $objEmployee->slack_password = $row[8]  ?? NULL;
             $objEmployee->DOB = $row[9] != null && $row[9] != '' ? $this->transformDate($row[9]) : NULL;
             $objEmployee->bank_name = $row[10]  ?? NULL;
@@ -93,7 +99,23 @@ class EmployeeImport implements ToModel, WithStartRow
             $objEmployee->is_deleted = 'N';
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
-            $objEmployee->save();
+            if($objEmployee->save()){
+
+                $mailData['data']=[];
+                $mailData['data']['first_name'] = $row[1];
+                $mailData['data']['last_name'] = $row[2];
+                $mailData['data']['gmail'] =  $row[6];
+                $mailData['data']['password'] = $password;
+                $mailData['subject'] = 'Rajkot Company - Add Employee';
+                $mailData['data']['company'] = 'BVM Infotech';
+                $mailData['attachment'] = array(
+                    'image_path' => public_path('upload/company_image/logo.png'),
+                );
+                $mailData['template'] ="backend.pages.employee.mail";
+                $mailData['mailto'] =  $row[6];
+                $sendMail = new Sendmail();
+                $sendMail->sendSMTPMail($mailData);
+            }
         }
     }
 

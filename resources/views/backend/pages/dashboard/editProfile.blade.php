@@ -32,7 +32,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                     <div class="form-group">
                                         <label>First Name
                                         <span class="text-danger">*</span></label>
-                                        <input type="text" name="first_name" class="form-control" placeholder="Enter your full name first name" value="{{ $data['first_name'] }}">
+                                        <input type="text" name="first_name" class="form-control" placeholder="Enter your full name first name" value="{{ $data['first_name'] }}" autocomplete="off">
 
                                         <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
                                     </div>
@@ -41,7 +41,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                     <div class="form-group">
                                         <label>Last Name
                                         <span class="text-danger">*</span></label>
-                                        <input type="text" name="last_name" class="form-control" placeholder="Enter your full name last name" value="{{ $data['last_name'] }}">
+                                        <input type="text" name="last_name" class="form-control" placeholder="Enter your full name last name" value="{{ $data['last_name'] }}" autocomplete="off">
                                     </div>
                                 </div>
 
@@ -49,7 +49,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                                     <div class="form-group">
                                         <label>Email
                                         <span class="text-danger">*</span></label>
-                                        <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ $data['email'] }}">
+                                        <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ $data['email'] }}" autocomplete="off">
                                     </div>
                                 </div>
 

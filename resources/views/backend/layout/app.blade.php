@@ -59,6 +59,7 @@
 					</div>
 					<!--end::Content-->
                     @include('backend.includes.body_footer')
+                    @include('backend.includes.modal')
 				</div>
 				<!--end::Wrapper-->
 			</div>
@@ -83,9 +84,6 @@
 			</span>
 		</div>
 		<!--end::Scrolltop-->
-
-
-        @include('backend.includes.modal')
         @include('backend.includes.footer')
 	</body>
 	<!--end::Body-->

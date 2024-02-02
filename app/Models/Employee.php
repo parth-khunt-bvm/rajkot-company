@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 use DB;
 use Route;
 use File;
+use Hash;
+use Str;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-class Employee extends Model
+class Employee extends Authenticatable
 {
     use HasFactory;
 
@@ -188,6 +192,8 @@ class Employee extends Model
             ->count();
             if($checkEmployeePrNo != 0) return 'personal_number_exits';
         }
+
+            $password = Str::random(8);
             $objEmployee = new Employee();
             $objEmployee->first_name = ucfirst($requestData['first_name']);
             $objEmployee->last_name = ucfirst($requestData['last_name']);
@@ -196,7 +202,8 @@ class Employee extends Model
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = $requestData['doj'] != '' && $requestData['doj'] != NULL ? date('Y-m-d', strtotime($requestData['doj'])) : NULL;
             $objEmployee->gmail = $requestData['gmail'];
-            $objEmployee->password = $requestData['gmail_password'];
+            $objEmployee->password = Hash::make($password);
+            $objEmployee->gmail_password = $requestData['gmail_password'];
             $objEmployee->slack_password = $requestData['slack_password'];
             $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ? date('Y-m-d', strtotime($requestData['dob'])) : NULL;
             $objEmployee->bank_name = $requestData['bank_name'];
@@ -224,7 +231,7 @@ class Employee extends Model
             }
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
             $bondImage = time().'.'.$requestData['bond_file']->extension();
-            $requestData['bond_file']->move(public_path('employee/bond'), $chequeImage);
+            $requestData['bond_file']->move(public_path('employee/bond'), $bondImage);
             }
             $objEmployee->cancel_cheque = $chequeImage ?? '-';
             $objEmployee->bond_file = $bondImage ?? '-';
@@ -234,6 +241,23 @@ class Employee extends Model
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if($objEmployee->save()){
+
+                $mailData['data']=[];
+                $mailData['data']['first_name'] = $requestData['first_name'];
+                $mailData['data']['last_name'] = $requestData['last_name'];
+                $mailData['data']['gmail'] = $requestData['gmail'];
+                $mailData['data']['password'] = $password;
+                $mailData['subject'] = 'Rajkot Company - Add Employee';
+                $mailData['data']['company'] = 'BVM Infotech';
+                $mailData['attachment'] = array(
+                    'image_path' => public_path('upload/company_image/logo.png'),
+                );
+                $mailData['template'] ="backend.pages.employee.mail";
+                $mailData['mailto'] = $requestData['gmail'];
+                $sendMail = new Sendmail();
+                $sendMail->sendSMTPMail($mailData);
+
+
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 unset($inputData['slack_password']);
@@ -264,7 +288,7 @@ class Employee extends Model
             $objEmployee->designation = $requestData['designation'];
             $objEmployee->DOJ = $requestData['doj'] != '' && $requestData['doj'] != NULL ? date('Y-m-d', strtotime($requestData['doj'])) : NULL;
             $objEmployee->gmail = $requestData['gmail'] ?? Null;
-            $objEmployee->password = $requestData['gmail_password'] ?? Null;
+            $objEmployee->gmail_password = $requestData['gmail_password'] ?? Null;
             $objEmployee->slack_password = $requestData['slack_password'];
             $objEmployee->DOB = $requestData['dob'] != '' && $requestData['dob'] != NULL ? date('Y-m-d', strtotime($requestData['dob'])) : NULL;
             $objEmployee->bank_name = $requestData['bank_name'];
@@ -330,7 +354,7 @@ class Employee extends Model
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password')
              ->where('employee.id', $employeeId)
              ->first();
     }
@@ -452,6 +476,74 @@ class Employee extends Model
         return Employee::select('salary')->where("id",$data['employee'])->get();
 
     }
+
+
+    public function updateProfile($request){
+        $countEmployee = Employee::where("gmail",$request->input('email'))
+                        ->where("id",'!=',$request->input('edit_id'))
+                        ->count();
+
+        if($countEmployee == 0){
+            $objEmployee = Employee::find($request->input('edit_id'));
+            $objEmployee->first_name = $request->input('first_name');
+            $objEmployee->last_name = $request->input('last_name');
+            $objEmployee->gmail = $request->input('email');
+            if($request->file('userimage')){
+                $image = $request->file('userimage');
+                $imagename = 'userimage'.time().'.'.$image->getClientOriginalExtension();
+                $destinationPath = public_path('/upload/userprofile/');
+                $image->move($destinationPath, $imagename);
+                $objEmployee->userimage  = $imagename ;
+            }
+            if($objEmployee->save()){
+                $currentRoute = Route::current()->getName();
+                $inputData = $request->input();
+                unset($inputData['_token']);
+                unset($inputData['profile_avatar_remove']);
+                unset($inputData['userimage']);
+                if($request->file('userimage')){
+                    $inputData['userimage'] = $imagename;
+                }
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("U", $inputData, 'Update Profile');
+                return true;
+            }else{
+                return "false";
+            }
+        }else{
+            return "email_exist";
+        }
+    }
+
+    // public function changepassword($request)
+    // {
+    //     if (Hash::check($request->input('old_password'), $request->input('user_old_password'))) {
+    //         $countUser = Users::where("id",'=',$request->input('editid'))->count();
+    //         if($countUser == 1){
+    //             $objUsers = Users::find($request->input('editid'));
+    //             $objUsers->password =  Hash::make($request->input('new_password'));
+    //             $objUsers->updated_at = date('Y-m-d H:i:s');
+    //             if($objUsers->save()){
+    //                 $currentRoute = Route::current()->getName();
+    //                 $inputData = $request->input();
+    //                 unset($inputData['_token']);
+    //                 unset($inputData['user_old_password']);
+    //                 unset($inputData['old_password']);
+    //                 unset($inputData['new_password']);
+    //                 unset($inputData['new_confirm_password']);
+    //                 $objAudittrails = new Audittrails();
+    //                 $objAudittrails->add_audit("U", $inputData, 'Change Password');
+    //                 return true;
+    //             }else{
+    //                 return 'false';
+    //             }
+    //         }else{
+    //             return "false";
+    //         }
+    //     }else{
+    //         return "password_not_match";
+    //     }
+    // }
 
 
 }

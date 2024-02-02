@@ -1,11 +1,10 @@
 <!--begin::Head-->
 @php
     $data['systemDetails'] = get_system_details(1);
-    // dd($data['systemDetails'][0]['favicon']);
     if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0]['favicon']) &&$data['systemDetails'][0]['favicon'] != ''){
-        $favicon = url("upload/company_info/".$data['systemDetails'][0]['favicon']);
+        $favicon = asset("upload/company_info/".$data['systemDetails'][0]['favicon']);
     }else{
-        $favicon = url("upload/company_image/favicon.png");
+        $favicon = asset('upload/company_image/favicon.jpg');
     }
 @endphp
 
@@ -33,7 +32,7 @@
     <link href="{{  asset('backend/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
     {{-- <link rel="shortcut icon" href="{{  asset('backend/media/logos/favicon.ico') }}" /> --}}
-    <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
+    <link rel="shortcut icon" href="{{ $favicon }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{{  asset('backend/css/style.css') }}" rel="stylesheet" type="text/css" />
         @if (!empty($css))

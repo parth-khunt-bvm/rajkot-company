@@ -1,0 +1,91 @@
+@php
+$currentRoute = Route::current()->getName();
+// $userDetails = Auth()->guard('employee')->user();
+// $permission_array = get_users_permission($userDetails['user_type']);
+$data['systemDetails'] = get_system_details(1);
+if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0]['logo']) &&$data['systemDetails'][0]['logo'] != ''){
+    $logo = url("upload/company_info/".$data['systemDetails'][0]['logo']);
+}else{
+    $logo = url("upload/company_image/logo.png");
+}
+
+@endphp
+<!--begin::Aside-->
+<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
+    <!--begin::Brand-->
+    <div class="brand flex-column-auto" id="kt_brand">
+        <!--begin::Logo-->
+        <a href="{{ route('my-dashboard.index') }}" class="brand-logo">
+            {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}
+            <img width="100" height="50" alt="Logo" src="{{$logo }}" />
+        </a>
+        <!--end::Logo-->
+        <!--begin::Toggle-->
+        <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+            <span class="svg-icon svg-icon svg-icon-xl">
+                <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg-->
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <polygon points="0 0 24 0 24 24 0 24" />
+                        <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999)" />
+                        <path d="M10.7071009,15.7071068 C10.3165766,16.0976311 9.68341162,16.0976311 9.29288733,15.7071068 C8.90236304,15.3165825 8.90236304,14.6834175 9.29288733,14.2928932 L15.2928873,8.29289322 C15.6714663,7.91431428 16.2810527,7.90106866 16.6757187,8.26284586 L22.6757187,13.7628459 C23.0828377,14.1360383 23.1103407,14.7686056 22.7371482,15.1757246 C22.3639558,15.5828436 21.7313885,15.6103465 21.3242695,15.2371541 L16.0300699,10.3841378 L10.7071009,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(15.999997, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-15.999997, -11.999999)" />
+                    </g>
+                </svg>
+                <!--end::Svg Icon-->
+            </span>
+        </button>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Brand-->
+    <!--begin::Aside Menu-->
+    <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+        <!--begin::Menu Container-->
+        <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+            <!--begin::Menu Nav-->
+            <ul class="menu-nav">
+                <li class="menu-item  {{ ( $currentRoute  ==  "employee.edit-profile" || $currentRoute  ==  "employee.change-password" || $currentRoute  ==  "my-dashboard.index" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('my-dashboard.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24.4826 10.8198L13.1237 0.240933C13.042 0.164557 12.9448 0.103965 12.8379 0.0626224C12.7309 0.0212801 12.6163 0 12.5005 0C12.3847 0 12.2701 0.0212801 12.1632 0.0626224C12.0562 0.103965 11.9591 0.164557 11.8773 0.240933L0.518442 10.8198C0.187522 11.1282 0 11.5471 0 11.984C0 12.8913 0.791451 13.629 1.76491 13.629H2.96174V21.1775C2.96174 21.6325 3.35608 22 3.84419 22H10.7356V16.2428H13.8242V22H21.1568C21.645 22 22.0393 21.6325 22.0393 21.1775V13.629H23.2361C23.7049 13.629 24.1544 13.4568 24.4853 13.1458C25.172 12.5032 25.172 11.4623 24.4826 10.8198Z" fill="white"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="menu-item  {{ ( $currentRoute  ==  "leave-request.index" || $currentRoute  ==  "leave-request.create" || $currentRoute  ==  "leave-request.edit" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('leave-request.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.3612 9.95125C10.8007 9.95125 10.3244 9.75938 9.93227 9.37564C9.54016 8.99133 9.34411 8.5252 9.34411 7.97725C9.34411 7.42873 9.54016 6.9626 9.93227 6.57886C10.3244 6.19512 10.8007 6.00354 11.3612 6.00411C11.9216 6.00468 12.3979 6.19654 12.79 6.57971C13.1821 6.96345 13.3782 7.42958 13.3782 7.9781C13.3782 8.52606 13.1821 8.99219 12.79 9.3765C12.3979 9.76023 11.9216 9.95125 11.3612 9.95125ZM6.72231 15V13.1124C6.72231 12.9162 6.77008 12.7321 6.86563 12.5599C6.96118 12.3871 7.09519 12.2494 7.26764 12.1468C7.67198 11.909 8.09846 11.7123 8.54708 11.5566C8.9957 11.3998 9.45423 11.2841 9.92266 11.2094L11.3612 13.0431L12.783 11.2094C13.2561 11.2841 13.7164 11.3995 14.1639 11.5558C14.6125 11.712 15.0413 11.9087 15.4503 12.1459C15.6228 12.2485 15.7547 12.3851 15.8462 12.5556C15.9371 12.7261 15.9883 12.9063 16 13.0961V15H6.72231ZM4.30238 13.1124V13.6846H1.42014C1.02396 13.6846 0.688078 13.5491 0.412497 13.2783C0.137499 13.008 0 12.683 0 12.3033V1.38129C0 1.00154 0.138373 0.676531 0.415119 0.406261C0.691282 0.13542 1.02338 0 1.4114 0H12.5716C12.9596 0 13.2917 0.13542 13.5678 0.406261C13.8446 0.676531 13.983 1.00154 13.983 1.38129V4.53986C13.6101 4.24678 13.204 4.02269 12.7647 3.8676C12.3254 3.71251 11.8575 3.63496 11.3612 3.63496C11.2825 3.63496 11.2097 3.63782 11.1427 3.64352C11.0757 3.64922 11.0028 3.6572 10.9242 3.66746V3.19107H3.05877V4.04636H9.54599C9.00823 4.27443 8.54155 4.59117 8.14595 4.99658C7.75035 5.40255 7.44447 5.87524 7.22832 6.41464H3.05877V7.26993H7.00896C6.95244 7.62402 6.9373 7.97925 6.96351 8.33561C6.98973 8.69198 7.0611 9.04408 7.17763 9.39189C7.07683 9.4358 6.97895 9.47685 6.88398 9.51505C6.78843 9.55326 6.69609 9.59431 6.60695 9.63821H3.05877V10.4935H5.50229C5.12009 10.8214 4.8247 11.2171 4.61612 11.6806C4.40696 12.1436 4.30238 12.6209 4.30238 13.1124Z" fill="white"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Leave Request</span>
+                    </a>
+                </li>
+
+                <li class="menu-item  {{ ( $currentRoute  ==  "emp-overtime.list" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('emp-overtime.list') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.3612 9.95125C10.8007 9.95125 10.3244 9.75938 9.93227 9.37564C9.54016 8.99133 9.34411 8.5252 9.34411 7.97725C9.34411 7.42873 9.54016 6.9626 9.93227 6.57886C10.3244 6.19512 10.8007 6.00354 11.3612 6.00411C11.9216 6.00468 12.3979 6.19654 12.79 6.57971C13.1821 6.96345 13.3782 7.42958 13.3782 7.9781C13.3782 8.52606 13.1821 8.99219 12.79 9.3765C12.3979 9.76023 11.9216 9.95125 11.3612 9.95125ZM6.72231 15V13.1124C6.72231 12.9162 6.77008 12.7321 6.86563 12.5599C6.96118 12.3871 7.09519 12.2494 7.26764 12.1468C7.67198 11.909 8.09846 11.7123 8.54708 11.5566C8.9957 11.3998 9.45423 11.2841 9.92266 11.2094L11.3612 13.0431L12.783 11.2094C13.2561 11.2841 13.7164 11.3995 14.1639 11.5558C14.6125 11.712 15.0413 11.9087 15.4503 12.1459C15.6228 12.2485 15.7547 12.3851 15.8462 12.5556C15.9371 12.7261 15.9883 12.9063 16 13.0961V15H6.72231ZM4.30238 13.1124V13.6846H1.42014C1.02396 13.6846 0.688078 13.5491 0.412497 13.2783C0.137499 13.008 0 12.683 0 12.3033V1.38129C0 1.00154 0.138373 0.676531 0.415119 0.406261C0.691282 0.13542 1.02338 0 1.4114 0H12.5716C12.9596 0 13.2917 0.13542 13.5678 0.406261C13.8446 0.676531 13.983 1.00154 13.983 1.38129V4.53986C13.6101 4.24678 13.204 4.02269 12.7647 3.8676C12.3254 3.71251 11.8575 3.63496 11.3612 3.63496C11.2825 3.63496 11.2097 3.63782 11.1427 3.64352C11.0757 3.64922 11.0028 3.6572 10.9242 3.66746V3.19107H3.05877V4.04636H9.54599C9.00823 4.27443 8.54155 4.59117 8.14595 4.99658C7.75035 5.40255 7.44447 5.87524 7.22832 6.41464H3.05877V7.26993H7.00896C6.95244 7.62402 6.9373 7.97925 6.96351 8.33561C6.98973 8.69198 7.0611 9.04408 7.17763 9.39189C7.07683 9.4358 6.97895 9.47685 6.88398 9.51505C6.78843 9.55326 6.69609 9.59431 6.60695 9.63821H3.05877V10.4935H5.50229C5.12009 10.8214 4.8247 11.2171 4.61612 11.6806C4.40696 12.1436 4.30238 12.6209 4.30238 13.1124Z" fill="white"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Employee Overtime</span>
+                    </a>
+                </li>
+            </ul>
+            <!--end::Menu Nav-->
+        </div>
+        <!--end::Menu Container-->
+    </div>
+    <!--end::Aside Menu-->
+</div>
+<!--end::Aside-->
