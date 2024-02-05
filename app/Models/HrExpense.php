@@ -85,7 +85,7 @@ class HrExpense extends Model
             $nestedData[] = $i;
             $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['month_name'];
-            $nestedData[] = numberformat($row['amount'],2);
+            $nestedData[] = numberformat($row['amount']);
             if (strlen($row['remarks']) > $max_length) {
                 $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
             }else {

@@ -186,10 +186,10 @@ class HrIncomeController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Hr Income details successfully updated.';
             $return['redirect'] = route('admin.hr.income.list');
-        } elseif ($result == "revenue_exists") {
+        } elseif ($result == "hr_income_exists") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Revenue has already exists.';
+            $return['message'] = 'Hr Income has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
