@@ -108,7 +108,8 @@ class HrIncome extends Model
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $payment_mode;
             $nestedData[] = $row['month_name'];
-            $nestedData[] = numberformat($row['amount'],2);
+            $nestedData[] = numberformat($row['amount']);
+            // $nestedData[] = $row['amount'];
             if (strlen($row['remarks']) > $max_length) {
                 $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
             }else {
@@ -130,9 +131,12 @@ class HrIncome extends Model
 
     public function saveAdd($requestData)
     {
+
         $countHrIncome = HrIncome::from('hr_income')
+            ->where('hr_income.date', date('Y-m-d', strtotime($requestData['date'])))
             ->where('hr_income.manager_id', $requestData['manager_id'])
-            ->where('hr_income.month_of', $requestData['month_of'])
+            ->where('hr_income.payment_mode', $requestData['payment_mode'])
+            ->where('hr_income.amount', $requestData['amount'])
             ->where("hr_income.is_deleted", "=", "N")
             ->count();
 
@@ -162,10 +166,11 @@ class HrIncome extends Model
 
     public function saveEdit($requestData)
     {
-
             $countHrIncome = HrIncome::from('hr_income')
+            ->where('hr_income.date', date('Y-m-d', strtotime($requestData['date'])))
             ->where('hr_income.manager_id', $requestData['manager_id'])
-            ->where('hr_income.month_of', $requestData['month_of'])
+            ->where('hr_income.payment_mode', $requestData['payment_mode'])
+            ->where('hr_income.amount', $requestData['amount'])
             ->where("hr_income.is_deleted", "=", "N")
             ->where('hr_income.id', "!=", $requestData['editId'])
             ->count();
