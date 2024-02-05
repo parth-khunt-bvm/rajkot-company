@@ -57,7 +57,7 @@
             <div class="card-body">
                 <form class="form" style="display: none" id="add-hr-income" method="POST" action="{{ route('admin.hr.income.save-add-income') }}" autocomplete="off">@csrf
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label>Manager
                                     <span class="text-danger">*</span>
@@ -91,28 +91,6 @@
                                 <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Received Month
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-control select2 received_month" id="received_month"  name="received_month">
-                                    <option value="">Received Month</option>
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="col-md-1">
                             <div class="form-group">
@@ -129,7 +107,7 @@
                                 <label>year
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 year change" id="yearId"  name="year">
+                                <select class="form-control select2 year" id="yearId"  name="year">
                                     <option value="">Select Year</option>
                                     @for ($i = 2019; $i <= date('Y'); $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>

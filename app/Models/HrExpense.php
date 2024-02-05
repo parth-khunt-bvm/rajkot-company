@@ -107,13 +107,6 @@ class HrExpense extends Model
 
     public function saveAdd($requestData)
     {
-        $countHrExpense = HrExpense::from('hr_expense')
-            ->where('hr_expense.date',date('Y-m-d', strtotime($requestData['date'])))
-            ->where('hr_expense.month', $requestData['month'])
-            ->where("hr_expense.is_deleted", "=", "N")
-            ->count();
-
-        if ($countHrExpense == 0) {
             $objHrHrExpense = new HrExpense();
             $objHrHrExpense->date = date('Y-m-d', strtotime($requestData['date']));
             $objHrHrExpense->month = $requestData['month'];
@@ -130,20 +123,11 @@ class HrExpense extends Model
                 return 'added';
             }
             return 'wrong';
-        }
-        return 'hr_expense_exists';
+
     }
 
     public function saveEdit($requestData)
     {
-            $countHrExpense = HrExpense::from('hr_expense')
-            ->where('hr_expense.date',date('Y-m-d', strtotime($requestData['date'])))
-            ->where('hr_expense.month', $requestData['month'])
-            ->where("hr_expense.is_deleted", "=", "N")
-            ->where('hr_expense.id', "!=", $requestData['editId'])
-            ->count();
-
-        if ($countHrExpense == 0) {
             $objHrExpense = HrExpense::find($requestData['editId']);
             $objHrExpense->date = date('Y-m-d', strtotime($requestData['date'])) ?? "-";
             $objHrExpense->month = $requestData['month'];
@@ -158,8 +142,6 @@ class HrExpense extends Model
                 return 'added';
             }
             return 'wrong';
-        }
-        return 'hr_expense_exists';
     }
 
     public function get_hr_expense_details($HrExpenseid)
