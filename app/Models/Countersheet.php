@@ -23,22 +23,23 @@ class Countersheet extends Model
             5 => DB::raw('SUM(CASE WHEN attendance_type="1" THEN 1 ELSE 0 END)'),
             6 => DB::raw('SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)'),
             7 => DB::raw('SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)'),
-            8 => DB::raw('SUM(emp_overtime.hours) / 4'),
-            9 =>  DB::raw('CONCAT(
+            8 => DB::raw('CONCAT(
                 FLOOR((SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) / 8),
                 ".",
-                (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6 +4)  % 8,
+                (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
                 ""
                 )'),
         );
         $query = Employee::from('employee')
-             ->join("technology", "technology.id", "=", "employee.department")
-             ->leftjoin("attendance", "attendance.employee_id", "=", "employee.id")
-             ->leftjoin("emp_overtime", "emp_overtime.employee_id", "=", "employee.id")
-             ->where("employee.is_deleted", "=", "N")
-             ->groupBy("attendance.employee_id")
-             ->whereMonth('attendance.date', $fillterdata['month'])
-             ->whereYear('attendance.date', $fillterdata['year']);
+            ->join('technology', 'technology.id', '=', 'employee.department')
+            ->leftJoin(DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = 0 THEN 1 END) AS presentCount, COUNT(CASE WHEN attendance_type = 1 THEN 1 END) AS absentCount, COUNT(CASE WHEN attendance_type = 2 THEN 1 END) AS halfDayCount, COUNT(CASE WHEN attendance_type = 3 THEN 1 END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as a'), 'a.employee_id', '=', 'employee.id')
+            ->leftJoin(DB::raw('(SELECT employee_id, COUNT(*) AS totalDays FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as td'), 'td.employee_id', '=', 'employee.id')
+            ->where("employee.is_deleted", "=", "N");
+
+            //  ->whereMonth('attendance.date', $fillterdata['month'])
+            //  ->whereYear('attendance.date', $fillterdata['year']);
+
 
         if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
             $query->where("technology.id", $fillterdata['technology']);
@@ -72,7 +73,7 @@ class Countersheet extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', 'technology.technology_name',DB::raw('SUM(emp_overtime.hours) / 4 as overTime'),
+            ->select( 'employee.id', 'technology.technology_name',
                     DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as full_name'),
                     DB::raw('COUNT(attendance_type) as totalDays'),
                     DB::raw('SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END) as presentCount'),
@@ -82,7 +83,7 @@ class Countersheet extends Model
                     DB::raw('CONCAT(
                         FLOOR((SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) / 8),
                         ".",
-                        (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6 +4) % 8,
+                        (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
                         ""
                     ) as total')
                 )
@@ -107,7 +108,6 @@ class Countersheet extends Model
             $nestedData[] = $row['absentcount'];
             $nestedData[] = $row['halfdaycount'];
             $nestedData[] = $row['sortleavecount'];
-            $nestedData[] = number_format( $row['overTime']);
             $nestedData[] = $row['total'];
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;

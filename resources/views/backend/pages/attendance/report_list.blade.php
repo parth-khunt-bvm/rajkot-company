@@ -105,7 +105,7 @@
                             <th>Absent Day</th>
                             <th>Half leave</th>
                             <th>Sort Leave</th>
-                            <th>OverTime</th>
+                            {{-- <th>OverTime</th> --}}
                             <th>total</th>
                             <th>Action</th>
                         </tr>
