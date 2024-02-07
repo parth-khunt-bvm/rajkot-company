@@ -41,6 +41,15 @@ class Countersheet extends Model
             ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . ' GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('employee.is_deleted', 'N');
 
+
+            if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
+                $query->where("technology.id", $fillterdata['technology']);
+            }
+
+            if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
+                $query->where("employee.branch", $fillterdata['branch']);
+            }
+
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
