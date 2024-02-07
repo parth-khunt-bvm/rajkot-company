@@ -13,7 +13,6 @@ class Countersheet extends Model
     protected $table = "attendance";
     public function getdatatable($fillterdata)
     {
-
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
@@ -38,8 +37,8 @@ class Countersheet extends Model
 
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
-            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
-            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = '  . $fillterdata['year'] . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . ' GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('employee.is_deleted', 'N');
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
