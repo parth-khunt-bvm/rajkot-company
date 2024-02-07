@@ -2,7 +2,7 @@ var Attendance = function () {
     var attendanceList = function () {
         $('.select2').select2();
         var date = $('.change_date').val();
-        var dataArr = {'date': date};
+        var dataArr = { 'date': date };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#attendance-list',
@@ -18,23 +18,23 @@ var Attendance = function () {
         };
         getDataTable(arrList);
 
-        $("body").on("change", ".change_date", function() {
+        $("body").on("change", ".change_date", function () {
 
             var html = '';
-            html =  '<table class="table table-bordered table-checkable" id="attendance-list">'+
-            '<thead>'+
-            '<tr>'+
-            '<th>#</th>'+
-            '<th>Date</th>'+
-            '<th>Employee</th>'+
-            '<th>Attendance Type</th>'+
-            '<th>reason</th>'+
-            '<th>Action</th>'+
-            '</tr>'+
-            '</thead>'+
-            '<tbody>'+
-            '</tbody>'+
-            '</table>';
+            html = '<table class="table table-bordered table-checkable" id="attendance-list">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>#</th>' +
+                '<th>Date</th>' +
+                '<th>Employee</th>' +
+                '<th>Attendance Type</th>' +
+                '<th>reason</th>' +
+                '<th>Action</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                '</tbody>' +
+                '</table>';
 
             $(".attendance-list").html(html);
 
@@ -68,7 +68,7 @@ var Attendance = function () {
         var leaveType = $("#leave_type").val();
         var month = $('#monthId').val();
         var year = $("#yearId").val();
-        var data = {'leaveType' : leaveType, 'month':month, 'year': year} ;
+        var data = { 'leaveType': leaveType, 'month': month, 'year': year };
 
         $.ajax({
             type: "POST",
@@ -76,49 +76,69 @@ var Attendance = function () {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
             },
             url: baseurl + "admin/attendance/ajaxcall",
-            data: { 'action': 'get_attendance_list', 'data' : data },
+            data: { 'action': 'get_attendance_list', 'data': data },
             success: function (data) {
                 $('.select2').select2();
                 var res = JSON.parse(data);
+                // console.log("jj", res);
+
                 eventArray = [];
-                $.each( res, function( key, value ) {
+                $.each(res, function (key, value) {
                     if (typeof value.is_holiday !== 'undefined') {
-                        var temp =  {
-                            title: 'Holiday ' + value.is_holiday ,
-                            start: value.date ,
-                            // description: 'Present Employee',
+                        var temp = {
+                            title: 'Holiday ' + value.is_holiday,
+                            start: value.date,
                             className: 'fc-event-danger'
-                        } ;
+                        };
                         eventArray.push(temp);
-                    } else{
-                        var temp =  {
-                            title: 'Present ' + value.present ,
-                            start: value.date ,
-                            // description: 'Present Employee',
-                            className: 'fc-event-danger'
-                        } ;
-                        eventArray.push(temp);
-                        var temp2 =  {
-                            title: 'Absent ' + value.absent  ,
-                            start: value.date ,
-                            // description: 'Absent Employee',
-                            className: 'fc-event-success'
-                        } ;
-                        eventArray.push(temp2);
-                        var temp3 =  {
-                            title: 'Half Day ' + value.half_day  ,
-                            start: value.date ,
-                            // description: 'Half Day Leave Employee',
-                            className: 'fc-event-info'
-                        } ;
-                        eventArray.push(temp3);
-                        var temp4 =  {
-                            title: 'Sort Leave ' + value.sort_leave,
-                            start: value.date ,
-                            // description: 'Sort Leave Employee',
+
+                        var temp5 = {
+                            title: 'Employee Overtime ' + value.emp_overtime,
+                            start: value.date,
+                            className: 'fc-event-primary'
+                        };
+                        eventArray.push(temp5);
+
+                    }
+                    else if (isWeekend(value.date) == true) {
+                        var temp5 = {
+                            title: 'Employee Overtime ' + value.emp_overtime,
+                            start: value.date,
                             className: 'fc-event-warning'
-                        } ;
+                        };
+                        eventArray.push(temp5);
+                    }
+                    else {
+                        var temp = {
+                            title: 'Present ' + value.present,
+                            start: value.date,
+                            className: 'fc-event-danger'
+                        };
+                        eventArray.push(temp);
+                        var temp2 = {
+                            title: 'Absent ' + value.absent,
+                            start: value.date,
+                            className: 'fc-event-success'
+                        };
+                        eventArray.push(temp2);
+                        var temp3 = {
+                            title: 'Half Day ' + value.half_day,
+                            start: value.date,
+                            className: 'fc-event-info'
+                        };
+                        eventArray.push(temp3);
+                        var temp4 = {
+                            title: 'Sort Leave ' + value.sort_leave,
+                            start: value.date,
+                            className: 'fc-event-warning'
+                        };
                         eventArray.push(temp4);
+                        var temp5 = {
+                            title: 'Employee Overtime ' + value.emp_overtime,
+                            start: value.date,
+                            className: 'fc-event-primary'
+                        };
+                        eventArray.push(temp5);
                     }
                 });
                 var todayDate = moment().startOf('day');
@@ -138,18 +158,18 @@ var Attendance = function () {
                     },
 
                     selectable: true,
-                    selectHelper : true,
-                    dateClick: function(info) {
+                    selectHelper: true,
+                    dateClick: function (info) {
                         // Redirect to another page with the clicked date information
                         var clickedDate = new Date(info.dateStr);
                         var dd = String(clickedDate.getDate()).padStart(2, '0');
                         var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
                         var yyyy = clickedDate.getFullYear();
                         clickedDate = dd + '-' + mm + '-' + yyyy;
-                        window.location.href =  baseurl +'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
-                      },
+                        window.location.href = baseurl + 'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                    },
                     height: 800,
-                    contentHeight: 1200,
+                    contentHeight: 1500,
                     aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
 
                     nowIndicator: true,
@@ -160,7 +180,7 @@ var Attendance = function () {
                     eventLimit: true, // allow "more" link when too many events
                     navLinks: true,
                     firstDay: 1,
-                    weekends: false,
+                    // weekends: true,
                     events: eventArray,
                     eventRender: function (info) {
                         var element = $(info.el);
@@ -181,7 +201,7 @@ var Attendance = function () {
             },
         });
 
-        $("body").on("change", ".change-fillter", function(){
+        $("body").on("change", ".change-fillter", function () {
 
             var html = '';
             html = '<div id="attendance_calendar"></div>';
@@ -191,57 +211,73 @@ var Attendance = function () {
             var leaveType = $("#leave_type").val();
             var month = $('#monthId').val().padStart(2, '0');
             var year = $("#yearId").val();
-            var data = {'leaveType' : leaveType, 'month':month, 'year': year} ;
+            var data = { 'leaveType': leaveType, 'month': month, 'year': year };
             $.ajax({
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
                 url: baseurl + "admin/attendance/ajaxcall",
-                data: { 'action': 'get_attendance_list', 'data' : data },
+                data: { 'action': 'get_attendance_list', 'data': data },
                 success: function (data) {
-                    console.log(data);
                     $('.select2').select2();
                     var res = JSON.parse(data);
+
                     eventArray = [];
-                    $.each( res, function( key, value ) {
+                    $.each(res, function (key, value) {
+
                         if (typeof value.is_holiday !== 'undefined') {
-                            var temp =  {
-                                title: 'Holiday ' + value.is_holiday ,
-                                start: value.date ,
-                                // description: 'Present Employee',
+                            var temp = {
+                                title: 'Holiday ' + value.is_holiday,
+                                start: value.date,
                                 className: 'fc-event-danger'
-                            } ;
+                            };
                             eventArray.push(temp);
-                        } else{
-                            var temp =  {
-                                title: 'Present ' + value.present ,
-                                start: value.date ,
-                                // description: 'Present Employee',
-                                className: 'fc-event-danger'
-                            } ;
-                            eventArray.push(temp);
-                            var temp2 =  {
-                                title: 'Absent ' + value.absent  ,
-                                start: value.date ,
-                                // description: 'Absent Employee',
-                                className: 'fc-event-success'
-                            } ;
-                            eventArray.push(temp2);
-                            var temp3 =  {
-                                title: 'Half Day ' + value.half_day  ,
-                                start: value.date ,
-                                // description: 'Half Day Leave Employee',
-                                className: 'fc-event-info'
-                            } ;
-                            eventArray.push(temp3);
-                            var temp4 =  {
-                                title: 'Sort Leave ' + value.sort_leave,
-                                start: value.date ,
-                                // description: 'Sort Leave Employee',
+                            var temp5 = {
+                                title: 'Employee Overtime ' + value.emp_overtime,
+                                start: value.date,
+                                className: 'fc-event-primary'
+                            };
+                            eventArray.push(temp5);
+                        } else if (isWeekend(value.date) === true ) {
+                            var temp5 = {
+                                title: 'Employee Overtime ' + value.emp_overtime,
+                                start: value.date,
                                 className: 'fc-event-warning'
-                            } ;
+                            };
+                            eventArray.push(temp5);
+                        }
+                        else {
+                            var temp = {
+                                title: 'Present ' + value.present,
+                                start: value.date,
+                                className: 'fc-event-danger'
+                            };
+                            eventArray.push(temp);
+                            var temp2 = {
+                                title: 'Absent ' + value.absent,
+                                start: value.date,
+                                className: 'fc-event-success'
+                            };
+                            eventArray.push(temp2);
+                            var temp3 = {
+                                title: 'Half Day ' + value.half_day,
+                                start: value.date,
+                                className: 'fc-event-info'
+                            };
+                            eventArray.push(temp3);
+                            var temp4 = {
+                                title: 'Sort Leave ' + value.sort_leave,
+                                start: value.date,
+                                className: 'fc-event-warning'
+                            };
                             eventArray.push(temp4);
+                            var temp5 = {
+                                title: 'Employee Overtime ' + value.emp_overtime,
+                                start: value.date,
+                                className: 'fc-event-primary'
+                            };
+                            eventArray.push(temp5);
                         }
                     });
                     var todayDate = moment().startOf('day');
@@ -261,8 +297,8 @@ var Attendance = function () {
                         },
 
                         selectable: true,
-                        selectHelper : true,
-                        dateClick: function(info) {
+                        selectHelper: true,
+                        dateClick: function (info) {
                             // Redirect to another page with the clicked date information
                             var clickedDate = new Date(info.dateStr);
                             var dd = String(clickedDate.getDate()).padStart(2, '0');
@@ -270,9 +306,9 @@ var Attendance = function () {
                             var yyyy = clickedDate.getFullYear();
                             clickedDate = dd + '-' + mm + '-' + yyyy;
                             window.location.href = baseurl + 'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
-                          },
+                        },
                         height: 800,
-                        contentHeight: 1200,
+                        contentHeight: 1500,
                         aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
 
                         nowIndicator: true,
@@ -283,7 +319,7 @@ var Attendance = function () {
                         eventLimit: true, // allow "more" link when too many events
                         navLinks: true,
                         firstDay: 1,
-                        weekends: false,
+                        // weekends: false,
                         // initialDate: year + '-' + month + '-01',
                         events: eventArray,
                         eventRender: function (info) {
@@ -304,7 +340,14 @@ var Attendance = function () {
                     calendar.render();
                 },
             });
+
         });
+
+        function isWeekend(date) {
+            var day = new Date(date).getDay();
+            return day === 0 || day === 6; // Sunday or Saturday
+        }
+
     }
     var addAttendance = function () {
         var form = $('#add-attendance-form');
@@ -391,8 +434,8 @@ var Attendance = function () {
             $("#add-type").slideToggle("slow");
         })
 
-        $('#all_present').change(function() {
-            if(this.checked) {
+        $('#all_present').change(function () {
+            if (this.checked) {
                 var returnVal = $('#add_attendance_div').slideToggle('slow');
                 $(this).prop("checked", returnVal);
             } else {
@@ -422,14 +465,14 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
-        $("body").on("click", ".delete-records", function() {
+        $("body").on("click", ".delete-records", function () {
             var id = $(this).data('id');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.yes-sure:visible').attr('data-id', id);
             }, 500);
         })
 
-        $('body').on('click', '.yes-sure', function() {
+        $('body').on('click', '.yes-sure', function () {
             var id = $(this).attr('data-id');
             var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
             $.ajax({
@@ -439,7 +482,7 @@ var Attendance = function () {
                 },
                 url: baseurl + "admin/attendance/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
-                success: function(data) {
+                success: function (data) {
                     $("#loader").show();
                     handleAjaxResponse(data);
                 }

@@ -311,7 +311,9 @@ class Attendance extends Model
         $dates = [];
         foreach ($period as $date) {
             $formattedDate = $date->format('Y-m-d');
-            if($formattedDate <= date('Y-m-d') && date('w', strtotime($formattedDate)) != 6 && date('w', strtotime($formattedDate)) != 0){
+            // dd($formattedDate);
+            // if($formattedDate <= date('Y-m-d') && date('w', strtotime($formattedDate)) != 6 && date('w', strtotime($formattedDate)) != 0){
+            if($formattedDate <= date('Y-m-d')){
             $dates[$index]['date'] = $formattedDate;
 
             $isHoliday = PublicHoliday::from('public_holiday')
@@ -322,6 +324,11 @@ class Attendance extends Model
 
                 if(!empty($isHoliday)){
                     $dates[$index]['is_holiday'] = $isHoliday['holiday_name'];
+                    $dates[$index]['emp_overtime'] = EmployeeOvertime::from('emp_overtime')
+                    ->join("employee", "employee.id", "=", "emp_overtime.employee_id")
+                    ->where('date', $formattedDate)
+                    ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                    ->count();
                 } else{
                     $dates[$index]['present'] = Attendance::from('attendance')
                         ->join("employee", "employee.id", "=", "attendance.employee_id")
@@ -354,12 +361,19 @@ class Attendance extends Model
                         ->where('date', $formattedDate)
                         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
                         ->count();
+
+                    $dates[$index]['emp_overtime'] = EmployeeOvertime::from('emp_overtime')
+                        ->join("employee", "employee.id", "=", "emp_overtime.employee_id")
+                        ->where('date', $formattedDate)
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->count();
                 }
             }
 
             $index++;
         }
         return $dates;
+
     }
     public function get_attendance_details_by_employee($employeeId, $month, $year){
         $month = $year.'-'.$month;
