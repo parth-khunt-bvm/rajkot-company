@@ -30,12 +30,12 @@ class Attendance extends Model
                                 ELSE "Sort Leave" END)'),
             4 => 'attendance.reason',
         );
-        if($outputDate != null && $outputDate != ''){
+        if ($outputDate != null && $outputDate != '') {
             $query = Attendance::from('attendance')
-            ->join("employee", "employee.id", "=", "attendance.employee_id")
-            ->join("branch", "branch.id", "=", "employee.branch")
-            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-            ->where("attendance.date", $outputDate);
+                ->join("employee", "employee.id", "=", "attendance.employee_id")
+                ->join("branch", "branch.id", "=", "employee.branch")
+                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                ->where("attendance.date", $outputDate);
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -62,7 +62,7 @@ class Attendance extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'attendance.date','attendance.attendance_type','attendance.reason')
+            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'), 'attendance.date', 'attendance.attendance_type', 'attendance.reason')
             ->get();
 
         $data = array();
@@ -74,9 +74,9 @@ class Attendance extends Model
             $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['attendance_type'] == '0') {
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
-            } else if($row['attendance_type'] == '1'){
+            } else if ($row['attendance_type'] == '1') {
                 $attendance_type = '<span class="label label-lg label-light-danger label-inline">Absent</span>';
-            } else if($row['attendance_type'] == '2'){
+            } else if ($row['attendance_type'] == '2') {
                 $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
                 $attendance_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
@@ -91,7 +91,7 @@ class Attendance extends Model
             $nestedData[] = $attendance_type;
             if (strlen($row['reason']) > $max_length) {
                 $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
-            }else {
+            } else {
                 $nestedData[] = $row['reason'] ?? '-'; // If it's not longer than max_length, keep it as is
             }
             $nestedData[] = $actionhtml;
@@ -113,7 +113,7 @@ class Attendance extends Model
             1 => 'technology.technology_name',
             // 2 => DB::raw('COUNT(date) as total'),
         );
-            $query = Attendance::from('attendance')
+        $query = Attendance::from('attendance')
             ->join("employee", "employee.id", "=", "attendance.employee_id")
             ->join('technology', 'technology.id', '=', 'employee.department')
             ->whereMonth('date', $fillterdata['month'])
@@ -143,9 +143,11 @@ class Attendance extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select(DB::raw('CONCAT(first_name, " ", last_name) as fullname'), 'technology.technology_name',
-                    DB::raw("(SELECT COUNT('id')  FROM attendance WHERE attendance_type='0') as presentEmp ")
-                )
+            ->select(
+                DB::raw('CONCAT(first_name, " ", last_name) as fullname'),
+                'technology.technology_name',
+                DB::raw("(SELECT COUNT('id')  FROM attendance WHERE attendance_type='0') as presentEmp ")
+            )
             ->get();
         ccd($resultArr);
         $data = array();
@@ -157,9 +159,9 @@ class Attendance extends Model
             // $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['attendance_type'] == '0') {
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
-            } else if($row['attendance_type'] == '1'){
+            } else if ($row['attendance_type'] == '1') {
                 $attendance_type = '<span class="label label-lg label-light-danger label-inline">Absent</span>';
-            } else if($row['attendance_type'] == '2'){
+            } else if ($row['attendance_type'] == '2') {
                 $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
                 $attendance_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
@@ -193,86 +195,154 @@ class Attendance extends Model
     public function saveAdd($requestData)
     {
         $holidayCount = PublicHoliday::where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))->count();
-        if($holidayCount == 1){
+        if ($holidayCount == 1) {
             return 'holiday_day';
         }
 
         $employee = Employee::from('employee')
-             ->join("branch", "branch.id", "=", "employee.branch")
-             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-             ->where("employee.status", "=", "W")
-             ->where("employee.is_deleted", "=", "N")
-             ->pluck('employee.id')->toArray();
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("employee.status", "=", "W")
+            ->where("employee.is_deleted", "=", "N")
+            ->pluck('employee.id')->toArray();
 
         $employeeId = $requestData->employee_id;
 
         $checkAttendance = Attendance::from('attendance')
-        ->join("employee", "employee.id", "=", "attendance.employee_id")
-        ->join("branch", "branch.id", "=", "employee.branch")
-        ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
-        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-        ->count();
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->count();
 
         $allPresent = $requestData['all_present'];
-            if($checkAttendance == 0){
+        if ($checkAttendance == 0) {
 
-                foreach ($employee as $employeeNameKey => $value) {
-                    $objAttendance = new Attendance();
-                    $objAttendance->employee_id = $value;
-                    if ($allPresent) {
-                        $objAttendance->attendance_type = "0";
-                        $objAttendance->reason = NULL;
-                    } else
-                    if(in_array( $value, $requestData->employee_id)){
-                        $key = array_search ($value, $requestData->employee_id);
-                        $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
-                        $objAttendance->reason = $requestData->input('reason')[$key];
-                        $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-                    }else{
-                        $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-                        $objAttendance->attendance_type = "0";
-                        $objAttendance->reason = NULL;
-                    }
+            foreach ($employee as $employeeNameKey => $value) {
+                $objAttendance = new Attendance();
+                $objAttendance->employee_id = $value;
+                if ($allPresent) {
+                    $objAttendance->attendance_type = "0";
+                    $objAttendance->reason = NULL;
+                } else
+                    if (in_array($value, $requestData->employee_id)) {
+                    $key = array_search($value, $requestData->employee_id);
+                    $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
+                    $objAttendance->reason = $requestData->input('reason')[$key];
                     $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
-                    $objAttendance->created_at = date('Y-m-d H:i:s');
-                    $objAttendance->updated_at = date('Y-m-d H:i:s');
-                    $objAttendance->save();
-                    }
-                    if($objAttendance->save()){
-                        $inputData = $requestData->input();
-                        unset($inputData['_token']);
-                        $objAudittrails = new Audittrails();
-                        $objAudittrails->add_audit("I", $inputData, 'Attendance');
-                        return 'added';
-                    }else{
-                        return 'wrong';
-                    }
+                } else {
+                    $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+                    $objAttendance->attendance_type = "0";
+                    $objAttendance->reason = NULL;
+                }
+                $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+                $objAttendance->created_at = date('Y-m-d H:i:s');
+                $objAttendance->updated_at = date('Y-m-d H:i:s');
+                $objAttendance->save();
             }
-            return 'attendance_exists';
-    }
-    public function daySaveEdit($requestData)
-    {
-            $objattendance = Attendance::find($requestData['attendance_id']);
-            $objattendance->date =date('Y-m-d', strtotime($requestData['date']));
-            $objattendance->attendance_type = $requestData['leave_type'];
-            $objattendance->reason = $requestData['reason'];
-            $objattendance->updated_at = date('Y-m-d H:i:s');
-            if ($objattendance->save()) {
+            if ($objAttendance->save()) {
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit('U', $inputData, 'Attendance');
+                $objAudittrails->add_audit("I", $inputData, 'Attendance');
                 return 'added';
+            } else {
+                return 'wrong';
             }
-            return 'wrong';
+        }
+        return 'attendance_exists';
+    }
+    public function empSaveAdd($requestData)
+    {
+
+        $holidayCount = PublicHoliday::where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))->count();
+        if ($holidayCount == 1) {
+            return 'holiday_day';
+        }
+
+        $employee = Employee::from('employee')
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("employee.status", "=", "W")
+            ->where("employee.is_deleted", "=", "N")
+            ->pluck('employee.id')->toArray();
+
+        $employeeId = $requestData->employee_id;
+
+        $checkAttendance = Attendance::from('attendance')
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
+            ->where('attendance.employee_id', $requestData['employee_id'])
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->count();
+
+        if ($checkAttendance == 0) {
+
+            // foreach ($employee as $employeeNameKey => $value) {
+            //     $objAttendance = new Attendance();
+            //     $objAttendance->employee_id = $value;
+            //     if (in_array($value, $requestData->employee_id)) {
+            //         $key = array_search($value, $requestData->employee_id);
+            //         $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
+            //         $objAttendance->reason = $requestData->input('reason')[$key];
+            //         $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+            //     } else {
+            //         $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+            //         $objAttendance->attendance_type = "0";
+            //         $objAttendance->reason = NULL;
+            //     }
+            //     $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+            //     $objAttendance->created_at = date('Y-m-d H:i:s');
+            //     $objAttendance->updated_at = date('Y-m-d H:i:s');
+            //     $objAttendance->save();
+            // }
+
+            $objAttendance = new Attendance();
+            $objAttendance->$requestData['date'];
+            $objAttendance->employee_id = $requestData['employee_id'];
+            $objAttendance->attendance_type =$requestData['leave_type'];
+            $objAttendance->reason = NULL;
+            $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+            $objAttendance->created_at = date('Y-m-d H:i:s');
+            $objAttendance->updated_at = date('Y-m-d H:i:s');
+            $objAttendance->save();
+
+            if ($objAttendance->save()) {
+                $inputData = $requestData->input();
+                unset($inputData['_token']);
+                $objAudittrails = new Audittrails();
+                $objAudittrails->add_audit("I", $inputData, 'Attendance');
+                return 'added';
+            } else {
+                return 'wrong';
+            }
+        }
+        return 'attendance_exists';
+    }
+    public function daySaveEdit($requestData)
+    {
+        $objattendance = Attendance::find($requestData['attendance_id']);
+        $objattendance->date = date('Y-m-d', strtotime($requestData['date']));
+        $objattendance->attendance_type = $requestData['leave_type'];
+        $objattendance->reason = $requestData['reason'];
+        $objattendance->updated_at = date('Y-m-d H:i:s');
+        if ($objattendance->save()) {
+            $inputData = $requestData->input();
+            unset($inputData['_token']);
+            $objAudittrails = new Audittrails();
+            $objAudittrails->add_audit('U', $inputData, 'Attendance');
+            return 'added';
+        }
+        return 'wrong';
     }
     public function get_attendance_details($attendanceId)
     {
         return Attendance::from('attendance')
-             ->join("employee", "employee.id", "=", "attendance.employee_id")
-             ->select('attendance.id','attendance.date','attendance.attendance_type','attendance.reason','attendance.employee_id' )
-             ->where('attendance.id', $attendanceId)
-             ->first();
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->select('attendance.id', 'attendance.date', 'attendance.attendance_type', 'attendance.reason', 'attendance.employee_id')
+            ->where('attendance.id', $attendanceId)
+            ->first();
     }
     public function common_activity($requestData)
     {
@@ -301,8 +371,9 @@ class Attendance extends Model
             return false;
         }
     }
-    public function get_admin_attendance_details($requestData){
-        $month = $requestData['year'].'-'.$requestData['month'];
+    public function get_admin_attendance_details($requestData)
+    {
+        $month = $requestData['year'] . '-' . $requestData['month'];
         $start = Carbon::parse($month)->startOfMonth();
         $end = Carbon::parse($month)->endOfMonth();
         $period = CarbonPeriod::create($start, $end);
@@ -313,29 +384,29 @@ class Attendance extends Model
             $formattedDate = $date->format('Y-m-d');
             // dd($formattedDate);
             // if($formattedDate <= date('Y-m-d') && date('w', strtotime($formattedDate)) != 6 && date('w', strtotime($formattedDate)) != 0){
-            if($formattedDate <= date('Y-m-d')){
-            $dates[$index]['date'] = $formattedDate;
+            if ($formattedDate <= date('Y-m-d')) {
+                $dates[$index]['date'] = $formattedDate;
 
-            $isHoliday = PublicHoliday::from('public_holiday')
+                $isHoliday = PublicHoliday::from('public_holiday')
                     ->where('date', $formattedDate)
                     ->where('is_deleted', "N")
                     ->select('holiday_name')
                     ->first();
 
-                if(!empty($isHoliday)){
+                if (!empty($isHoliday)) {
                     $dates[$index]['is_holiday'] = $isHoliday['holiday_name'];
                     $dates[$index]['emp_overtime'] = EmployeeOvertime::from('emp_overtime')
-                    ->join("employee", "employee.id", "=", "emp_overtime.employee_id")
-                    ->where('date', $formattedDate)
-                    ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-                    ->count();
-                } else{
+                        ->join("employee", "employee.id", "=", "emp_overtime.employee_id")
+                        ->where('date', $formattedDate)
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->count();
+                } else {
                     $dates[$index]['present'] = Attendance::from('attendance')
                         ->join("employee", "employee.id", "=", "attendance.employee_id")
                         ->join("branch", "branch.id", "=", "employee.branch")
                         ->where('attendance_type', '0')
                         ->where('date', $formattedDate)
-                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                         ->count();
 
                     $dates[$index]['absent'] = Attendance::from('attendance')
@@ -343,7 +414,7 @@ class Attendance extends Model
                         ->join("branch", "branch.id", "=", "employee.branch")
                         ->where('attendance_type', '1')
                         ->where('date', $formattedDate)
-                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                         ->count();
 
                     $dates[$index]['half_day'] = Attendance::from('attendance')
@@ -351,7 +422,7 @@ class Attendance extends Model
                         ->join("branch", "branch.id", "=", "employee.branch")
                         ->where('attendance_type', '2')
                         ->where('date', $formattedDate)
-                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                         ->count();
 
                     $dates[$index]['sort_leave'] = Attendance::from('attendance')
@@ -359,13 +430,13 @@ class Attendance extends Model
                         ->join("branch", "branch.id", "=", "employee.branch")
                         ->where('attendance_type', '3')
                         ->where('date', $formattedDate)
-                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                         ->count();
 
                     $dates[$index]['emp_overtime'] = EmployeeOvertime::from('emp_overtime')
                         ->join("employee", "employee.id", "=", "emp_overtime.employee_id")
                         ->where('date', $formattedDate)
-                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                         ->count();
                 }
             }
@@ -373,38 +444,38 @@ class Attendance extends Model
             $index++;
         }
         return $dates;
-
     }
-    public function get_attendance_details_by_employee($employeeId, $month, $year){
-        $month = $year.'-'.$month;
+    public function get_attendance_details_by_employee($employeeId, $month, $year)
+    {
+        $month = $year . '-' . $month;
         $start = Carbon::parse($month)->startOfMonth();
         $end = Carbon::parse($month)->endOfMonth();
         $period = CarbonPeriod::create($start, $end);
         $attendanceData = Attendance::from('attendance')
-                ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason')
-                ->where('attendance.employee_id', $employeeId)
-                ->whereDate('date', '>=', date('Y-m-d', strtotime($start)))
-                ->whereDate('date', '<=', date('Y-m-d', strtotime($end)))
-                ->get()->toArray();
+            ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason')
+            ->where('attendance.employee_id', $employeeId)
+            ->whereDate('date', '>=', date('Y-m-d', strtotime($start)))
+            ->whereDate('date', '<=', date('Y-m-d', strtotime($end)))
+            ->get()->toArray();
         $index = 0; // Initialize the index
         $dates = [];
         foreach ($attendanceData as $key => $value) {
             $dates[$index]['date'] = date('Y-m-d', strtotime($value['date']));
-            if($value['attendance_type'] == 0){
+            if ($value['attendance_type'] == 0) {
                 $attendance_type = 'Present';
-                $className='fc-event-success';
+                $className = 'fc-event-success';
                 $description = $value['reason'];
-            } elseif($value['attendance_type'] == 1){
+            } elseif ($value['attendance_type'] == 1) {
                 $attendance_type = 'Absent';
-                $className='fc-event-danger';
+                $className = 'fc-event-danger';
                 $description = $value['reason'];
-            } elseif($value['attendance_type'] == 2){
+            } elseif ($value['attendance_type'] == 2) {
                 $attendance_type = 'Half_leave';
-                $className='fc-event-info';
+                $className = 'fc-event-info';
                 $description = $value['reason'];
-            } else{
+            } else {
                 $attendance_type = 'Sort_leave';
-                $className='fc-event-warning';
+                $className = 'fc-event-warning';
                 $description = $value['reason'];
             }
             $dates[$index]['attendance_type'] = $attendance_type;
@@ -414,26 +485,28 @@ class Attendance extends Model
         }
         return $dates;
     }
-    public function get_admin_attendance_details_by_day(){
+    public function get_admin_attendance_details_by_day()
+    {
         return Attendance::from('attendance')
-        ->select('id','date','employee_id','attendance_type','reason')
-        ->get();
+            ->select('id', 'date', 'employee_id', 'attendance_type', 'reason')
+            ->get();
     }
-    public function get_admin_attendance_daily_detail(){
+    public function get_admin_attendance_daily_detail()
+    {
 
         $formattedDate = date("Y-m-d");
 
         $data['attendance'] = Attendance::from('attendance')
-                ->leftjoin("employee", "employee.id", "=", "attendance.employee_id")
-                ->leftjoin("branch", "branch.id", "=", "employee.branch")
-                ->selectRaw('
+            ->leftjoin("employee", "employee.id", "=", "attendance.employee_id")
+            ->leftjoin("branch", "branch.id", "=", "employee.branch")
+            ->selectRaw('
                 SUM(CASE WHEN attendance.attendance_type = "0" THEN 1 ELSE 0 END) AS present,
                 SUM(CASE WHEN attendance.attendance_type = "1" THEN 1 ELSE 0 END) AS absent,
                 SUM(CASE WHEN attendance.attendance_type = "2" THEN 1 ELSE 0 END) AS half_day,
                 SUM(CASE WHEN attendance.attendance_type = "3" THEN 1 ELSE 0 END) AS short_leave
             ')
             ->where('attendance.date', $formattedDate)
-            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("employee.is_deleted", "=", "N")
             ->first();
         $formattedDate = now()->format('Y-m-d');
@@ -444,9 +517,9 @@ class Attendance extends Model
                     SUM(CASE WHEN DATE_FORMAT(DOB, "%m-%d") = ? THEN 1 ELSE 0 END) AS birthday_count,
                     SUM(CASE WHEN bond_last_date = ? THEN 1 ELSE 0 END) AS bond_last_date_count
                 ', [$monthDayFormat, $formattedDate])
-                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-                ->where("employee.is_deleted", "=", "N")
-                ->first();
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("employee.is_deleted", "=", "N")
+            ->first();
 
         return $data;
     }

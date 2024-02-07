@@ -423,6 +423,14 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
+
+        // $(".datepicker_date").val(today);
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
         $("body").on("click", ".show-type-form", function () {
             $("#show-type-form").html('-').addClass('remove-type-form');
             $("#show-type-form").html('-').removeClass('show-type-form');
@@ -443,6 +451,7 @@ var Attendance = function () {
                 $(this).prop("checked=disabled", returnVal);
             }
         });
+
     }
     var editAttendance = function () {
         var form = $('#edit-attendance-form');

@@ -268,6 +268,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
     Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
+    
+    Route::post('admin/emp/attendance/save-add-attendance', [AttendanceController::class, 'empSaveAdd'])->name('admin.emp-attendance.save-add-attendance');
 
     // Leave Request
     Route::get('admin/leave-request/list', [LeaveRequestController::class, 'list'])->name('admin.leave-request.list');

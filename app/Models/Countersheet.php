@@ -44,7 +44,7 @@ class Countersheet extends Model
 
             if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
                 $query->where("technology.id", $fillterdata['technology']);
-            }
+        }
 
             if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
                 $query->where("employee.branch", $fillterdata['branch']);
