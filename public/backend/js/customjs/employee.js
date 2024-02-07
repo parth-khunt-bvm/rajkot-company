@@ -122,9 +122,10 @@ var Employee = function () {
 
         $('body').on('change', '.change-fillter', function () {
             var target = [75, 76, 77, 78, 79, 80];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
+
             html = '<table class="table table-bordered table-checkable" id="employee-list">' +
                 '<thead>' +
                 '<tr>' +
@@ -134,7 +135,7 @@ var Employee = function () {
                 '<th>Date of Joining</th>' +
                 '<th>Experience</th>' +
                 '<th>Status</th>';
-                if (isAdmin == 'Y' || intersectCount > 0 ) {
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
                     html += '<th>Action</th>';
                 }
                 html += '</tr>' +
@@ -157,7 +158,6 @@ var Employee = function () {
                 'technology': technology, 'designation': designation,'status': status, 'startDate': startDate, 'endDate': endDate, 'branch': branch
             };
 
-            console.log(dataArr);
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
                 'tableID': '#employee-list',
@@ -184,7 +184,6 @@ var Employee = function () {
         });
 
         $("body").on('click','.add-branch-employee-import', function(){
-            console.log('brnach');
             var data = {};
             $.ajax({
                 type: "POST",
@@ -195,7 +194,6 @@ var Employee = function () {
                 data: { 'action': 'add-branch-employee-import', 'data': data },
                 success: function (data) {
                    var Branch=  JSON.parse(data);
-                   console.log(Branch);
                    var html = '';
                    html += '<option value="">Please select Branch</option>';
                    for (var i = 0; i < Branch.length; i++) {
@@ -643,7 +641,6 @@ var Employee = function () {
 
                         eventArray = [];
                         $.each(res, function (key, value) {
-                            console.log(value);
 
                             var temp = {
                                 title: value.attendance_type,
@@ -748,7 +745,6 @@ var Employee = function () {
             });
 
             $("body").on("change", ".change-fillter", function(){
-                console.log("change");
 
                 var html = '';
                 html = '<div id="attendance_calendar"></div>';
@@ -767,11 +763,11 @@ var Employee = function () {
                     url: baseurl + "admin/employee/ajaxcall",
                     data: { 'action': 'get_employee_details', 'data': data },
                     success: function (data) {
-                        console.log("data", data);
+
 
                         if (type == 'attendance') {
                             var res = JSON.parse(data);
-                            console.log("res", res);
+
                             $('.select2').select2();
                             eventArray = [];
                             $.each(res, function (key, value) {
