@@ -72,6 +72,10 @@ var Countersheet = function(){
         $("body").on("click", "#report-list-filter-icon", function() {
             $("div .report-list-filter").slideToggle("slow");
         })
+
+        $("body").on("click", ".reset", function () {
+            location.reload(true);
+        });
     }
 
     var countersheetcalender = function () {
