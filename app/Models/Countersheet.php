@@ -13,40 +13,34 @@ class Countersheet extends Model
     protected $table = "attendance";
     public function getdatatable($fillterdata)
     {
+
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            1 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
+            1 => \DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
             2 => 'technology.technology_name',
-            3 => DB::raw('COUNT("attendance_type")'),
-            4 => DB::raw('SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)'),
-            5 => DB::raw('SUM(CASE WHEN attendance_type="1" THEN 1 ELSE 0 END)'),
-            6 => DB::raw('SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)'),
-            7 => DB::raw('SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)'),
-            8 => DB::raw('CONCAT(
-                FLOOR((SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) / 8),
+            3 => \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0)'),
+            4 => 'a.presentCount',
+            5 => 'a.absentCount',
+            6 => 'a.halfDayCount',
+            7 => 'a.sortLeaveCount',
+            8 =>  DB::raw('IFNULL(o.overTime, 0)'),
+            9 =>   DB::raw('
+            CONCAT(
+                FLOOR(
+                    (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
+                ),
                 ".",
-                (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
-                ""
-                )'),
+                FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
+            )')
+
         );
-        $query = Employee::from('employee')
+
+        $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
-            ->leftJoin(DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as o'), 'o.employee_id', '=', 'employee.id')
-            ->leftJoin(DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = 0 THEN 1 END) AS presentCount, COUNT(CASE WHEN attendance_type = 1 THEN 1 END) AS absentCount, COUNT(CASE WHEN attendance_type = 2 THEN 1 END) AS halfDayCount, COUNT(CASE WHEN attendance_type = 3 THEN 1 END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as a'), 'a.employee_id', '=', 'employee.id')
-            ->leftJoin(DB::raw('(SELECT employee_id, COUNT(*) AS totalDays FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) as td'), 'td.employee_id', '=', 'employee.id')
-            ->where("employee.is_deleted", "=", "N");
-
-            //  ->whereMonth('attendance.date', $fillterdata['month'])
-            //  ->whereYear('attendance.date', $fillterdata['year']);
-
-
-        if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
-            $query->where("technology.id", $fillterdata['technology']);
-        }
-        // if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-        //     $query->where("branch.id", $fillterdata['branch']);
-        // }
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = 2 AND YEAR(date) = 2024 GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
+            ->where('employee.is_deleted', 'N');
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -73,31 +67,26 @@ class Countersheet extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', 'technology.technology_name',
-                    DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as full_name'),
-                    DB::raw('COUNT(attendance_type) as totalDays'),
-                    DB::raw('SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END) as presentCount'),
-                    DB::raw('SUM(CASE WHEN attendance_type="1" THEN 1 ELSE 0 END) as absentcount'),
-                    DB::raw('SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END) as halfdaycount'),
-                    DB::raw('SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END) as sortleavecount'),
-                    DB::raw('CONCAT(
-                        FLOOR((SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) / 8),
-                        ".",
-                        (SUM(CASE WHEN attendance_type="0" THEN 1 ELSE 0 END)*8 + SUM(CASE WHEN attendance_type="2" THEN 1 ELSE 0 END)*4 + SUM(CASE WHEN attendance_type="3" THEN 1 ELSE 0 END)*6) % 8,
-                        ""
-                    ) as total')
-                )
+            ->select('employee.id', 'technology.technology_name', DB::raw('IFNULL(o.overTime, 0) as overTime'), \DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'), 'a.presentCount', 'a.absentCount', 'a.halfDayCount', 'a.sortLeaveCount', \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+            DB::raw('
+            CONCAT(
+                FLOOR(
+                    (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
+                ),
+                ".",
+                FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
+            )
+            as total'))
             ->get();
 
         $data = array();
         $i = 0;
-
+        // ccd($resultArr);
         foreach ($resultArr as $row) {
 
             $actionhtml  = '';
             // $actionhtml .= '<a href="' . route('admin.employee.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
-            $actionhtml  =  '<button data-toggle="modal" data-user-id="'.$row['id'].'" data-month="'.$fillterdata['month'].'"  data-year="'.$fillterdata['year'].'"data-target="#countersheet" class="counter-sheet btn btn-icon user-menu"><i class="fa fa-eye text-primary"> </i></button>';
-            ;
+            $actionhtml  =  '<button data-toggle="modal" data-user-id="' . $row['id'] . '" data-month="' . $fillterdata['month'] . '"  data-year="' . $fillterdata['year'] . '"data-target="#countersheet" class="counter-sheet btn btn-icon user-menu"><i class="fa fa-eye text-primary"> </i></button>';;
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
@@ -105,9 +94,10 @@ class Countersheet extends Model
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['totalDays'];
             $nestedData[] = $row['presentCount'];
-            $nestedData[] = $row['absentcount'];
-            $nestedData[] = $row['halfdaycount'];
-            $nestedData[] = $row['sortleavecount'];
+            $nestedData[] = $row['absentCount'];
+            $nestedData[] = $row['halfDayCount'];
+            $nestedData[] = $row['sortLeaveCount'];
+            $nestedData[] = $row['overTime'];
             $nestedData[] = $row['total'];
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -120,5 +110,4 @@ class Countersheet extends Model
         );
         return $json_data;
     }
-
 }

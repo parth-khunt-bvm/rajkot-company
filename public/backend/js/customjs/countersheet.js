@@ -13,8 +13,8 @@ var Countersheet = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 9],
-            'noSearchApply': [0, 9],
+            'noSortingApply': [0, 10],
+            'noSearchApply': [0, 10],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -35,7 +35,7 @@ var Countersheet = function(){
             '<th>Absent Day</th>'+
             '<th>Half leave</th>'+
             '<th>Sort Leave</th>'+
-            // '<th>OverTime</th>'+
+            '<th>OverTime</th>'+
             '<th>total</th>'+
             '<th>Action</th>'+
             '</tr>'+
@@ -59,8 +59,8 @@ var Countersheet = function(){
                 'ajaxAction': 'getdatatable',
                 'postData': dataArr,
                 'hideColumnList': [],
-                'noSortingApply': [0, 9],
-                'noSearchApply': [0, 9],
+                'noSortingApply': [0, 10],
+                'noSearchApply': [0, 10],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
