@@ -83,7 +83,6 @@ class AttendanceController extends Controller
             'attendance.js',
         );
         $data['funinit'] = array(
-            'Attendance.add()',
             'Attendance.list()'
         );
         $data['header'] = array(

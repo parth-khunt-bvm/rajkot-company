@@ -22,6 +22,8 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
                     <!--end::Button-->
+                    {{-- <a href="{{ route('admin-counter-sheet.pdf') }}" class="ml-4 mr-4 btn btn-primary download-pdf">Download Pdf</a> --}}
+                    {{-- <a href="{{route('admin.countersheet.pdfList')}}" class="ml-4 mr-4 btn btn-primary download-pdf">Download Pdf</a> --}}
                 </div>
             </div>
             <div class="card-body">

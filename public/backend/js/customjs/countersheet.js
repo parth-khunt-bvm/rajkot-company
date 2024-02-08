@@ -76,6 +76,30 @@ var Countersheet = function(){
         $("body").on("click", ".reset", function () {
             location.reload(true);
         });
+
+        $("body").on("click", ".download-pdf", function () {
+
+            // var branch = $('#att_report_branch_id').val();
+            // var technology = $('#att_report_technology_id').val();
+            // var month = $('#att_report_month_id').val();
+            // var year = $('#att_report_year_id').val();
+            // var dataArr = {'branch': branch,'technology': technology,'month': month,'year': year,};
+            dataArr = {};
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#countersheet-pdf-table',
+                'ajaxURL': baseurl + "admin/countersheet/ajaxcall",
+                'ajaxAction': 'counter-sheet-pdf',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 10],
+                'noSearchApply': [0, 10],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+        });
     }
 
     var countersheetcalender = function () {

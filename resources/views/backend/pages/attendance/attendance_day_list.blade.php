@@ -20,22 +20,22 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <div class="col-10 mt-3">
-                                <input type="text" name="date" id="datepicker_date" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
+                                <input type="text" name="date" id="datepicker_date_fill" class="form-control change_date datepicker_date" value="{{ $date }}" placeholder="Enter Date" autocomplete="off">
                             </div>
                         </div>
 
-                    <button class="btn btn-primary font-weight-bolder mr-5 mb-5 ml-5 show-attendance-form" id="show-branch-form">+</button>
+                    <button class="btn btn-primary font-weight-bolder mr-5 mb-5 ml-5 show-emp-attendance-form" id="show-emp-attendance-form">+</button>
 
                 </div>
             </div>
             <div class="card-body">
 
-                <form class="form" id="add-attendance-form" style="display: block"  method="POST" action="{{ route('admin.emp-attendance.save-add-attendance') }}">@csrf
+                <form class="form" id="add-emp-attendance-form" style="display: none;"  method="POST" action="{{ route('admin.emp-attendance.save-add-attendance') }}">@csrf
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input type="text" name="date" id="datepicker_date" class="form-control date datepicker_date" value="{{ $date }}" placeholder="Select Date" value="" autocomplete="off">
+                                    <input type="text" name="date" id="datepicker_date_input" class="form-control date datepicker_date" value="{{ $date }}" placeholder="Select Date" value="" autocomplete="off">
                                 </div>
                             </div>
                         </div>

@@ -62,6 +62,95 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto",
         });
+
+        $("body").on("click", ".show-emp-attendance-form", function() {
+            $("#show-emp-attendance-form").html('-').addClass('remove-branch-form');
+            $("#show-emp-attendance-form").html('-').removeClass('show-emp-attendance-form');
+            $("#add-emp-attendance-form").slideToggle("slow");
+        })
+
+        $("body").on("click", ".remove-branch-form", function() {
+            $("#show-emp-attendance-form").html('+').removeClass('remove-branch-form');
+            $("#show-emp-attendance-form").html('+').addClass('show-emp-attendance-form');
+            $("#add-emp-attendance-form").slideToggle("slow");
+        })
+
+        var form = $('#add-emp-attendance-form');
+        var rules = {
+            date: { required: true },
+            'employee_id[]': { required: true },
+            'leave_type[]': {required: true}
+        };
+
+        var message = {
+            date: { required: "Please enter date" },
+        }
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
+        });
+
+        $('.select2').select2();
+        $('body').on('click', '.add-attendance-button', function () {
+            var selected = true;
+            var emaployeeArray = [];
+            $('.employee_select').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.attendance_error').text('Please Select Employee Name');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.attendance_error').text('');
+                    }
+                }
+            });
+
+            $('.leave_select').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.leave_error').text('Please Select Leave Type');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.leave_error').text('');
+                    }
+                }
+            });
+
+            if (selected) {
+                var data = { employee: JSON.stringify(emaployeeArray) };
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/attendance/ajaxcall",
+                    data: { 'action': 'get_employee_list', 'data': data },
+                    success: function (data) {
+                        $("#add_attendance_div").append(data)
+                        $('.select2').select2();
+                    }
+                });
+            }
+        });
+        $('body').on("click", ".remove-attendance", function () {
+            $(this).closest('.removediv').remove();
+        });
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = today.toLocaleString('en-US', { month: 'short' });
+        var yyyy = today.getFullYear();
+        today = dd + '-' + mm + '-' + yyyy;
+
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+
     }
     var calendar = function () {
         $('.select2').select2();
@@ -80,8 +169,7 @@ var Attendance = function () {
             success: function (data) {
                 $('.select2').select2();
                 var res = JSON.parse(data);
-                // console.log("jj", res);
-
+                console.log("cal", res);
                 eventArray = [];
                 $.each(res, function (key, value) {
                     if (typeof value.is_holiday !== 'undefined') {
@@ -431,17 +519,6 @@ var Attendance = function () {
             autoclose: true,
             orientation: "bottom auto"
         });
-        $("body").on("click", ".show-type-form", function () {
-            $("#show-type-form").html('-').addClass('remove-type-form');
-            $("#show-type-form").html('-').removeClass('show-type-form');
-            $("#add-type").slideToggle("slow");
-        })
-        $("body").on("click", ".remove-type-form", function () {
-            $("#show-type-form").html('+').removeClass('remove-type-form');
-            $("#show-type-form").html('+').addClass('show-type-form');
-            $("#add-type").slideToggle("slow");
-        })
-
         $('#all_present').change(function () {
             if (this.checked) {
                 var returnVal = $('#add_attendance_div').slideToggle('slow');
