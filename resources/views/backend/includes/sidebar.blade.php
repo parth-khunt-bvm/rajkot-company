@@ -13,7 +13,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
 <!--begin::Aside-->
 <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
     <!--begin::Brand-->
-    <div class="brand flex-column-auto" id="kt_brand">
+    <div class="brand flex-column-auto" id="kt_brand" style="background-color: white">
         <!--begin::Logo-->
         <a href="{{ route('my-dashboard') }}" class="brand-logo">
             {{-- <img alt="Logo" src="{{  asset('backend/media/logos/logo-light.png') }}" /> --}}

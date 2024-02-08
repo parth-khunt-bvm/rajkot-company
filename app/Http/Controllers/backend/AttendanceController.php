@@ -57,6 +57,9 @@ class AttendanceController extends Controller
 
     public function dayList(Request $request){
 
+        $objEmployee = new Employee();
+        $data['employee'] = $objEmployee->get_admin_employee_details();
+
         $data['date'] = $request->date;
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance list';
@@ -136,6 +139,32 @@ class AttendanceController extends Controller
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Employee Attendance details successfully added.';
             $return['redirect'] = route('admin.attendance.list');
+        } elseif ($result == "attendance_exists") {
+            $return['status'] = 'warning';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Employee Attendance has already exists.';
+        } elseif ($result == "holiday_day") {
+            $return['status'] = 'warning';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Employee holiday has exists.';
+        }  else{
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
+
+    public function empSaveAdd(Request $request){
+        $objAttendance = new Attendance();
+        $result = $objAttendance->empSaveAdd($request);
+
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Employee Attendance details successfully added.';
+            $return['redirect'] = route('admin.attendance.day-list');
         } elseif ($result == "attendance_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

@@ -588,6 +588,7 @@ var Employee = function () {
                         $(".attendance-list").html(html);
 
                         var res = JSON.parse(data);
+                        console.log("emp", res);
                         var html = "";
                         var html = '<div class="row mt-5 ml-5">' +
                             '<div class="col-md-3">' +
@@ -641,15 +642,61 @@ var Employee = function () {
 
                         eventArray = [];
                         $.each(res, function (key, value) {
+                            if (value.is_holiday !== null && value.is_holiday !== 'null' && typeof value.is_holiday !== 'undefined') {
+                                // This is a holiday event
+                                var temp2 = {
+                                    title: 'Holiday ' + value.is_holiday,
+                                    start: value.date,
+                                    className: 'fc-event-danger'
+                                };
+                                eventArray.push(temp2);
 
-                            var temp = {
-                                title: value.attendance_type,
-                                start: value.date,
-                                description: value.description,
-                                className: value.class
-                            };
+                                // Add employee overtime event
+                            if (value.emp_overtime !== null && value.emp_overtime !== 'null' && typeof value.emp_overtime !== 'undefined'  && value.emp_overtime != 0) {
 
-                            eventArray.push(temp);
+                                var temp5 = {
+                                    title: 'Employee Overtime ' +parseFloat(value.emp_overtime) ,
+                                    start: value.date,
+                                    className: 'fc-event-warning'
+                                };
+                                eventArray.push(temp5);
+                            }
+                            } else if (isWeekend(value.date) === true) {
+                                // This is a weekend (Saturday or Sunday)
+                                if(value.emp_overtime !== null && value.emp_overtime !== 'null' && typeof value.emp_overtime !== 'undefined' && value.emp_overtime != 0){
+
+                                var temp5 = {
+                                    title: 'Employee Overtime ' + parseFloat(value.emp_overtime),
+                                    start: value.date,
+                                    className: 'fc-event-warning'
+                                };
+                                eventArray.push(temp5);
+                            }
+                            } else {
+                                // Regular attendance event
+                                if(value.attendance_type !== null && value.attendance_type !== 'null' && typeof value.attendance_type !== 'undefined'){
+                                    var temp = {
+                                        title: value.attendance_type,
+                                        start: value.date,
+                                        description: value.description,
+                                        className: value.class
+                                    };
+                                    eventArray.push(temp);
+                                }
+
+                                if(value.emp_overtime !== null && value.emp_overtime !== 'null' && typeof value.emp_overtime !== 'undefined' && value.emp_overtime != 0){
+
+                                // Add employee overtime event
+                                var temp5 = {
+                                    title: 'Employee Overtime ' + parseFloat(value.emp_overtime),
+                                    start: value.date,
+                                    className: "fc-event-warning"
+                                };
+                                eventArray.push(temp5);
+
+                            }
+                            }
+
                         });
                         var todayDate = moment().startOf('day');
                         var TODAY = todayDate.format('YYYY-MM-DD');
@@ -680,7 +727,7 @@ var Employee = function () {
                                 window.location.href = baseurl +'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                             },
                             height: 800,
-                            contentHeight: 1200,
+                            contentHeight: 1500,
                             aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
 
                             nowIndicator: true,
@@ -691,7 +738,7 @@ var Employee = function () {
                             eventLimit: true, // allow "more" link when too many events
                             navLinks: true,
                             firstDay: 1,
-                            weekends: false,
+                            // weekends: false,
                             // initialDate: year + '-' + month + '-01',
                             events: eventArray,
                             eventRender: function (info) {
@@ -743,6 +790,10 @@ var Employee = function () {
                     element.addClass('active');
                 },
             });
+            function isWeekend(date) {
+                var day = new Date(date).getDay();
+                return day === 0 || day === 6; // Sunday or Saturday
+            }
 
             $("body").on("change", ".change-fillter", function(){
 

@@ -56,6 +56,7 @@
                                             </label>
                                             <select class="form-control select2 leave_type leave_select"  name="leave_type[]" id="leave_type">
                                                 <option value="">Please select Leave Type</option>
+                                                <option value="0">Present</option>
                                                 <option value="1">Full Day Leave</option>
                                                 <option value="2">Half Day Leave</option>
                                                 <option value="3">Sort Leave</option>
