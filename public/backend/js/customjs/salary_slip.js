@@ -74,8 +74,8 @@ var SalarySlip = function(){
 
         $("body").on("change", ".change", function () {
             $target = [128,129,130,131];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html ='<table class="table table-bordered table-checkable" id="admin-salary-slip-list">'+
             '<thead>'+
@@ -85,7 +85,7 @@ var SalarySlip = function(){
             '<th>Department Name</th>'+
             '<th>Designation Name</th>'+
             '<th>Month - Year</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                  html += '<th>Action</th>';
              }
             html +=  ' </tr>'+

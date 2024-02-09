@@ -329,30 +329,21 @@ class Attendance extends Model
     }
     public function common_activity($requestData)
     {
-        $objtype = Type::find($requestData['id']);
+        $objAttendance =  Attendance::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
-            $objtype->is_deleted = "Y";
+            $objAttendance->is_deleted = "Y";
             $event = 'D';
         }
 
-        if ($requestData['activity'] == 'active-records') {
-            $objtype->status = "A";
-            $event = 'A';
-        }
-
-        if ($requestData['activity'] == 'deactive-records') {
-            $objtype->status = "I";
-            $event = 'DA';
-        }
-
-        $objtype->updated_at = date("Y-m-d H:i:s");
-        if ($objtype->save()) {
+        $objAttendance->updated_at = date("Y-m-d H:i:s");
+        if ($objAttendance->save()) {
             $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'type');
+            $res = $objAudittrails->add_audit($event, $requestData, 'Attendance');
             return true;
         } else {
             return false;
         }
+
     }
     public function get_admin_attendance_details($requestData)
     {

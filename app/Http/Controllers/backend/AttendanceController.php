@@ -157,6 +157,7 @@ class AttendanceController extends Controller
     }
 
     public function empSaveAdd(Request $request){
+        $date = $request['date'];
         $objAttendance = new Attendance();
         $result = $objAttendance->empSaveAdd($request);
 
@@ -164,7 +165,7 @@ class AttendanceController extends Controller
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Employee Attendance details successfully added.';
-            $return['redirect'] = route('admin.attendance.day-list');
+            $return['redirect'] = route('admin.attendance.day-list', ['date' => $date] );
         } elseif ($result == "attendance_exists") {
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -273,6 +274,25 @@ class AttendanceController extends Controller
                 $details =  view('backend.pages.attendance.attendance_day_list');
                 echo $details;
                 break;
+
+            case 'common-activity':
+                $objAttendance = new Attendance();
+                $data = $request->input('data');
+                $result = $objAttendance->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = 'Attendance details successfully deleted.';;
+                    }
+                    $return['redirect'] = route('admin.attendance.day-list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
+
+                echo json_encode($return);
+                exit;
         }
 
     }
