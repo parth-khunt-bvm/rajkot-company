@@ -28,7 +28,6 @@ class EmployeeController extends Controller
 
     public function list(Request $request)
     {
-
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 
@@ -74,8 +73,6 @@ class EmployeeController extends Controller
         );
         return view('backend.pages.employee.list', $data);
     }
-
-
 
     public function add()
     {

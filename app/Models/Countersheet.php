@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use App\Models\Employee;
+use PDF;
 
 class Countersheet extends Model
 {
@@ -42,13 +43,13 @@ class Countersheet extends Model
             ->where('employee.is_deleted', 'N');
 
 
-            if($fillterdata['technology'] != null && $fillterdata['technology'] != ''){
-                $query->where("technology.id", $fillterdata['technology']);
+        if ($fillterdata['technology'] != null && $fillterdata['technology'] != '') {
+            $query->where("technology.id", $fillterdata['technology']);
         }
 
-            if($fillterdata['branch'] != null && $fillterdata['branch'] != ''){
-                $query->where("employee.branch", $fillterdata['branch']);
-            }
+        if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
+            $query->where("employee.branch", $fillterdata['branch']);
+        }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -75,8 +76,17 @@ class Countersheet extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('employee.id', 'technology.technology_name', DB::raw('IFNULL(o.overTime, 0) as overTime'), \DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'), 'a.presentCount', 'a.absentCount', 'a.halfDayCount', 'a.sortLeaveCount', \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
-            DB::raw('
+            ->select(
+                'employee.id',
+                'technology.technology_name',
+                DB::raw('IFNULL(o.overTime, 0) as overTime'),
+                \DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
+                'a.presentCount',
+                'a.absentCount',
+                'a.halfDayCount',
+                'a.sortLeaveCount',
+                \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+                DB::raw('
             CONCAT(
                 FLOOR(
                     (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
@@ -84,7 +94,8 @@ class Countersheet extends Model
                 ".",
                 FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
             )
-            as total'))
+            as total')
+            )
             ->get();
 
         $data = array();
@@ -105,7 +116,7 @@ class Countersheet extends Model
             $nestedData[] = $row['absentCount'];
             $nestedData[] = $row['halfDayCount'];
             $nestedData[] = $row['sortLeaveCount'];
-            $nestedData[] = $row['overTime'];
+            $nestedData[] = number_format($row['overTime']);
             $nestedData[] = $row['total'];
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -119,28 +130,23 @@ class Countersheet extends Model
         return $json_data;
     }
 
-
-    public function counterSheetPdf($fillterdata)
+    public function counterSheetPdf($fillterdata,$branch,$technology,$month,$year)
     {
-
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
-            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = '  . $fillterdata['year'] . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
-            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . ' GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ="'.$month.'" AND YEAR(date) = "'.$year.'" GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = "'.$month.'" AND YEAR(date) =  "'.$year.'" GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('employee.is_deleted', 'N');
 
-
-        if ($fillterdata['technology'] != null && $fillterdata['technology'] != '') {
-            $query->where("technology.id", $fillterdata['technology']);
+        if ($technology != null && $technology != '') {
+            $query->where("technology.id", $technology);
         }
 
-        if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
-            $query->where("employee.branch", $fillterdata['branch']);
+        if ($branch != null && $branch != '') {
+            $query->where("employee.branch", $branch);
         }
 
-
-
-        $resultArr = $query->select(
+       return $query->select(
             'employee.id',
             'technology.technology_name',
             DB::raw('IFNULL(o.overTime, 0) as overTime'),
@@ -161,16 +167,5 @@ class Countersheet extends Model
         as total')
         )
             ->get();
-
-        $data = array();
-        $i = 0;
-
-        $data['title'] = 'contact data';
-
-
-        $customPaper = [0, 0, 612.00, 792.00];
-        $pdf = PDF::loadView('backend.pages.counter_sheet.pdf', $data)->setPaper($customPaper, 'portrait');
-
-        return $pdf->download('contact_data.pdf');
     }
 }
