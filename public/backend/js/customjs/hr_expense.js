@@ -46,8 +46,8 @@ var HrExpense = function(){
 
         $('body').on('change', '.change_month', function() {
             var target = [69,70,71];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html  = '';
             html ='<table class="table table-bordered table-checkable" id="hr-expense-list">'+
             '<thead>'+
@@ -57,7 +57,7 @@ var HrExpense = function(){
             '<th>Month</th>'+
             '<th>Amount</th>'+
             '<th>Remark</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html +=  '</tr>'+

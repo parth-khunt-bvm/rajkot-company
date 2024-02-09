@@ -57,8 +57,8 @@ var AssetMaster = function(){
             var dataArr = {  'supplier': supplier, 'asset': asset, 'brand': brand, 'branch': branch};
 
             var target = [101,102,103,104];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html = '<table class="table table-bordered table-checkable" id="admin-asset-master-list">'+
             '<thead>'+
@@ -72,7 +72,7 @@ var AssetMaster = function(){
             '<th>Price</th>'+
             '<th>status</th>'+
             '<th>Description</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html += '</tr>'+

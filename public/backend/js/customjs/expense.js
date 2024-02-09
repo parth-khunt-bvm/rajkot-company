@@ -64,8 +64,8 @@ var Expense = function(){
         $('body').on('change', '.change', function() {
 
             var target = [51,52,53];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html =   '<table class="table table-bordered table-checkable" id="admin-expense-list">'+
             '<thead>'+
@@ -78,7 +78,7 @@ var Expense = function(){
             '<th>Month</th>'+
             '<th>Amount</th>'+
             '<th>Remark</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html +='</tr>'+

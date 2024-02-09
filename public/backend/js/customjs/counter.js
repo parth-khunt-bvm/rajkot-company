@@ -113,8 +113,8 @@ var Counter = function () {
 
         $("body").on("change", ".change", function () {
             var target = [75, 76, 77, 78, 79, 80];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html = '<table class="table table-bordered table-checkable" id="admin-counter-list">' +
                 '<thead>' +
@@ -130,7 +130,7 @@ var Counter = function () {
                 '<th>Paid Leave Details</th>' +
                 '<th>Total Days</th>'+
                 '<th>Salary Counted</th>';
-                if (isAdmin == 'Y' || intersectCount > 0 ) {
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
                     html += '<th>Action</th>';
                 }
                 html += '</tr>' +

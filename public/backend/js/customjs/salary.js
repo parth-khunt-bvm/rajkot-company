@@ -61,8 +61,8 @@ var Salary = function(){
 
         $("body").on("change", ".change", function() {
             var target = [45,46,47];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html ='<table class="table table-bordered table-checkable" id="admin-salary-list">'+
             '<thead>'+
@@ -75,7 +75,7 @@ var Salary = function(){
             '<th>Month_Of</th>'+
             '<th>Amount</th>'+
             '<th>Rmark</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html +='</tr>'+

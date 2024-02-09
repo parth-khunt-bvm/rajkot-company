@@ -196,19 +196,18 @@ class BranchController extends Controller
                 if ($result) {
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
-                        $return['message'] = 'Branch details successfully deleted.';;
+                        $return['message'] = 'Branch details successfully deleted.';
                     }elseif($data['activity'] == 'active-records'){
-                        $return['message'] = 'Branch details successfully actived.';;
+                        $return['message'] = 'Branch details successfully actived.';
                     }else{
-                        $return['message'] = 'Branch details successfully deactived.';;
+                        $return['message'] = 'Branch details successfully deactived.';
                     }
                     $return['redirect'] = route('admin.branch.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
-                    $return['message'] = 'It seems like something is wrong';;
+                    $return['message'] = 'It seems like something is wrong';
                 }
-
                 echo json_encode($return);
                 exit;
         }

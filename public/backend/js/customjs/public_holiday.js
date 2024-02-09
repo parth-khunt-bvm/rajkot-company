@@ -68,8 +68,8 @@ var PublicHoliday = function(){
 
         $("body").on("change", ".change-fillter", function () {
             var target = [120, 121, 122, 123, 124, 125];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html = '<table class="table table-bordered table-checkable" id="public-holiday-list">'+
             '<thead>'+
@@ -78,7 +78,7 @@ var PublicHoliday = function(){
             '<th>Date</th>'+
             '<th>Holiday Name</th>'+
             '<th>Note</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html += '</tr>'+

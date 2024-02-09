@@ -111,8 +111,8 @@ var Supplier = function(){
         $("body").on("change", ".supplier-filter", function () {
 
             var target = [101,102,103,104];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
             html =  '<table class="table table-bordered table-checkable" id="admin-supplier-list">'+
             '<thead>'+
@@ -125,7 +125,7 @@ var Supplier = function(){
             '<th>Priority </th>'+
             '<th>Short Name </th>'+
             '<th>Status</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
                 html += '<th>Action</th>';
             }
             html += '</tr>'+

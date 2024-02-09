@@ -98,10 +98,10 @@ var User = function(){
         })
 
         $('body').on('change', '.user-filter', function() {
-            // var permissionArray = permission.split(',');
             var target = [3, 4, 5];
-            const permissionValues = permission.length > 0 ? permission.split(",") : [];
-            const intersectCount = permissionValues.filter(value => target.includes(value.trim())).length;
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
+
             var html = '<table class="table table-bordered table-checkable" id="user-list">' +
                 '<thead>' +
                 '<tr>' +
@@ -112,7 +112,8 @@ var User = function(){
                 '<th>Branch</th>' +
                 '<th>User Type</th>' +
                 '<th>Status</th>';
-            if (isAdmin == 'Y' || intersectCount > 0 ) {
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
+
                 html += '<th>Action</th>';
             }
 
