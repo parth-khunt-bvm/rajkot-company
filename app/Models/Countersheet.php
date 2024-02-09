@@ -40,6 +40,7 @@ class Countersheet extends Model
             ->join('technology', 'technology.id', '=', 'employee.department')
             ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = '  . $fillterdata['year'] . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
             ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . ' GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
+            ->where('employee.status', 'W')
             ->where('employee.is_deleted', 'N');
 
 
@@ -136,6 +137,7 @@ class Countersheet extends Model
             ->join('technology', 'technology.id', '=', 'employee.department')
             ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ="'.$month.'" AND YEAR(date) = "'.$year.'" GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
             ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = "'.$month.'" AND YEAR(date) =  "'.$year.'" GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
+            ->where('employee.status', 'W')
             ->where('employee.is_deleted', 'N');
 
         if ($technology != null && $technology != '') {
