@@ -76,13 +76,6 @@ class CountersheetController extends Controller
                 echo json_encode($list);
                 break;
 
-            case 'counter-sheet-pdf':
-                $objAttendance = new Countersheet();
-                $list = $objAttendance->counterSheetPdf($request->input('data'));
-                echo json_encode($list);
-                break;
-
-
             case 'get_employee_details':
                 $inputData = $request->input('data');
                 $data = $request->input('data');
@@ -143,6 +136,26 @@ class CountersheetController extends Controller
             )
         );
         return view('backend.pages.counter_sheet.pdf', $data);
+    }
+
+    public function counterSheetPdf(Request $request){
+
+        $branch = $request->input('branch');
+        $technology = $request->input('technology');
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        $objCounter = new Countersheet();
+        $data['counterSheet'] = $objCounter->counterSheetPdf($request->input('data'),$branch,$technology,$month,$year);
+
+        // ccd($data['counterSheet']);
+
+        $data['title'] = 'Counter Sheet Report';
+
+        $customPaper = [0, 0, 612.00, 792.00];
+        $pdf = PDF::loadView('backend.pages.counter_sheet.pdf', $data)->setPaper($customPaper, 'portrait');
+
+        return $pdf->download('counter_sheet_report.pdf');
     }
 
 
