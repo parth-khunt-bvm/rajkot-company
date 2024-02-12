@@ -588,7 +588,6 @@ var Employee = function () {
                         $(".attendance-list").html(html);
 
                         var res = JSON.parse(data);
-                        console.log("emp", res);
                         var html = "";
                         var html = '<div class="row mt-5 ml-5">' +
                             '<div class="col-md-3">' +
