@@ -23,11 +23,7 @@
 @php
    $month= ["","January","February","March","April","May","June","July","August","September","October","November","December"];
     $grossEarnings =  numberformat($salary_slip_details['basic_salary']) + numberformat($salary_slip_details['house_rent_allow']) ;
-    $lop = 0;
-    if($grossEarnings > 0 && $salary_slip_details['working_day'] > 0 && $salary_slip_details['loss_of_pay'] > 0){
-        $lop = number_format(($grossEarnings / ($salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'])), 0, ',', ',');
-    }
-
+    $lop = $salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'];
     $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
     $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions) ;
 
@@ -231,7 +227,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Basic</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['basic_salary'])}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['basic_salary'], 2)}}
                         </td>
                     </tr>
                 </table>
@@ -241,7 +237,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Income Tax</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['income_tax'])}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['income_tax'], 2)}}
                         </td>
                     </tr>
                 </table>
@@ -254,7 +250,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">House Rent Allowance</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['house_rent_allow']) }}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['house_rent_allow'], 2) }}
                         </td>
                     </tr>
                 </table>
@@ -264,7 +260,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Provident Fund</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat ($salary_slip_details['pf'])}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat ($salary_slip_details['pf'], 2)}}
                         </td>
                     </tr>
                 </table>
@@ -285,7 +281,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Professional Tax</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['pt'])}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['pt'], 2)}}
                         </td>
                     </tr>
                 </table>
