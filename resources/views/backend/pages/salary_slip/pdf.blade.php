@@ -21,18 +21,16 @@
     </style>
 </head>
 @php
+
    $month= ["","January","February","March","April","May","June","July","August","September","October","November","December"];
     $grossEarnings =  numberformat($salary_slip_details['basic_salary']) + numberformat($salary_slip_details['house_rent_allow']) ;
-    $lop = 0;
-    if($grossEarnings > 0 && $salary_slip_details['working_day'] > 0 && $salary_slip_details['loss_of_pay'] > 0){
-        $lop = number_format(($grossEarnings / ($salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'])), 0, ',', ',');
-    }
-
+    $earning = $grossEarnings;
+    $lop = $earning / $salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'];
+    $lop_formatted = number_format($lop, 2);
     $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
     $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions) ;
 
     function AmountInWords(float $amount)
-
 {
    $amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
    // Check if there is any number after decimal
@@ -305,7 +303,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Loss of pay</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($lop,2)}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{$lop_formatted}}
                         </td>
                     </tr>
                 </table>
