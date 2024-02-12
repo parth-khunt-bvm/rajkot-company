@@ -24,9 +24,9 @@
 
    $month= ["","January","February","March","April","May","June","July","August","September","October","November","December"];
     $grossEarnings =  numberformat($salary_slip_details['basic_salary']) + numberformat($salary_slip_details['house_rent_allow']) ;
-    $earning = $grossEarnings;
-    $lop = $earning / $salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'];
-    $lop_formatted = number_format($lop, 2);
+    $earning = numberformat($grossEarnings);
+    $lop = (numberformat($earning) / $salary_slip_details['working_day']) * $salary_slip_details['loss_of_pay'];
+    $lop_formatted = number_format($grossEarnings - $lop);
     $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
     $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions) ;
 
