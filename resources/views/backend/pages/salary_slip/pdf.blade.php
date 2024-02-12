@@ -231,7 +231,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Basic</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['basic_salary'], 2)}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['basic_salary'])}}
                         </td>
                     </tr>
                 </table>
@@ -241,7 +241,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Income Tax</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['income_tax'], 2)}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['income_tax'])}}
                         </td>
                     </tr>
                 </table>
@@ -254,7 +254,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">House Rent Allowance</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['house_rent_allow'], 2) }}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['house_rent_allow']) }}
                         </td>
                     </tr>
                 </table>
@@ -264,7 +264,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Provident Fund</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat ($salary_slip_details['pf'], 2)}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat ($salary_slip_details['pf'])}}
                         </td>
                     </tr>
                 </table>
@@ -285,7 +285,7 @@
                     <tr>
                         <td style="text-align: left !important; font-size: small">Professional Tax</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['pt'], 2)}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{numberformat($salary_slip_details['pt'])}}
                         </td>
                     </tr>
                 </table>
