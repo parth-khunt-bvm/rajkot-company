@@ -147,9 +147,6 @@ class CountersheetController extends Controller
 
         $objCounter = new Countersheet();
         $data['counterSheet'] = $objCounter->counterSheetPdf($request->input('data'),$branch,$technology,$month,$year);
-
-        // ccd($data['counterSheet']);
-
         $data['title'] = 'Counter Sheet Report';
 
         $customPaper = [0, 0, 612.00, 792.00];

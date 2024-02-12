@@ -278,13 +278,16 @@ class AttendanceController extends Controller
             case 'common-activity':
                 $objAttendance = new Attendance();
                 $data = $request->input('data');
+                $attendanceId = $data['id'];
+                $attendanceRecord = Attendance::find($attendanceId);
+                $date = date_formate($attendanceRecord['date']);
                 $result = $objAttendance->common_activity($data);
                 if ($result) {
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
                         $return['message'] = 'Attendance details successfully deleted.';;
                     }
-                    $return['redirect'] = route('admin.attendance.day-list');
+                    $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';

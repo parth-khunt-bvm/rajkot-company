@@ -73,7 +73,7 @@ var SalarySlip = function(){
         })
 
         $("body").on("change", ".change", function () {
-            $target = [128,129,130,131];
+            var target = [128,129,130,131];
             const permissionArray = permission.split(",").map(numString => +numString);
             const intersection = permissionArray.filter(value => target.includes(value));
             var html = '';
