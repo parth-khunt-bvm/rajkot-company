@@ -106,7 +106,7 @@ class Countersheet extends Model
 
             $actionhtml  = '';
             // $actionhtml .= '<a href="' . route('admin.employee.view', $row['id']) . '" class="btn btn-icon"><i class="fa fa-eye text-primary"> </i></a>';
-            $actionhtml  =  '<button data-toggle="modal" data-user-id="' . $row['id'] . '" data-month="' . $fillterdata['month'] . '"  data-year="' . $fillterdata['year'] . '"data-target="#countersheet" class="counter-sheet btn btn-icon user-menu"><i class="fa fa-eye text-primary"> </i></button>';;
+            $actionhtml  =  '<button data-toggle="modal" data-user-id="' . $row['id'] . '" data-month="' . $fillterdata['month'] . '"  data-year="' . $fillterdata['year'] . '"data-target="#counter-sheet" class="counter-sheet btn btn-icon user-menu"><i class="fa fa-eye text-primary"> </i></button>';;
             $i++;
             $nestedData = array();
             $nestedData[] = $i;

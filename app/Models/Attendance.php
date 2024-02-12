@@ -302,7 +302,6 @@ class Attendance extends Model
         }
         return 'attendance_exists';
     }
-
     public function daySaveEdit($requestData)
     {
         $objattendance = Attendance::find($requestData['attendance_id']);
@@ -331,7 +330,7 @@ class Attendance extends Model
     {
         $objAttendance =  Attendance::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
-            $objAttendance->is_deleted = "Y";
+            $objAttendance->where('id',$requestData['id'])->delete();
             $event = 'D';
         }
 
@@ -420,80 +419,80 @@ class Attendance extends Model
         return $dates;
     }
 
-public function get_attendance_details_by_employee($employeeId, $month, $year)
-{
-    $month = $year . '-' . $month;
-    $start = Carbon::parse($month)->startOfMonth();
-    $end = Carbon::parse($month)->endOfMonth();
+    public function get_attendance_details_by_employee($employeeId, $month, $year)
+    {
+        $month = $year . '-' . $month;
+        $start = Carbon::parse($month)->startOfMonth();
+        $end = Carbon::parse($month)->endOfMonth();
 
-    $period = CarbonPeriod::create($start, $end);
+        $period = CarbonPeriod::create($start, $end);
 
-    $dates = [];
-    foreach ($period as $date) {
-        $formattedDate = $date->format('Y-m-d');
-        if ($formattedDate <= date('Y-m-d')) {
-            $isHoliday = PublicHoliday::from('public_holiday')
-                ->where('date', $formattedDate)
-                ->where('is_deleted', 'N')
-                ->select('holiday_name')
-                ->first();
-
-            $dates[] = [
-                'date' => $formattedDate,
-                'attendance_type' => null, // Default value for attendance type
-                'class' => null, // Default value for class
-                'description' => null, // Default value for description
-                'is_holiday' => !empty($isHoliday) ? $isHoliday->holiday_name : "null", // Holiday data
-                'emp_overtime' => EmployeeOvertime::from('emp_overtime')
-                    ->join('employee', 'employee.id', '=', 'emp_overtime.employee_id')
+        $dates = [];
+        foreach ($period as $date) {
+            $formattedDate = $date->format('Y-m-d');
+            if ($formattedDate <= date('Y-m-d')) {
+                $isHoliday = PublicHoliday::from('public_holiday')
                     ->where('date', $formattedDate)
-                    ->where('emp_overtime.employee_id', $employeeId)
-                    ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
-                    ->sum('hours'), // Employee overtime data
-            ];
-        }
-    }
+                    ->where('is_deleted', 'N')
+                    ->select('holiday_name')
+                    ->first();
 
-    $attendanceData = Attendance::from('attendance')
-        ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason')
-        ->where('attendance.employee_id', $employeeId)
-        ->whereDate('date', '>=', $start)
-        ->whereDate('date', '<=', $end)
-        ->get();
-
-    foreach ($attendanceData as $value) {
-        $dateIndex = array_search($value->date, array_column($dates, 'date')); // No need to format here
-        if ($dateIndex !== false) {
-            switch ($value->attendance_type) {
-                case 0:
-                    $attendance_type = 'Present';
-                    $className = 'fc-event-success';
-                    $description = $value->reason;
-                    break;
-                case 1:
-                    $attendance_type = 'Absent';
-                    $className = 'fc-event-danger';
-                    $description = $value->reason;
-                    break;
-                case 2:
-                    $attendance_type = 'Half_leave';
-                    $className = 'fc-event-info';
-                    $description = $value->reason;
-                    break;
-                default:
-                    $attendance_type = 'Sort_leave';
-                    $className = 'fc-event-warning';
-                    $description = $value->reason;
-                    break;
+                $dates[] = [
+                    'date' => $formattedDate,
+                    'attendance_type' => null, // Default value for attendance type
+                    'class' => null, // Default value for class
+                    'description' => null, // Default value for description
+                    'is_holiday' => !empty($isHoliday) ? $isHoliday->holiday_name : "null", // Holiday data
+                    'emp_overtime' => EmployeeOvertime::from('emp_overtime')
+                        ->join('employee', 'employee.id', '=', 'emp_overtime.employee_id')
+                        ->where('date', $formattedDate)
+                        ->where('emp_overtime.employee_id', $employeeId)
+                        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->sum('hours'), // Employee overtime data
+                ];
             }
-            $dates[$dateIndex]['attendance_type'] = $attendance_type;
-            $dates[$dateIndex]['class'] = $className;
-            $dates[$dateIndex]['description'] = $description;
         }
-    }
 
-    return $dates;
-}
+        $attendanceData = Attendance::from('attendance')
+            ->select('attendance.date', 'attendance.attendance_type', 'attendance.reason')
+            ->where('attendance.employee_id', $employeeId)
+            ->whereDate('date', '>=', $start)
+            ->whereDate('date', '<=', $end)
+            ->get();
+
+        foreach ($attendanceData as $value) {
+            $dateIndex = array_search($value->date, array_column($dates, 'date')); // No need to format here
+            if ($dateIndex !== false) {
+                switch ($value->attendance_type) {
+                    case 0:
+                        $attendance_type = 'Present';
+                        $className = 'fc-event-success';
+                        $description = $value->reason;
+                        break;
+                    case 1:
+                        $attendance_type = 'Absent';
+                        $className = 'fc-event-danger';
+                        $description = $value->reason;
+                        break;
+                    case 2:
+                        $attendance_type = 'Half_leave';
+                        $className = 'fc-event-info';
+                        $description = $value->reason;
+                        break;
+                    default:
+                        $attendance_type = 'Sort_leave';
+                        $className = 'fc-event-warning';
+                        $description = $value->reason;
+                        break;
+                }
+                $dates[$dateIndex]['attendance_type'] = $attendance_type;
+                $dates[$dateIndex]['class'] = $className;
+                $dates[$dateIndex]['description'] = $description;
+            }
+        }
+
+        return $dates;
+    }
 
     public function get_admin_attendance_details_by_day()
     {

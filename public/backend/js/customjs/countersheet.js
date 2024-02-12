@@ -91,6 +91,7 @@ var Countersheet = function(){
     var countersheetcalender = function () {
 
         $('body').on("click",".counter-sheet",function(){
+            console.log("hiii");
             $('.select2').select2();
             var html = '';
             var userId = $(this).data('user-id');
@@ -106,6 +107,7 @@ var Countersheet = function(){
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
                     var res = JSON.parse(data);
+                    console.log("employeeeeee");
                     console.log(res);
                     html = html +'<div class="row mt-5 mr-5 ml-5 mb-5" >' +
                            '<div class="col-3">' +
