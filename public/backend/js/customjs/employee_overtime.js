@@ -31,7 +31,6 @@ var EmployeeOverTime = function () {
                 data: { 'action': 'emp-overtime-view', 'data': data },
                 success: function (data) {
                    var empOvertime=  JSON.parse(data);
-                   console.log(empOvertime);
 
                    function formatDate(inputDate) {
                     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

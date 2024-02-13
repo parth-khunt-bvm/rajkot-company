@@ -19,6 +19,9 @@ class HrExpenseController extends Controller
 
     public function list(Request $request)
     {
+        $objHrExpense = new HrExpense();
+        $data['amount'] = $objHrExpense->get_total_amount();
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense list';
@@ -191,7 +194,13 @@ class HrExpenseController extends Controller
             case 'getdatatable':
                 $objHrExpense = new HrExpense();
                 $list = $objHrExpense->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
 
+            case 'total-amount':
+                $data = $request->input('data');
+                $objHrExpense = new HrExpense();
+                $list = $objHrExpense->get_total_amount($data['month'],$data['year']);
                 echo json_encode($list);
                 break;
 

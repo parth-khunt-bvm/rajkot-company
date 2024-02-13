@@ -50,6 +50,8 @@
                         </a>
                     @endif
 
+                    <span href="#" class="btn btn-success font-weight-bolder ml-5" id="total-amount">{{$amount}}</span>
+
                     <!--end::Button-->
                 </div>
 

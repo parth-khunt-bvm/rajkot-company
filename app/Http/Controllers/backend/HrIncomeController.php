@@ -27,6 +27,8 @@ class HrIncomeController extends Controller
         $objManager = new Manager();
         $data['manager'] = $objManager->get_admin_manager_details();
 
+        $objHrIncome = new HrIncome();
+        $data['amount'] = $objHrIncome->get_total_amount();
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income list';
@@ -207,6 +209,13 @@ class HrIncomeController extends Controller
                 $objHrIncome = new HrIncome();
                 $list = $objHrIncome->getdatatable($request->input('data'));
 
+                echo json_encode($list);
+                break;
+
+            case 'total-amount':
+                $data = $request->input('data');
+                $objHrIncome = new HrIncome();
+                $list = $objHrIncome->get_total_amount($data['manager'],$data['monthOf'],$data['year']);
                 echo json_encode($list);
                 break;
 
