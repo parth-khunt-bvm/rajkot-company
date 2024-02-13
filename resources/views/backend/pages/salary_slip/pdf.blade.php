@@ -26,7 +26,8 @@
     $grossEarnings =  numberformat($salary_slip_details['basic_salary']) + numberformat($salary_slip_details['house_rent_allow']) ;
     $earning = numberformat($grossEarnings);
     $lop = (numberformat($earning) / $salary_slip_details['working_day']) * $salary_slip_details['loss_of_pay'];
-    $lop_formatted = number_format($grossEarnings - $lop);
+    $lop_formatted = number_format($lop, 2);
+    // $lop_formatted = $lop;
     $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
     $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions) ;
 
