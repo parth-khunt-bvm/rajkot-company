@@ -41,12 +41,58 @@ var Dashboard = function(){
             handleAjaxFormSubmit(form,true);
         });
     }
+
+    var EmployeeBirthdayList = function(){
+        $('.select2').select2();
+        var dataArr = {} ;
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#dash-employee-birthday-list',
+            'ajaxURL': baseurl + "admin/dashboard/ajaxcall",
+            'ajaxAction': 'employees-birthday-list',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0],
+            'noSearchApply': [0],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+    }
+
+    var EmployeeBondLastDateList = function(){
+        $('.select2').select2();
+        var dataArr = {} ;
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#dash-employee-bond-last-date-list',
+            'ajaxURL': baseurl + "admin/dashboard/ajaxcall",
+            'ajaxAction': 'employees-bond-last-date-list',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0],
+            'noSearchApply': [0],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+    }
+
+
     return {
         edit_profile:function(){
             editProfile()
         },
         change_password:function(){
             password();
+        },
+        employee_birthday:function(){
+            EmployeeBirthdayList();
+        },
+        employee_bond_last_date:function(){
+            EmployeeBondLastDateList();
         },
     }
 }();
