@@ -5,6 +5,8 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\EmployeeBirthday;
+use App\Models\EmployeeBondLastDate;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Users;
@@ -40,6 +42,8 @@ class DashboardController extends Controller
             'comman_function.js',
         );
         $data['funinit'] = array(
+            'Dashboard.employee_birthday()',
+            'Dashboard.employee_bond_last_date()',
         );
         $data['header'] = array(
             'title' => 'Dashboard',
@@ -164,6 +168,24 @@ class DashboardController extends Controller
         }
         echo json_encode($return);
         exit;
+    }
+
+    public function ajaxcall(Request $request)
+    {
+        $action = $request->input('action');
+        switch ($action) {
+            case 'employees-birthday-list':
+                $objEmployeeBirthday = new EmployeeBirthday();
+                $list = $objEmployeeBirthday->employeeBirthdayList();
+                echo json_encode($list);
+                break;
+
+            case 'employees-bond-last-date-list':
+                $obEmployeeBondLastDate = new EmployeeBondLastDate();
+                $list = $obEmployeeBondLastDate->employeeBondLastDateList();
+                echo json_encode($list);
+                break;
+        }
     }
 
 
