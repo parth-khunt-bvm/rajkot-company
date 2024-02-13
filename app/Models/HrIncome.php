@@ -228,4 +228,25 @@ class HrIncome extends Model
             return false;
         }
     }
+
+    public function get_total_amount($manager = null, $monthOf =null, $year= null){
+        $query = HrIncome::from('hr_income');
+
+        if (!empty($manager)) {
+            $query->where('manager_id', $manager);
+        }
+        if (!empty($monthOf)) {
+            $query->where('month_of', $monthOf);
+        }
+        if (!empty($year)) {
+            $query->where('year', $year);
+        }
+        $totalAmount = $query
+        ->where('is_deleted', 'N')
+        ->sum('amount');
+        return $totalAmount;
+    }
+
+
+
 }

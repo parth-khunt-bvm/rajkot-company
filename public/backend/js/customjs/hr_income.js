@@ -93,6 +93,21 @@ var HrIncome = function(){
             };
 
             getDataTable(arrList);
+            var data = {'manager':manager, 'monthOf': monthOf, 'year': year , _token: $('#_token').val() };
+
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/hr/income/ajaxcall",
+                data: { 'action': 'total-amount', 'data': data },
+                success: function(data) {
+                   var total_amount=  JSON.parse(data);
+                   $("#total-amount").html(Number.parseFloat(total_amount).toFixed(2));
+                }
+            });
+
 
         });
 

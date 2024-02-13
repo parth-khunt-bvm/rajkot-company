@@ -31,6 +31,10 @@ class HrExpense extends Model
                 $query->where("hr_expense.month", $fillterdata['month']);
             }
 
+            if ($fillterdata['year'] != null && $fillterdata['year'] != '') {
+                $query->whereYear('hr_expense.date', $fillterdata['year']);
+            }
+
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -173,5 +177,21 @@ class HrExpense extends Model
         } else {
             return false;
         }
+    }
+
+    public function get_total_amount($month = null, $year = null){
+        $query = HrExpense::from('hr_expense');
+
+        if (!empty($month)) {
+            $query->where('month', $month);
+        }
+
+        if (!empty($year)) {
+            $query->whereYear('hr_expense.date', $year);
+        }
+        $totalAmount = $query
+        ->where('is_deleted', 'N')
+        ->sum('amount');
+        return $totalAmount;
     }
 }

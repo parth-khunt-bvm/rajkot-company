@@ -1,7 +1,8 @@
 var HrExpense = function(){
     var list= function(){
         var month = $('#hr_month').val();
-        var dataArr = {'month': month};
+        var year = $('#hrExpenseYearId').val();
+        var dataArr = {'month': month,'year': year};
 
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -43,7 +44,6 @@ var HrExpense = function(){
         });
 
         $('.select2').select2();
-
         $('body').on('change', '.change_month', function() {
             var target = [69,70,71];
             const permissionArray = permission.split(",").map(numString => +numString);
@@ -69,7 +69,9 @@ var HrExpense = function(){
             $('.expense-list').html(html);
 
             var month = $('#hr_month').val();
-            var dataArr = {'month': month};
+            var year = $('#hrExpenseYearId').val();
+            var dataArr = {'month': month,'year': year};
+
 
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
@@ -86,8 +88,20 @@ var HrExpense = function(){
             };
             getDataTable(arrList);
 
+            var data = {'month': month,'year': year, _token: $('#_token').val() };
 
-
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/hr/expense/ajaxcall",
+                data: { 'action': 'total-amount', 'data': data },
+                success: function(data) {
+                    var total_amount=  JSON.parse(data);
+                    $("#total-amount").html(Number.parseFloat(total_amount).toFixed(2));
+                }
+            });
         });
 
         $("body").on("click", ".reset", function(){
