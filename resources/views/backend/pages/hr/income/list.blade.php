@@ -224,6 +224,16 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="5">Total:</th>
+                                <th></th>
+                                <th></th>
+                                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+                                    <th></th>
+                                @endif
+                            </tr>
+                        </tfoot>
                     </table>
                     <!--end: Datatable-->
                 </div>

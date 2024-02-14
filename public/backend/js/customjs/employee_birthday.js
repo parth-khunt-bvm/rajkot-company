@@ -19,7 +19,7 @@ var EmployeeBirthday = function(){
         };
         getDataTable(arrList);
 
-        $(" ").on("change", ".employee_bday", function () {
+        $("body").on("change", ".employee_bday", function () {
             var html = '';
             html = '<table class="table table-bordered table-checkable" id="employee-birthday-list">'+
             '<thead>'+

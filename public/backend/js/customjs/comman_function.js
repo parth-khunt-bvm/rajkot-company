@@ -695,6 +695,20 @@ function getDataTable(arr) {
                 $(arr.tableID).append('<tbody class="row-list-error"><tr><td colspan="4" style="text-align: center;"><p style="color:red;">Sorry, No Record Found</p></td></tr></tbody>');
                 $(arr.tableID + "processing").css("display", "none");
             }
+        },
+        "footerCallback": function (row, data, start, end, display) {
+            if(arr.hasOwnProperty('sumOfCol')){ // corrected
+                var api = this.api();
+                var columnsToSum = arr.sumOfCol; // Column indices to sum (zero-based indexing)
+
+                columnsToSum.forEach(function(colIndex) {
+                    var sum = api.column(colIndex, { page: 'current' }).data().reduce(function (acc, val) {
+                        return acc + parseFloat(val);
+                    }, 0);
+                    // Display the total in the footer of the respective column
+                    $(api.column(colIndex).footer()).html(sum.toFixed(2));
+                });
+            }
         }
     });
 

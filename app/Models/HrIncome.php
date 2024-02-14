@@ -68,10 +68,15 @@ class HrIncome extends Model
         $totalData = count($temp->get());
         $totalFiltered = count($temp->get());
 
+        // $perPage = $requestData['length'];
+        // $currentPage = $requestData['start'] / $perPage + 1;
+
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
             ->select('hr_income.id', 'manager.manager_name', 'hr_income.payment_mode','hr_income.date', DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01")), "-", year) as month_name'), 'hr_income.amount','hr_income.remarks')
             ->get();
+
+            // $currentPageSum = $resultArr->sum('amount');
 
         $data = array();
         $i = 0;
@@ -109,7 +114,6 @@ class HrIncome extends Model
             $nestedData[] = $payment_mode;
             $nestedData[] = $row['month_name'];
             $nestedData[] = numberformat($row['amount']);
-            // $nestedData[] = $row['amount'];
             if (strlen($row['remarks']) > $max_length) {
                 $nestedData[] = substr($row['remarks'], 0, $max_length) . '...';
             }else {
@@ -124,7 +128,9 @@ class HrIncome extends Model
             "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
             "recordsTotal" => intval($totalData), // total number of records
             "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
-            "data" => $data   // total data array
+            "data" => $data,   // total data array
+            // "currentPage" => $currentPage,
+            // "currentPageSum" => $currentPageSum,
         );
         return $json_data;
     }

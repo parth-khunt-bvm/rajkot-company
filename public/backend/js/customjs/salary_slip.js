@@ -121,6 +121,30 @@ var SalarySlip = function(){
             location.reload(true);
         });
 
+        $("body").on('click','.send-create-salary-slip', function(){
+            var id = $(this).data('id');
+            console.log(id);
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee-salaryslip/ajaxcall",
+                data: { 'action': 'get-employee-data', 'data': data },
+                success: function (data) {
+                   var employee =  JSON.parse(data);
+                   var html = '';
+                   html += '<option value="all">All</option>';
+                   for (var i = 0; i < employee.length; i++) {
+                       html += '<option value="'+ employee[i].id +'">'+ employee[i].first_name + ' ' + employee[i].last_name +'</option>';
+                   }
+                   $(".employee").html(html);
+                   $('.select2').select2();
+                }
+            });
+        });
+
 
     }
 
@@ -195,7 +219,6 @@ var SalarySlip = function(){
                 data: { 'action': 'get-employee-detail', 'data': data },
                 success: function (data) {
                    var Employee=  JSON.parse(data);
-                   console.log(Employee);
 
                    var html = '';
                    html += '<option value="">Please select Employee Name</option>';

@@ -105,6 +105,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/salary/view/{id}', [SalaryController::class, 'view'])->name('admin.salary.view');
     Route::post('admin/salary/save-import-salary', [SalaryController::class, 'save_import'])->name('admin.salary.save-import-salary');
 
+
     // salary slip
     Route::get('admin/employee-salaryslip/list', [SalarySlipController::class, 'list'])->name('admin.employee-salaryslip.list');
     Route::get('admin/employee-salaryslip/add', [SalarySlipController::class, 'add'])->name('admin.employee-salaryslip.add');
@@ -114,6 +115,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/employee-salaryslip/save-edit-employee-salaryslip', [SalarySlipController::class, 'saveEdit'])->name('admin.employee-salaryslip.save-edit-employee-salaryslip');
     Route::get('admin/employee-salaryslip/view/{id}', [SalarySlipController::class, 'view'])->name('admin.employee-salaryslip.view');
     Route::get('admin/employee-salaryslip/pdf/{id}', [SalarySlipController::class, 'salarySlipPdf'])->name('admin.employee-salaryslip.pdf');
+    Route::post('admin/employee-salaryslip/create-employee-salaryslip', [TypeController::class, 'save_import'])->name('admin.employee-salaryslip.create-employee-salaryslip');
+
 
     Route::get('admin/all-employee-salaryslip/add', [SalarySlipController::class, 'salarySlipAdd'])->name('admin.all-employee-salaryslip.add');
     Route::post('admin/all-employee-salaryslip/save-add-all-employee-salaryslip', [SalarySlipController::class, 'salarySlipSaveAdd'])->name('admin.all-employee-salaryslip.save-add-all-employee-salaryslip');

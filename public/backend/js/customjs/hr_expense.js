@@ -14,6 +14,7 @@ var HrExpense = function(){
             'noSortingApply': [0, 0],
             'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
+            'sumOfCol': [3],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -64,6 +65,16 @@ var HrExpense = function(){
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
+            '<tfoot>'+
+            '<tr>'+
+            '<th colspan="3">Total:</th>'+
+            '<th></th>'+
+            '<th></th>';
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
+                    html += "<th></th>"
+                }
+            html += '</tr>'+
+            '</tfoot>'+
             '</table>';
 
             $('.expense-list').html(html);
@@ -71,7 +82,6 @@ var HrExpense = function(){
             var month = $('#hr_month').val();
             var year = $('#hrExpenseYearId').val();
             var dataArr = {'month': month,'year': year};
-
 
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
@@ -83,6 +93,7 @@ var HrExpense = function(){
                 'noSortingApply': [0, 0],
                 'noSearchApply': [0, 0],
                 'defaultSortColumn': [0],
+                'sumOfCol': [3],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
