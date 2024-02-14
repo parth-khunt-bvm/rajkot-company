@@ -517,6 +517,7 @@ class Attendance extends Model
             ->where('attendance.date', $formattedDate)
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("employee.is_deleted", "=", "N")
+            ->where("employee.status", "=", "W")
             ->first();
         $formattedDate = now()->format('Y-m-d');
         $monthDayFormat = now()->format('m-d');
@@ -528,6 +529,7 @@ class Attendance extends Model
                 ', [$monthDayFormat, $formattedDate])
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("employee.is_deleted", "=", "N")
+            ->where("employee.status", "=", "W")
             ->first();
 
         return $data;

@@ -204,7 +204,6 @@ class SalarySlip extends Model
         return 'salary_slip_exists';
     }
 
-
     public function get_salary_slip_details($employeeId)
     {
         return SalarySlip::from('salary_slip')
@@ -344,5 +343,49 @@ class SalarySlip extends Model
             }
         }
         return true;
+    }
+
+
+    public function salarySlipCreate($requestData)
+    {
+
+        // dd($requestData);
+
+        if($requestData['employee'] === "all"){
+
+            $query = Employee::from('employee')
+            ->join("technology", "technology.id", "=", "employee.department")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->join("designation", "designation.id", "=", "employee.designation")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->where("employee.is_deleted", "=", "N");
+
+            $query = Attendance::from('attendance')
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']]);
+
+        }else {
+
+            $query = Attendance::from('attendance')
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("attendance.employee_id", $requestData['employee']);
+
+          $present_query = $query->where("attendance.attendance_type", "0")
+                          ->count();
+
+          $absent_query = $query->where("attendance.attendance_type", "1")
+                          ->count();
+
+          $half_day_query = $query->where("attendance.attendance_type", "2")
+                          ->count();
+
+          $sort_leave_query = $query->where("attendance.attendance_type", "3")
+                          ->count();
+
+        }
+
     }
 }
