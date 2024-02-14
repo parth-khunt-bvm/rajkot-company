@@ -1110,5 +1110,71 @@
     </div>
 </div>
 
+<!-- send and create salary slip Model-->
+<div class="modal fade" id="send-create-salary-slip" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Send and Create Salary Slip</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <form id="send-create-salary-slip-form" enctype="multipart/form-data" method="POST" action="{{ route('admin.employee-salaryslip.create-employee-salaryslip') }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Employee Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control select2 employee"  name="employee">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label> Month</label><br>
+                                <select class="form-control select2 month change" id="month" name="month">
+                                    <option value="">Select Month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>year</label><br>
+                                <select class="form-control select2 year change" id="year" name="year">
+                                    <option value="">Select Year</option>
+                                    @for ($i = 2019; $i <= date('Y'); $i++) <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mr-2 submitbtn">Send and Create</button>
+                    <a href="{{ route('admin.employee-salaryslip.list') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 

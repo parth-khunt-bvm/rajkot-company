@@ -3,9 +3,7 @@ var HrIncome = function(){
         var manager = $('#hr_manager_id').val();
         var monthOf = $('#hr_month_of').val();
         var year = $('#hrIncomeYearId').val();
-
         var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
-
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#hr-income-list',
@@ -16,6 +14,7 @@ var HrIncome = function(){
             'noSortingApply': [0, 0],
             'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
+            'sumOfCol': [5],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -70,6 +69,16 @@ var HrIncome = function(){
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
+            '<tfoot>'+
+            '<tr>'+
+            '<th colspan="5">Total:</th>'+
+            '<th></th>'+
+            '<th></th>';
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
+                    html += "<th></th>"
+                }
+            html += '</tr>'+
+            '</tfoot>'+
             '</table>';
 
             $('.income-list').html(html);
@@ -88,6 +97,7 @@ var HrIncome = function(){
                 'noSortingApply': [0, 0],
                 'noSearchApply': [0, 0],
                 'defaultSortColumn': [0],
+                'sumOfCol': [5],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
