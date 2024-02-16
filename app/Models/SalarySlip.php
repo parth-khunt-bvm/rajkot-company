@@ -350,18 +350,19 @@ class SalarySlip extends Model
     {
         $days = array();
         $month = $requestData['month'];
-        $year =  $requestData['year'];
-
-        salaryCount($month ,$year, $requestData['employee']);
-
+        $year = $requestData['year'];
 
         $firstDate = $year . '-' . $month . '-01';
         $lastDate = date('t', strtotime($firstDate));
+        $days = [];
+
         for ($d = 1; $d <= $lastDate; $d++) {
-            $time = mktime(12, 0, 0, $month, $d, $year);
-            if (date('D', $time) != "Sat" && date('D', $time) != "Sun") {
-                // echo date('D', $time) . "<br>"; // Echo day name
-                $days[] = date('Y-m-d H:i:s', $time); // Store dates in array if not Saturday or Sunday
+            $date = new \DateTime("$year-$month-$d");
+
+            // Check if the day is not Saturday or Sunday
+            if ($date->format('N') < 6) {
+                // Store dates in array if not Saturday or Sunday
+                $days[] = $date->format('Y-m-d'); // Adjust format if you only need dates without the time component
             }
         }
 
@@ -409,26 +410,58 @@ class SalarySlip extends Model
                 $attendanceCounts[$key]['working_day'] =  $working_day;
 
                 $employeeQuery = clone $query;
-                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','technology.technology_name','designation.designation_name','branch.branch_name','employee.salary')->first();
-
-                // dd($employee);
+                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','employee.department','employee.designation','employee.salary')->first();
 
                 if ($employee !== null) {
                     $attendanceCounts[$key]['employee'] = $employee->toArray();
                 } else {
-                    // Handle the case where the employee attendance does not exist
                     $attendanceCounts[$key]['employee'] = null; // Or any other appropriate action
                 }
 
-                if($attendanceCounts[$key]['present'] >= 15){
-                    // $working_day /
+                $absentHours  = numberformat($attendanceCounts[$key]['absent']*8) + numberformat( $attendanceCounts[$key]['half_day']*4) + numberformat( $attendanceCounts[$key]['sort_leave'] > 2 ?  $attendanceCounts[$key]['sort_leave']*2 : 0);
+
+                $lop = $absentHours/8;
+
+
+                $checkSalarySlip = SalarySlip::from('salary_slip')
+                ->where("month", $month)
+                ->where("year", $year)
+                ->where("employee", $attendanceCounts[$key]['employee']['id'])
+                ->where('salary_slip.is_deleted', 'N')
+                ->count();
+
+                if ($checkSalarySlip == 0) {
+                    $objSalaryslip = new Salaryslip();
+                    $objSalaryslip->department = $attendanceCounts[$key]['employee']['department'] ?? '-';
+                    $objSalaryslip->designation = $attendanceCounts[$key]['employee']['designation'] ?? '-';
+                    $objSalaryslip->employee = $attendanceCounts[$key]['employee']['id']?? '-';
+                    $objSalaryslip->month = $month ;
+                    $objSalaryslip->year = $year;
+                    $objSalaryslip->pay_salary_date = date("Y-m-d h:i:s");
+                    $objSalaryslip->basic_salary = $attendanceCounts[$key]['employee']['salary'] ?? '-';
+                    $objSalaryslip->working_day = $attendanceCounts[$key]['working_day'];
+                    $objSalaryslip->loss_of_pay = $lop;
+                    $objSalaryslip->house_rent_allow_pr = 0;
+                    $objSalaryslip->house_rent_allow = 0;
+                    $objSalaryslip->income_tax_pr = 0;
+                    $objSalaryslip->income_tax = 0;
+                    $objSalaryslip->pf_pr = 0;
+                    $objSalaryslip->pf = 0;
+                    $objSalaryslip->pt_pr = 0;
+                    $objSalaryslip->pt = 0;
+                    $objSalaryslip->is_deleted = 'N';
+                    $objSalaryslip->created_at = date("Y-m-d h:i:s");
+                    $objSalaryslip->updated_at = date("Y-m-d h:i:s");
+                    if ($objSalaryslip->save()) {
+                        $inputData = $requestData->input();
+                        unset($inputData['_token']);
+                        $objAudittrails = new Audittrails();
+                        $res = $objAudittrails->add_audit('I', $inputData, 'Salary Slip');
+                    }
                 }
             }
-            ccd($attendanceCounts);
-            return $attendanceCounts;
-
+            return 'added';
         }else {
-
             $query = Attendance::from('attendance')
             ->join("employee", "employee.id", "=", "attendance.employee_id")
             ->join("technology", "technology.id", "=", "employee.department")
@@ -460,7 +493,7 @@ class SalarySlip extends Model
           $attendanceCounts['working_day'] =  $working_day;
 
                 $employeeQuery = clone $query;
-                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','technology.technology_name','designation.designation_name','branch.branch_name','employee.salary')->first();
+                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','employee.department','employee.designation','employee.salary')->first();
 
                 if ($employee !== null) {
                     $attendanceCounts['employee'] = $employee->toArray();
@@ -469,7 +502,50 @@ class SalarySlip extends Model
                     $attendanceCounts['employee'] = null; // Or any other appropriate action
                 }
 
-          ccd($attendanceCounts);
+                $absentHours  = numberformat($attendanceCounts['absent_query']*8) + numberformat( $attendanceCounts['half_day_query']*4) + numberformat( $attendanceCounts['sort_leave_query'] > 2 ?  $attendanceCounts['sort_leave_query']*2 : 0);
+
+                $lop = $absentHours/8;
+
+
+                $checkSalarySlip = SalarySlip::from('salary_slip')
+                ->where("month", $month)
+                ->where("year", $year)
+                ->where("employee", $employee['id'])
+                ->where('salary_slip.is_deleted', 'N')
+                ->count();
+
+                if ($checkSalarySlip == 0) {
+                    $objSalaryslip = new Salaryslip();
+                    $objSalaryslip->department =$employee['department'] ?? '-';
+                    $objSalaryslip->designation = $employee['designation'] ?? '-';
+                    $objSalaryslip->employee =$employee['id'] ?? '-';
+                    $objSalaryslip->month = $month ;
+                    $objSalaryslip->year = $year;
+                    $objSalaryslip->pay_salary_date = date("Y-m-d h:i:s");
+                    $objSalaryslip->basic_salary = $employee['salary'] ?? '-';
+                    $objSalaryslip->working_day =  $attendanceCounts['working_day'];
+                    $objSalaryslip->loss_of_pay = $lop;
+                    $objSalaryslip->house_rent_allow_pr = 0;
+                    $objSalaryslip->house_rent_allow = 0;
+                    $objSalaryslip->income_tax_pr = 0;
+                    $objSalaryslip->income_tax = 0;
+                    $objSalaryslip->pf_pr = 0;
+                    $objSalaryslip->pf = 0;
+                    $objSalaryslip->pt_pr = 0;
+                    $objSalaryslip->pt = 0;
+                    $objSalaryslip->is_deleted = 'N';
+                    $objSalaryslip->created_at = date("Y-m-d h:i:s");
+                    $objSalaryslip->updated_at = date("Y-m-d h:i:s");
+                    if ($objSalaryslip->save()) {
+                        $inputData = $requestData->input();
+                        unset($inputData['_token']);
+                        $objAudittrails = new Audittrails();
+                        $res = $objAudittrails->add_audit('I', $inputData, 'Salary Slip');
+                        return 'added';
+                    }
+                    return 'wrong';
+                }
+                return 'salary_slip_exists';
           return $attendanceCounts;
         }
 

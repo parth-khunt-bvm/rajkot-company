@@ -81,127 +81,41 @@ function user_branch($inArray = false){
 
 }
 
-function salaryCount($month ,$year, $employeeIdArray, $employeeArray = false){
+function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $shortLeave){
+    $totalPaidAmount = 0;
+    $totalLossOfPay = 0;
+    $paidHours = 0;
+    $absentHours  = 0;
+    $perDaySalay = numberformat($salary/$workingDay);
+    $perHourSalay = numberformat($perDaySalay/8);
+    $presentDaySalay = numberformat($present*$perDaySalay);
 
-    $firstDate = $year . '-' . $month . '-01';
-    $lastDate = date('t', strtotime($firstDate));
-    for ($d = 1; $d <= $lastDate; $d++) {
-        $time = mktime(12, 0, 0, $month, $d, $year);
-        if (date('D', $time) != "Sat" && date('D', $time) != "Sun") {
-            // echo date('D', $time) . "<br>"; // Echo day name
-            $days[] = date('Y-m-d H:i:s', $time); // Store dates in array if not Saturday or Sunday
-        }
+    if($present > 15){
+        $paidHours = 8;
     }
 
-    $numberOfDays = count($days);
-    $holidayCount = PublicHoliday::whereYear('public_holiday.date', $year)->whereMonth('public_holiday.date', $month)->count();
-    $working_day = $numberOfDays - $holidayCount;
+    $absentHours  = numberformat($absent*8) + numberformat($halfLeave*4) + numberformat($shortLeave > 2 ? $shortLeave*2 : 0);
+    $totalAbsentHours = numberformat($absentHours - $paidHours);
 
-
-    if($employeeArray == false){
-
-        $employeeIds = Employee::from('employee')
-        ->join("technology", "technology.id", "=", "employee.department")
-        ->join("branch", "branch.id", "=", "employee.branch")
-        ->join("designation", "designation.id", "=", "employee.designation")
-        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-        ->where("employee.is_deleted", "=", "N")
-        ->where("employee.status", "=", "W")
-        ->pluck('employee.id')
-        ->toArray();
-
-        $attendanceCounts = [];
-
-        foreach ($employeeIds as $key =>$employeeId) {
-            $query = Attendance::from('attendance')
-                ->join("employee", "employee.id", "=", "attendance.employee_id")
-                ->join("technology", "technology.id", "=", "employee.department")
-                ->join("designation", "designation.id", "=", "employee.designation")
-                ->join("branch", "branch.id", "=", "employee.branch")
-                ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
-                ->whereYear('attendance.date', $year)
-                ->whereMonth('attendance.date', $month)
-                ->where("attendance.employee_id", $employeeId);
-
-            $presentQuery = clone $query;
-            $attendanceCounts[$key]['present'] = $presentQuery->where("attendance.attendance_type", "0")->count();
-
-            $absentQuery = clone $query;
-            $attendanceCounts[$key]['absent'] = $absentQuery->where("attendance.attendance_type", "1")->count();
-
-            $halfDayQuery = clone $query;
-            $attendanceCounts[$key]['half_day'] = $halfDayQuery->where("attendance.attendance_type", "2")->count();
-
-            $sortLeaveQuery = clone $query;
-            $attendanceCounts[$key]['sort_leave'] = $sortLeaveQuery->where("attendance.attendance_type", "3")->count();
-
-            $attendanceCounts[$key]['working_day'] =  $working_day;
-
-            $employeeQuery = clone $query;
-            $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','technology.technology_name','designation.designation_name','branch.branch_name','employee.salary')->first();
-
-            // dd($employee);
-
-            if ($employee !== null) {
-                $attendanceCounts[$key]['employee'] = $employee->toArray();
-            } else {
-                // Handle the case where the employee attendance does not exist
-                $attendanceCounts[$key]['employee'] = null; // Or any other appropriate action
-            }
-
-            if($attendanceCounts[$key]['present'] >= 15){
-                // $working_day /
-            }
-        }
-        ccd($attendanceCounts);
-        return $attendanceCounts;
-
-    }else {
-
-        $query = Attendance::from('attendance')
-        ->join("employee", "employee.id", "=", "attendance.employee_id")
-        ->join("technology", "technology.id", "=", "employee.department")
-        ->join("designation", "designation.id", "=", "employee.designation")
-        ->join("branch", "branch.id", "=", "employee.branch")
-        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
-        ->whereYear('attendance.date', $year)
-        ->whereMonth('attendance.date', $month)
-        ->where("attendance.employee_id", $employeeIdArray);
-
-      $attendanceCounts = [];
-
-      $presentQuery = clone $query;
-      $attendanceCounts['present_query'] = $presentQuery->where("attendance.attendance_type", "0")
-                      ->count();
-
-      $absentQuery = clone $query;
-      $attendanceCounts['absent_query'] = $absentQuery->where("attendance.attendance_type", "1")
-                      ->count();
-
-      $halfDayQuery = clone $query;
-      $attendanceCounts['half_day_query'] = $halfDayQuery->where("attendance.attendance_type", "2")
-                      ->count();
-
-      $sortLeaveQuery = clone $query;
-      $attendanceCounts['sort_leave_query'] = $sortLeaveQuery->where("attendance.attendance_type", "3")
-                      ->count();
-
-      $attendanceCounts['working_day'] =  $working_day;
-
-            $employeeQuery = clone $query;
-            $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','technology.technology_name','designation.designation_name','branch.branch_name','employee.salary')->first();
-
-            if ($employee !== null) {
-                $attendanceCounts['employee'] = $employee->toArray();
-            } else {
-                // Handle the case where the employee attendance does not exist
-                $attendanceCounts['employee'] = null; // Or any other appropriate action
-            }
-
-      ccd($attendanceCounts);
-      return $attendanceCounts;
+    if($totalAbsentHours > 0){
+        $salaryDeduction = numberformat($salary) - numberformat($totalAbsentHours * $perHourSalay);
+    } else {
+        $salaryDeduction = numberformat($salary);
     }
 
+    echo "<pre>";
+    print_r("perDaySalay =".$perDaySalay);
+    print_r("<br>");
+    print_r("perHourSalay =".$perHourSalay);
+    print_r("<br>");
+    print_r("presentDaySalay =".$presentDaySalay);
+    print_r("<br>");
+    print_r("absentHours =".$absentHours);
+    print_r("<br>");
+    print_r("totalAbsentHours =".$totalAbsentHours);
+    print_r("<br>");
+    print_r("salaryDeduction =".$salaryDeduction);
+    die();
 
 }
 ?>

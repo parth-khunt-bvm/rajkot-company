@@ -17,6 +17,16 @@ class SalarySlipController extends Controller
 {
     public function list(Request $request)
     {
+        // $salary = 22000;
+        // $workingDay = 22;
+        // $present = 18;
+        // $absent = 1;
+        // $halfLeave = 1;
+        // $sortLeave = 2;
+
+        // salaryCount($salary, $workingDay,$present,$absent,$halfLeave, $sortLeave);
+        // die();
+
 
         $objEmployee = new Employee();
         $data['employee'] = $objEmployee->get_admin_employee_details();
