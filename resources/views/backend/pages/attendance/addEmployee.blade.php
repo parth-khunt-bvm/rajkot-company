@@ -23,7 +23,7 @@
                 <option value="0">Present</option>
                 <option value="1">Full Day Leave</option>
                 <option value="2">Half Day Leave</option>
-                <option value="3">Sort Leave</option>
+                <option value="3">Short Leave</option>
             </select>
             <span class="leave_error text-danger"></span>
         </div>

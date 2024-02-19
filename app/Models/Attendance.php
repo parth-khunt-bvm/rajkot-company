@@ -27,7 +27,7 @@ class Attendance extends Model
             3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Actived"
                                 WHEN attendance.attendance_type = "1" THEN "Absent"
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
-                                ELSE "Sort Leave" END)'),
+                                ELSE "Short Leave" END)'),
             4 => 'attendance.reason',
         );
         if ($outputDate != null && $outputDate != '') {
@@ -79,7 +79,7 @@ class Attendance extends Model
             } else if ($row['attendance_type'] == '2') {
                 $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
-                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
+                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -164,7 +164,7 @@ class Attendance extends Model
             } else if ($row['attendance_type'] == '2') {
                 $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
-                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
+                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
             }
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 

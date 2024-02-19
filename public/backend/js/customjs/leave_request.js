@@ -87,7 +87,7 @@ var LeaveRequest = function(){
                    } else if (LeaveRequest.leave_type === "2") {
                         leave_type = "Half Day";
                    } else if (LeaveRequest.leave_type === "3") {
-                        leave_type = "Sort Leave";
+                        leave_type = "Short Leave";
                    }
                    $("#leeave_type").text(leave_type);
 

@@ -22,7 +22,7 @@ class LeaveRequest extends Model
             4 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
                     WHEN leave_request.leave_type = "1" THEN "Absent"
                     WHEN leave_request.leave_type = "2" THEN "Half Day"
-                    ELSE "Sort Leave" END)'),
+                    ELSE "Short Leave" END)'),
             5 => DB::raw('(CASE WHEN leave_request.leave_status = "P" THEN "Pending"
             WHEN leave_request.leave_status = "R" THEN "Rejected"
             ELSE "Approved" END)'),
@@ -81,7 +81,7 @@ class LeaveRequest extends Model
             } else if ($row['leave_type'] == '2') {
                 $leave_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
             } else {
-                $leave_type = '<span class="label label-lg label-light-info  label-inline">Sort Leave</span>';
+                $leave_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
             }
 
             if ($row['leave_status'] == 'P') {

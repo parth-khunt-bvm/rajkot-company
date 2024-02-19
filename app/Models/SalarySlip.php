@@ -421,13 +421,14 @@ class SalarySlip extends Model
 
                 $lop = $absentHours/8;
 
-
                 $checkSalarySlip = SalarySlip::from('salary_slip')
                 ->where("month", $month)
                 ->where("year", $year)
                 ->where("employee", $attendanceCounts[$key]['employee']['id'])
                 ->where('salary_slip.is_deleted', 'N')
                 ->count();
+
+                // salaryCount($attendanceCounts[$key]['employee']['salary'], $attendanceCounts[$key]['working_day'], $attendanceCounts[$key]['present'], $attendanceCounts[$key]['absent'], $attendanceCounts[$key]['half_day'], $attendanceCounts[$key]['sort_leave']);
 
                 if ($checkSalarySlip == 0) {
                     $objSalaryslip = new Salaryslip();

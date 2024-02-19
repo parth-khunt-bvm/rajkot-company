@@ -82,6 +82,7 @@ function user_branch($inArray = false){
 }
 
 function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $shortLeave){
+
     $totalPaidAmount = 0;
     $totalLossOfPay = 0;
     $paidHours = 0;
@@ -103,19 +104,19 @@ function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $short
         $salaryDeduction = numberformat($salary);
     }
 
-    echo "<pre>";
-    print_r("perDaySalay =".$perDaySalay);
-    print_r("<br>");
-    print_r("perHourSalay =".$perHourSalay);
-    print_r("<br>");
-    print_r("presentDaySalay =".$presentDaySalay);
-    print_r("<br>");
-    print_r("absentHours =".$absentHours);
-    print_r("<br>");
-    print_r("totalAbsentHours =".$totalAbsentHours);
-    print_r("<br>");
-    print_r("salaryDeduction =".$salaryDeduction);
-    die();
+    // echo "<pre>";
+    // print_r("perDaySalay =".$perDaySalay);
+    // print_r("<br>");
+    // print_r("perHourSalay =".$perHourSalay);
+    // print_r("<br>");
+    // print_r("presentDaySalay =".$presentDaySalay);
+    // print_r("<br>");
+    // print_r("absentHours =".$absentHours);
+    // print_r("<br>");
+    // print_r("totalAbsentHours =".$totalAbsentHours);
+    // print_r("<br>");
+    // print_r("salaryDeduction =".$salaryDeduction);
+    // die();
 
 }
 ?>

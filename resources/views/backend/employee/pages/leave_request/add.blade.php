@@ -33,7 +33,7 @@
                                             <option value="">Please select Leave Type</option>
                                             <option value="1">Full Day Leave</option>
                                             <option value="2">Half Day Leave</option>
-                                            <option value="3">Sort Leave</option>
+                                            <option value="3">Short Leave</option>
                                         </select>
                                     </div>
                                 </div>
