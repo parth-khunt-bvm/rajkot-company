@@ -133,6 +133,7 @@ var SalarySlip = function(){
                 success: function (data) {
                    var employee =  JSON.parse(data);
                    var html = '';
+                   html += '<option value="">Please select Employee Name</option>';
                    html += '<option value="all">All</option>';
                    for (var i = 0; i < employee.length; i++) {
                        html += '<option value="'+ employee[i].id +'">'+ employee[i].first_name + ' ' + employee[i].last_name +'</option>';
@@ -143,28 +144,28 @@ var SalarySlip = function(){
             });
         });
 
-        // var form = $('#send-create-salary-slip-form');
-        // var rules = {
-        //     employee:  { required: true, number: true },
-        //     month:  { required: true, number: true },
-        //     year:  { required: true, number: true },
-        // };
+        var form = $('#send-create-salary-slip-form');
+        var rules = {
+            employee:  { required: true },
+            month:  { required: true, number: true },
+            year:  { required: true, number: true },
+        };
 
-        // var message = {
-        //     employee : {
-        //         required : "Please select employee name"
-        //     },
-        //     month : {
-        //         required : "Please select month"
-        //     },
-        //     year : {
-        //         required : "Please select year"
-        //     },
-        // }
+        var message = {
+            employee : {
+                required : "Please select employee name"
+            },
+            month : {
+                required : "Please select month"
+            },
+            year : {
+                required : "Please select year"
+            },
+        }
 
-        // handleFormValidateWithMsg(form, rules,message, function(form) {
-        //     handleAjaxFormSubmit(form, true);
-        // });
+        handleFormValidateWithMsg(form, rules,message, function(form) {
+            handleAjaxFormSubmit(form, true);
+        });
     }
 
     var addSalarySlip = function(){

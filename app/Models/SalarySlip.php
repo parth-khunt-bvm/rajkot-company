@@ -358,7 +358,6 @@ class SalarySlip extends Model
 
         for ($d = 1; $d <= $lastDate; $d++) {
             $date = new \DateTime("$year-$month-$d");
-
             // Check if the day is not Saturday or Sunday
             if ($date->format('N') < 6) {
                 // Store dates in array if not Saturday or Sunday
@@ -548,6 +547,5 @@ class SalarySlip extends Model
                 return 'salary_slip_exists';
           return $attendanceCounts;
         }
-
     }
 }

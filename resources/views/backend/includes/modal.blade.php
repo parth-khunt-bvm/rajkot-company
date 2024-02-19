@@ -1129,7 +1129,8 @@
                                 <label>Employee Name
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 employee"  name="employee">
+                                <select class="form-control employee select2" name="employee" id="employee">
+                                    <option value="">Select Employee </option>
                                 </select>
                             </div>
                         </div>
