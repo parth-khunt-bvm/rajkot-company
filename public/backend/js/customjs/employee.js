@@ -654,7 +654,7 @@ var Employee = function () {
                             if (value.emp_overtime !== null && value.emp_overtime !== 'null' && typeof value.emp_overtime !== 'undefined'  && value.emp_overtime != 0) {
 
                                 var temp5 = {
-                                    title: 'Employee Overtime ' +parseFloat(value.emp_overtime) ,
+                                    title: 'Emp Overtime ' +parseFloat(value.emp_overtime) ,
                                     start: value.date,
                                     className: 'fc-event-warning'
                                 };
@@ -665,7 +665,7 @@ var Employee = function () {
                                 if(value.emp_overtime !== null && value.emp_overtime !== 'null' && typeof value.emp_overtime !== 'undefined' && value.emp_overtime != 0){
 
                                 var temp5 = {
-                                    title: 'Employee Overtime ' + parseFloat(value.emp_overtime),
+                                    title: 'Emp Overtime ' + parseFloat(value.emp_overtime),
                                     start: value.date,
                                     className: 'fc-event-warning'
                                 };
@@ -687,7 +687,7 @@ var Employee = function () {
 
                                 // Add employee overtime event
                                 var temp5 = {
-                                    title: 'Employee Overtime ' + parseFloat(value.emp_overtime),
+                                    title: 'Emp Overtime ' + parseFloat(value.emp_overtime),
                                     start: value.date,
                                     className: "fc-event-warning"
                                 };
