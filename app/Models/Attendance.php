@@ -493,7 +493,6 @@ class Attendance extends Model
 
         return $dates;
     }
-
     public function get_admin_attendance_details_by_day()
     {
         return Attendance::from('attendance')

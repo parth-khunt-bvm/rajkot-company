@@ -49,8 +49,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin-system-setting', [SystemsettingController::class, 'systemColorSetting'])->name('system-color-setting');
     Route::post('admin-system-setting/save-add', [SystemsettingController::class, 'saveAdd'])->name('system-color-setting.save-add');
 
-
-
     $adminPrefix = "audittrails";
     Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
         Route::get('audit-trails', [AuditTrailsController::class, 'list'])->name('audit-trails');

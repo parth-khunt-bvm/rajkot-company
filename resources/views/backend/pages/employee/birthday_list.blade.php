@@ -26,6 +26,7 @@
                         <option value="2">Tomorrow</option>
                         <option value="3">Current Week</option>
                         <option value="4">Current Month</option>
+                        <option value="5">Next Month</option>
                     </select>
                 </div>
 

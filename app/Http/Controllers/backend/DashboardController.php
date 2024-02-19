@@ -10,6 +10,7 @@ use App\Models\EmployeeBondLastDate;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Users;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,17 @@ class DashboardController extends Controller
         $objEmployee = new Attendance();
         $data['employee'] = $objEmployee->get_admin_attendance_daily_detail();
 
+        $data['employees'] = EmployeeBirthday::from('employee')
+        ->join("technology", "technology.id", "=", "employee.department")
+        ->join("designation", "designation.id", "=", "employee.designation")
+        ->join("branch", "branch.id", "=", "employee.branch")
+        ->select('employee.first_name', 'employee.last_name', 'technology.technology_name', 'employee.DOB','designation.designation_name')
+        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+        ->where("employee.is_deleted", "=", "N")
+        ->where("employee.status", "=", "W")
+        ->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today()->startOfMonth())), date("m-d", strtotime(today()->endOfMonth()))))
+        ->get();
+
         $data['date'] =  date_formate(date("Y-m-d"));
         $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
         $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || My Dashboard";
@@ -35,6 +47,7 @@ class DashboardController extends Controller
         $data['pluginjs'] = array(
             'plugins/custom/datatables/datatables.bundle.js',
             'pages/crud/datatables/data-sources/html.js',
+            'pages/custom/education/school/students.js'
         );
         $data['js'] = array(
             'dashboard.js',
@@ -187,9 +200,4 @@ class DashboardController extends Controller
                 break;
         }
     }
-
-
-
-
-
 }

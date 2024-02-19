@@ -29,6 +29,7 @@ class EmployeeBirthday extends Model
             ->join("designation", "designation.id", "=", "employee.designation")
             ->join("branch", "branch.id", "=", "employee.branch")
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("employee.status", "=", "W")
             ->where("employee.is_deleted", "=", "N");
 
         if ($fillterdata['bdayTime'] == 0) {
@@ -45,6 +46,19 @@ class EmployeeBirthday extends Model
         }
         if ($fillterdata['bdayTime'] == 4) {
             $query->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today()->startOfMonth())), date("m-d", strtotime(today()->endOfMonth()))));
+        }
+
+        if ($fillterdata['bdayTime'] == 5) {
+            // Get the start and end of the next month
+            $startOfMonth = today()->addMonth()->startOfMonth();
+            $endOfMonth = today()->addMonth()->endOfMonth();
+
+            // Convert to the desired format (month-day)
+            $startOfMonthFormatted = $startOfMonth->format('m-d');
+            $endOfMonthFormatted = $endOfMonth->format('m-d');
+
+            // Query to filter data based on DOB (Date of Birth) falling between the start and end of next month
+            $query->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array($startOfMonthFormatted, $endOfMonthFormatted));
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -114,6 +128,7 @@ class EmployeeBirthday extends Model
             ->join("branch", "branch.id", "=", "employee.branch")
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("employee.is_deleted", "=", "N")
+            ->where("employee.status", "=", "W")
             ->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today()->startOfMonth())), date("m-d", strtotime(today()->endOfMonth()))));
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter

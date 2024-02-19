@@ -10,6 +10,8 @@
 <script src="{{  asset('backend/js/scripts.bundle.js') }}"></script>
 <!--end::Global Theme Bundle-->
 
+<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{  asset('backend/js/pages/widgets.js') }}"></script>
 <!--end::Page Scripts-->

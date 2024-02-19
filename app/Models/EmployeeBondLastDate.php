@@ -28,7 +28,8 @@ class EmployeeBondLastDate extends Model
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("branch", "branch.id", "=", "employee.branch")
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-             ->where("employee.is_deleted", "=", "N");
+             ->where("employee.is_deleted", "=", "N")
+             ->where("employee.status", "=", "W");
 
              if($fillterdata['bondLastDateTime'] == 0){
                 $query->where("employee.bond_last_date", '=', date("Y-m-d", strtotime("yesterday")));
@@ -111,6 +112,7 @@ class EmployeeBondLastDate extends Model
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("branch", "branch.id", "=", "employee.branch")
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.status", "=", "W")
              ->where("employee.is_deleted", "=", "N")
              ->whereBetween("employee.bond_last_date", array(date("Y-m-d", strtotime( today()->startOfMonth())), date("Y-m-d", strtotime( today()->endOfMonth()))));
 
