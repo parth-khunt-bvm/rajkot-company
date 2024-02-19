@@ -475,12 +475,12 @@ class Attendance extends Model
                         $description = $value->reason;
                         break;
                     case 2:
-                        $attendance_type = 'Half_leave';
+                        $attendance_type = 'Half Leave';
                         $className = 'fc-event-info';
                         $description = $value->reason;
                         break;
                     default:
-                        $attendance_type = 'Sort_leave';
+                        $attendance_type = 'Short Leave';
                         $className = 'fc-event-warning';
                         $description = $value->reason;
                         break;
