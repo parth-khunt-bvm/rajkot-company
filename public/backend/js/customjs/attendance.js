@@ -240,7 +240,7 @@ var Attendance = function () {
                         };
                         eventArray.push(temp3);
                         var temp4 = {
-                            title: 'Sort Leave ' + value.sort_leave,
+                            title: 'Short Leave ' + value.sort_leave,
                             start: value.date,
                             className: 'fc-event-warning'
                         };
@@ -379,7 +379,7 @@ var Attendance = function () {
                             };
                             eventArray.push(temp3);
                             var temp4 = {
-                                title: 'Sort Leave ' + value.sort_leave,
+                                title: 'Short Leave ' + value.sort_leave,
                                 start: value.date,
                                 className: 'fc-event-warning'
                             };

@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Attendance;
 use App\Models\Codenumber;
 use App\Models\CompanyInfo;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Branch;
+use App\Models\Employee;
+use App\Models\PublicHoliday;
 use Faker\Provider\ar_EG\Company;
 
 function numberformat($value, $comma =  null){
@@ -75,6 +78,45 @@ function user_branch($inArray = false){
         }
         return $branchIdArray;
     }
+
+}
+
+function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $shortLeave){
+
+    $totalPaidAmount = 0;
+    $totalLossOfPay = 0;
+    $paidHours = 0;
+    $absentHours  = 0;
+    $perDaySalay = numberformat($salary/$workingDay);
+    $perHourSalay = numberformat($perDaySalay/8);
+    $presentDaySalay = numberformat($present*$perDaySalay);
+
+    if($present > 15){
+        $paidHours = 8;
+    }
+
+    $absentHours  = numberformat($absent*8) + numberformat($halfLeave*4) + numberformat($shortLeave > 2 ? $shortLeave*2 : 0);
+    $totalAbsentHours = numberformat($absentHours - $paidHours);
+
+    if($totalAbsentHours > 0){
+        $salaryDeduction = numberformat($salary) - numberformat($totalAbsentHours * $perHourSalay);
+    } else {
+        $salaryDeduction = numberformat($salary);
+    }
+
+    // echo "<pre>";
+    // print_r("perDaySalay =".$perDaySalay);
+    // print_r("<br>");
+    // print_r("perHourSalay =".$perHourSalay);
+    // print_r("<br>");
+    // print_r("presentDaySalay =".$presentDaySalay);
+    // print_r("<br>");
+    // print_r("absentHours =".$absentHours);
+    // print_r("<br>");
+    // print_r("totalAbsentHours =".$totalAbsentHours);
+    // print_r("<br>");
+    // print_r("salaryDeduction =".$salaryDeduction);
+    // die();
 
 }
 ?>

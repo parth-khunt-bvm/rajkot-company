@@ -127,7 +127,7 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <a href="{{ route('admin.attendance.day-list', ['date' => $date]) }}"
-                                class="text-success font-weight-bold font-size-h6 mt-2">Sort Leave
+                                class="text-success font-weight-bold font-size-h6 mt-2">Short Leave
                                 {{ $employee['attendance']->short_leave ?? 0 }}</a>
                         </div>
                         <div class="px-6 py-8 mb-7 tiles-bg-color col-3">

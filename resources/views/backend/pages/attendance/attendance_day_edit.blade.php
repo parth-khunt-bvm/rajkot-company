@@ -50,7 +50,7 @@
                                                 <option value="0" {{ $attendance_details->attendance_type == 0 ? 'selected="selected"' : '' }}>Present</option>
                                                 <option value="1" {{ $attendance_details->attendance_type == 1 ? 'selected="selected"' : '' }}>Full Day Leave</option>
                                                 <option value="2" {{ $attendance_details->attendance_type == 2 ? 'selected="selected"' : '' }}>Half Day Leave</option>
-                                                <option value="3" {{ $attendance_details->attendance_type == 3 ? 'selected="selected"' : '' }}>Sort Leave</option>
+                                                <option value="3" {{ $attendance_details->attendance_type == 3 ? 'selected="selected"' : '' }}>Short Leave</option>
                                             </select>
                                             <span class="leave_error text-danger"></span>
                                         </div>

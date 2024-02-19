@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Support\Carbon;
 
 class SalarySlip extends Model
 {
@@ -204,7 +205,6 @@ class SalarySlip extends Model
         return 'salary_slip_exists';
     }
 
-
     public function get_salary_slip_details($employeeId)
     {
         return SalarySlip::from('salary_slip')
@@ -344,5 +344,209 @@ class SalarySlip extends Model
             }
         }
         return true;
+    }
+
+    public function salarySlipCreate($requestData)
+    {
+        $days = array();
+        $month = $requestData['month'];
+        $year = $requestData['year'];
+
+        $firstDate = $year . '-' . $month . '-01';
+        $lastDate = date('t', strtotime($firstDate));
+        $days = [];
+
+        for ($d = 1; $d <= $lastDate; $d++) {
+            $date = new \DateTime("$year-$month-$d");
+            // Check if the day is not Saturday or Sunday
+            if ($date->format('N') < 6) {
+                // Store dates in array if not Saturday or Sunday
+                $days[] = $date->format('Y-m-d'); // Adjust format if you only need dates without the time component
+            }
+        }
+
+        $numberOfDays = count($days);
+        $holidayCount = PublicHoliday::whereYear('public_holiday.date', $year)->whereMonth('public_holiday.date', $month)->count();
+        $working_day = $numberOfDays - $holidayCount;
+
+        if($requestData['employee'] === "all"){
+
+            $employeeIds = Employee::from('employee')
+            ->join("technology", "technology.id", "=", "employee.department")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->join("designation", "designation.id", "=", "employee.designation")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->where("employee.is_deleted", "=", "N")
+            ->where("employee.status", "=", "W")
+            ->pluck('employee.id')
+            ->toArray();
+
+            $attendanceCounts = [];
+
+            foreach ($employeeIds as $key =>$employeeId) {
+                $query = Attendance::from('attendance')
+                    ->join("employee", "employee.id", "=", "attendance.employee_id")
+                    ->join("technology", "technology.id", "=", "employee.department")
+                    ->join("designation", "designation.id", "=", "employee.designation")
+                    ->join("branch", "branch.id", "=", "employee.branch")
+                    ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                    ->whereYear('attendance.date', $requestData['year'])
+                    ->whereMonth('attendance.date', $requestData['month'])
+                    ->where("attendance.employee_id", $employeeId);
+
+                $presentQuery = clone $query;
+                $attendanceCounts[$key]['present'] = $presentQuery->where("attendance.attendance_type", "0")->count();
+
+                $absentQuery = clone $query;
+                $attendanceCounts[$key]['absent'] = $absentQuery->where("attendance.attendance_type", "1")->count();
+
+                $halfDayQuery = clone $query;
+                $attendanceCounts[$key]['half_day'] = $halfDayQuery->where("attendance.attendance_type", "2")->count();
+
+                $sortLeaveQuery = clone $query;
+                $attendanceCounts[$key]['sort_leave'] = $sortLeaveQuery->where("attendance.attendance_type", "3")->count();
+
+                $attendanceCounts[$key]['working_day'] =  $working_day;
+
+                $employeeQuery = clone $query;
+                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','employee.department','employee.designation','employee.salary')->first();
+
+                if ($employee !== null) {
+                    $attendanceCounts[$key]['employee'] = $employee->toArray();
+                } else {
+                    $attendanceCounts[$key]['employee'] = null; // Or any other appropriate action
+                }
+
+                $absentHours  = numberformat($attendanceCounts[$key]['absent']*8) + numberformat( $attendanceCounts[$key]['half_day']*4) + numberformat( $attendanceCounts[$key]['sort_leave'] > 2 ?  $attendanceCounts[$key]['sort_leave']*2 : 0);
+
+                $lop = $absentHours/8;
+
+                $checkSalarySlip = SalarySlip::from('salary_slip')
+                ->where("month", $month)
+                ->where("year", $year)
+                ->where("employee", $attendanceCounts[$key]['employee']['id'])
+                ->where('salary_slip.is_deleted', 'N')
+                ->count();
+
+                // salaryCount($attendanceCounts[$key]['employee']['salary'], $attendanceCounts[$key]['working_day'], $attendanceCounts[$key]['present'], $attendanceCounts[$key]['absent'], $attendanceCounts[$key]['half_day'], $attendanceCounts[$key]['sort_leave']);
+
+                if ($checkSalarySlip == 0) {
+                    $objSalaryslip = new Salaryslip();
+                    $objSalaryslip->department = $attendanceCounts[$key]['employee']['department'] ?? '-';
+                    $objSalaryslip->designation = $attendanceCounts[$key]['employee']['designation'] ?? '-';
+                    $objSalaryslip->employee = $attendanceCounts[$key]['employee']['id']?? '-';
+                    $objSalaryslip->month = $month ;
+                    $objSalaryslip->year = $year;
+                    $objSalaryslip->pay_salary_date = date("Y-m-d h:i:s");
+                    $objSalaryslip->basic_salary = $attendanceCounts[$key]['employee']['salary'] ?? '-';
+                    $objSalaryslip->working_day = $attendanceCounts[$key]['working_day'];
+                    $objSalaryslip->loss_of_pay = $lop;
+                    $objSalaryslip->house_rent_allow_pr = 0;
+                    $objSalaryslip->house_rent_allow = 0;
+                    $objSalaryslip->income_tax_pr = 0;
+                    $objSalaryslip->income_tax = 0;
+                    $objSalaryslip->pf_pr = 0;
+                    $objSalaryslip->pf = 0;
+                    $objSalaryslip->pt_pr = 0;
+                    $objSalaryslip->pt = 0;
+                    $objSalaryslip->is_deleted = 'N';
+                    $objSalaryslip->created_at = date("Y-m-d h:i:s");
+                    $objSalaryslip->updated_at = date("Y-m-d h:i:s");
+                    if ($objSalaryslip->save()) {
+                        $inputData = $requestData->input();
+                        unset($inputData['_token']);
+                        $objAudittrails = new Audittrails();
+                        $res = $objAudittrails->add_audit('I', $inputData, 'Salary Slip');
+                    }
+                }
+            }
+            return 'added';
+        }else {
+            $query = Attendance::from('attendance')
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("technology", "technology.id", "=", "employee.department")
+            ->join("designation", "designation.id", "=", "employee.designation")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->whereYear('attendance.date', $requestData['year'])
+            ->whereMonth('attendance.date', $requestData['month'])
+            ->where("attendance.employee_id", $requestData['employee']);
+
+          $attendanceCounts = [];
+
+          $presentQuery = clone $query;
+          $attendanceCounts['present_query'] = $presentQuery->where("attendance.attendance_type", "0")
+                          ->count();
+
+          $absentQuery = clone $query;
+          $attendanceCounts['absent_query'] = $absentQuery->where("attendance.attendance_type", "1")
+                          ->count();
+
+          $halfDayQuery = clone $query;
+          $attendanceCounts['half_day_query'] = $halfDayQuery->where("attendance.attendance_type", "2")
+                          ->count();
+
+          $sortLeaveQuery = clone $query;
+          $attendanceCounts['sort_leave_query'] = $sortLeaveQuery->where("attendance.attendance_type", "3")
+                          ->count();
+
+          $attendanceCounts['working_day'] =  $working_day;
+
+                $employeeQuery = clone $query;
+                $employee = $employeeQuery->select('employee.id','employee.first_name','employee.last_name','employee.department','employee.designation','employee.salary')->first();
+
+                if ($employee !== null) {
+                    $attendanceCounts['employee'] = $employee->toArray();
+                } else {
+                    // Handle the case where the employee attendance does not exist
+                    $attendanceCounts['employee'] = null; // Or any other appropriate action
+                }
+
+                $absentHours  = numberformat($attendanceCounts['absent_query']*8) + numberformat( $attendanceCounts['half_day_query']*4) + numberformat( $attendanceCounts['sort_leave_query'] > 2 ?  $attendanceCounts['sort_leave_query']*2 : 0);
+
+                $lop = $absentHours/8;
+
+
+                $checkSalarySlip = SalarySlip::from('salary_slip')
+                ->where("month", $month)
+                ->where("year", $year)
+                ->where("employee", $employee['id'])
+                ->where('salary_slip.is_deleted', 'N')
+                ->count();
+
+                if ($checkSalarySlip == 0) {
+                    $objSalaryslip = new Salaryslip();
+                    $objSalaryslip->department =$employee['department'] ?? '-';
+                    $objSalaryslip->designation = $employee['designation'] ?? '-';
+                    $objSalaryslip->employee =$employee['id'] ?? '-';
+                    $objSalaryslip->month = $month ;
+                    $objSalaryslip->year = $year;
+                    $objSalaryslip->pay_salary_date = date("Y-m-d h:i:s");
+                    $objSalaryslip->basic_salary = $employee['salary'] ?? '-';
+                    $objSalaryslip->working_day =  $attendanceCounts['working_day'];
+                    $objSalaryslip->loss_of_pay = $lop;
+                    $objSalaryslip->house_rent_allow_pr = 0;
+                    $objSalaryslip->house_rent_allow = 0;
+                    $objSalaryslip->income_tax_pr = 0;
+                    $objSalaryslip->income_tax = 0;
+                    $objSalaryslip->pf_pr = 0;
+                    $objSalaryslip->pf = 0;
+                    $objSalaryslip->pt_pr = 0;
+                    $objSalaryslip->pt = 0;
+                    $objSalaryslip->is_deleted = 'N';
+                    $objSalaryslip->created_at = date("Y-m-d h:i:s");
+                    $objSalaryslip->updated_at = date("Y-m-d h:i:s");
+                    if ($objSalaryslip->save()) {
+                        $inputData = $requestData->input();
+                        unset($inputData['_token']);
+                        $objAudittrails = new Audittrails();
+                        $res = $objAudittrails->add_audit('I', $inputData, 'Salary Slip');
+                        return 'added';
+                    }
+                    return 'wrong';
+                }
+                return 'salary_slip_exists';
+          return $attendanceCounts;
+        }
     }
 }

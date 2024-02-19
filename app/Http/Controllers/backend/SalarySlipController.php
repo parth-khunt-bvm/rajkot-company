@@ -17,6 +17,16 @@ class SalarySlipController extends Controller
 {
     public function list(Request $request)
     {
+        // $salary = 22000;
+        // $workingDay = 22;
+        // $present = 18;
+        // $absent = 1;
+        // $halfLeave = 1;
+        // $sortLeave = 2;
+
+        // salaryCount($salary, $workingDay,$present,$absent,$halfLeave, $sortLeave);
+        // die();
+
 
         $objEmployee = new Employee();
         $data['employee'] = $objEmployee->get_admin_employee_details();
@@ -397,6 +407,28 @@ class SalarySlipController extends Controller
         }else{
             return redirect()->route('my-dashboard');
         }
+    }
+
+    public function salarySlipCreate(Request $request)
+    {
+        $objSalarySlip = new SalarySlip();
+        $result = $objSalarySlip->salarySlipCreate($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Salary Slip details successfully added.';
+            $return['redirect'] = route('admin.employee-salaryslip.list');
+        } elseif ($result == "salary_slip_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Salary Slip has already exists.';
+        } else {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
     }
 
 }

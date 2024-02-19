@@ -34,7 +34,7 @@ var Countersheet = function(){
             '<th>Present Day</th>'+
             '<th>Absent Day</th>'+
             '<th>Half leave</th>'+
-            '<th>Sort Leave</th>'+
+            '<th>Short Leave</th>'+
             '<th>OverTime</th>'+
             '<th>total</th>'+
             '<th>Action</th>'+
