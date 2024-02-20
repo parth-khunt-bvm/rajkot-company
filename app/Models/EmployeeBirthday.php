@@ -14,7 +14,6 @@ class EmployeeBirthday extends Model
 
     public function getdatatable($fillterdata)
     {
-
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
@@ -49,17 +48,32 @@ class EmployeeBirthday extends Model
         }
 
         if ($fillterdata['bdayTime'] == 5) {
-            // Get the start and end of the next month
             $startOfMonth = today()->addMonth()->startOfMonth();
             $endOfMonth = today()->addMonth()->endOfMonth();
 
-            // Convert to the desired format (month-day)
             $startOfMonthFormatted = $startOfMonth->format('m-d');
             $endOfMonthFormatted = $endOfMonth->format('m-d');
 
-            // Query to filter data based on DOB (Date of Birth) falling between the start and end of next month
             $query->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array($startOfMonthFormatted, $endOfMonthFormatted));
         }
+
+        if (!empty($fillterdata['startDate'])) {
+            $startDate = date('m-d', strtotime($fillterdata['startDate']));
+            $query->whereRaw('DATE_FORMAT(employee.DOB, "%m-%d") >= ?', [$startDate]);
+        }
+
+        if (!empty($fillterdata['endDate'])) {
+            $endDate = date('m-d', strtotime($fillterdata['endDate']));
+            $query->whereRaw('DATE_FORMAT(employee.DOB, "%m-%d") <= ?', [$endDate]);
+        }
+
+        // if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+        //     $query->whereDate(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '>=', date('m-d', strtotime($fillterdata['startDate'])));
+        // }
+
+        // if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+        //     $query->whereDate(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), '<=',  date('m-d', strtotime($fillterdata['endDate'])));
+        // }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];

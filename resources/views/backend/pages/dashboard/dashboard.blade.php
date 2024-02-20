@@ -250,7 +250,7 @@
                                     <div class="d-flex flex-column">
                                         <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{$employee['first_name'] .' '.$employee['last_name']}}</a>
                                         <span class="text-muted font-weight-bold">{{$employee['technology_name'] .' '. $employee['designation_name']}}</span>
-                                        <span class="text-muted font-weight-bold">{{ date_formate($employee['DOB'])}}</span>
+                                        <span class="text-muted font-weight-bold">{{ date('j M', strtotime($employee['DOB'])) }}</span>
                                     </div>
                                     <!--end::Title-->
                                 </div>
@@ -268,7 +268,7 @@
             </div>
 
                 <!--begin::Card-->
-                {{-- <div class="card card-custom">
+                <div class="card card-custom mt-3">
                     <!--begin::Header-->
                     <div class="card-header flex-wrap border-0 pt-6 pb-0">
                         <h3 class="card-title align-items-start flex-column">
@@ -276,177 +276,18 @@
                         </h3>
                         <div class="card-toolbar">
                             <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
-                                <!--begin::Trigger Modal-->
-                                <a href="#" class="btn btn-success font-weight-bolder font-size-sm" aria-haspopup="true" aria-expanded="false" data-toggle="modal" data-target="#exampleModalCustomScrollable">New Student</a>
-                                <!--end::Trigger Modal-->
-                                <!--begin::Modal Content-->
-                                <div class="modal fade" id="exampleModalCustomScrollable" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Add New Student</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <i aria-hidden="true" class="ki ki-close"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div data-scroll="true" data-height="600">
-                                                    <form class="form pt-9">
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Name</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <input class="form-control form-control-lg form-control-solid" type="text" value="Nick" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Nickname</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <input class="form-control form-control-lg form-control-solid" type="text" value="Bold" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Organization</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <input class="form-control form-control-lg form-control-solid" type="text" value="Loop Inc." />
-                                                                <span class="form-text text-muted">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="separator separator-dashed my-10"></div>
-                                                        <!--begin::Heading-->
-                                                        <div class="row">
-                                                            <div class="col-lg-9 col-xl-6 offset-xl-3">
-                                                                <h3 class="font-size-h6 mb-5">Contact Info:</h3>
-                                                            </div>
-                                                        </div>
-                                                        <!--end::Heading-->
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Phone</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <div class="input-group input-group-lg input-group-solid">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">
-                                                                            <i class="la la-phone"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control form-control-lg form-control-solid" value="+35278953712" placeholder="Phone" />
-                                                                </div>
-                                                                <span class="form-text text-muted">We'll never share your email with anyone else.</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Email Address</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <div class="input-group input-group-lg input-group-solid">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">
-                                                                            <i class="la la-at"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control form-control-lg form-control-solid" value="nick.bold@loop.com" placeholder="Email" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Site</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <div class="input-group input-group-lg input-group-solid">
-                                                                    <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Username" value="loop" />
-                                                                    <div class="input-group-append">
-                                                                        <span class="input-group-text">.com</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="separator separator-dashed my-10"></div>
-                                                        <!--begin::Heading-->
-                                                        <div class="row">
-                                                            <div class="col-lg-9 col-xl-6 offset-xl-3">
-                                                                <h3 class="font-size-h6 mb-5">Contact Info:</h3>
-                                                            </div>
-                                                        </div>
-                                                        <!--end::Heading-->
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Email Notification</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <span class="switch">
-                                                                    <label>
-                                                                        <input type="checkbox" checked="checked" name="email_notification_1" />
-                                                                        <span></span>
-                                                                    </label>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 text-right col-form-label">Send Copy</label>
-                                                            <div class="col-lg-9 col-xl-6">
-                                                                <span class="switch">
-                                                                    <label>
-                                                                        <input type="checkbox" name="email_notification_2" />
-                                                                        <span></span>
-                                                                    </label>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancel</button>
-                                                <button type="button" class="btn btn-primary font-weight-bold">Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end::Modal Content-->
                             </div>
                         </div>
                     </div>
                     <!--end::Header-->
                     <!--begin::Body-->
-                    <div class="card-body">
-                        <!--begin: Search Form-->
-                        <div class="mb-10">
-                            <div class="row align-items-center">
-                                <div class="col-lg-9 col-xl-8">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4 my-2 my-md-0">
-                                            <div class="input-icon">
-                                                <input type="text" class="form-control form-control-solid" placeholder="Search..." id="kt_datatable_search_query" />
-                                                <span>
-                                                    <i class="flaticon2-search-1 text-muted"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 my-2 my-md-0">
-                                            <select class="form-control form-control-solid" id="kt_datatable_search_status">
-                                                <option value="">Status</option>
-                                                <option value="1">Pending</option>
-                                                <option value="2">Delivered</option>
-                                                <option value="3">Canceled</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 my-2 my-md-0">
-                                            <select class="form-control form-control-solid" id="kt_datatable_search_type">
-                                                <option value="">Type</option>
-                                                <option value="4">Success</option>
-                                                <option value="5">Info</option>
-                                                <option value="6">Danger</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                    <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end: Search Form-->
+                    <div class="card-body pt-0">
                         <!--begin: Datatable-->
                         <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
                         <!--end: Datatable-->
                     </div>
                     <!--end::Body-->
-                </div> --}}
+                </div>
                 <!--end::Card-->
 
             {{-- <div class="row mt-5">

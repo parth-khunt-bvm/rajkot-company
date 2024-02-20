@@ -165,4 +165,17 @@ class EmployeeBondLastDate extends Model
         );
         return $json_data;
     }
+
+    public function getEmployee(){
+        return Employee::from('employee')
+             ->join("technology", "technology.id", "=", "employee.department")
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->join("branch", "branch.id", "=", "employee.branch")
+             ->select( 'employee.id', 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date','employee.first_name', 'employee.last_name','employee.DOJ','employee.gmail', 'employee.personal_number','employee.bond_last_date')
+             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.is_deleted", "=", "N")
+             ->where("employee.status", "=", "W")
+             ->where("employee.bond_last_date", '=', now()->format('Y-m-d'))
+             ->get();
+    }
 }
