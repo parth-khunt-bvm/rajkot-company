@@ -205,14 +205,14 @@ class SalarySlip extends Model
         return 'salary_slip_exists';
     }
 
-    public function get_salary_slip_details($employeeId)
+    public function get_salary_slip_details($id)
     {
         return SalarySlip::from('salary_slip')
             ->join("employee", "employee.id", "=", "salary_slip.employee")
             ->join("designation", "designation.id", "=", "salary_slip.designation")
             ->join("technology", "technology.id", "=", "salary_slip.department")
             ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
-            ->where('salary_slip.id', $employeeId)
+            ->where('salary_slip.id', $id)
             ->where("salary_slip.is_deleted", "=", "N")
             ->first();
     }
@@ -239,6 +239,7 @@ class SalarySlip extends Model
             foreach ($branchs as $branchKey => $branchValue) {
                 $employees = Employee::from('employee')
                     ->where("employee.is_deleted", "=", "N")
+                    ->where("employee.status", "=", "W")
                     ->where("employee.branch", "=", $branchKey)
                     ->select('employee.*')->get()->toArray();
 
@@ -370,7 +371,6 @@ class SalarySlip extends Model
         $working_day = $numberOfDays - $holidayCount;
 
         if($requestData['employee'] === "all"){
-
             $employeeIds = Employee::from('employee')
             ->join("technology", "technology.id", "=", "employee.department")
             ->join("branch", "branch.id", "=", "employee.branch")
@@ -428,7 +428,8 @@ class SalarySlip extends Model
                 ->where('salary_slip.is_deleted', 'N')
                 ->count();
 
-                // salaryCount($attendanceCounts[$key]['employee']['salary'], $attendanceCounts[$key]['working_day'], $attendanceCounts[$key]['present'], $attendanceCounts[$key]['absent'], $attendanceCounts[$key]['half_day'], $attendanceCounts[$key]['sort_leave']);
+                 // $salaryCount =
+                 salaryCount($attendanceCounts[$key]['employee']['salary'], $attendanceCounts[$key]['working_day'], $attendanceCounts[$key]['present'], $attendanceCounts[$key]['absent'], $attendanceCounts[$key]['half_day'], $attendanceCounts[$key]['sort_leave']);
 
                 if ($checkSalarySlip == 0) {
                     $objSalaryslip = new Salaryslip();
@@ -506,7 +507,6 @@ class SalarySlip extends Model
 
                 $lop = $absentHours/8;
 
-
                 $checkSalarySlip = SalarySlip::from('salary_slip')
                 ->where("month", $month)
                 ->where("year", $year)
@@ -546,7 +546,7 @@ class SalarySlip extends Model
                     return 'wrong';
                 }
                 return 'salary_slip_exists';
-          return $attendanceCounts;
+        //   return $attendanceCounts;
         }
     }
 }

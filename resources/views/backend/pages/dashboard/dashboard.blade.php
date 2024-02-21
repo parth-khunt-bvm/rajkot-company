@@ -1,5 +1,10 @@
 @extends('backend.layout.app')
 @section('section')
+
+@php
+    $image = url("upload/userprofile/default.jpg");
+
+@endphp
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
@@ -217,8 +222,53 @@
                     </div>
                 </div>
             </div>
+              <h2 class="mt-2 mb-2">Employee Birthday List</h2>
             <div class="row mt-5">
-                <div class="col-xxl-6 order-2 order-xxl-1">
+                @foreach ($employees as $employee)
+                {{-- @dd($employee); --}}
+                <!--begin::Col-->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                    <!--begin::Card-->
+                    <div class="card card-custom gutter-b card-stretch">
+                        <!--begin::Body-->
+                        <div class="card-body">
+                            <!--begin::User-->
+                            <div class="d-flex align-items-end m-0">
+                                <!--begin::Pic-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Pic-->
+                                    <div class="flex-shrink-0 mr-4 mt-lg-0 mt-3">
+                                        <div class="symbol symbol-circle symbol-lg-75">
+                                            <img src="{{$image}}" alt="image" />
+                                        </div>
+                                        <div class="symbol symbol-lg-75 symbol-circle symbol-primary d-none">
+                                            <span class="font-size-h3 font-weight-boldest">JM</span>
+                                        </div>
+                                    </div>
+                                    <!--end::Pic-->
+                                    <!--begin::Title-->
+                                    <div class="d-flex flex-column">
+                                        <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{$employee['first_name'] .' '.$employee['last_name']}}</a>
+                                        <span class="text-muted font-weight-bold">{{$employee['technology_name'] .' '. $employee['designation_name']}}</span>
+                                        <span class="text-muted font-weight-bold">{{ date('j M', strtotime($employee['DOB'])) }}</span>
+                                    </div>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::User-->
+
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Col-->
+                @endforeach
+            </div>
+
+            <div class="row mt-5">
+                {{-- <div class="col-xxl-6 order-2 order-xxl-1">
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
@@ -263,8 +313,8 @@
                         <!--end::Body-->
                     </div>
                     <!--end::Advance Table Widget 2-->
-                </div>
-                <div class="col-xxl-6 order-2 order-xxl-1">
+                </div> --}}
+                <div class="col-xxl-12 order-2 order-xxl-1">
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
@@ -288,10 +338,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Bond Last Date</th>
                                                     <th>Employee Name</th>
+                                                    <th>Contact</th>
                                                     <th>Department</th>
                                                     <th>Designation</th>
+                                                    <th>Bond Last Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

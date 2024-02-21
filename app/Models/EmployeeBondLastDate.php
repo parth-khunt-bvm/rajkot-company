@@ -28,7 +28,8 @@ class EmployeeBondLastDate extends Model
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("branch", "branch.id", "=", "employee.branch")
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
-             ->where("employee.is_deleted", "=", "N");
+             ->where("employee.is_deleted", "=", "N")
+             ->where("employee.status", "=", "W");
 
              if($fillterdata['bondLastDateTime'] == 0){
                 $query->where("employee.bond_last_date", '=', date("Y-m-d", strtotime("yesterday")));
@@ -95,12 +96,17 @@ class EmployeeBondLastDate extends Model
         );
         return $json_data;
     }
+
     public function employeeBondLastDateList()
     {
+
+    $image = url("upload/userprofile/default.jpg");
+
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            // 1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Gmail : ", employee.gmail,  "<br>Contact : ", employee.personal_number)'),
             2 => 'employee.bond_last_date',
             3 => 'technology.technology_name',
             4 => 'designation.designation_name',
@@ -111,6 +117,7 @@ class EmployeeBondLastDate extends Model
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("branch", "branch.id", "=", "employee.branch")
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.status", "=", "W")
              ->where("employee.is_deleted", "=", "N")
              ->whereBetween("employee.bond_last_date", array(date("Y-m-d", strtotime( today()->startOfMonth())), date("Y-m-d", strtotime( today()->endOfMonth()))));
 
@@ -139,7 +146,7 @@ class EmployeeBondLastDate extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date')
+            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date', 'employee.gmail','employee.personal_number')
             ->get();
 
         $data = array();
@@ -149,10 +156,24 @@ class EmployeeBondLastDate extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = date_formate($row['bond_last_date']);
-            $nestedData[] = $row['full_name'];
+            // $nestedData[] = $row['full_name'];
+            // $nestedData[] = "<br>Name : ".$row['full_name']. "<br>Gmail : ". $row['gmail'] . "<br>Emergency contact : ". $row['emergency_number'];
+
+            $nestedData[] = '<div class="d-flex align-items-center">'.
+            '<div class="symbol symbol-50 symbol-sm flex-shrink-0">'.
+            '<div class="symbol-label">'.
+            '<img height="48" class="align-self-end" src="' . $image . '" alt="photo"/>'.
+            '</div>'.
+            '</div>'.
+            '<div class="ml-4">'.
+            '<div class="text-dark-75 font-weight-bolder font-size-lg mb-0">' . $row['full_name'] . '</div>'.
+            '<a href="#" class="text-muted font-weight-bold text-hover-primary">' . $row['gmail'] . '</a>'.
+            '</div>'.
+            '</div>';
+            $nestedData[] = $row['personal_number'];
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['designation_name'];
+            $nestedData[] = date_formate($row['bond_last_date']);
             $data[] = $nestedData;
         }
         $json_data = array(
@@ -162,5 +183,18 @@ class EmployeeBondLastDate extends Model
             "data" => $data   // total data array
         );
         return $json_data;
+    }
+
+    public function getEmployee(){
+        return Employee::from('employee')
+             ->join("technology", "technology.id", "=", "employee.department")
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->join("branch", "branch.id", "=", "employee.branch")
+             ->select( 'employee.id', 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date','employee.first_name', 'employee.last_name','employee.DOJ','employee.gmail', 'employee.personal_number','employee.bond_last_date')
+             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.is_deleted", "=", "N")
+             ->where("employee.status", "=", "W")
+             ->where("employee.bond_last_date", '=', now()->format('Y-m-d'))
+             ->get();
     }
 }
