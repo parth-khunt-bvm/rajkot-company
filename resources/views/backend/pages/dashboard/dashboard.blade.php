@@ -267,31 +267,8 @@
                 @endforeach
             </div>
 
-                <!--begin::Card-->
-                <div class="card card-custom mt-3">
-                    <!--begin::Header-->
-                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bolder text-dark">Employee Bond Last</span>
-                        </h3>
-                        <div class="card-toolbar">
-                            <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body pt-0">
-                        <!--begin: Datatable-->
-                        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
-                        <!--end: Datatable-->
-                    </div>
-                    <!--end::Body-->
-                </div>
-                <!--end::Card-->
-
-            {{-- <div class="row mt-5">
-                <div class="col-xxl-6 order-2 order-xxl-1">
+            <div class="row mt-5">
+                {{-- <div class="col-xxl-6 order-2 order-xxl-1">
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
@@ -336,8 +313,8 @@
                         <!--end::Body-->
                     </div>
                     <!--end::Advance Table Widget 2-->
-                </div>
-                <div class="col-xxl-6 order-2 order-xxl-1">
+                </div> --}}
+                <div class="col-xxl-12 order-2 order-xxl-1">
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
@@ -361,10 +338,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Bond Last Date</th>
                                                     <th>Employee Name</th>
+                                                    <th>Contact</th>
                                                     <th>Department</th>
                                                     <th>Designation</th>
+                                                    <th>Bond Last Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -382,7 +360,7 @@
                     </div>
                     <!--end::Advance Table Widget 2-->
                 </div>
-            </div> --}}
+            </div>
         </div>
         <!--end::Container-->
     </div>

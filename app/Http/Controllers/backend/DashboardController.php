@@ -47,7 +47,6 @@ class DashboardController extends Controller
         $data['pluginjs'] = array(
             'plugins/custom/datatables/datatables.bundle.js',
             'pages/crud/datatables/data-sources/html.js',
-            'pages/custom/education/school/students.js'
         );
         $data['js'] = array(
             'dashboard.js',
