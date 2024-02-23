@@ -47,6 +47,24 @@ class EmployeeBondLastDate extends Model
                 $query->whereBetween("employee.bond_last_date", array(date("Y-m-d", strtotime( today()->startOfMonth())), date("Y-m-d", strtotime( today()->endOfMonth()))));
              }
 
+             if ($fillterdata['bondLastDateTime'] == 5) {
+                $startOfMonth = today()->addMonth()->startOfMonth();
+                $endOfMonth = today()->addMonth()->endOfMonth();
+
+                $startOfMonthFormatted = $startOfMonth->format('Y-m-d');
+                $endOfMonthFormatted = $endOfMonth->format('Y-m-d');
+
+                $query->whereBetween('employee.bond_last_date', array($startOfMonthFormatted, $endOfMonthFormatted));
+            }
+
+            if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+                $query->whereDate('bond_last_date', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+            }
+            if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+                $query->whereDate('bond_last_date', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
+            }
+
+
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -82,7 +100,8 @@ class EmployeeBondLastDate extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = date_formate($row['bond_last_date']);
+            // $nestedData[] = date_formate($row['bond_last_date'])
+            $nestedData[] = $row['bond_last_date'] != '' && $row['bond_last_date'] != NULL ? date_formate($row['bond_last_date']) : '-';
             $nestedData[] = $row['full_name'];
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['designation_name'];

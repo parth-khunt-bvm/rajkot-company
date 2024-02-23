@@ -32,6 +32,7 @@ use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
 use App\Http\Controllers\backend\EmpOverTimeController;
+use App\Http\Controllers\backend\LatterTemplateController;
 use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 
@@ -318,5 +319,13 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/emp-overtime/edit/{id}', [EmpOverTimeController::class, 'edit'])->name('admin.emp-overtime.edit');
     Route::post('admin/emp-overtime/save-edit-emp-overtime', [EmpOverTimeController::class, 'saveEdit'])->name('admin.emp-overtime.save-edit-emp-overtime');
     Route::post('admin/emp-overtime/ajaxcall', [EmpOverTimeController::class, 'ajaxcall'])->name('admin.emp-overtime.ajaxcall');
+    
+
+    // latter template
+    Route::resource('admin/latter-templates', LatterTemplateController::class);
+    Route::post('admin/latter-templates/ajaxcall', [LatterTemplateController::class, 'ajaxcall'])->name('emp-overtime.ajaxcall');
+
+
+
 
 });
