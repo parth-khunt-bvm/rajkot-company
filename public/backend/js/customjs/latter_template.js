@@ -89,6 +89,7 @@ var LatterTemplate = function(){
                 }
             });
         });
+
     }
 
     var addLatterTemplate = function(){
@@ -125,6 +126,7 @@ var LatterTemplate = function(){
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
+
     }
 
     var editLatterTemplate = function(){

@@ -4,11 +4,10 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\LatterAbbreviation;
-use App\Models\LatterTemplate;
 use Illuminate\Http\Request;
 use Config;
 
-class LatterTemplateController extends Controller
+class LatterAbbreviationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +17,9 @@ class LatterTemplateController extends Controller
     public function index()
     {
 
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Latter Templates List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Latter Templates List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Latter Templates List';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Latter Abbreviation List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Latter Abbreviation List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Latter Abbreviation List';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -37,20 +36,20 @@ class LatterTemplateController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'latter_template.js',
+            'latter_abbreviation.js',
         );
         $data['funinit'] = array(
-            'LatterTemplate.init()',
-            'LatterTemplate.add()'
+            'LatterAbbreviation.init()',
+            'LatterAbbreviation.add()'
         );
         $data['header'] = array(
-            'title' => 'Latter Templates List',
+            'title' => 'Latter Abbreviation List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Latter Templates List' => 'Latter Templates List',
+                'Latter Abbreviation List' => 'Latter Abbreviation List',
             )
         );
-        return view('backend.pages.latter_template.list', $data);
+        return view('backend.pages.latter_abbreviation.list', $data);
     }
 
     /**
@@ -60,15 +59,9 @@ class LatterTemplateController extends Controller
      */
     public function create()
     {
-
-        $objLatterAbbreviation = new LatterAbbreviation();
-        $data['latter_abbreviations'] = $objLatterAbbreviation->get_latter_abbreviation_view_details();
-
-        // ccd($data['latter_abbreviations']);
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Template";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Template";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Template";
+        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
+        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -77,27 +70,25 @@ class LatterTemplateController extends Controller
             'toastr/toastr.min.js',
             'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
-            // 'pages/crud/forms/editors/ckeditor-classic.js',
-            'plugins/custom/ckeditor/ckeditor-classic.bundle.js'
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'latter_template.js',
+            'latter_abbreviation.js',
         );
         $data['funinit'] = array(
-            'LatterTemplate.add()'
+            'LatterAbbreviation.add()'
         );
         $data['header'] = array(
-            'title' => 'Add Latter Template',
+            'title' => 'Add Latter Abbreviation',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Latter Templates List' => route('latter-templates.index'),
-                'Add Latter Template' => 'Add Latter Template',
+                'Latter Abbreviation List' => route('latter-abbreviations.index'),
+                'Add Latter Abbreviation' => 'Add Latter Abbreviation',
             )
         );
-        return view('backend.pages.latter_template.add', $data);
+        return view('backend.pages.latter_abbreviation.add', $data);
     }
 
     /**
@@ -108,14 +99,19 @@ class LatterTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $objLatterTemplate = new LatterTemplate();
-        $result = $objLatterTemplate->store($request);
+        $objLatterAbbreviation = new LatterAbbreviation();
+        $result = $objLatterAbbreviation->store($request);
         if ($result == "added") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Latter Template details successfully added.';
-            $return['redirect'] = route('latter-templates.index');
-        }else {
+            $return['message'] = 'Latter Abbreviation details successfully added.';
+            $return['redirect'] = route('latter-abbreviations.index');
+        }elseif ($result == "latter_abbreviation_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Latter Abbreviation has already exists.';
+        } else
+         {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
@@ -143,14 +139,12 @@ class LatterTemplateController extends Controller
      */
     public function edit($id)
     {
+        $objLatterAbbreviation = new LatterAbbreviation();
+        $data['latter_abbreviations_details'] = $objLatterAbbreviation->get_latter_abbreviation_details($id);
 
-        $objLatterTemplate = new LatterTemplate();
-        $data['latter_template_details'] = $objLatterTemplate->get_latter_template_details($id);
-
-
-        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Template";
-        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Template";
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Template";
+        $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Abbreviation";
+        $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Abbreviation";
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Abbreviation";
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -159,26 +153,25 @@ class LatterTemplateController extends Controller
             'toastr/toastr.min.js',
             'pages/crud/forms/widgets/select2.js',
             'validate/jquery.validate.min.js',
-            'plugins/custom/ckeditor/ckeditor-classic.bundle.js'
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'latter_template.js',
+            'latter_abbreviation.js',
         );
         $data['funinit'] = array(
-            'LatterTemplate.edit()'
+            'LatterAbbreviation.edit()'
         );
         $data['header'] = array(
-            'title' => 'Edit Latter Template',
+            'title' => 'Edit Latter Abbreviation',
             'breadcrumb' => array(
                 'My Dashboard' => route('my-dashboard'),
-                'Latter Template List' => route('latter-templates.index'),
-                'Edit Latter Template' => 'Edit Latter Template',
+                'Latter Abbreviation List' => route('latter-abbreviations.index'),
+                'Edit Latter Abbreviation' => 'Edit Latter Abbreviation',
             )
         );
-        return view('backend.pages.latter_template.edit', $data);
+        return view('backend.pages.latter_abbreviation.edit', $data);
     }
 
     /**
@@ -190,14 +183,19 @@ class LatterTemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $objLatterTemplate = new LatterTemplate();
-        $result = $objLatterTemplate->saveEdit($request);
+        $objLatterAbbreviation = new LatterAbbreviation();
+        $result = $objLatterAbbreviation->saveEdit($request);
         if ($result == "updated") {
             $return['status'] = 'success';
              $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Latter Template details successfully updated.';
-            $return['redirect'] = route('latter-templates.index');
-        }  else{
+            $return['message'] = 'Latter Abbreviation details successfully updated.';
+            $return['redirect'] = route('latter-abbreviations.index');
+        } elseif ($result == "latter_abbreviation_exists") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Latter Abbreviation has already exists.';
+        }
+        else{
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Something goes to wrong';
@@ -221,34 +219,11 @@ class LatterTemplateController extends Controller
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
-                $objLatterTemplate = new LatterTemplate();
-                $list = $objLatterTemplate->getdatatable();
+                $objLatterAbbreviation = new LatterAbbreviation();
+                $list = $objLatterAbbreviation->getdatatable();
                 echo json_encode($list);
                 break;
 
-
-
-            case 'common-activity':
-                $objLatterTemplate = new LatterTemplate();
-                $data = $request->input('data');
-                $result = $objLatterTemplate->common_activity($data);
-                if ($result) {
-                    $return['status'] = 'success';
-                    if($data['activity'] == 'delete-records'){
-                        $return['message'] = 'Latter Template details successfully deleted.';
-                    }elseif($data['activity'] == 'active-records'){
-                        $return['message'] = 'Latter Template details successfully actived.';
-                    }else{
-                        $return['message'] = 'Latter Template details successfully deactived.';
-                    }
-                    $return['redirect'] = route('latter-templates.index');
-                } else {
-                    $return['status'] = 'error';
-                    $return['jscode'] = '$("#loader").hide();';
-                    $return['message'] = 'It seems like something is wrong';
-                }
-                echo json_encode($return);
-                exit;
         }
     }
 }

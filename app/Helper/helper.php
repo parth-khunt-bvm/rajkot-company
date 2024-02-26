@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Branch;
 use App\Models\Employee;
+use App\Models\LatterAbbreviation;
 use App\Models\PublicHoliday;
 use Faker\Provider\ar_EG\Company;
 
@@ -117,6 +118,16 @@ function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $short
     // print_r("<br>");
     // print_r("salaryDeduction =".$salaryDeduction);
     // die();
+
+}
+
+function stringReplace(){
+
+   $latter_abbreviation  = LatterAbbreviation::all()->toArray();
+
+   $employee = Employee::all()->toArray();
+
+   ccd($employee);
 
 }
 ?>
