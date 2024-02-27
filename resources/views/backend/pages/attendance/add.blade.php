@@ -35,7 +35,7 @@
 
                             <div id="add_attendance_div">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Employee Name
                                                 <span class="text-danger">*</span>
@@ -49,7 +49,7 @@
                                             <span class="attendance_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Leave Type
                                                 <span class="text-danger">*</span>
@@ -64,7 +64,15 @@
                                             <span class="leave_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>minute (1 hour = 60 min)
+                                            </label>
+                                            <input type="number" name="minutes[]" id="minutes" class="form-control minutes" placeholder="Enter minutes" value="" autocomplete="off">
+                                            <span class="minute_error text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Reson
                                             </label>
