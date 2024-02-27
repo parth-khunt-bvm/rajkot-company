@@ -13,29 +13,27 @@
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
                      <!--begin::Form-->
-                     <form class="form" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
+
+                     <form class="form" id="edit-latter-abbreviations" method="POST" action="{{ route('latter-abbreviations.update', $latter_abbreviations_details->id) }}">@csrf
+                        @method('PUT')
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Branch name
+                                        <label>Key
                                         <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="branch_name" class="form-control" placeholder="Enter branch name" autocomplete="off">
+                                        <input type="hidden" name="editId" value="{{ $latter_abbreviations_details->id}}">
+                                        <input type="text" name="key" class="form-control" placeholder="Enter key name" autocomplete="off" value="{{ $latter_abbreviations_details->key}}">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Status <span class="text-danger">*</span></label>
-                                        <div class="radio-inline" style="margin-top:10px">
-                                            <label class="radio radio-lg radio-success" >
-                                            <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
-                                            <span></span>Active</label>
-                                            <label class="radio radio-lg radio-danger" >
-                                            <input type="radio" name="status" class="radio-btn" value="I"/>
-                                            <span></span>Inactive</label>
-                                        </div>
+                                        <label>Value
+                                        <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="value" class="form-control" placeholder="Enter value" autocomplete="off" value="{{ $latter_abbreviations_details->value}}">
                                     </div>
                                 </div>
                             </div>

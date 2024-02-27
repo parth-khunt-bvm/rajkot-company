@@ -101,6 +101,14 @@
                     '40'  => 'change designation status',
                     '41'  => 'delete designation',
                 ],
+                // 'latter_template_sub_menu' => [
+                //     '141'  => 'designation list',
+                //     '142'  => 'import designation',
+                //     '143'  => 'add designation',
+                //     '144'  => 'edit designation',
+                //     '145'  => 'change designation status',
+                //     '146'  => 'delete designation',
+                // ],
             ],
 
             'salary_menu' => [
