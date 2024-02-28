@@ -28,6 +28,7 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\AttendanceSettingController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
@@ -326,8 +327,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::resource('admin/latter-templates', LatterTemplateController::class);
     Route::post('admin/latter-templates/ajaxcall', [LatterTemplateController::class, 'ajaxcall'])->name('latter-templates.ajaxcall');
 
-     // latter Abbreviation
-     Route::resource('admin/latter-abbreviations', LatterAbbreviationController::class);
-     Route::post('admin/latter-abbreviations/ajaxcall', [LatterAbbreviationController::class, 'ajaxcall'])->name('latter-abbreviations.ajaxcall');
+    // latter Abbreviation
+    Route::resource('admin/latter-abbreviations', LatterAbbreviationController::class);
+    Route::post('admin/latter-abbreviations/ajaxcall', [LatterAbbreviationController::class, 'ajaxcall'])->name('latter-abbreviations.ajaxcall');
+
+    // latter Abbreviation
+    Route::resource('admin/attendance-settings', AttendanceSettingController::class);
 
 });

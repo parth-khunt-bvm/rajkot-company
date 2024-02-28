@@ -24,10 +24,10 @@
                     <form class="form" id="employee-login-form" method="POST" action="auth-employee-login" novalidate="novalidate">
                         @csrf
                         <div class="form-group">
-                            <input class="form-control form-control-solid  py-7 px-6" style="border-color: #3699ff" type="text" name="emp_email" placeholder="Please enter your register email" autocomplete="off">
+                            <input class="form-control form-control-solid  py-7 px-6" style="border-color: var(--theme-color)" type="text" name="emp_email" placeholder="Please enter your register email" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input class="form-control form-control-solid  py-7 px-6" style="border-color: #3699ff" type="password" name="emp_password" placeholder="Please enter your password" autocomplete="off">
+                            <input class="form-control form-control-solid  py-7 px-6" style="border-color: var(--theme-color)" type="password" name="emp_password" placeholder="Please enter your password" autocomplete="off">
                         </div>
 
                         <div class="form-group text-center mt-10">

@@ -60,11 +60,13 @@ class LatterTemplateController extends Controller
      */
     public function create()
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(142, explode(',', $permission_array[0]['permission']))){
 
         $objLatterAbbreviation = new LatterAbbreviation();
         $data['latter_abbreviations'] = $objLatterAbbreviation->get_latter_abbreviation_view_details();
-
-        // ccd($data['latter_abbreviations']);
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Template";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Template";
@@ -98,6 +100,9 @@ class LatterTemplateController extends Controller
             )
         );
         return view('backend.pages.latter_template.add', $data);
+        }else{
+            return redirect()->route('latter-templates.index');
+        }
     }
 
     /**
@@ -143,10 +148,13 @@ class LatterTemplateController extends Controller
      */
     public function edit($id)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(143, explode(',', $permission_array[0]['permission']))){
 
         $objLatterTemplate = new LatterTemplate();
         $data['latter_template_details'] = $objLatterTemplate->get_latter_template_details($id);
-
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Template";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Edit Latter Template";
@@ -179,6 +187,9 @@ class LatterTemplateController extends Controller
             )
         );
         return view('backend.pages.latter_template.edit', $data);
+        }else{
+            return redirect()->route('latter-templates.index');
+        }
     }
 
     /**
@@ -225,8 +236,6 @@ class LatterTemplateController extends Controller
                 $list = $objLatterTemplate->getdatatable();
                 echo json_encode($list);
                 break;
-
-
 
             case 'common-activity':
                 $objLatterTemplate = new LatterTemplate();

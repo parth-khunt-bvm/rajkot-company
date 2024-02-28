@@ -55,14 +55,24 @@ class LatterAbbreviation extends Model
 
         foreach ($resultArr as $row) {
 
-            // $actionhtml = '';
+            // $target = [];
+            // $target = [148];
+            // $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            //     $actionhtml = '';
+            // }
+            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(148, explode(',', $permission_array[0]['permission'])) )
             // $actionhtml .= '<a href="latter-abbreviations/' . $row["id"] . '/edit" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = htmlspecialchars($row['key']);
             $nestedData[] = $row['value'];
-            // $nestedData[] = $actionhtml;
+            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            //     $nestedData[] = $actionhtml;
+            // }
             $data[] = $nestedData;
         }
         $json_data = array(

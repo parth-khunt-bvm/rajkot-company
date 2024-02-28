@@ -169,7 +169,7 @@ var User = function(){
             },
             confirm_password: {required: true,equalTo: "#password"},
             user_role : {required: true},
-            branch_id : {required: true},
+            "branch[]": {required: true},
         };
 
         var message = {
@@ -186,7 +186,7 @@ var User = function(){
                 equalTo: "New Password and confirmn password not match"
             },
             user_role : {required: "Please select User"},
-            branch_id : {required: "Please select Branch Name"},
+            "branch[]" : {required: "Please select Branch Name"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
