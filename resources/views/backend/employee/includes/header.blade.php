@@ -1,10 +1,13 @@
 <!--begin::Head-->
 @php
     $data['systemDetails'] = get_system_details(1);
-    if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0]['favicon']) &&$data['systemDetails'][0]['favicon'] != ''){
-        $favicon = asset("upload/company_info/".$data['systemDetails'][0]['favicon']);
-    }else{
-        $favicon = asset("upload/company_image/favicon.png");
+    if (
+        file_exists(public_path() . '/upload/company_info/' . $data['systemDetails'][0]['favicon']) &&
+        $data['systemDetails'][0]['favicon'] != ''
+    ) {
+        $favicon = asset('upload/company_info/' . $data['systemDetails'][0]['favicon']);
+    } else {
+        $favicon = asset('upload/company_image/favicon.png');
     }
 @endphp
 
@@ -21,43 +24,102 @@
     <!--end::Fonts-->
 
     <!--begin::Global Theme Styles(used by all pages)-->
-    <link href="{{  asset('backend/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{  asset('backend/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{  asset('backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
-    <link href="{{  asset('backend/css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{  asset('backend/css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{  asset('backend/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{  asset('backend/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
     <link rel="shortcut icon" href="{{ $favicon }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{{  asset('backend/css/style.css') }}" rel="stylesheet" type="text/css" />
-        @if (!empty($css))
-            @foreach ($css as $value)
-                @if(!empty($value))
-                    <link rel="stylesheet" href="{{ asset('backend/css/customcss/'.$value) }}">
-                @endif
-            @endforeach
-        @endif
+    <link href="{{ asset('backend/css/style.css') }}" rel="stylesheet" type="text/css" />
+    @if (!empty($css))
+        @foreach ($css as $value)
+            @if (!empty($value))
+                <link rel="stylesheet" href="{{ asset('backend/css/customcss/' . $value) }}">
+            @endif
+        @endforeach
+    @endif
 
 
-        @if (!empty($plugincss))
-            @foreach ($plugincss as $value)
-                @if(!empty($value))
-                    <link rel="stylesheet" href="{{ asset('backend/'.$value) }}">
-                @endif
-            @endforeach
-        @endif
+    @if (!empty($plugincss))
+        @foreach ($plugincss as $value)
+            @if (!empty($value))
+                <link rel="stylesheet" href="{{ asset('backend/' . $value) }}">
+            @endif
+        @endforeach
+    @endif
+
+    @php
+        $systemsetting = get_system_details();
+    @endphp
+
+    <style>
+        :root {
+            --theme-color: {{ $systemsetting[0]['theme_color_code'] }} !important;
+        }
+
+        :root {
+            --sidebar-color: {{ $systemsetting[0]['sidebar_color'] }};
+        }
+
+        :root {
+            --sidebar-menu-font-color: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+
+        .aside-menu {
+            background-color: {{ $systemsetting[0]['sidebar_color'] }} !important;
+            /* background-color: red; */
+        }
+
+        /* .aside-menu .menu-nav > .menu-item.menu-item-open > .menu-heading, .aside-menu .menu-nav > .menu-item.menu-item-open > .menu-link {
+            background-color: {{ $systemsetting[0]['sidebar_menu_font_color'] }} !important;
+        } */
+
+        .aside,
+        .brand {
+            /* background-color: {{ $systemsetting[0]['sidebar_color'] }} !important; */
+            /* background-color: white; */
+        }
 
 
-         @php
-            $systemsetting = get_system_details();
-         @endphp
-         <script>
-            var baseurl = "{{ asset('/') }}";
-        </script>
+        .aside-menu .menu-nav>.menu-item>.menu-heading .menu-text,
+        .aside-menu .menu-nav>.menu-item>.menu-link .menu-text {
+            color: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+
+        .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item>.menu-heading .menu-text,
+        .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item>.menu-link .menu-text {
+            color: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+
+        .aside-menu .menu-nav>.menu-item>.menu-heading .menu-icon.svg-icon svg g [fill],
+        .aside-menu .menu-nav>.menu-item>.menu-link .menu-icon.svg-icon svg g [fill] {
+            transition: fill 0.3s ease;
+            fill: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+
+        .svg-icon svg g [fill] {
+            transition: fill 0.3s ease;
+            fill: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+
+        .aside-menu .menu-nav>.menu-item>.menu-heading .menu-arrow,
+        .aside-menu .menu-nav>.menu-item>.menu-link .menu-arrow {
+            color: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
+        }
+    </style>
+
+    @php
+        $systemsetting = get_system_details();
+    @endphp
+    <script>
+        var baseurl = "{{ asset('/') }}";
+    </script>
 
 </head>
 <!--end::Head-->

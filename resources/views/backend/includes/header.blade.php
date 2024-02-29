@@ -85,7 +85,7 @@
 
                 .aside,.brand {
                     /* background-color: {{ $systemsetting[0]['sidebar_color'] }} !important; */
-                    background-color: white;
+                    /* background-color: white; */
                 }
 
 

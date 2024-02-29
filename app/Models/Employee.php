@@ -13,6 +13,7 @@ use Hash;
 use Str;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Models\SendMail;
 class Employee extends Authenticatable
 {
     use HasFactory;
@@ -254,7 +255,7 @@ class Employee extends Authenticatable
                 );
                 $mailData['template'] ="backend.pages.employee.mail";
                 $mailData['mailto'] = $requestData['gmail'];
-                $sendMail = new Sendmail();
+                $sendMail = new SendMail();
                 $sendMail->sendSMTPMail($mailData);
 
 
