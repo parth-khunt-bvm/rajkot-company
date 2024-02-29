@@ -9,6 +9,12 @@ use Config;
 
 class EmpOvertimeController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('employee');
+    }
+
     public function list(Request $request){
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Overtime List';
