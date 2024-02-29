@@ -254,8 +254,14 @@ var Employee = function () {
             gmail: {
                 validators: {
                     notEmpty: { message: 'Please enter company gmail' },
+                    emailonly: {message: 'Please enter valid email'},
                 }
             },
+            // personal_email: {
+            //     validators: {
+            //         emailonly: {message: 'Please enter valid email'},
+            //     }
+            // },
             gmail_password: {
                 validators: {
                     notEmpty: { message: 'Please enter gmail password' },
@@ -435,7 +441,8 @@ var Employee = function () {
             gmail: {
                 validators: {
                     notEmpty: { message: 'Please enter company gmail' },
-                }
+                    emailonly: {message: 'Please enter valid email'},
+                },
             },
             gmail_password: {
                 validators: {
