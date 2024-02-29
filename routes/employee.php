@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\employee\EmpAttendanceController;
+use App\Http\Controllers\backend\employee\EmpAttendanceReportController;
 use App\Http\Controllers\backend\employee\EmpOvertimeController;
 use App\Http\Controllers\backend\employee\LeaveRequestController;
 use App\Http\Controllers\backend\EmployeeDashboardController;
@@ -25,8 +26,7 @@ Route::group(['prefix' => 'employee'], function () {
     Route::resource('emp-attendances', EmpAttendanceController::class);
     Route::post('emp-attendances/ajaxcall', [EmpAttendanceController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
-
-    // Route::resource('emp-attendance-report/list', [EmpAttendanceController::class, 'ss']);
-
+    Route::resource('emp-attendance-reports', EmpAttendanceReportController::class);
+    Route::post('emp-attendance-reports/ajaxcall', [EmpAttendanceReportController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
 });

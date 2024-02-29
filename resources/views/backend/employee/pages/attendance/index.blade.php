@@ -23,7 +23,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label> Month</label>
-                            <select class="form-control select2 month change-fillter" id="monthId"  name="month">
+                            <select class="form-control select2 month emp-cal-fillter" id="empMonthId"  name="month">
                                 <option value="">Select Month</option>
                                 <option value="1" {{  date('n') == 1 ? 'selected="selected"' : '' }} >January</option>
                                 <option value="2" {{  date('n') == 2 ? 'selected="selected"' : '' }} >February</option>
@@ -43,7 +43,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>year</label>
-                            <select class="form-control select2 year change-fillter" id="yearId"  name="year">
+                            <select class="form-control select2 year emp-cal-fillter" id="empYearId"  name="year">
                                 <option value="">Select Year</option>
                                 @for ($i = 2019; $i <= date('Y'); $i++)
                                     <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
@@ -59,8 +59,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="attendance-list">
-                        <div id="attendance_calendar"></div>
+                        <div class="emp-attendance-list">
+                        <div id="emp_attendance_calendar"></div>
                         </div>
                     </div>
                 </div>
