@@ -26,13 +26,13 @@
                             </div>
                             <div id="add_attendance_div">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Employee Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 employee_id employee_select" name="employee_id">
-                                                <option value="">Please select Employee Name</option>
+                                                {{-- <option value="">Please select Employee Name</option> --}}
                                                 @foreach ($employee as $key => $value )
                                                 <option value="{{ $value['id'] }}" {{ $value['id'] == $attendance_details->employee_id ? 'selected="selected"' : '' }} disabled>{{ $value['first_name'] }}</option>
                                                 @endforeach
@@ -40,7 +40,7 @@
                                             <span class="attendance_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Leave Type
                                                 <span class="text-danger">*</span>
@@ -55,7 +55,15 @@
                                             <span class="leave_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>minute (1 hour = 60 min)
+                                            </label>
+                                            <input type="number" name="minutes" id="minutes" class="form-control minutes" placeholder="Enter minutes" autocomplete="off" value="{{ $attendance_details->minutes }}">
+                                            <span class="minute_error text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Reson
                                             </label>

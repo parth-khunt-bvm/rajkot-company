@@ -59,6 +59,11 @@ class LatterAbbreviationController extends Controller
      */
     public function create()
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(147, explode(',', $permission_array[0]['permission']))){
+
         $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
         $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || Add Latter Abbreviation";
@@ -89,6 +94,9 @@ class LatterAbbreviationController extends Controller
             )
         );
         return view('backend.pages.latter_abbreviation.add', $data);
+    }else{
+        return redirect()->route('latter-abbreviations.index');
+    }
     }
 
     /**
@@ -139,6 +147,11 @@ class LatterAbbreviationController extends Controller
      */
     public function edit($id)
     {
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
+
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(148, explode(',', $permission_array[0]['permission']))){
+
         $objLatterAbbreviation = new LatterAbbreviation();
         $data['latter_abbreviations_details'] = $objLatterAbbreviation->get_latter_abbreviation_details($id);
 
@@ -172,6 +185,9 @@ class LatterAbbreviationController extends Controller
             )
         );
         return view('backend.pages.latter_abbreviation.edit', $data);
+    }else{
+        return redirect()->route('latter-abbreviations.index');
+    }
     }
 
     /**

@@ -29,6 +29,8 @@
         'manager_sub_menu' => 'Manager',
         'technology_sub_menu' => 'Technology',
         'designation_sub_menu' => 'Designation',
+        'latter_template_sub_menu' => 'Latter Template',
+        'latter_abbreviation_sub_menu' =>  'Latter Abbreviation',
         'salary_sub_menu' => 'Salary',
         'expense_sub_menu' => 'Expense',
         'revenue_sub_menu' => 'Revenue',

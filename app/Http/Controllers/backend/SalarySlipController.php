@@ -230,8 +230,6 @@ class SalarySlipController extends Controller
             $objSalaryslip = new SalarySlip();
             $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details($viewId);
 
-            ccd($data['salary_slip_details']);
-
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Salary Slip";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Salary Slip";
             $data['keywords'] = Config::get('constants.PROJECT_NAME') . " || View Salary Slip";

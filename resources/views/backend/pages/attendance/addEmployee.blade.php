@@ -1,5 +1,5 @@
 <div class="row removediv">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Absent Employee
                 <span class="text-danger">*</span>
@@ -13,7 +13,7 @@
             <span class="attendance_error text-danger"></span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Leave Type
                 <span class="text-danger">*</span>
@@ -28,7 +28,15 @@
             <span class="leave_error text-danger"></span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>minute (1 hour = 60 min)
+            </label>
+            <input type="number" name="minutes[]" id="minutes" class="form-control minutes" placeholder="Enter minutes" value="" autocomplete="off">
+            <span class="minute_error text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
         <div class="form-group">
             <label>Reson</label>
             <textarea class="form-control" id="" cols="30" rows="1" name="reason[]" id="reason"></textarea>

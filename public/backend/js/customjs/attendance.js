@@ -143,6 +143,19 @@ var Attendance = function () {
                 }
             });
 
+            $('.minutes').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.minute_error').text('Please Enter minute');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.minute_error').text('');
+                    }
+                }
+            });
+
             if (selected) {
                 var data = { employee: JSON.stringify(emaployeeArray) };
                 $.ajax({
@@ -173,6 +186,21 @@ var Attendance = function () {
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto"
+        });
+
+        $('body').on('change', '.leave_select', function () {
+            var leaveType = $(this).val(); // Get the selected leave type for this specific employee
+            var minutesInput = $(this).closest('.row').find('.minutes'); // Find the corresponding minutes input for this employee
+
+            if (leaveType === "0") {
+                minutesInput.val("0").prop("disabled", false);
+            } else if (leaveType === "1") {
+                minutesInput.val("480").prop("disabled", false);
+            } else if (leaveType === "2") {
+                minutesInput.val("240").prop("disabled", false);
+            } else if (leaveType === "3") {
+                minutesInput.val("120").prop("disabled", false);
+            }
         });
 
     }
@@ -503,6 +531,19 @@ var Attendance = function () {
                 }
             });
 
+            $('.minutes').each(function () {
+                var elem = $(this);
+                if (elem.is(':visible')) {
+                    if (elem.val() == '' || elem.val() == null) {
+                        elem.parent().find('.minute_error').text('Please Enter minute');
+                        selected = false;
+                    } else {
+                        emaployeeArray.push(elem.val());
+                        elem.parent().find('.minute_error').text('');
+                    }
+                }
+            });
+
             if (selected) {
                 var data = { employee: JSON.stringify(emaployeeArray) };
                 $.ajax({
@@ -518,6 +559,7 @@ var Attendance = function () {
                     }
                 });
             }
+
         });
         $('body').on("click", ".remove-attendance", function () {
             $(this).closest('.removediv').remove();
@@ -553,15 +595,33 @@ var Attendance = function () {
             }
         });
 
+        $('body').on('change', '.leave_select', function () {
+            var leaveType = $(this).val(); // Get the selected leave type for this specific employee
+            var minutesInput = $(this).closest('.row').find('.minutes'); // Find the corresponding minutes input for this employee
+
+            if (leaveType === "0") {
+                minutesInput.val("0").prop("disabled", false);
+            } else if (leaveType === "1") {
+                minutesInput.val("480").prop("disabled", false);
+            } else if (leaveType === "2") {
+                minutesInput.val("240").prop("disabled", false);
+            } else if (leaveType === "3") {
+                minutesInput.val("120").prop("disabled", false);
+            }
+        });
+
+
     }
     var editAttendance = function () {
         var form = $('#edit-attendance-form');
         var rules = {
             leave_type: { required: true },
+            minutes: { required: true },
         };
 
         var message = {
             leave_type: { required: "Please select leave" },
+            minutes: { required: "Please enter minute" },
         }
         handleFormValidateWithMsg(form, rules, message, function (form) {
             handleAjaxFormSubmit(form, true);
@@ -597,6 +657,21 @@ var Attendance = function () {
                     handleAjaxResponse(data);
                 }
             });
+        });
+
+        $('body').on('change', '.leave_select', function () {
+            var leaveType = $(this).val(); // Get the selected leave type for this specific employee
+            var minutesInput = $(this).closest('.row').find('.minutes'); // Find the corresponding minutes input for this employee
+
+            if (leaveType === "0") {
+                minutesInput.val("0").prop("disabled", false);
+            } else if (leaveType === "1") {
+                minutesInput.val("480").prop("disabled", false);
+            } else if (leaveType === "2") {
+                minutesInput.val("240").prop("disabled", false);
+            } else if (leaveType === "3") {
+                minutesInput.val("120").prop("disabled", false);
+            }
         });
 
     }

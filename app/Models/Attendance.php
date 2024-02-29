@@ -29,6 +29,7 @@ class Attendance extends Model
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
                                 ELSE "Short Leave" END)'),
             4 => 'attendance.reason',
+            5 => 'attendance.minutes',
         );
         if ($outputDate != null && $outputDate != '') {
             $query = Attendance::from('attendance')
@@ -62,7 +63,7 @@ class Attendance extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'), 'attendance.date', 'attendance.attendance_type', 'attendance.reason')
+            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'), 'attendance.date', 'attendance.attendance_type','attendance.minutes', 'attendance.reason')
             ->get();
 
         $data = array();
@@ -89,6 +90,7 @@ class Attendance extends Model
             $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['fullName'];
             $nestedData[] = $attendance_type;
+            $nestedData[] = $row['minutes'];
             if (strlen($row['reason']) > $max_length) {
                 $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
             } else {
@@ -194,6 +196,7 @@ class Attendance extends Model
     }
     public function saveAdd($requestData)
     {
+
         $holidayCount = PublicHoliday::where('public_holiday.date', date('Y-m-d', strtotime($requestData['date'])))->count();
         if ($holidayCount == 1) {
             return 'holiday_day';
@@ -223,16 +226,18 @@ class Attendance extends Model
                 $objAttendance->employee_id = $value;
                 if ($allPresent) {
                     $objAttendance->attendance_type = "0";
+                    $objAttendance->minutes = "0";
                     $objAttendance->reason = NULL;
-                } else
-                    if (in_array($value, $requestData->employee_id)) {
+                } else if (in_array($value, $requestData->employee_id)) {
                     $key = array_search($value, $requestData->employee_id);
                     $objAttendance->attendance_type = $requestData->input('leave_type')[$key];
                     $objAttendance->reason = $requestData->input('reason')[$key];
+                    $objAttendance->minutes = $requestData->input('minutes')[$key];
                     $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
                 } else {
                     $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
                     $objAttendance->attendance_type = "0";
+                    $objAttendance->minutes = "0";
                     $objAttendance->reason = NULL;
                 }
                 $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
@@ -304,12 +309,13 @@ class Attendance extends Model
     }
     public function daySaveEdit($requestData)
     {
-        $objattendance = Attendance::find($requestData['attendance_id']);
-        $objattendance->date = date('Y-m-d', strtotime($requestData['date']));
-        $objattendance->attendance_type = $requestData['leave_type'];
-        $objattendance->reason = $requestData['reason'];
-        $objattendance->updated_at = date('Y-m-d H:i:s');
-        if ($objattendance->save()) {
+        $objAttendance = Attendance::find($requestData['attendance_id']);
+        $objAttendance->date = date('Y-m-d', strtotime($requestData['date']));
+        $objAttendance->attendance_type = $requestData['leave_type'];
+        $objAttendance->minutes = $requestData['minutes'];
+        $objAttendance->reason = $requestData['reason'];
+        $objAttendance->updated_at = date('Y-m-d H:i:s');
+        if ($objAttendance->save()) {
             $inputData = $requestData->input();
             unset($inputData['_token']);
             $objAudittrails = new Audittrails();
@@ -322,7 +328,7 @@ class Attendance extends Model
     {
         return Attendance::from('attendance')
             ->join("employee", "employee.id", "=", "attendance.employee_id")
-            ->select('attendance.id', 'attendance.date', 'attendance.attendance_type', 'attendance.reason', 'attendance.employee_id')
+            ->select('attendance.id', 'attendance.date', 'attendance.attendance_type', 'attendance.reason', 'attendance.employee_id', 'attendance.minutes')
             ->where('attendance.id', $attendanceId)
             ->first();
     }

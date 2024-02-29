@@ -28,6 +28,7 @@ use App\Http\Controllers\backend\SupplierController;
 use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
+use App\Http\Controllers\backend\AttendanceSettingController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
@@ -267,7 +268,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
     Route::get('admin/attendance/day/list', [AttendanceController::class, 'dayList'])->name('admin.attendance.day-list');
     Route::get('admin/attendance/day/edit/{id}', [AttendanceController::class, 'dayEdit'])->name('admin.attendance.day-edit');
-    Route::post('admin/attendance/day/save-edit-attendance', [AttendanceController::class, 'daysaveEdit'])->name('admin.attendance.day-save-edit-attendance');
+    Route::post('admin/attendance/day/save-edit-attendance', [AttendanceController::class, 'daySaveEdit'])->name('admin.attendance.day-save-edit-attendance');
     Route::get('admin/attendance/add', [AttendanceController::class, 'add'])->name('admin.attendance.add');
     Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
@@ -326,8 +327,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::resource('admin/latter-templates', LatterTemplateController::class);
     Route::post('admin/latter-templates/ajaxcall', [LatterTemplateController::class, 'ajaxcall'])->name('latter-templates.ajaxcall');
 
-     // latter Abbreviation
-     Route::resource('admin/latter-abbreviations', LatterAbbreviationController::class);
-     Route::post('admin/latter-abbreviations/ajaxcall', [LatterAbbreviationController::class, 'ajaxcall'])->name('latter-abbreviations.ajaxcall');
+    // latter Abbreviation
+    Route::resource('admin/latter-abbreviations', LatterAbbreviationController::class);
+    Route::post('admin/latter-abbreviations/ajaxcall', [LatterAbbreviationController::class, 'ajaxcall'])->name('latter-abbreviations.ajaxcall');
+
+    // latter Abbreviation
+    Route::resource('admin/attendance-settings', AttendanceSettingController::class);
 
 });

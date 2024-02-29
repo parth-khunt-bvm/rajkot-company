@@ -101,14 +101,18 @@
                     '40'  => 'change designation status',
                     '41'  => 'delete designation',
                 ],
-                // 'latter_template_sub_menu' => [
-                //     '141'  => 'designation list',
-                //     '142'  => 'import designation',
-                //     '143'  => 'add designation',
-                //     '144'  => 'edit designation',
-                //     '145'  => 'change designation status',
-                //     '146'  => 'delete designation',
-                // ],
+                'latter_template_sub_menu' => [
+                    '141'  => 'Latter Templates List',
+                    '142'  => 'add Latter Template',
+                    '143'  => 'edit Latter Template',
+                    '144'  => 'change Latter Template status',
+                    '145'  => 'delete Latter Template',
+                ],
+                'latter_abbreviation_sub_menu' => [
+                    '146'  => 'Latter Abbreviations List',
+                    '147'  => 'add Latter Abbreviation ',
+                    '148'  => 'edit Latter Abbreviation ',
+                ],
             ],
 
             'salary_menu' => [

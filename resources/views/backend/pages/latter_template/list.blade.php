@@ -15,10 +15,7 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-
-                    {{-- <button class="btn btn-primary font-weight-bolder mr-5 show-leave-request-form" id="show-leave-request-form">+</button> --}}
-
-                    {{-- <button class="btn btn-primary font-weight-bolder mr-5 show-branch-form" id="show-branch-form">+</button> --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(142, explode(',', $permission_array[0]['permission'])) )
                     <a href="{{ route('latter-templates.create') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -32,65 +29,12 @@
                             <!--end::Svg Icon-->
                         </span>Add Latter Template
                     </a>
+                    @endif
                     <!--end::Button-->
                 </div>
 
             </div>
             <div class="card-body">
-
-                {{-- <form class="form" style="display: none;" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}" autocomplete="off">@csrf
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Date
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Leave Type
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-control select2 leave_type leave_select" name="leave_type" id="leave_type">
-                                    <option value="">Please select Leave Type</option>
-                                    <option value="1">Full Day Leave</option>
-                                    <option value="2">Half Day Leave</option>
-                                    <option value="3">Short Leave</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Manager
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-control select2 manager input-name" id="manager" name="manager">
-                                    <option value="">Please select Manager Name</option>
-                                    @foreach ($manager as $key => $value )
-                                    <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Reson
-                                </label>
-                                <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 mt-8">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-            </form> --}}
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="latter-template-list">
                     <thead>
@@ -99,7 +43,13 @@
                             <th>Template Name</th>
                             <th>Template</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            @php
+                            $target = [];
+                            $target = [143, 144, 145];
+                            @endphp
+                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+                                <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
