@@ -15,32 +15,36 @@ class EmpAttendanceReport extends Model
 
     public function getdatatable($fillterdata)
     {
-        // $dateObject = Carbon::createFromFormat('d-M-Y', $fillterdata['date']);
-        // $outputDate = $dateObject->format('Y-m-d');
-
-        $currentMonth = today()->format('d-M-Y');
-        // dd($currentMonth);
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'attendance.id',
             1 => 'attendance.date',
             2 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Actived"
+            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Present"
                                 WHEN attendance.attendance_type = "1" THEN "Absent"
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
                                 ELSE "Short Leave" END)'),
             4 => 'attendance.reason',
             5 => 'attendance.minutes',
         );
-        // if ($outputDate != null && $outputDate != '') {
             $query = Attendance::from('attendance')
                 ->join("employee", "employee.id", "=", "attendance.employee_id")
                 ->join("branch", "branch.id", "=", "employee.branch")
-                ->where("attendance.date", '2024-02-02')
-                // ->whereMonth('date', $fillterdata['month'])
-                // ->whereYear('date', $fillterdata['year']);
+                ->whereMonth('date', $fillterdata['month'])
+                ->whereYear('date', $fillterdata['year'])
                 ->where("employee.id", Auth()->guard('employee')->user()->id);
-        // }
+
+                if($fillterdata['LeaveType'] != null && $fillterdata['LeaveType'] != ''){
+                    if($fillterdata['LeaveType'] == 0){
+                        $query->where("attendance.attendance_type", "0");
+                    } else if($fillterdata['LeaveType'] == 1) {
+                        $query->where("attendance.attendance_type", "1");
+                    }else if($fillterdata['LeaveType'] == 2) {
+                        $query->where("attendance.attendance_type", "2");
+                    } else {
+                        $query->where("attendance.attendance_type", "3");
+                    }
+                }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -75,7 +79,7 @@ class EmpAttendanceReport extends Model
         foreach ($resultArr as $row) {
 
             $actionhtml = '';
-            $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
+            // $actionhtml .= '<a href="' . route('admin.attendance.day-edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
             if ($row['attendance_type'] == '0') {
                 $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
             } else if ($row['attendance_type'] == '1') {
@@ -85,7 +89,7 @@ class EmpAttendanceReport extends Model
             } else {
                 $attendance_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
             }
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();

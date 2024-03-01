@@ -55,8 +55,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-
                                 </div>
 
                                 <div class="row">
@@ -84,12 +82,12 @@
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 branch" id="branch"  name="branch[]" multiple>
+                                            <select class="form-control select2 branch multipleSelection" id="branch"  name="branch[]" multiple="multiple">
                                                 <option value="">Please select Branch Name</option>
                                                 @foreach ($branch  as $key => $value )
                                                     <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select>   
                                         </div>
                                     </div>
                                     <div class="col-md-6">

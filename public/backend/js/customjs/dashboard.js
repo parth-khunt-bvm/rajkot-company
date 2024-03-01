@@ -4,22 +4,45 @@ var Dashboard = function(){
         var rules = {
             first_name : {required: true},
             last_name : {required: true},
-            email: {required: true,email:true},
+            branch : {required: true},
+            technology : {required: true},
+            designation : {required: true},
+            gmail : {required: true, email:true},
+            gmail_password : {required: true},
         };
 
         var message = {
             first_name : {required: "Please enter your first name"},
             last_name : {required: "Please enter your last name"},
-            email :{
+            branch : {required: "Please enter your last name"},
+            technology : {required: "Please enter your last name"},
+            designation : {required: "Please enter your last name"},
+            gmail :{
                 required : "Please enter your register email address",
                 email: "Please enter valid email address"
             },
+            gmail_password : {required: "Please enter your last name"},
 
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
+
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+        $(".date_of_birth").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+            endDate: new Date()
+        });
     }
+
     var password = function(){
         var form = $('#change-password');
         var rules = {

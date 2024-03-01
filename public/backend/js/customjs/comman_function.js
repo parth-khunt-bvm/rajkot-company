@@ -271,17 +271,24 @@ function handleFormValidateWithMsg(form, rules, messages, submitCallback, showTo
         },
         errorPlacement: function(error, element) {
             var elem = $(element);
-            if (elem.hasClass("select2-hidden-accessible")) {
-                element = $("#select2-" + elem.attr("id") + "-container").parent();
-                error.insertAfter(element);
+
+            if(elem.hasClass("multipleSelection") && elem.hasClass("select2-hidden-accessible")){
+               element =  $(".multipleSelection").parent().find('.select2-container');
+               error.insertAfter(element);
             } else {
-                if (elem.hasClass("radio-btn")) {
-                    element = elem.parent().parent();
+                if (elem.hasClass("select2-hidden-accessible")) {
+                    element = $("#select2-" + elem.attr("id") + "-container").parent();
                     error.insertAfter(element);
                 } else {
-                    error.insertAfter(element);
+                    if (elem.hasClass("radio-btn")) {
+                        element = elem.parent().parent();
+                        error.insertAfter(element);
+                    } else {
+                        error.insertAfter(element);
+                    }
                 }
             }
+
         },
     });
 

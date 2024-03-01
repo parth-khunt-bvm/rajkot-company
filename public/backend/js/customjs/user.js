@@ -183,10 +183,10 @@ var User = function(){
             },
             confirm_password: {
                 required: "Please enter confirm password",
-                equalTo: "New Password and confirmn password not match"
+                equalTo: "New Password and confirm password not match"
             },
             user_role : {required: "Please select User"},
-            "branch[]" : {required: "Please select Branch Name"},
+            "branch[]" : {required: "Please select at least one Branch Name"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
