@@ -14,13 +14,13 @@ class Employees extends Model
     protected $table = 'employee';
 
     public function saveProfile($request){
-
         $countEmployee = Employees::where("gmail",$request->input('email'))
                         ->where("id",'!=',$request->input('edit_id'))
                         ->count();
 
         if($countEmployee == 0){
             $objEmployees = Employees::find($request->input('edit_id'));
+
             $objEmployees->first_name = $request->input('first_name');
             $objEmployees->last_name = $request->input('last_name');
             $objEmployees->gmail = $request->input('gmail');

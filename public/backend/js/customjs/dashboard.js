@@ -1,32 +1,32 @@
 var Dashboard = function(){
     var editProfile = function(){
-        var form = $('#update-profile');
-        var rules = {
-            first_name : {required: true},
-            last_name : {required: true},
-            branch : {required: true},
-            technology : {required: true},
-            designation : {required: true},
-            gmail : {required: true, email:true},
-            gmail_password : {required: true},
-        };
+        // var form = $('#update-profile');
+        // var rules = {
+        //     first_name : {required: true},
+        //     last_name : {required: true},
+        //     branch : {required: true},
+        //     technology : {required: true},
+        //     designation : {required: true},
+        //     gmail : {required: true, email:true},
+        //     gmail_password : {required: true},
+        // };
 
-        var message = {
-            first_name : {required: "Please enter your first name"},
-            last_name : {required: "Please enter your last name"},
-            branch : {required: "Please enter your last name"},
-            technology : {required: "Please enter your last name"},
-            designation : {required: "Please enter your last name"},
-            gmail :{
-                required : "Please enter your register email address",
-                email: "Please enter valid email address"
-            },
-            gmail_password : {required: "Please enter your last name"},
+        // var message = {
+        //     first_name : {required: "Please enter your first name"},
+        //     last_name : {required: "Please enter your last name"},
+        //     branch : {required: "Please enter your last name"},
+        //     technology : {required: "Please enter your last name"},
+        //     designation : {required: "Please enter your last name"},
+        //     gmail :{
+        //         required : "Please enter your register email address",
+        //         email: "Please enter valid email address"
+        //     },
+        //     gmail_password : {required: "Please enter your last name"},
 
-        }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
-        });
+        // }
+        // handleFormValidateWithMsg(form, rules,message, function(form) {
+        //     handleAjaxFormSubmit(form,true);
+        // });
 
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -41,6 +41,26 @@ var Dashboard = function(){
             orientation: "bottom auto",
             endDate: new Date()
         });
+
+        $("body").on("submit", "#update-profile", function(e) {
+            e.preventDefault();
+
+            var allFormValues = {};
+
+            $(this).find('input, select').each(function() {
+                // if ($(this).hasClass('old_value')) {
+                    if ($(this).is(':radio')) {
+                        if ($(this).is(':checked')) {
+                            allFormValues[$(this).attr('name')] = $(this).val();
+                        }
+                    } else {
+                        allFormValues[$(this).attr('name')] = $(this).val();
+                    }
+                // }
+            });
+            console.log("All Form Values:", allFormValues);
+
+        })
     }
 
     var password = function(){

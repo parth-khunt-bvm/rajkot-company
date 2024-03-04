@@ -90,8 +90,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}"
-                                        method="post" enctype="multipart/form-data" class="form">
+                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form update-profile">
                                         @csrf
                                         <!-- Step 1 -->
                                         <div class="pb-5 step m-5" id="step1">
@@ -104,11 +103,8 @@
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
-                                                        <input type="text" class="form-control input-name"
-                                                            name="first_name" id="first_name"
-                                                            value="{{ $data['first_name'] }}" placeholder="First Name"
-                                                            autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="first_name" id="first_name" value="{{ $data['first_name'] }}" placeholder="First Name" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['first_name'] }}" class="old_value" data-attribute="first_name">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -116,10 +112,8 @@
                                                         <label>Last Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="text" class="form-control input-name"
-                                                            name="last_name" id="last_name" value="{{ $data['last_name'] }}"
-                                                            placeholder="last Name" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $data['last_name'] }}" placeholder="last Name" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['last_name'] }}" class="old_value" data-attribute="last_name">
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,16 +123,18 @@
                                                         <label>Branch Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <select class="form-control select2 branch input-name"
-                                                            id="branch" name="branch">
+                                                        <select class="form-control select2 branch" id="branch" name="branch">
                                                             <option value="">Please select Branch Name</option>
                                                             @foreach ($branch as $key => $value)
-                                                                <option value="{{ $value['id'] }}"
-                                                                    {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}>
-                                                                    {{ $value['branch_name'] }}</option>
+                                                                <option value="{{ $value['id'] }}" {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['branch_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <span class="type_error text-danger"></span>
+                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="branch" hidden>
+                                                             <option value="">Please select Branch Name</option>
+                                                            @foreach ($branch as $key => $value)
+                                                                <option value="{{ $value['id'] }}" {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['branch_name'] }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -146,16 +142,18 @@
                                                         <label>Technology Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <select class="form-control select2 technology input-name"
-                                                            id="technology" name="technology">
+                                                        <select class="form-control select2 technology" id="technology" name="technology">
                                                             <option value="">Please select Technology Name</option>
                                                             @foreach ($technology as $key => $value)
-                                                                <option value="{{ $value['id'] }}"
-                                                                    {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}>
-                                                                    {{ $value['technology_name'] }}</option>
+                                                                <option value="{{ $value['id'] }}" {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['technology_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <span class="type_error text-danger"></span>
+                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="technology" hidden>
+                                                            <option value="">Please select Technology Name</option>
+                                                            @foreach ($technology as $key => $value)
+                                                                <option value="{{ $value['id'] }}" {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['technology_name'] }}</option>
+                                                            @endforeach
+                                                       </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,41 +163,34 @@
                                                         <label>Designation Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <select class="form-control select2 designation input-name"
-                                                            id="designation" name="designation">
+                                                        <select class="form-control select2 designation" id="designation" name="designation">
                                                             <option value="">Please select Designation Name</option>
                                                             @foreach ($designation as $key => $value)
-                                                                <option value="{{ $value['id'] }}"
-                                                                    {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}>
-                                                                    {{ $value['designation_name'] }}</option>
+                                                                <option value="{{ $value['id'] }}" {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['designation_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <span class="type_error text-danger"></span>
+                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="designation" hidden>
+                                                            <option value="">Please select Designation Name</option>
+                                                            @foreach ($designation as $key => $value)
+                                                                <option value="{{ $value['id'] }}" {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['designation_name'] }}</option>
+                                                            @endforeach
+                                                       </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
-                                                        <label>Date Of Birth
-                                                        </label>
-                                                        <input type="text"
-                                                            class="form-control date_of_birth input-name" name="dob"
-                                                            id="dob" value="{{ date_formate($data['DOB']) }}"
-                                                            max="{{ date('Y-m-d') }}" placeholder="Date Of Birth"
-                                                            autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <label>Date Of Birth</label>
+                                                        <input type="text" class="form-control date_of_birth" name="dob" id="dob" value="{{ date_formate($data['DOB']) }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
+                                                        <input type="hidden" value="{{ date_formate($data['DOB']) }}" class="old_value" data-attribute="dob">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
-                                                        <label>Date Of joining
-                                                        </label>
-                                                        <input type="text"
-                                                            class="form-control datepicker_date input-name" name="doj"
-                                                            id="doj" value="{{ date_formate($data['DOJ']) }}"
-                                                            placeholder="Date Of Joining" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <label>Date Of joining</label>
+                                                        <input type="text" class="form-control datepicker_date" name="doj" id="doj" value="{{ date_formate($data['DOJ']) }}" placeholder="Date Of Joining" autocomplete="off" />
+                                                        <input type="hidden" value="{{ date_formate($data['DOJ']) }}" class="old_value" data-attribute="doj">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -207,10 +198,8 @@
                                                         <label>Company Gmail
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="email" class="form-control input-name"
-                                                            name="gmail" id="gmail" value="{{ $data['gmail'] }}"
-                                                            placeholder="Gmail" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="email" class="form-control" name="gmail" id="gmail" value="{{ $data['gmail'] }}" placeholder="Gmail" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['gmail'] }}" class="old_value" data-attribute="gmail">
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,22 +209,16 @@
                                                         <label>Gmail Password
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="text" class="form-control input-name"
-                                                            name="gmail_password" id="gmail_password"
-                                                            value="{{ $data['gmail_password'] }}"
-                                                            placeholder="Gmail Password" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="gmail_password" id="gmail_password" value="{{ $data['gmail_password'] }}" placeholder="Gmail Password" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['gmail_password'] }}" class="old_value" data-attribute="gmail_password">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>Slack Password
                                                         </label>
-                                                        <input type="text" class="form-control input-name"
-                                                            name="slack_password" id="slack_password"
-                                                            value="{{ $data['slack_password'] }}"
-                                                            placeholder="Slack Password" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="slack_password" id="slack_password" value="{{ $data['slack_password'] }}" placeholder="Slack Password" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['slack_password'] }}" class="old_value" data-attribute="slack_password">
                                                     </div>
                                                 </div>
                                             </div>
@@ -244,11 +227,8 @@
                                                     <div class="form-group">
                                                         <label>Personal Email
                                                         </label>
-                                                        <input type="email" class="form-control input-name"
-                                                            name="personal_email" value="{{ $data['personal_email'] }}"
-                                                            id="personal_email" placeholder="Personal Email"
-                                                            autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="email" class="form-control" name="personal_email" value="{{ $data['personal_email'] }}" id="personal_email" placeholder="Personal Email" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['personal_email'] }}" class="old_value" data-attribute="personal_email">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -256,20 +236,18 @@
                                                         <label>Status <span class="text-danger">*</span></label>
                                                         <div class="radio-inline" style="margin-top:10px">
                                                             <label class="radio radio-lg radio-success">
-                                                                <input type="radio" name="status" class="radio-btn"
-                                                                    value="W"
-                                                                    {{ $data['status'] == 'W' ? 'checked="checked"' : '' }} />
-                                                                <span></span>Working</label>
+                                                                <input type="radio" name="status" class="radio-btn" value="W" {{ $data['status'] == 'W' ? 'checked="checked"' : '' }} />
+                                                                <input type="hidden" class="old_value" data-attribute="status" value="W" {{ $data['status'] == 'W' ? 'checked="checked"' : '' }}>
+                                                                <span></span>Working
+                                                            </label>
                                                             <label class="radio radio-lg radio-danger">
-                                                                <input type="radio" name="status" class="radio-btn"
-                                                                    value="L"
-                                                                    {{ $data['status'] == 'L' ? 'checked="checked"' : '' }} />
-                                                                <span></span>Left</label>
+                                                                <input type="radio" name="status" class="radio-btn" value="L" {{ $data['status'] == 'L' ? 'checked="checked"' : '' }} />
+                                                                <input type="hidden" class="old_value" data-attribute="status" value="L" {{ $data['status'] == 'L' ? 'checked="checked"' : '' }}>
+                                                                <span></span>Left
+                                                            </label>
                                                         </div>
-                                                        <span class="type_error text-danger"></span>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
@@ -299,9 +277,9 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
-                                <!-- Step 2 -->
+                                        <!-- Step 2 -->
                                         <div class="pb-5 step m-5 " id="step2">
                                             <h4 class="mb-10 font-weight-bold text-dark">Enter Bank Detail</h4>
                                             <div class="row">
@@ -396,7 +374,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 3 -->
                                         <div class="pb-5 step m-5 " id="step3">
@@ -471,7 +449,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 4 -->
                                         <div class="pb-5 step m-5 " id="step4" >
