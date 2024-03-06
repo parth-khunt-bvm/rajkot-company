@@ -40,7 +40,8 @@ class Countersheet extends Model
             ->join('technology', 'technology.id', '=', 'employee.department')
             ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = '  . $fillterdata['year'] . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
             ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . ' GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
-            ->where('employee.status', 'W')
+            // ->where('employee.status', 'W')
+            ->where('a.employee_id', '!=', ' ')
             ->where('employee.is_deleted', 'N');
 
 
@@ -99,8 +100,26 @@ class Countersheet extends Model
             DB::raw('
                 CONCAT(
                     FLOOR(
-                            (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
-                        ),
+                        (
+                            (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0))
+                            -
+                            CASE
+                                WHEN COALESCE(a.sortLeaveCount, 0) >= 1 THEN 1
+                                WHEN COALESCE(a.sortLeaveCount, 0) > 4 THEN 2
+                                ELSE 0
+                            END
+                             -
+                            COALESCE(a.absentCount, 0)
+                            -
+                            CASE
+                                WHEN COALESCE(a.halfDayCount, 0) >= 5 THEN 3
+                                WHEN COALESCE(a.halfDayCount, 0) > 2 THEN 2
+                                WHEN COALESCE(a.halfDayCount, 0) >= 1 THEN 1
+                                ELSE 0
+                            END
+                        )
+                    ),
+
                     ".",
                     FLOOR(
                         (
