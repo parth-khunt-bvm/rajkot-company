@@ -3,22 +3,23 @@
 namespace App\Http\Controllers\backend\employee;
 
 use App\Http\Controllers\Controller;
-use App\Models\EmpAttendance;
+use App\Models\EmpAttendanceReport;
 use Illuminate\Http\Request;
 use Config;
 
-class EmpAttendanceController extends Controller
+class EmpAttendanceReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
+        $data['date'] = '01-Feb-2024';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';
         $data['css'] = array(
             'toastr/toastr.min.css'
         );
@@ -31,26 +32,25 @@ class EmpAttendanceController extends Controller
             'plugins/custom/datatables/datatables.bundle.js',
             'pages/crud/datatables/data-sources/html.js',
             'validate/jquery.validate.min.js',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
             'pages/crud/forms/widgets/select2.js',
         );
         $data['js'] = array(
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'emp_attendance.js',
+            'emp_attendance_report.js',
         );
         $data['funinit'] = array(
-            'EmpAttendance.init()',
+            'EmpAttendanceReport.init()',
         );
         $data['header'] = array(
-            'title' => 'Attendance List',
+            'title' => 'Attendance Report List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Attendance List' => 'Attendance List',
+                'Attendance Report List' => 'Attendance Report List',
             )
         );
-        return view('backend.employee.pages.attendance.index', $data);
+        return view('backend.employee.pages.attendance.report', $data);
     }
 
     /**
@@ -119,19 +119,16 @@ class EmpAttendanceController extends Controller
         //
     }
 
-
-    public function ajaxcall(Request $request){
-
+    public function ajaxcall(Request $request)
+    {
         $action = $request->input('action');
         switch ($action) {
-
-            case 'get_emp_attendance_list':
-                $data = $request->input('data');
-                $userId = Auth()->guard('employee')->user()->id;
-                $objAttendance = new EmpAttendance();
-                $list = $objAttendance->get_attendance_details_by_employee($userId,  $data['month'], $data['year']);
+            case 'getdatatable':
+                $objEmpAttendanceReport = new EmpAttendanceReport();
+                $list = $objEmpAttendanceReport->getdatatable($request->input('data'));
                 echo json_encode($list);
                 break;
+
         }
     }
 }

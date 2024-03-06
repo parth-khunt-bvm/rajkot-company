@@ -189,10 +189,8 @@ class DesignationController extends Controller
             case 'getdatatable':
                 $objDesignation = new Designation();
                 $list = $objDesignation->getdatatable();
-
                 echo json_encode($list);
                 break;
-
 
             case 'common-activity':
                 $objDesignation = new Designation();

@@ -87,15 +87,37 @@ class Countersheet extends Model
                 'a.halfDayCount',
                 'a.sortLeaveCount',
                 \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
-                DB::raw('
-            CONCAT(
-                FLOOR(
-                    (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
-                ),
-                ".",
-                FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
-            )
-            as total')
+            //     DB::raw('
+            // CONCAT(
+            //     FLOOR(
+            //         (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
+            //     ),
+            //     ".",
+            //     FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
+            // )
+            // as total')
+            DB::raw('
+                CONCAT(
+                    FLOOR(
+                            (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
+                        ),
+                    ".",
+                    FLOOR(
+                        (
+                            COALESCE(a.presentCount, 0)*8 +
+                            COALESCE(a.halfDayCount, 0)*4 +
+                            (
+                                CASE
+                                    WHEN COALESCE(a.sortLeaveCount, 0) = 1 THEN -2
+                                    WHEN COALESCE(a.sortLeaveCount, 0) = 2 THEN -4
+                                    WHEN COALESCE(a.sortLeaveCount, 0) >= 3 THEN -6
+                                    ELSE 0
+                                END
+                            ) +
+                            IFNULL(o.overTime, 0)
+                        ) % 8
+                    )
+                ) as total')
             )
             ->get();
 

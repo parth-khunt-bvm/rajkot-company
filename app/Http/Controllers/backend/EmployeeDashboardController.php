@@ -4,8 +4,12 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Branch;
+use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Employees;
+use App\Models\Manager;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use Config;
 
@@ -121,6 +125,22 @@ class EmployeeDashboardController extends Controller
     }
 
     public function editProfile(){
+
+        $objEmployee = new Employee();
+        $data['employee_details'] = $objEmployee->get_employee_details(1);
+
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
         $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Profile";
         $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Profile";
         $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Profile";

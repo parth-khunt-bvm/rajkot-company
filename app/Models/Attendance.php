@@ -24,7 +24,7 @@ class Attendance extends Model
             0 => 'attendance.id',
             1 => 'attendance.date',
             2 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Actived"
+            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Present"
                                 WHEN attendance.attendance_type = "1" THEN "Absent"
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
                                 ELSE "Short Leave" END)'),

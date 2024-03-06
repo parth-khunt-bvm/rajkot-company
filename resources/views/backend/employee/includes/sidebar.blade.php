@@ -105,8 +105,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 {{-- Attendance Menu End --}}
 
                 {{-- Attendance Report Menu --}}
-                {{-- <li class="menu-item  {{ ( $currentRoute  ==  "emp-overtime.list" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
-                    <a href="{{ route('emp-overtime.list') }}" class="menu-link">
+                <li class="menu-item  {{ ( $currentRoute  ==  "emp-attendance-reports.index" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('emp-attendance-reports.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
                             <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         </span>
                         <span class="menu-text">Attendance Report</span>
                     </a>
-                </li> --}}
+                </li>
                 {{-- Attendance Report Menu End --}}
             </ul>
             <!--end::Menu Nav-->

@@ -20,9 +20,10 @@ class Employees extends Model
 
         if($countEmployee == 0){
             $objEmployees = Employees::find($request->input('edit_id'));
+
             $objEmployees->first_name = $request->input('first_name');
             $objEmployees->last_name = $request->input('last_name');
-            $objEmployees->gmail = $request->input('email');
+            $objEmployees->gmail = $request->input('gmail');
             if($request->file('employee_image')){
                 $image = $request->file('employee_image');
                 $imagename = 'employee_image'.time().'.'.$image->getClientOriginalExtension();

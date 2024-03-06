@@ -195,7 +195,7 @@ class User extends Authenticatable
                 );
                 $mailData['template'] ="backend.pages.user.user.mail";
                 $mailData['mailto'] = $requestData['email'];
-                $sendMail = new Sendmail();
+                $sendMail = new SendMail();
                 $sendMail->sendSMTPMail($mailData);
 
                 // Event::dispatch(new SendMail(1),$mailData);
