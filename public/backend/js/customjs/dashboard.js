@@ -1,5 +1,5 @@
-var Dashboard = function(){
-    var editProfile = function(){
+var Dashboard = function () {
+    var editProfile = function () {
         // var form = $('#update-profile');
         // var rules = {
         //     first_name : {required: true},
@@ -42,52 +42,47 @@ var Dashboard = function(){
             endDate: new Date()
         });
 
-        $("body").on("submit", "#update-profile", function(e) {
+        $("body").on("submit", "#update-profile", function (e) {
             e.preventDefault();
 
-            var allFormValues = {};
+            var value = {};
 
-            $(this).find('input, select').each(function() {
-                // if ($(this).hasClass('old_value')) {
-                    if ($(this).is(':radio')) {
-                        if ($(this).is(':checked')) {
-                            allFormValues[$(this).attr('name')] = $(this).val();
-                        }
-                    } else {
-                        allFormValues[$(this).attr('name')] = $(this).val();
-                    }
-                // }
+            $('[data-attribute]').each(function () {
+                var attributeName = $(this).data('attribute');
+                var attributeValue = $(this).val();
+                value[attributeName] = attributeValue;
             });
-            console.log("All Form Values:", allFormValues);
+
+            console.log(value);
 
         })
     }
 
-    var password = function(){
+    var password = function () {
         var form = $('#change-password');
         var rules = {
-            old_password: {required: true},
-            new_password: {required: true},
-            new_confirm_password: {required: true,equalTo: "#password"},
+            old_password: { required: true },
+            new_password: { required: true },
+            new_confirm_password: { required: true, equalTo: "#password" },
 
         };
 
         var message = {
-            old_password: {required: "Please enter your password"},
-            new_password: {required: "Please enter your new password"},
+            old_password: { required: "Please enter your password" },
+            new_password: { required: "Please enter your new password" },
             new_confirm_password: {
                 required: "Please enter confirm password",
                 equalTo: "New Password and confirmn password not match"
             },
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
-            handleAjaxFormSubmit(form,true);
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
         });
     }
 
-    var EmployeeBirthdayList = function(){
+    var EmployeeBirthdayList = function () {
         $('.select2').select2();
-        var dataArr = {} ;
+        var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#dash-employee-birthday-list',
@@ -104,9 +99,9 @@ var Dashboard = function(){
         getDataTable(arrList);
     }
 
-    var EmployeeBondLastDateList = function(){
+    var EmployeeBondLastDateList = function () {
         $('.select2').select2();
-        var dataArr = {} ;
+        var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#dash-employee-bond-last-date-list',
@@ -125,16 +120,16 @@ var Dashboard = function(){
 
 
     return {
-        edit_profile:function(){
+        edit_profile: function () {
             editProfile()
         },
-        change_password:function(){
+        change_password: function () {
             password();
         },
-        employee_birthday:function(){
+        employee_birthday: function () {
             EmployeeBirthdayList();
         },
-        employee_bond_last_date:function(){
+        employee_bond_last_date: function () {
             EmployeeBondLastDateList();
         },
     }
