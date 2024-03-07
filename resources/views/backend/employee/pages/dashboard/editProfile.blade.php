@@ -90,7 +90,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form update-profile">
+                                    <form id="update-personal-info" action="{{ route('employee.save-personal-info') }}" method="post" enctype="multipart/form-data" class="form update-profile">
                                         @csrf
                                         <!-- Step 1 -->
                                         <div class="pb-5 step m-5" id="step1">
@@ -277,7 +277,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="update-bank-info" action="{{route('employee.save-bank-info')}}" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 2 -->
                                         <div class="pb-5 step m-5 " id="step2">
@@ -287,6 +287,7 @@
                                                     <div class="form-group">
                                                         <label>Bank Name
                                                         </label>
+                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
                                                         <input type="text" class="form-control input-name" name="bank_name" id="bank_name" value="{{ $data['bank_name'] }}" placeholder="Bank Name" autocomplete="off" />
                                                         <span class="type_error text-danger"></span>
                                                     </div>
@@ -374,7 +375,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="update-parent-info" action="{{route('employee.save-parent-info')}}" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 3 -->
                                         <div class="pb-5 step m-5 " id="step3">
@@ -385,6 +386,7 @@
                                                     <div class="form-group">
                                                         <label>Parents Name
                                                         </label>
+                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
                                                         <input type="text" class="form-control input-name" name="parent_name" id="parent_name" value="{{ $data['parents_name'] }}" placeholder="Parent Name" autocomplete="off" />
                                                         <span class="type_error text-danger"></span>
                                                     </div>
