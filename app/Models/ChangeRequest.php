@@ -117,7 +117,7 @@ class ChangeRequest extends Model
     // }
 
     public function get_change_request_details($data){
-        return ChangeRequest::select('data')->where('id',$data['id'])->get();
+        return ChangeRequest::select('employee_id','data')->where('id',$data['id'])->get();
     }
 
 }

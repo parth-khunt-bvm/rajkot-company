@@ -28,15 +28,16 @@ var ChangeRequest = function(){
                 url: baseurl + "admin/change-request/ajaxcall",
                 data: { 'action': 'change-request-view', 'data': data },
                 success: function (data) {
-                    // var html = '';
+                    var html = '';
                     var details = JSON.parse(data);
                     console.log("details",details);
+
                     $.each(details, function( index, value ) {
                         var temp = '';
                         temp  = index + " : " + value + "<br>";
                         html = html + temp;
                     });
-                    $("#change-request-view").html(html);
+                    $("#change-request-view-data").html(html);
 
                 }
             });

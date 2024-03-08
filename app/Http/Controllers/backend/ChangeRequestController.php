@@ -66,6 +66,14 @@ class ChangeRequestController extends Controller
                 $data = $objChangeRequest->get_change_request_details($request->input('data'));
 
                 echo $data[0]->data;
+
+                // if ($data) {
+                //     echo "Employee ID: " . $data->employee_id . "\n";
+                //     echo "Data: " . $data->data;
+                // } else {
+                //     echo "Change request not found.";
+                // }
+
                 break;
         }
     }
