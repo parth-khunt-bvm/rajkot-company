@@ -1,49 +1,52 @@
-var Audittrails = function(){
-    var list = function() {
+var ChangeRequest = function(){
+    var list = function(){
         var dataArr = {};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
-            'tableID': '#audit-trails-list',
-            'ajaxURL': baseurl + "audittrails/audit-trails-ajaxcall",
+            'tableID': '#change-request-list',
+            'ajaxURL': baseurl + "admin/change-request/ajaxcall",
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 6, 8],
-            'noSearchApply': [0, 6, 8],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
 
-        $('body').on("click", ".viewdata", function() {
-            var id = $(this).attr('data-id');
-            var data = { id: id, _token: $('#_token').val() };
+
+        $("body").on('click','.change-request-view', function(){
+            var id = $(this).data('id');
+            var data = { 'id': id, _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url: baseurl + "audittrails/audit-trails-ajaxcall",
-                data: { 'action': 'viewdata', 'data': data },
-                success: function(data) {
-                    var html = '';
+                url: baseurl + "admin/change-request/ajaxcall",
+                data: { 'action': 'change-request-view', 'data': data },
+                success: function (data) {
+                    // var html = '';
                     var details = JSON.parse(data);
-                    console.log(details);
+                    console.log("details",details);
                     $.each(details, function( index, value ) {
                         var temp = '';
                         temp  = index + " : " + value + "<br>";
                         html = html + temp;
                     });
-                    $("#view-audit-trails").html(html);
+                    $("#change-request-view").html(html);
+
                 }
             });
         });
-    }
 
+    }
     return {
         init:function(){
             list();
-        }
+        },
+
     }
 }();

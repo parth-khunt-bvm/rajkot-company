@@ -60,16 +60,6 @@
                                         <span class="nav-text"> Parent Information</span>
                                     </a>
                                 </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link user-menu"  id="company-info-tab-2"
-                                        data-toggle="tab" href="#company-info" aria-controls="company-info">
-                                        <span class="nav-icon">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </span>
-                                        <span class="nav-text">Company Information</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -90,7 +80,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="update-profile" action="{{ route('employee.save-profile') }}" method="post" enctype="multipart/form-data" class="form update-profile">
+                                    <form id="update-personal-info" action="{{ route('employee.save-personal-info') }}" method="post" enctype="multipart/form-data" class="form update-profile">
                                         @csrf
                                         <!-- Step 1 -->
                                         <div class="pb-5 step m-5" id="step1">
@@ -231,23 +221,6 @@
                                                         <input type="hidden" value="{{ $data['personal_email'] }}" class="old_value" data-attribute="personal_email">
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Status <span class="text-danger">*</span></label>
-                                                        <div class="radio-inline" style="margin-top:10px">
-                                                            <label class="radio radio-lg radio-success">
-                                                                <input type="radio" name="status" class="radio-btn" value="W" {{ $data['status'] == 'W' ? 'checked="checked"' : '' }} />
-                                                                <input type="hidden" class="old_value" data-attribute="status" value="W" {{ $data['status'] == 'W' ? 'checked="checked"' : '' }}>
-                                                                <span></span>Working
-                                                            </label>
-                                                            <label class="radio radio-lg radio-danger">
-                                                                <input type="radio" name="status" class="radio-btn" value="L" {{ $data['status'] == 'L' ? 'checked="checked"' : '' }} />
-                                                                <input type="hidden" class="old_value" data-attribute="status" value="L" {{ $data['status'] == 'L' ? 'checked="checked"' : '' }}>
-                                                                <span></span>Left
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
@@ -277,7 +250,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="update-bank-info" action="{{route('employee.save-bank-info')}}" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 2 -->
                                         <div class="pb-5 step m-5 " id="step2">
@@ -287,6 +260,7 @@
                                                     <div class="form-group">
                                                         <label>Bank Name
                                                         </label>
+                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
                                                         <input type="text" class="form-control input-name" name="bank_name" id="bank_name" value="{{ $data['bank_name'] }}" placeholder="Bank Name" autocomplete="off" />
                                                         <span class="type_error text-danger"></span>
                                                     </div>
@@ -374,7 +348,7 @@
                                 </div> --}}
                                 <div class="card-body p-0">
                                     <!--begin: Wizard-->
-                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
+                                    <form id="update-parent-info" action="{{route('employee.save-parent-info')}}" method="post" enctype="multipart/form-data" class="form">
                                         @csrf
                                         <!-- Step 3 -->
                                         <div class="pb-5 step m-5 " id="step3">
@@ -385,6 +359,7 @@
                                                     <div class="form-group">
                                                         <label>Parents Name
                                                         </label>
+                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
                                                         <input type="text" class="form-control input-name" name="parent_name" id="parent_name" value="{{ $data['parents_name'] }}" placeholder="Parent Name" autocomplete="off" />
                                                         <span class="type_error text-danger"></span>
                                                     </div>
@@ -397,7 +372,7 @@
                                                         <label>Personal Number
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="text" class="form-control  input-name" name="personal_number" id="personal_number" maxlength="10" value="{{ $data['personal_number'] }}" placeholder="Personal Number" autocomplete="off" />
+                                                        <input type="text" class="form-control input-name" name="personal_number" id="personal_number" maxlength="10" value="{{ $data['personal_number'] }}" placeholder="Personal Number" autocomplete="off" />
                                                         <span class="type_error text-danger"></span>
                                                     </div>
                                                 </div>
@@ -438,150 +413,7 @@
 
                 </div>
 
-                <div class="tab-pane fade" id="company-info" role="tabpanel" aria-labelledby="company-info-tab-2">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!--begin::Card-->
-                            <div class="card card-custom gutter-b example example-compact">
-                                {{-- <div class="card-header">
-                                    <h3 class="card-title">{{ $header['title'] }}</h3>
-                                </div> --}}
-                                <div class="card-body p-0">
-                                    <!--begin: Wizard-->
-                                    <form id="" action="#" method="post" enctype="multipart/form-data" class="form">
-                                        @csrf
-                                        <!-- Step 4 -->
-                                        <div class="pb-5 step m-5 " id="step4" >
-                                            <h4 class="mb-10 font-weight-bold text-dark">Company Information</h4>
-
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Experience
-                                                        </label>
-                                                        <input type="number" class="form-control input-name" name="experience" id="experience" value="{{numberformat( $data['experience'], 0) }}" placeholder="Experience" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Hired By
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <select class="form-control select2 hired_by input-name" id="hired_by" name="hired_by">
-                                                            <option value="">Please select Manager Name</option>
-                                                            @foreach ($manager as $key => $value )
-                                                            <option value="{{ $value['id'] }}"  {{ $value['id'] == $data['hired_by'] ? 'selected="selected"' : '' }}>{{ $value['manager_name'] }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <span class="type_error text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>salary
-                                                        </label>
-                                                        <input type="number" class="form-control input-name" name="salary" id="salary" value="{{ numberformat( $data['salary'], 0)  }}" placeholder="Salary" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Stipend From
-                                                        </label>
-                                                        <input type="text" class="form-control datepicker_date" name="stipend_from" id="stipend_from" value="{{ $data['stipend_from'] != null && $data['stipend_from'] != '' ? date_formate($data['stipend_from']) : '' }}" placeholder="Stippend From" autocomplete="off" />
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Bond Last Date
-                                                        </label>
-                                                        <input type="text" class="form-control datepicker_date" name="bond_last_date" id="bond_last_date" value="{{ $data['bond_last_date'] != null && $data['bond_last_date'] != '' ? date_formate($data['bond_last_date']) : '' }}" placeholder="Bond Last Date" autocomplete="off" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Resign Date
-                                                        </label>
-                                                        <input type="text" class="form-control datepicker_date" name="resign_date" id="resign_date" value="{{ $data['resign_date'] != null && $data['resign_date'] != '' ? date_formate($data['resign_date']) : '' }}" placeholder="Resign Date" autocomplete="off" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Last Date
-                                                        </label>
-                                                        <input type="text" class="form-control datepicker_date" name="last_date" id="last_date" value="{{ $data['last_date'] != null && $data['last_date'] != '' ? date_formate($data['last_date']) : '' }}" placeholder="Last Date" autocomplete="off" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>Bond File</label>
-                                                        <div></div>
-                                                        <div class="custom-file">
-                                                            <input type="file" class="form-control custom-file-input" name="bond_file" id="bond_file" autocomplete="off" />
-                                                            <label class="custom-file-label" for="customFile">Bond File</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label>cheque Image</label>
-                                                        <div class="">
-                                                            <div class="image-input image-input-outline" id="kt_image_1">
-                                                                <div class="image-input-wrapper my-avtar" style="background-image: url({{ $image }})"></div>
-
-                                                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-                                                                    <i class="fa fa-pencil  icon-sm text-muted"></i>
-                                                                    <input type="file" name="cancel_cheque" accept=".png, .jpg, .jpeg" />
-                                                                    <input type="hidden" name="profile_avatar_remove" />
-                                                                </label>
-                                                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-                                                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                                </span>
-                                                            </div>
-                                                            <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label>Trainee Performance
-                                                        </label>
-                                                        <textarea class="form-control" id="" cols="30" rows="10" name="trainee_performance" id="trainee_performance" autocomplete="off">{{ $data['trainee_performance'] }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!--end: Wizard-->
-                                </div>
-                            </div>
-                            <!--end::Card-->
-
-                        </div>
-
-                    </div>
-
-                </div>
             </div>
 
             {{-- </div> --}}
