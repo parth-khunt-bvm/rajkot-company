@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\backend\ChangeRequestController;
+use App\Http\Controllers\backend\employee\EmpChangeRequestController;
 use App\Http\Controllers\backend\employee\EmpAttendanceController;
 use App\Http\Controllers\backend\employee\EmpAttendanceReportController;
 use App\Http\Controllers\backend\employee\EmpOvertimeController;
@@ -30,9 +30,9 @@ Route::group(['prefix' => 'employee'], function () {
     Route::resource('emp-attendance-reports', EmpAttendanceReportController::class);
     Route::post('emp-attendance-reports/ajaxcall', [EmpAttendanceReportController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
-    Route::post('save-personal-info', [ChangeRequestController::class, 'savePersonalInfo'])->name('employee.save-personal-info');
-    Route::post('save-bank-info', [ChangeRequestController::class, 'saveBankInfo'])->name('employee.save-bank-info');
-    Route::post('save-parent-info', [ChangeRequestController::class, 'saveParentInfo'])->name('employee.save-parent-info');
+    Route::post('save-personal-info', [EmpChangeRequestController::class, 'savePersonalInfo'])->name('employee.save-personal-info');
+    Route::post('save-bank-info', [EmpChangeRequestController::class, 'saveBankInfo'])->name('employee.save-bank-info');
+    Route::post('save-parent-info', [EmpChangeRequestController::class, 'saveParentInfo'])->name('employee.save-parent-info');
 
 
 

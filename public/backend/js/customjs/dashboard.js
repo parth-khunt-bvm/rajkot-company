@@ -55,6 +55,18 @@ var Dashboard = function () {
         });
 
 
+        var form = $('#update-company-info');
+        var rules = {
+            hired_by : {required: true},
+        };
+
+        var message = {
+            hired_by : {required: "Please select manager name"},
+        }
+        handleFormValidateWithMsg(form, rules,message, function(form) {
+            handleAjaxFormSubmit(form,true);
+        });
+
 
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',

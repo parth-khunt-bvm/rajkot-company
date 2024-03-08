@@ -29,6 +29,7 @@ use App\Http\Controllers\backend\UserroleController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
 use App\Http\Controllers\backend\AttendanceSettingController;
+use App\Http\Controllers\backend\ChangeRequestController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
@@ -333,5 +334,10 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     // latter Abbreviation
     Route::resource('admin/attendance-settings', AttendanceSettingController::class);
+
+    // change Request
+    Route::get('admin/change-request/list', [ChangeRequestController::class, 'list'])->name('admin.change-request.list');
+    Route::post('admin/change-request/ajaxcall', [ChangeRequestController::class, 'ajaxcall'])->name('admin.change-request.ajaxcall');
+
 
 });

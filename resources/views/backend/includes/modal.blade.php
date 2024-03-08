@@ -1178,6 +1178,28 @@
     </div>
 </div>
 
+<!-- view leave request Model-->
+<div class="modal fade" id="change-request-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Leave Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body" id="change-request-view" style="word-break: break-all !important; ">
+
+                </div>
+                <li>dd</li>
+                <li>dd</li>
+                <li>dd</li>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

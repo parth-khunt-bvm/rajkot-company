@@ -5,68 +5,68 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\ChangeRequest;
 use Illuminate\Http\Request;
+use Config;
 
 class ChangeRequestController extends Controller
 {
-    public function savePersonalInfo(Request $request)
+    public function list()
     {
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
 
-        $objChangeRequest = new ChangeRequest();
-        $result = $objChangeRequest->savePersonalInfo($request);
-
-        if ($result == "email_exist") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'The email address has already been registered.';
-        } else if ($result == "no_change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
-        } else if ($result == "change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = " Change request details successfully added";
-        }
-        echo json_encode($return);
-        exit;
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'change_request.js',
+        );
+        $data['funinit'] = array(
+            'ChangeRequest.init()',
+        );
+        $data['header'] = array(
+            'title' => 'Change Request List',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Change Request List' => 'Change Request List',
+            )
+        );
+        return view('backend.pages.change_request.list',$data);
     }
 
+    public function ajaxcall(Request $request){
+        $action = $request->input('action');
+        switch ($action) {
+            case 'getdatatable':
+                $objChangeRequest = new ChangeRequest();
+                $list = $objChangeRequest->getdatatable();
+                echo json_encode($list);
+                break;
 
-    public Function saveBankInfo(Request $request){
+                // case 'change-request-view';
+                // $objChangeRequest = new ChangeRequest();
+                // $list = $objChangeRequest->get_change_request_details($request->input('data'));
+                // echo json_encode($list);
+                // break;
 
-        $objChangeRequest = new ChangeRequest();
-        $result = $objChangeRequest->saveBankInfo($request);
+                case 'change-request-view' :
+                $objChangeRequest = new ChangeRequest();
+                $data = $objChangeRequest->get_change_request_details($request->input('data'));
 
-        if ($result == "no_change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
-        } else if ($result == "change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = " Change request details successfully added";
+                echo $data[0]->data;
+                break;
         }
-        echo json_encode($return);
-        exit;
-
-    }
-
-    public function saveParentInfo(Request $request){
-
-        $objChangeRequest = new ChangeRequest();
-        $result = $objChangeRequest->saveParentInfo($request);
-
-        if ($result == "no_change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
-        } else if ($result == "change") {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = " Change request details successfully added";
-        }
-        echo json_encode($return);
-        exit;
-
     }
 }
