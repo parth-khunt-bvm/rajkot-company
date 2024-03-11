@@ -13,64 +13,77 @@ class EmpChangeRequest extends Model
 
     public function savePersonalInfo($request)
     {
+        $countRequest = ChangeRequest::where("employee_id", $request->input('id'))->where("request_type", '1')->count();
 
-        $countEmployee = Employees::where("gmail", $request->input('gmail'))
-            ->where("id", '!=', $request->input('edit_id'))
-            ->count();
+        if ($countRequest === 0) {
 
-        if ($countEmployee == 0) {
+            $countEmployee = Employees::where("gmail", $request->input('gmail'))
+                ->where("id", '!=', $request->input('id'))
+                ->count();
 
-            $objEmpChangeRequest = Employees::find($request->input('edit_id'));
-            if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['technology'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != date('Y-m-d', strtotime($request['dob'])) || $objEmpChangeRequest->DOJ != date('Y-m-d', strtotime($request['doj'])) || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
+            if ($countEmployee == 0) {
+
+                $objEmpChangeRequest = Employees::find($request->input('id'));
+                if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != date('Y-m-d', strtotime($request['DOB'])) || $objEmpChangeRequest->DOJ != date('Y-m-d', strtotime($request['DOJ'])) || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
+                    $data = $request->input();
+                    unset($data['_token']);
+                    $objEmpChangeRequest = new EmpChangeRequest();
+                    $objEmpChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
+                    $objEmpChangeRequest->request_type = "1";
+                    $objEmpChangeRequest->data = json_encode($data);
+                    if ($objEmpChangeRequest->save()) {
+                        $inputData = $request->input();
+                        unset($inputData['_token']);
+                        $objAudittrails = new Audittrails();
+                        $objAudittrails->add_audit("U", $inputData, 'Update Personal Info');
+                        return "change";
+                    }
+                } else {
+                    return 'no_change';
+                }
+            } else {
+                return "email_exist";
+            }
+        } else {
+            return "change_request_exit";
+        }
+    }
+
+    public function saveBankInfo($request)
+    {
+        $countRequest = ChangeRequest::where("employee_id", $request->input('id'))->where("request_type", '2')->count();
+
+        if ($countRequest === 0) {
+            $objEmpChangeRequest = Employees::find($request->input('id'));
+            if ($objEmpChangeRequest->bank_name != $request['bank_name'] || $objEmpChangeRequest->acc_holder_name != $request['acc_holder_name'] || $objEmpChangeRequest->account_number != $request['account_number'] || $objEmpChangeRequest->ifsc_number != $request['ifsc_number'] || $objEmpChangeRequest->pan_number != $request['pan_number'] || $objEmpChangeRequest->aadhar_card_number != $request['aadhar_card_number'] || $objEmpChangeRequest->google_pay_number != $request['google_pay_number']) {
                 $data = $request->input();
                 unset($data['_token']);
-                $objEmpChangeRequest = new EmpChangeRequest();
-                $objEmpChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
-                $objEmpChangeRequest->request_type = "1";
-                $objEmpChangeRequest->data = json_encode($data);
+                $objChangeRequest = new EmpChangeRequest();
+                $objChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
+                $objChangeRequest->request_type = "2";
+                $objChangeRequest->data = json_encode($data);
+                $objChangeRequest->save();
+
                 if ($objEmpChangeRequest->save()) {
                     $inputData = $request->input();
                     unset($inputData['_token']);
                     $objAudittrails = new Audittrails();
-                    $objAudittrails->add_audit("U", $inputData, 'Update Personal Info');
+                    $objAudittrails->add_audit("U", $inputData, 'Update Bank Info');
                     return "change";
                 }
             } else {
                 return 'no_change';
             }
         } else {
-            return "email_exist";
+            return "change_request_exit";
         }
     }
 
-    public function saveBankInfo($request){
+    public function saveParentInfo($request)
+    {
 
-        $objEmpChangeRequest = Employees::find($request->input('edit_id'));
-        if ($objEmpChangeRequest->bank_name != $request['bank_name'] || $objEmpChangeRequest->acc_holder_name != $request['acc_holder_name'] || $objEmpChangeRequest->account_number != $request['account_number'] || $objEmpChangeRequest->ifsc_number != $request['ifsc_code'] || $objEmpChangeRequest->pan_number != $request['pan_number'] || $objEmpChangeRequest->aadhar_card_number != $request['aadhar_card_number'] || $objEmpChangeRequest->google_pay_number != $request['google_pay'] ) {
-            $data = $request->input();
-            unset($data['_token']);
-            $objChangeRequest = new EmpChangeRequest();
-            $objChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
-            $objChangeRequest->request_type = "2";
-            $objChangeRequest->data = json_encode($data);
-            $objChangeRequest->save();
-
-            if ($objEmpChangeRequest->save()) {
-                $inputData = $request->input();
-                unset($inputData['_token']);
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $inputData, 'Update Bank Info');
-                return "change";
-            }
-        } else {
-            return 'no_change';
-        }
-    }
-
-    public function saveParentInfo($request){
-
-        $objEmpChangeRequest = Employees::find($request->input('edit_id'));
-        if ($objEmpChangeRequest->parents_name != $request['parent_name'] || $objEmpChangeRequest->personal_number != $request['personal_number'] || $objEmpChangeRequest->emergency_number != $request['emergency_contact'] || $objEmpChangeRequest->address != $request['address']) {
+        $objEmpChangeRequest = Employees::find($request->input('id'));
+        if ($objEmpChangeRequest->parents_name != $request['parents_name'] || $objEmpChangeRequest->personal_number != $request['personal_number'] || $objEmpChangeRequest->emergency_number != $request['emergency_number'] || $objEmpChangeRequest->address != $request['address']) {
             $data = $request->input();
             unset($data['_token']);
             $objChangeRequest = new EmpChangeRequest();
@@ -89,7 +102,5 @@ class EmpChangeRequest extends Model
         } else {
             return 'no_change';
         }
-
     }
-
 }

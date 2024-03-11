@@ -26,10 +26,10 @@ class Employee extends Authenticatable
         $columns = array(
             0 => 'employee.id',
             1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number )'),
+            2 => 'branch.branch_name',
             3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
             4 => 'employee.experience',
             5 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
-            6 => 'branch.branch_name',
         );
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")

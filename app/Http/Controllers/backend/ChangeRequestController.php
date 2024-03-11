@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChangeRequest;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Config;
 
@@ -46,6 +47,24 @@ class ChangeRequestController extends Controller
         return view('backend.pages.change_request.list',$data);
     }
 
+    public function changeReqUpdate(Request $request){
+            $objChangeRequest = new ChangeRequest();
+            $result = $objChangeRequest->changeReqUpdate($request);
+            if ($result == "added") {
+                $return['status'] = 'success';
+                 $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Change request details successfully approved.';
+                $return['redirect'] = route('admin.change-request.list');
+            } else{
+                $return['status'] = 'error';
+                $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+                $return['message'] = 'Something goes to wrong';
+            }
+            echo json_encode($return);
+            exit;
+
+    }
+
     public function ajaxcall(Request $request){
         $action = $request->input('action');
         switch ($action) {
@@ -55,26 +74,53 @@ class ChangeRequestController extends Controller
                 echo json_encode($list);
                 break;
 
-                // case 'change-request-view';
-                // $objChangeRequest = new ChangeRequest();
-                // $list = $objChangeRequest->get_change_request_details($request->input('data'));
-                // echo json_encode($list);
-                // break;
+            // case 'change-request-view' :
+            // $inputData = $request->input('data');
+            // $objChangeRequest = new ChangeRequest();
+            // $data = $objChangeRequest->get_change_request_details($inputData['id']);
 
-                case 'change-request-view' :
+            // $objChangeRequest = new ChangeRequest();
+            // $oldData = $objChangeRequest->get_employee_old_info_details($inputData['id'], $data[0]['employee_id']);
+
+            // echo $data[0]->data;
+            // echo json_encode($oldData);
+            // break;
+
+            case 'change-request-view':
+                $inputData = $request->input('data');
                 $objChangeRequest = new ChangeRequest();
-                $data = $objChangeRequest->get_change_request_details($request->input('data'));
 
-                echo $data[0]->data;
+                $data = $objChangeRequest->get_change_request_details($inputData['id']);
 
-                // if ($data) {
-                //     echo "Employee ID: " . $data->employee_id . "\n";
-                //     echo "Data: " . $data->data;
-                // } else {
-                //     echo "Change request not found.";
-                // }
-
+                if (!empty($data) && isset($data[0])) {
+                    $oldData = $objChangeRequest->get_employee_old_info_details($inputData['id'], $data[0]['employee_id']);
+                    if (!empty($oldData)) {
+                        $jsonData = [
+                            'changeRequestData' => $data[0]->data,
+                            'oldEmployeeData' => $oldData
+                        ];
+                        echo json_encode($jsonData);
+                    }
+                }
                 break;
+
+            case 'common-activity':
+                $objChangeRequest = new ChangeRequest();
+                $data = $request->input('data');
+                $result = $objChangeRequest->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = "Change request details successfully rejected.";
+                    }
+                    $return['redirect'] = route('admin.change-request.list');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
+                echo json_encode($return);
+                exit;
         }
     }
 }

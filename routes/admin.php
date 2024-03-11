@@ -338,6 +338,6 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     // change Request
     Route::get('admin/change-request/list', [ChangeRequestController::class, 'list'])->name('admin.change-request.list');
     Route::post('admin/change-request/ajaxcall', [ChangeRequestController::class, 'ajaxcall'])->name('admin.change-request.ajaxcall');
-
+    Route::post('admin/change-request/update', [ChangeRequestController::class, 'changeReqUpdate'])->name('admin.change-request.update');
 
 });
