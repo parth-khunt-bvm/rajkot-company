@@ -1217,7 +1217,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Deactive record</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Change Request</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -1239,8 +1239,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approved</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
             </div>
         </div>
     </div>

@@ -761,12 +761,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endif
                 {{-- Leave Request Menu End --}}
 
-                {{-- @php
+                @php
                 $target = [];
-                $target = array(132, 133, 134, 135);
-                @endphp --}}
-                {{-- Leave Request Menu --}}
-                {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                $target = array(149, 150);
+                @endphp
+                {{-- Change Request Menu --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.change-request.list"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.change-request.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -779,8 +779,8 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Change Request</span>
                     </a>
                 </li>
-                {{-- @endif --}}
-                {{-- Leave Request Menu End --}}
+                @endif
+                {{-- Change Request Menu End --}}
 
 
                 @php

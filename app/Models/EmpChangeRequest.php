@@ -27,6 +27,8 @@ class EmpChangeRequest extends Model
                 if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != date('Y-m-d', strtotime($request['DOB'])) || $objEmpChangeRequest->DOJ != date('Y-m-d', strtotime($request['DOJ'])) || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
                     $data = $request->input();
                     unset($data['_token']);
+                    $data['DOB'] = date('Y-m-d', strtotime($data['DOB']));
+                    $data['DOJ'] = date('Y-m-d', strtotime($data['DOJ']));
                     $objEmpChangeRequest = new EmpChangeRequest();
                     $objEmpChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
                     $objEmpChangeRequest->request_type = "1";
@@ -81,26 +83,31 @@ class EmpChangeRequest extends Model
 
     public function saveParentInfo($request)
     {
+        $countRequest = ChangeRequest::where("employee_id", $request->input('id'))->where("request_type", '3')->count();
 
-        $objEmpChangeRequest = Employees::find($request->input('id'));
-        if ($objEmpChangeRequest->parents_name != $request['parents_name'] || $objEmpChangeRequest->personal_number != $request['personal_number'] || $objEmpChangeRequest->emergency_number != $request['emergency_number'] || $objEmpChangeRequest->address != $request['address']) {
-            $data = $request->input();
-            unset($data['_token']);
-            $objChangeRequest = new EmpChangeRequest();
-            $objChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
-            $objChangeRequest->request_type = "3";
-            $objChangeRequest->data = json_encode($data);
-            $objChangeRequest->save();
+        if ($countRequest === 0) {
+            $objEmpChangeRequest = Employees::find($request->input('id'));
+            if ($objEmpChangeRequest->parents_name != $request['parents_name'] || $objEmpChangeRequest->personal_number != $request['personal_number'] || $objEmpChangeRequest->emergency_number != $request['emergency_number'] || $objEmpChangeRequest->address != $request['address']) {
+                $data = $request->input();
+                unset($data['_token']);
+                $objChangeRequest = new EmpChangeRequest();
+                $objChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
+                $objChangeRequest->request_type = "3";
+                $objChangeRequest->data = json_encode($data);
+                $objChangeRequest->save();
 
-            if ($objEmpChangeRequest->save()) {
-                $inputData = $request->input();
-                unset($inputData['_token']);
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $inputData, 'Update Parent Info');
-                return "change";
+                if ($objEmpChangeRequest->save()) {
+                    $inputData = $request->input();
+                    unset($inputData['_token']);
+                    $objAudittrails = new Audittrails();
+                    $objAudittrails->add_audit("U", $inputData, 'Update Parent Info');
+                    return "change";
+                }
+            } else {
+                return 'no_change';
             }
         } else {
-            return 'no_change';
+            return "change_request_exit";
         }
     }
 }

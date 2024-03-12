@@ -390,7 +390,7 @@
                                                 <button type="reset" class="btn btn-secondary">Cancel</button>
                                             </div>
                                         </div>
-                                    </form>     
+                                    </form>
                                     <!--end: Wizard-->
                                 </div>
                             </div>

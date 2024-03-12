@@ -30,9 +30,9 @@ class ChangeRequest extends Model
 
         $query = ChangeRequest::from('change_request')
             ->join("employee", "employee.id", "=", "change_request.employee_id")
-            ->join("branch", "branch.id", "=", "employee.id")
-            ->join("technology", "technology.id", "=", "employee.id")
-            ->join("designation", "designation.id", "=", "employee.id");
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->join("technology", "technology.id", "=", "employee.department")
+            ->join("designation", "designation.id", "=", "employee.designation");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -66,13 +66,13 @@ class ChangeRequest extends Model
         $i = 0;
 
         foreach ($resultArr as $row) {
-            // $target = [];
-            // $target = [33, 34, 35];
-            // $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            $target = [];
+            $target = [149, 150];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
             $actionhtml = '';
-            // }
+            }
 
             if ($row['request_type'] == '1') {
                 $request_type = '<span class="label label-lg label-light-info label-inline">Personal Info</span>';
@@ -81,9 +81,8 @@ class ChangeRequest extends Model
             } else {
                 $request_type = '<span class="label label-lg label-light-info  label-inline">parent Info</span>';
             }
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(35, explode(',', $permission_array[0]['permission'])) )
-            // $actionhtml .= '<a href=""data-toggle="modal" data-target="#change-request-view" data-id="'.$row['id'].'" class="btn btn-icon change-request-view"><i class="fa fa-eye text-primary"> </i></a>';
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#changeRequestModel" class="btn btn-icon  change-requests" data-id="' . $row["id"] . '" ><i class="fa fa-eye text-primary" ></i></a>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(150, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#changeRequestModel" class="btn btn-icon  change-requests delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-eye text-primary" ></i></a>';
 
             $i++;
             $nestedData = array();
@@ -93,9 +92,9 @@ class ChangeRequest extends Model
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['designation_name'];
             $nestedData[] = $request_type;
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
             $nestedData[] = $actionhtml;
-            // }
+            }
             $data[] = $nestedData;
         }
         $json_data = array(
@@ -113,7 +112,6 @@ class ChangeRequest extends Model
     }
     public function get_employee_old_info_details($id, $empId)
     {
-
         $employeeColumns = FacadesSchema::getColumnListing('employee');
         $changeRequestData = ChangeRequest::from('change_request')
             ->select('data')
@@ -129,13 +127,6 @@ class ChangeRequest extends Model
             $employeeDetails[$key] = $employeeDetail;
         }
         return $employeeDetails;
-
-        // return ChangeRequest::from('change_request')
-        //                     ->join("employee", "employee.id", "=", "change_request.employee_id")
-        //                     ->select('employee.id','employee.first_name','employee.last_name','employee.branch', 'employee.department','employee.designation', 'employee.dob', 'employee.doj','employee.gmail','employee.gmail_password','employee.slack_password','employee.personal_email')
-        //                     ->where('change_request.id',$id)
-        //                     ->where('change_request.employee_id', $empId)
-        //                     ->get();
     }
 
     public function changeReqUpdate($request)
@@ -172,9 +163,15 @@ class ChangeRequest extends Model
     {
         $objChangeRequest = ChangeRequest::find($requestData['id']);
         $data = json_decode($objChangeRequest->data, true);
-        // dd($objChangeRequest['employee_id']);
         if ($requestData['activity'] == 'delete-records') {
-            // ChangeRequest::where('employee_id',$data['id'])->delete();
+             $req = $objChangeRequest['request_type'];
+             if($req === "1"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"1")->delete();
+             } else if($req == "2"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"2")->delete();
+             } else if($req === "3"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"3")->delete();
+             }
             $event = 'D';
         } else if ($requestData['activity'] == 'change-request-update') {
             if ($objChangeRequest['request_type'] === "1") {
@@ -185,8 +182,8 @@ class ChangeRequest extends Model
                 $objEmployee->branch = $data['branch'];
                 $objEmployee->department = $data['department'];
                 $objEmployee->designation = $data['designation'];
-                $objEmployee->DOB = $data['DOB'];
-                $objEmployee->DOJ = $data['DOJ'];
+                $objEmployee->DOB = date('Y-m-d', strtotime($data['DOB']));
+                $objEmployee->DOJ = date('Y-m-d', strtotime($data['DOJ']));
                 $objEmployee->gmail = $data['gmail'];
                 $objEmployee->gmail_password = $data['gmail_password'];
                 $objEmployee->slack_password = $data['slack_password'];
@@ -217,18 +214,18 @@ class ChangeRequest extends Model
                     return 'wrong';
                 }
             } else if ($objChangeRequest['request_type'] === "3") {
-                // $objEmployee = Employee::find($objChangeRequest['employee_id']);
-                // $objEmployee->parents_name  = $data['parents_name '];
-                // $objEmployee->personal_number  = $data['personal_number '];
-                // $objEmployee->emergency_number  = $data['emergency_number '];
-                // $objEmployee->address  = $data['address '];
+                $objEmployee = Employee::find($objChangeRequest['employee_id']);
+                $objEmployee->parents_name  = $data['parents_name'];
+                $objEmployee->personal_number  = $data['personal_number'];
+                $objEmployee->emergency_number  = $data['emergency_number'];
+                $objEmployee->address  = $data['address'];
 
-                // if ($objEmployee->save()) {
-                //     $objChangeRequest->where('change_request.id', $objChangeRequest['id'])->delete();
-                //     return 'success';
-                // } else {
-                //     return 'wrong';
-                // }
+                if ($objEmployee->save()) {
+                    $objChangeRequest->where('change_request.id', $objChangeRequest['id'])->delete();
+                    return 'success';
+                } else {
+                    return 'wrong';
+                }
             }
             $event = 'U';
         }

@@ -73,19 +73,7 @@ class ChangeRequestController extends Controller
                 $list = $objChangeRequest->getdatatable();
                 echo json_encode($list);
                 break;
-
-            // case 'change-request-view' :
-            // $inputData = $request->input('data');
-            // $objChangeRequest = new ChangeRequest();
-            // $data = $objChangeRequest->get_change_request_details($inputData['id']);
-
-            // $objChangeRequest = new ChangeRequest();
-            // $oldData = $objChangeRequest->get_employee_old_info_details($inputData['id'], $data[0]['employee_id']);
-
-            // echo $data[0]->data;
-            // echo json_encode($oldData);
-            // break;
-
+                
             case 'change-request-view':
                 $inputData = $request->input('data');
                 $objChangeRequest = new ChangeRequest();

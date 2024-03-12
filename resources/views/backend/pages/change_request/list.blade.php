@@ -23,6 +23,7 @@
 
             </div>
             <div class="card-body">
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(149, explode(',', $permission_array[0]['permission'])) )
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="change-request-list">
                     <thead>
@@ -33,13 +34,13 @@
                             <th>Department</th>
                             <th>Designation</th>
                             <th>Request Type</th>
-                            {{-- @php
+                            @php
                             $target = [];
-                            $target = [20,21,22,23];
+                            $target = [149,150];
                             @endphp
-                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                                 <th>Action</th>
-                            {{-- @endif --}}
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,8 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+                @endif
+
             </div>
         </div>
         <!--end::Card-->
