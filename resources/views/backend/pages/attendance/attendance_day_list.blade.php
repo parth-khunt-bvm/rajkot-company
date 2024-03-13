@@ -111,6 +111,7 @@
                             <th>Employee</th>
                             <th>Attendance Type</th>
                             <th>Minutes</th>
+                            <th>Overtime</th>
                             <th>reason</th>
                             <th>Action</th>
                         </tr>

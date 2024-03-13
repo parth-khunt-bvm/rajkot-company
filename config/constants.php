@@ -211,6 +211,13 @@
                 ],
             ],
 
+            'change_request_menu' => [
+                'change_request_sub_menu' => [
+                    '149'  => 'Change Request list',
+                    '150'  => 'view Change Request',
+                ],
+            ],
+
             'reports_menu' => [
                 'expense_report_sub_menu' => [
                     '90' => 'view expense',

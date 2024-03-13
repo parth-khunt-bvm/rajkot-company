@@ -127,13 +127,13 @@ var PublicHoliday = function(){
                 success: function (data) {
                    var PublicHoliday=  JSON.parse(data);
 
-                   function formatDate(inputDate) {
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    const day = inputDate.getDate();
-                    const month = months[inputDate.getMonth()];
-                    const year = inputDate.getFullYear();
-                    return `${day}-${month}-${year}`;
-                  }
+                    function formatDate(inputDate) {
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const day = inputDate.getDate();
+                        const month = months[inputDate.getMonth()];
+                        const year = inputDate.getFullYear();
+                        return `${day}-${month}-${year}`;
+                    }
 
                   const inputDate = new Date(PublicHoliday.date);
                   const formattedDate = formatDate(inputDate);

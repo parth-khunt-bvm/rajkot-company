@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Doctrine\DBAL\Schema\Schema;
+use Illuminate\Support\Facades\Schema as FacadesSchema;
 
 class ChangeRequest extends Model
 {
@@ -27,10 +29,10 @@ class ChangeRequest extends Model
         );
 
         $query = ChangeRequest::from('change_request')
-               ->join("employee", "employee.id", "=", "change_request.employee_id")
-               ->join("branch", "branch.id", "=", "employee.id")
-               ->join("technology", "technology.id", "=", "employee.id")
-               ->join("designation", "designation.id", "=", "employee.id");
+            ->join("employee", "employee.id", "=", "change_request.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->join("technology", "technology.id", "=", "employee.department")
+            ->join("designation", "designation.id", "=", "employee.designation");
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -57,20 +59,20 @@ class ChangeRequest extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('change_request.id', 'change_request.employee_id', 'change_request.request_type', 'change_request.data', 'branch.branch_name','technology.technology_name', 'designation.designation_name', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as EmpName'))
+            ->select('change_request.id', 'change_request.employee_id', 'change_request.request_type', 'change_request.data', 'branch.branch_name', 'technology.technology_name', 'designation.designation_name', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as EmpName'))
             ->get();
 
         $data = array();
         $i = 0;
 
         foreach ($resultArr as $row) {
-            // $target = [];
-            // $target = [33, 34, 35];
-            // $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            $target = [];
+            $target = [149, 150];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
-                $actionhtml = '';
-            // }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            $actionhtml = '';
+            }
 
             if ($row['request_type'] == '1') {
                 $request_type = '<span class="label label-lg label-light-info label-inline">Personal Info</span>';
@@ -79,8 +81,8 @@ class ChangeRequest extends Model
             } else {
                 $request_type = '<span class="label label-lg label-light-info  label-inline">parent Info</span>';
             }
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(35, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href=""data-toggle="modal" data-target="#change-request-view" data-id="'.$row['id'].'" class="btn btn-icon change-request-view"><i class="fa fa-eye text-primary"> </i></a>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(150, explode(',', $permission_array[0]['permission'])) )
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#changeRequestModel" class="btn btn-icon  change-requests delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-eye text-primary" ></i></a>';
 
             $i++;
             $nestedData = array();
@@ -90,9 +92,9 @@ class ChangeRequest extends Model
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['designation_name'];
             $nestedData[] = $request_type;
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
-                $nestedData[] = $actionhtml;
-            // }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            $nestedData[] = $actionhtml;
+            }
             $data[] = $nestedData;
         }
         $json_data = array(
@@ -104,20 +106,137 @@ class ChangeRequest extends Model
         return $json_data;
     }
 
-    // public function get_change_request_details($id){
-    //     $req = ChangeRequest::from('change_request')
-    //     ->join("employee", "employee.id", "=", "change_request.employee_id")
-    //     ->join("branch", "branch.id", "=", "employee.id")
-    //     ->join("technology", "technology.id", "=", "employee.id")
-    //     ->join("designation", "designation.id", "=", "employee.id")
-    //     ->select('change_request.id', 'change_request.employee_id', 'change_request.request_type', 'change_request.data', 'branch.branch_name','technology.technology_name', 'designation.designation_name', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as EmpName'))
-    //     ->where('change_request.id', $id)
-    //     ->first();
-    //     ccd($req);
-    // }
+    public function get_change_request_details($id)
+    {
+        return ChangeRequest::select('employee_id', 'data')->where('id', $id)->get();
+    }
+    public function get_employee_old_info_details($id, $empId)
+    {
+        $employeeColumns = FacadesSchema::getColumnListing('employee');
+        $changeRequestData = ChangeRequest::from('change_request')
+            ->select('data')
+            ->where('id', $id)
+            ->where('employee_id', $empId)
+            ->first();
 
-    public function get_change_request_details($data){
-        return ChangeRequest::select('data')->where('id',$data['id'])->get();
+        $data = json_decode($changeRequestData->data, true);
+        $filteredData = array_intersect_key($data, array_flip($employeeColumns));
+        $employeeDetails = [];
+        foreach ($filteredData as $key => $value) {
+            $employeeDetail = Employee::where('id', $empId)->pluck($key)->first();
+            $employeeDetails[$key] = $employeeDetail;
+        }
+        return $employeeDetails;
     }
 
+    public function changeReqUpdate($request)
+    {
+
+        $objChangeRequest = ChangeRequest::where('change_request.employee_id', $request['emp_id'])->first();
+        $data = json_decode($objChangeRequest->data, true);
+        $objEmployee = Employee::find($request['emp_id']);
+        $objEmployee->first_name = $data['first_name'];
+        $objEmployee->last_name = $data['last_name'];
+        $objEmployee->branch = $data['branch'];
+        $objEmployee->department = $data['department'];
+        $objEmployee->designation = $data['designation'];
+        $objEmployee->DOB = $data['DOB'];
+        $objEmployee->DOJ = $data['DOJ'];
+        $objEmployee->gmail = $data['gmail'];
+        $objEmployee->gmail_password = $data['gmail_password'];
+        $objEmployee->slack_password = $data['slack_password'];
+        $objEmployee->personal_email = $data['personal_email'];
+
+        if ($objEmployee->save()) {
+            $inputData = $request->input();
+            unset($inputData['_token']);
+            $objAudittrails = new Audittrails();
+            $objAudittrails->add_audit("u", $inputData, 'Change Request Approved');
+            $objChangeRequest->where('change_request.employee_id', $data['id'])->delete();
+            return 'added';
+        } else {
+            return 'wrong';
+        }
+    }
+
+    public function common_activity($requestData)
+    {
+        $objChangeRequest = ChangeRequest::find($requestData['id']);
+        $data = json_decode($objChangeRequest->data, true);
+        if ($requestData['activity'] == 'delete-records') {
+             $req = $objChangeRequest['request_type'];
+             if($req === "1"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"1")->delete();
+             } else if($req == "2"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"2")->delete();
+             } else if($req === "3"){
+                ChangeRequest::where('employee_id',$data['id'])->where('request_type',"3")->delete();
+             }
+            $event = 'D';
+        } else if ($requestData['activity'] == 'change-request-update') {
+            if ($objChangeRequest['request_type'] === "1") {
+
+                $objEmployee = Employee::find($objChangeRequest['employee_id']);
+                $objEmployee->first_name = $data['first_name'];
+                $objEmployee->last_name = $data['last_name'];
+                $objEmployee->branch = $data['branch'];
+                $objEmployee->department = $data['department'];
+                $objEmployee->designation = $data['designation'];
+                $objEmployee->DOB = date('Y-m-d', strtotime($data['DOB']));
+                $objEmployee->DOJ = date('Y-m-d', strtotime($data['DOJ']));
+                $objEmployee->gmail = $data['gmail'];
+                $objEmployee->gmail_password = $data['gmail_password'];
+                $objEmployee->slack_password = $data['slack_password'];
+                $objEmployee->personal_email = $data['personal_email'];
+
+                if ($objEmployee->save()) {
+                    $objChangeRequest->where('change_request.id', $objChangeRequest['id'])->delete();
+                    return 'success';
+                } else {
+                    return 'wrong';
+                }
+
+            } else if ($objChangeRequest['request_type'] === "2") {
+
+                $objEmployee = Employee::find($objChangeRequest['employee_id']);
+                $objEmployee->bank_name = $data['bank_name'];
+                $objEmployee->acc_holder_name = $data['acc_holder_name'];
+                $objEmployee->account_number = $data['account_number'];
+                $objEmployee->ifsc_number = $data['ifsc_number'];
+                $objEmployee->pan_number = $data['pan_number'];
+                $objEmployee->aadhar_card_number = $data['aadhar_card_number'];
+                $objEmployee->google_pay_number = $data['google_pay_number'];
+
+                if ($objEmployee->save()) {
+                    $objChangeRequest->where('change_request.id', $objChangeRequest['id'])->delete();
+                    return 'success';
+                } else {
+                    return 'wrong';
+                }
+            } else if ($objChangeRequest['request_type'] === "3") {
+                $objEmployee = Employee::find($objChangeRequest['employee_id']);
+                $objEmployee->parents_name  = $data['parents_name'];
+                $objEmployee->personal_number  = $data['personal_number'];
+                $objEmployee->emergency_number  = $data['emergency_number'];
+                $objEmployee->address  = $data['address'];
+
+                if ($objEmployee->save()) {
+                    $objChangeRequest->where('change_request.id', $objChangeRequest['id'])->delete();
+                    return 'success';
+                } else {
+                    return 'wrong';
+                }
+            }
+            $event = 'U';
+        }
+
+        $objChangeRequest->updated_at = date("Y-m-d H:i:s");
+        if ($objChangeRequest->save()) {
+            $objAudittrails = new Audittrails();
+            $res = $objAudittrails->add_audit($event, $requestData, 'Change Request');
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

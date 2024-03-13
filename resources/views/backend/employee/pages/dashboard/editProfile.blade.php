@@ -92,7 +92,7 @@
                                                         <label>First Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
+                                                        <input type="hidden" name="id" class="form-control" value="{{ $data['id'] }}">
                                                         <input type="text" class="form-control" name="first_name" id="first_name" value="{{ $data['first_name'] }}" placeholder="First Name" autocomplete="off" />
                                                         <input type="hidden" value="{{ $data['first_name'] }}" class="old_value" data-attribute="first_name">
                                                     </div>
@@ -119,12 +119,12 @@
                                                                 <option value="{{ $value['id'] }}" {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['branch_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="branch" hidden>
+                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="branch" hidden>
                                                              <option value="">Please select Branch Name</option>
                                                             @foreach ($branch as $key => $value)
                                                                 <option value="{{ $value['id'] }}" {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['branch_name'] }}</option>
                                                             @endforeach
-                                                        </select>
+                                                        </select> --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -132,18 +132,18 @@
                                                         <label>Technology Name
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <select class="form-control select2 technology" id="technology" name="technology">
+                                                        <select class="form-control select2 technology" id="technology" name="department">
                                                             <option value="">Please select Technology Name</option>
                                                             @foreach ($technology as $key => $value)
                                                                 <option value="{{ $value['id'] }}" {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['technology_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="technology" hidden>
+                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="technology" hidden>
                                                             <option value="">Please select Technology Name</option>
                                                             @foreach ($technology as $key => $value)
                                                                 <option value="{{ $value['id'] }}" {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['technology_name'] }}</option>
                                                             @endforeach
-                                                       </select>
+                                                       </select> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,18 +159,18 @@
                                                                 <option value="{{ $value['id'] }}" {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['designation_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="designation" hidden>
+                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="designation" hidden>
                                                             <option value="">Please select Designation Name</option>
                                                             @foreach ($designation as $key => $value)
                                                                 <option value="{{ $value['id'] }}" {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['designation_name'] }}</option>
                                                             @endforeach
-                                                       </select>
+                                                       </select> --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input type="text" class="form-control date_of_birth" name="dob" id="dob" value="{{ date_formate($data['DOB']) }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
+                                                        <input type="text" class="form-control date_of_birth" name="DOB" id="dob" value="{{ date_formate($data['DOB']) }}" max="{{ date('Y-m-d') }}" placeholder="Date Of Birth" autocomplete="off" />
                                                         <input type="hidden" value="{{ date_formate($data['DOB']) }}" class="old_value" data-attribute="dob">
                                                     </div>
                                                 </div>
@@ -179,7 +179,7 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>Date Of joining</label>
-                                                        <input type="text" class="form-control datepicker_date" name="doj" id="doj" value="{{ date_formate($data['DOJ']) }}" placeholder="Date Of Joining" autocomplete="off" />
+                                                        <input type="text" class="form-control datepicker_date" name="DOJ" id="doj" value="{{ date_formate($data['DOJ']) }}" placeholder="Date Of Joining" autocomplete="off" />
                                                         <input type="hidden" value="{{ date_formate($data['DOJ']) }}" class="old_value" data-attribute="doj">
                                                     </div>
                                                 </div>
@@ -260,17 +260,15 @@
                                                     <div class="form-group">
                                                         <label>Bank Name
                                                         </label>
-                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
-                                                        <input type="text" class="form-control input-name" name="bank_name" id="bank_name" value="{{ $data['bank_name'] }}" placeholder="Bank Name" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="hidden" name="id" class="form-control" value="{{ $data['id'] }}">
+                                                        <input type="text" class="form-control" name="bank_name" id="bank_name" value="{{ $data['bank_name'] }}" placeholder="Bank Name" autocomplete="off" />
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>Account Holder Name
                                                         </label>
-                                                        <input type="text" class="form-control input-name" name="acc_holder_name" id="acc_holder_name" value="{{ $data['acc_holder_name'] }}" placeholder="Account Holder Name" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="acc_holder_name" id="acc_holder_name" value="{{ $data['acc_holder_name'] }}" placeholder="Account Holder Name" autocomplete="off" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -279,16 +277,14 @@
                                                     <div class="form-group">
                                                         <label>Account Number
                                                         </label>
-                                                        <input type="text" class="form-control input-name onlyNumber" name="account_number" id="account_number" value="{{ $data['account_number'] }}" placeholder="Account Number" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control onlyNumber" name="account_number" id="account_number" value="{{ $data['account_number'] }}" placeholder="Account Number" autocomplete="off" />
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>IFSC Code
                                                         </label>
-                                                        <input type="text" class="form-control input-name" maxlength="11" name="ifsc_code" id="ifsc_code" value="{{ $data['ifsc_number'] }}" placeholder="IFSC Code" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" maxlength="11" name="ifsc_number" id="ifsc_code" value="{{ $data['ifsc_number'] }}" placeholder="IFSC Code" autocomplete="off" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -297,16 +293,14 @@
                                                     <div class="form-group">
                                                         <label>Pan Number
                                                         </label>
-                                                        <input type="text" class="form-control input-name" name="pan_number" id="pan_number" value="{{ $data['pan_number'] }}" maxlength="11" placeholder="Pan Number" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="pan_number" id="pan_number" value="{{ $data['pan_number'] }}" maxlength="11" placeholder="Pan Number" autocomplete="off" />
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label>Aadhar Card Number
                                                         </label>
-                                                        <input type="text" class="form-control input-name onlyNumber " name="aadhar_card_number" id="aadhar_card_number" value="{{ $data['aadhar_card_number'] }}" maxlength="12" placeholder="Aadhar Card Number" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control onlyNumber " name="aadhar_card_number" id="aadhar_card_number" value="{{ $data['aadhar_card_number'] }}" maxlength="12" placeholder="Aadhar Card Number" autocomplete="off" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -315,8 +309,7 @@
                                                     <div class="form-group">
                                                         <label>Google Pay Number
                                                         </label>
-                                                        <input type="text" class="form-control input-name onlyNumber" name="google_pay" id="google_pay" maxlength="10" value="{{ $data['google_pay_number'] }}" placeholder="Google Pay Number" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control onlyNumber" name="google_pay_number" id="google_pay" maxlength="10" value="{{ $data['google_pay_number'] }}" placeholder="Google Pay Number" autocomplete="off" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -359,9 +352,8 @@
                                                     <div class="form-group">
                                                         <label>Parents Name
                                                         </label>
-                                                        <input type="hidden" name="edit_id" class="form-control" value="{{ $data['id'] }}">
-                                                        <input type="text" class="form-control input-name" name="parent_name" id="parent_name" value="{{ $data['parents_name'] }}" placeholder="Parent Name" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="hidden" name="id" class="form-control" value="{{ $data['id'] }}">
+                                                        <input type="text" class="form-control" name="parents_name" id="parent_name" value="{{ $data['parents_name'] }}" placeholder="Parent Name" autocomplete="off" />
                                                     </div>
                                                 </div>
 
@@ -372,8 +364,7 @@
                                                         <label>Personal Number
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="text" class="form-control input-name" name="personal_number" id="personal_number" maxlength="10" value="{{ $data['personal_number'] }}" placeholder="Personal Number" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control" name="personal_number" id="personal_number" maxlength="10" value="{{ $data['personal_number'] }}" placeholder="Personal Number" autocomplete="off" />
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -381,8 +372,7 @@
                                                         <label>Emergency Contact
                                                             <span class="text-danger">*</span>
                                                         </label>
-                                                        <input type="text" class="form-control onlyNumber input-name" name="emergency_contact" id="emergency_contact" maxlength="10" value="{{ $data['emergency_number'] }}" placeholder="Emergency Contact" autocomplete="off" />
-                                                        <span class="type_error text-danger"></span>
+                                                        <input type="text" class="form-control onlyNumber" name="emergency_number" id="emergency_contact" maxlength="10" value="{{ $data['emergency_number'] }}" placeholder="Emergency Contact" autocomplete="off" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,8 +381,7 @@
                                                     <div class="form-group">
                                                         <label>Address
                                                         </label>
-                                                        <textarea class="form-control input-name" id="" cols="30" rows="10" name="address" id="address" autocomplete="off">{{ $data['address'] }}</textarea>
-                                                        <span class="type_error text-danger"></span>
+                                                        <textarea class="form-control" id="" cols="30" rows="10" name="address" id="address" autocomplete="off">{{ $data['address'] }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>

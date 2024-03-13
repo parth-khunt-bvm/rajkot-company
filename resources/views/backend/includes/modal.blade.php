@@ -1179,22 +1179,68 @@
 </div>
 
 <!-- view leave request Model-->
-<div class="modal fade" id="change-request-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+
+{{-- <div class="modal fade " id="change-request-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Change Leave Request</h5>
+                <h5 class="modal-title" id="exampleModalLabel">change request view</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="modal-body" id="change-request-view" style="word-break: break-all !important; ">
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Old Data</h5>
+                        <div id="old-data">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>New Data</h5>
+                        <div id="new-data">
+                        </div>
+                    </div>
                 </div>
-                <li>dd</li>
-                <li>dd</li>
-                <li>dd</li>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary mr-2 submitbtn">Approved</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-deactive">Yes , I am sure</button>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<!-- Modal-->
+<div class="modal fade" id="changeRequestModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Old Data</h5>
+                        <div id="old-data">
+                            <!-- Old Data will be displayed here -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>New Data</h5>
+                        <div id="new-data">
+                            <!-- New Data will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approved</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
             </div>
         </div>
     </div>
