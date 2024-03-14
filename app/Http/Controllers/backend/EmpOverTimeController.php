@@ -198,11 +198,17 @@ class EmpOverTimeController extends Controller
                 echo json_encode($list);
                 break;
 
+            // case 'get-emp-overtime-detail':
+            //     $objEmpOvertime = new EmpOvertime();
+            //     $list = $objEmpOvertime->getOvertimeDatatable($request->input('data'));
+            //     echo json_encode($list);
+            //     break;
+
             case 'emp-overtime-view';
-            $objEmpOvertime = new EmpOvertime();
-            $list = $objEmpOvertime->get_emp_overtime_details($request->input('data'));
-            echo json_encode($list);
-            break;
+                $objEmpOvertime = new EmpOvertime();
+                $list = $objEmpOvertime->get_emp_overtime_details($request->input('data'));
+                echo json_encode($list);
+                break;
 
             case 'common-activity':
                 $objEmpOvertime = new EmpOvertime();

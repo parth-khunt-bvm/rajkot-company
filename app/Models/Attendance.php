@@ -36,20 +36,9 @@ class Attendance extends Model
             $query = Attendance::from('attendance')
                 ->join("employee", "employee.id", "=", "attendance.employee_id")
                 ->join("branch", "branch.id", "=", "employee.branch")
-                // ->leftJoin("emp_overtime", "emp_overtime.employee_id", "=", "employee.id")
-                // ->leftJoin('emp_overtime', function ($join) use ($outputDate) {
-                //     $join->on('emp_overtime.employee_id', '=', 'employee.id')
-                //          ->where('emp_overtime.date', '=', $outputDate);
-                // })
                 ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                 ->where("attendance.date", $outputDate);
         }
-
-        // if(date('w', strtotime($outputDate)) != 6 && date('w', strtotime($outputDate)) != 0){
-        //     $query->where("attendance.date", $outputDate);
-        // } else {
-        //     $query->where('emp_overtime.date', '=', $outputDate);
-        // }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -104,7 +93,6 @@ class Attendance extends Model
             $nestedData[] = $row['fullName'];
             $nestedData[] = $attendance_type;
             $nestedData[] = $row['minutes'];
-            // $nestedData[] = $row['hours'];
             if (strlen($row['reason']) > $max_length) {
                 $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
             } else {

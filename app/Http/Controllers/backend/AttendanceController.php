@@ -80,10 +80,12 @@ class AttendanceController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
+            // 'emp_overtime.js',
             'attendance.js',
         );
         $data['funinit'] = array(
-            'Attendance.list()'
+            // 'EmployeeOverTime.emp_overtime_day_list()',
+            'Attendance.list()',
         );
         $data['header'] = array(
             'title' => 'Attendance list',

@@ -31,6 +31,7 @@ class Employee extends Authenticatable
             4 => 'employee.experience',
             5 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
         );
+
         $query = Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("branch", "branch.id", "=", "employee.branch")
