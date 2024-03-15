@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\employee\EmpAssetAllocationController;
 use App\Http\Controllers\backend\employee\EmpChangeRequestController;
 use App\Http\Controllers\backend\employee\EmpAttendanceController;
 use App\Http\Controllers\backend\employee\EmpAttendanceReportController;
@@ -33,6 +34,9 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('save-personal-info', [EmpChangeRequestController::class, 'savePersonalInfo'])->name('employee.save-personal-info');
     Route::post('save-bank-info', [EmpChangeRequestController::class, 'saveBankInfo'])->name('employee.save-bank-info');
     Route::post('save-parent-info', [EmpChangeRequestController::class, 'saveParentInfo'])->name('employee.save-parent-info');
+
+    Route::resource('emp-asset-allocations', EmpAssetAllocationController::class);
+    Route::post('emp-asset-allocations/ajaxcall', [EmpAssetAllocationController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
 
 
