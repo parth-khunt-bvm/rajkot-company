@@ -30,7 +30,7 @@ class Attendance extends Model
                                 ELSE "Short Leave" END)'),
             4 => 'attendance.reason',
             5 => 'attendance.minutes',
-            6 => 'emp_overtime.hours',
+            // 6 => 'emp_overtime.hours',
         );
         if ($outputDate != null && $outputDate != '') {
             $query = Attendance::from('attendance')
@@ -252,6 +252,8 @@ class Attendance extends Model
     {
         $objAttendance =  Attendance::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
+
+            //  dd("delete-attendamce-record"); die();
             $objAttendance->where('id',$requestData['id'])->delete();
             $event = 'D';
         }
