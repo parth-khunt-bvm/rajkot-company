@@ -20,14 +20,19 @@ var Attendance = function () {
 
         $("body").on("click", ".delete-records", function() {
             var id = $(this).data('id');
+            var dataAttr = $(this).data('attribute');
             setTimeout(function() {
-                $('.yes-sure:visible').attr('data-id', id);
+                $('.yes-sure:visible').attr({
+                    'data-attribute': dataAttr,
+                    'data-id': id
+                });
             }, 500);
         })
 
         $('body').on('click', '.yes-sure', function() {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
+            var dataAttr = $(this).data('attribute');
+            var data = { 'id': id,'dataAttr': dataAttr, 'activity': 'delete-records', _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
@@ -52,6 +57,7 @@ var Attendance = function () {
                 '<th>Date</th>' +
                 '<th>Employee</th>' +
                 '<th>Attendance Type</th>' +
+                '<th>Minutes</th>'+
                 '<th>reason</th>' +
                 '<th>Action</th>' +
                 '</tr>' +
@@ -61,6 +67,26 @@ var Attendance = function () {
                 '</table>';
 
             $(".attendance-list").html(html);
+
+            var html2 = '';
+            html2 =  '<table class="table table-bordered table-checkable" id="emp-overtime-day-list">'+
+                    '<thead>'+
+                    '<tr>'+
+                    '<th>#</th>'+
+                    '<th>Date</th>'+
+                    '<th>Employee</th>'+
+                    '<th>Hours</th>'+
+                    '<th>Note</th>'+
+                    '<th>Action</th>'+
+                    '</tr>'+
+                    '</thead>'+
+                    '<tbody>'+
+                    '</tbody>'+
+                    '</table>';
+
+            $(".emp-overtime-day-list").html(html2);
+
+
 
             var date = $('.change_date').val();
             var dataArr = { 'date': date };
@@ -73,6 +99,23 @@ var Attendance = function () {
                 'hideColumnList': [],
                 'noSortingApply': [0, 5],
                 'noSearchApply': [0, 5],
+                'defaultSortColumn': [0],
+                'defaultSortOrder': 'DESC',
+                'setColumnWidth': columnWidth
+            };
+            getDataTable(arrList);
+
+            var date = $('.change_date').val();
+            var dataArr = { 'date': date };
+            var columnWidth = { "width": "5%", "targets": 0 };
+            var arrList = {
+                'tableID': '#emp-overtime-day-list',
+                'ajaxURL': baseurl + "admin/emp-overtime/ajaxcall",
+                'ajaxAction': 'get-emp-overtime-detail',
+                'postData': dataArr,
+                'hideColumnList': [],
+                'noSortingApply': [0, 0],
+                'noSearchApply': [0, 0],
                 'defaultSortColumn': [0],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth

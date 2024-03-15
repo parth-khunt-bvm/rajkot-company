@@ -198,11 +198,11 @@ class EmpOverTimeController extends Controller
                 echo json_encode($list);
                 break;
 
-            // case 'get-emp-overtime-detail':
-            //     $objEmpOvertime = new EmpOvertime();
-            //     $list = $objEmpOvertime->getOvertimeDatatable($request->input('data'));
-            //     echo json_encode($list);
-            //     break;
+            case 'get-emp-overtime-detail':
+                $objEmpOvertime = new EmpOvertime();
+                $list = $objEmpOvertime->getOvertimeDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
 
             case 'emp-overtime-view';
                 $objEmpOvertime = new EmpOvertime();
@@ -211,15 +211,25 @@ class EmpOverTimeController extends Controller
                 break;
 
             case 'common-activity':
+                // $objEmpOvertime = new EmpOvertime();
+                // $data = $request->input('data');
+
                 $objEmpOvertime = new EmpOvertime();
                 $data = $request->input('data');
+                $empOvertimeId = $data['id'];
+                $EmpOvertimeRecord = EmpOvertime::find($empOvertimeId);
+                $date = date_formate($EmpOvertimeRecord['date']);
+
                 $result = $objEmpOvertime->common_activity($data);
                 if ($result) {
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
                         $return['message'] = "Employee Overtime details successfully deleted.";
+                        $return['redirect'] = route('admin.emp-overtime.list');
+                    } else if($data['activity'] == 'delete-overtime-records'){
+                        $return['message'] = "Employee Overtime details successfully deleted.";
+                        $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
                     }
-                    $return['redirect'] = route('admin.emp-overtime.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
