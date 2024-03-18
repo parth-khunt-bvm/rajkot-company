@@ -253,9 +253,11 @@ class Attendance extends Model
     {
         if ($requestData['activity'] == 'delete-records') {
 
+
             if ($requestData['dataAttr'] == 'emp_attendance') {
+
                 $objAttendance =  Attendance::find($requestData['id']);
-                $objAttendance->where('id',$requestData['id'])->delete();
+                $objAttendance->where('id',$requestData['id']);  //->delete();
                 $event = 'D';
                 $objAttendance->updated_at = date("Y-m-d H:i:s");
 
@@ -269,7 +271,7 @@ class Attendance extends Model
 
             } else if($requestData['dataAttr'] == 'emp_overtime'){
                 $objEmpOvertime =  EmpOvertime::find($requestData['id']);
-                $objEmpOvertime->where('id',$requestData['id'])->delete();
+                $objEmpOvertime->where('id',$requestData['id']);  //->delete();
                 $event = 'D';
                 $objEmpOvertime->updated_at = date("Y-m-d H:i:s");
 

@@ -217,7 +217,7 @@ class Employee extends Authenticatable
             $objEmployee->aadhar_card_number = $requestData['aadhar_card_number'];
             $objEmployee->parents_name = $requestData['parent_name'];
             $objEmployee->personal_number = $requestData['personal_number'];
-            $objEmployee->google_pay_number = $requestData['google_pay'];
+            $objEmployee->google_pay_number = $requestData['google_pay'] ?? '-';
             $objEmployee->emergency_number = $requestData['emergency_contact'];
             $objEmployee->address = $requestData['address'];
             $objEmployee->experience = $requestData['experience'];
@@ -302,7 +302,7 @@ class Employee extends Authenticatable
             $objEmployee->aadhar_card_number = $requestData['aadhar_card_number'];
             $objEmployee->parents_name = $requestData['parent_name'];
             $objEmployee->personal_number = $requestData['personal_number'];
-            $objEmployee->google_pay_number = $requestData['google_pay'];
+            $objEmployee->google_pay_number = $requestData['google_pay'] ?? '-';
             $objEmployee->emergency_number = $requestData['emergency_contact'];
             $objEmployee->address = $requestData['address'];
             $objEmployee->experience = $requestData['experience'];

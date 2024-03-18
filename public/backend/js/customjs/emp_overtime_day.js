@@ -18,30 +18,6 @@ var EmployeeOverTimeDay = function () {
         };
         getDataTable(arrList);
 
-        // $("body").on("click", ".delete-records", function() {
-        //     var data = $(this).data('attribute');
-        //     setTimeout(function() {
-        //         $('.yes-sure:visible').attr('data-attribute', data);
-        //     }, 500);
-        // })
-
-        // $('body').on('click', '.yes-sure', function() {
-        //     var data = $(this).attr('data-attribute');
-        //     var data = { 'data': data, 'activity': 'delete-overtime-records', _token: $('#_token').val() };
-        //     $.ajax({
-        //         type: "POST",
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-        //         },
-        //         url: baseurl + "admin/emp-overtime/ajaxcall",
-        //         data: { 'action': 'common-activity', 'data': data },
-        //         success: function(data) {
-        //             $("#loader").show();
-        //             handleAjaxResponse(data);
-        //         }
-        //     });
-        // });
-
         $("body").on('click','.emp-overtime-view', function(){
             var id = $(this).data('id');
             console.log(id);

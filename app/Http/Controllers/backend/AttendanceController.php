@@ -290,15 +290,19 @@ class AttendanceController extends Controller
                         $attendanceRecord = Attendance::find($attendanceId);
                         $date = date_formate($attendanceRecord['date']);
                         $return['message'] = 'Attendance details successfully deleted.';
-                        $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
+                        $attendanceRecord->delete();
+
                     }
-                    // else if($data['dataAttr'] == 'emp_overtime'){
-                    //     $empOvertimeId = $data['id'];
-                    //     $empOvertimeRecord = EmpOvertime::find($empOvertimeId);
-                    //     $date = date_formate($empOvertimeRecord['date']);
-                    //     $return['message'] = 'Employee Overtime details successfully deleted.';;
-                    // }
-                    // $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
+                    else if($data['dataAttr'] == 'emp_overtime'){
+                        $empOvertimeId = $data['id'];
+                        $empOvertimeRecord = EmpOvertime::find($empOvertimeId);
+                        $date = date_formate($empOvertimeRecord['date']);
+                        $return['message'] = 'Employee Overtime details successfully deleted.';
+                        $empOvertimeRecord->delete();
+                    }
+
+                    $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
+
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
