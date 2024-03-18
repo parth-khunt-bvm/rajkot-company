@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\EmpOvertime;
 use Illuminate\Http\Request;
 use Config;
 
@@ -80,12 +81,12 @@ class AttendanceController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            // 'emp_overtime.js',
             'attendance.js',
+            'emp_overtime_day.js',
         );
         $data['funinit'] = array(
-            // 'EmployeeOverTime.emp_overtime_day_list()',
             'Attendance.list()',
+            'EmployeeOverTimeDay.init()',
         );
         $data['header'] = array(
             'title' => 'Attendance list',
@@ -278,18 +279,30 @@ class AttendanceController extends Controller
                 break;
 
             case 'common-activity':
-                $objAttendance = new Attendance();
                 $data = $request->input('data');
-                $attendanceId = $data['id'];
-                $attendanceRecord = Attendance::find($attendanceId);
-                $date = date_formate($attendanceRecord['date']);
+                $objAttendance = new Attendance();
+
                 $result = $objAttendance->common_activity($data);
                 if ($result) {
                     $return['status'] = 'success';
-                    if($data['activity'] == 'delete-records'){
-                        $return['message'] = 'Attendance details successfully deleted.';;
+                    if($data['dataAttr'] == 'emp_attendance'){
+                        $attendanceId = $data['id'];
+                        $attendanceRecord = Attendance::find($attendanceId);
+                        $date = date_formate($attendanceRecord['date']);
+                        $return['message'] = 'Attendance details successfully deleted.';
+                        $attendanceRecord->delete();
+
                     }
+                    else if($data['dataAttr'] == 'emp_overtime'){
+                        $empOvertimeId = $data['id'];
+                        $empOvertimeRecord = EmpOvertime::find($empOvertimeId);
+                        $date = date_formate($empOvertimeRecord['date']);
+                        $return['message'] = 'Employee Overtime details successfully deleted.';
+                        $empOvertimeRecord->delete();
+                    }
+
                     $return['redirect'] = route('admin.attendance.day-list', ["date" => $date]);
+
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';

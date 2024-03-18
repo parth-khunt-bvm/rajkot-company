@@ -84,7 +84,7 @@ class Attendance extends Model
             } else {
                 $attendance_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
             }
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" data-attribute="emp_attendance" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();
@@ -248,26 +248,48 @@ class Attendance extends Model
             ->where('attendance.id', $attendanceId)
             ->first();
     }
+
     public function common_activity($requestData)
     {
-        $objAttendance =  Attendance::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
 
-            //  dd("delete-attendamce-record"); die();
-            $objAttendance->where('id',$requestData['id'])->delete();
-            $event = 'D';
-        }
 
-        $objAttendance->updated_at = date("Y-m-d H:i:s");
-        if ($objAttendance->save()) {
-            $objAudittrails = new Audittrails();
-            $res = $objAudittrails->add_audit($event, $requestData, 'Attendance');
-            return true;
-        } else {
-            return false;
+            if ($requestData['dataAttr'] == 'emp_attendance') {
+
+                $objAttendance =  Attendance::find($requestData['id']);
+                $objAttendance->where('id',$requestData['id']);  //->delete();
+                $event = 'D';
+                $objAttendance->updated_at = date("Y-m-d H:i:s");
+
+                if ($objAttendance->save()) {
+                    $objAudittrails = new Audittrails();
+                    $res = $objAudittrails->add_audit($event, $requestData, 'Attendance');
+                    return "emp_attendance";
+                } else {
+                    return false;
+                }
+
+            } else if($requestData['dataAttr'] == 'emp_overtime'){
+                $objEmpOvertime =  EmpOvertime::find($requestData['id']);
+                $objEmpOvertime->where('id',$requestData['id']);  //->delete();
+                $event = 'D';
+                $objEmpOvertime->updated_at = date("Y-m-d H:i:s");
+
+                if ($objEmpOvertime->save()) {
+                    $objAudittrails = new Audittrails();
+                    $res = $objAudittrails->add_audit($event, $requestData, 'Attendance');
+                    return "emp_overtime";
+                } else {
+                    return false;
+                }
+            }
+
         }
 
     }
+
+
+
     public function get_admin_attendance_details($requestData)
     {
         $month = $requestData['year'] . '-' . $requestData['month'];
