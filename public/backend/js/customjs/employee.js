@@ -787,6 +787,30 @@ var Employee = function () {
                             'setColumnWidth': columnWidth
                         };
                         getDataTable(arrList);
+                    } else if (type == 'salary-slip') {
+
+                        var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
+
+                        if ($.fn.DataTable.isDataTable('#employee-asset-allocation-list')) {
+                            $('#employee-asset-allocation-list').DataTable().destroy();
+                        }
+
+                        $('.select2').select2();
+                        var dataArr = {'userId': userId,};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#admin-emp-salary-slip-list',
+                            'ajaxURL': baseurl + "admin/employee/salary-slip/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0],
+                            'noSearchApply': [0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
                     }
                     else {
                         $(".employee-detail-view").html(data);

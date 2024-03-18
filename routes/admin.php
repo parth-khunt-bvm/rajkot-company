@@ -33,6 +33,7 @@ use App\Http\Controllers\backend\ChangeRequestController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
+use App\Http\Controllers\backend\EmployeeSalarySlipController;
 use App\Http\Controllers\backend\EmpOverTimeController;
 use App\Http\Controllers\backend\LatterAbbreviationController;
 use App\Http\Controllers\backend\LatterTemplateController;
@@ -216,6 +217,9 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     Route::get('admin/employee/asset-allocation/list', [EmployeeAssetAllocationController::class, 'assetAllocationList'])->name('admin.employee.asset-allocation.list');
     Route::post('admin/employee/asset-allocation/ajaxcall', [EmployeeAssetAllocationController::class, 'ajaxcall'])->name('admin.employee.asset-allocation.ajaxcall');
+
+    Route::get('admin/employee/salary-slip/list', [EmployeeSalarySlipController::class, 'salarySlipList'])->name('admin.employee.salary-slip.list');
+    Route::post('admin/employee/salary-slip/ajaxcall', [EmployeeSalarySlipController::class, 'ajaxcall'])->name('admin.employee.salary-slip.ajaxcall');
 
     Route::get('admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('admin/employee/save-add-employee', [EmployeeController::class, 'saveAdd'])->name('admin.employee.save-add-employee');

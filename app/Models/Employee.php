@@ -132,6 +132,12 @@ class Employee extends Authenticatable
             $nestedData = array();
             $nestedData[] = $i;
             $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'] ."<br>G pay : ". $row['google_pay_number'];
+            // $nestedData[] = ($row['full_name'] ? $row['full_name'] : '-') . "<br>Technology Name : " .
+            //    ($row['technology_name'] ? $row['technology_name'] : '-') . "<br>Gmail : " .
+            //    ($row['gmail'] ? $row['gmail'] : '-') . "<br>Designation : " .
+            //    ($row['designation_name'] ? $row['designation_name'] : '-') . "<br>Emergency contact : " .
+            //    ($row['emergency_number'] ? $row['emergency_number'] : '-') . "<br>G pay : " .
+            //    ($row['google_pay_number'] ? $row['google_pay_number'] : '-');
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
             $nestedData[] = numberformat($row['experience'], 0);
