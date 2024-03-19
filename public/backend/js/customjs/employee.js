@@ -134,6 +134,7 @@ var Employee = function () {
                 '<th>Branch</th>'+
                 '<th>Date of Joining</th>' +
                 '<th>Experience</th>' +
+                '<th>Googal pay</th>'+
                 '<th>Status</th>';
                 if (isAdmin == 'Y' || intersection.length > 0 ) {
                     html += '<th>Action</th>';
@@ -791,8 +792,8 @@ var Employee = function () {
 
                         var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
 
-                        if ($.fn.DataTable.isDataTable('#employee-asset-allocation-list')) {
-                            $('#employee-asset-allocation-list').DataTable().destroy();
+                        if ($.fn.DataTable.isDataTable('#admin-emp-salary-slip-list')) {
+                            $('#admin-emp-salary-slip-list').DataTable().destroy();
                         }
 
                         $('.select2').select2();

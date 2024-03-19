@@ -147,6 +147,7 @@ $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_ty
                                 <th>Branch</th>
                                 <th>Date of Joining</th>
                                 <th>Experience</th>
+                                <th>Googal pay</th>
                                 <th>Status</th>
                                 @php
                                 $target = [];

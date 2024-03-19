@@ -4,8 +4,8 @@ var Expense = function(){
         var manager = $('#manager_id').val();
         var branch = $("#branch_id").val();
         var type = $("#type_id").val();
-        var month = $('#monthId').val();
-        var year = $('#expenseYearId').val();
+        var month = $('#expenseFillMonthId').val();
+        var year = $('#expenseFillYearId').val();
 
         var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
@@ -92,8 +92,8 @@ var Expense = function(){
             var manager = $('#manager_id').val();
             var branch = $("#branch_id").val();
             var type = $("#type_id").val();
-            var month = $('#monthId').val();
-            var year = $('#expenseYearId').val();
+            var month = $('#expenseFillMonthId').val();
+            var year = $('#expenseFillYearId').val();
 
            var dataArr = {'manager' :manager ,'branch':branch, 'type':type, 'month': month,'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
@@ -231,7 +231,7 @@ var Expense = function(){
                     }
                 });
             }
-            $("#monthId").html(html);
+            $("#expenseMonthId").html(html);
         });
     }
 
@@ -262,7 +262,7 @@ var Expense = function(){
                     }
                 });
             }
-            $("#month").html(html);
+            $("#expenseMonthId").html(html);
         });
 
         $('.select2').select2();

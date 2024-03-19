@@ -77,7 +77,7 @@
                                 <label> Month
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 month" id="monthId"  name="month">
+                                <select class="form-control select2 month" id="hrExpenseMonthId"  name="month">
                                     <option value="">Month</option>
                                     <option value="1">January</option>
                                     <option value="2">February</option>

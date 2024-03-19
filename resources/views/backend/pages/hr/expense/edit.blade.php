@@ -29,7 +29,7 @@
                                             <label>Month
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select class="form-control select2 month" id="monthId"  name="month" >
+                                            <select class="form-control select2 month" id="hrExpenseMonthId"  name="month" >
                                                 <option value="">Please Select month name</option>
                                                 <option value="1" {{ $hr_expense_details->month == 1 ? 'selected="selected"' : '' }}>January</option>
                                                 <option value="2" {{ $hr_expense_details->month == 2 ? 'selected="selected"' : '' }}>February</option>

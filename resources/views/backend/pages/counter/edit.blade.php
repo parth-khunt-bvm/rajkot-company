@@ -21,7 +21,7 @@
                                         <label>Month
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 month" id="month"  name="month">
+                                        <select class="form-control select2 month" id="counterMonthId"  name="month">
                                             <option value="1" {{ $counter_detail->month == 1 ? 'selected="selected"' : '' }}>January</option>
                                             <option value="2" {{ $counter_detail->month == 2 ? 'selected="selected"' : '' }}>February</option>
                                             <option value="3" {{ $counter_detail->month == 3 ? 'selected="selected"' : '' }}>March</option>

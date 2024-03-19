@@ -25,11 +25,12 @@ class Employee extends Authenticatable
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number , "<br>G pay : ", employee.google_pay_number )'),
+            1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number  )'),
             2 => 'branch.branch_name',
             3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
             4 => 'employee.experience',
-            5 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
+            5 => 'employee.google_pay_number',
+            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
         );
 
         $query = Employee::from('employee')
@@ -131,16 +132,11 @@ class Employee extends Authenticatable
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'] ."<br>G pay : ". $row['google_pay_number'];
-            // $nestedData[] = ($row['full_name'] ? $row['full_name'] : '-') . "<br>Technology Name : " .
-            //    ($row['technology_name'] ? $row['technology_name'] : '-') . "<br>Gmail : " .
-            //    ($row['gmail'] ? $row['gmail'] : '-') . "<br>Designation : " .
-            //    ($row['designation_name'] ? $row['designation_name'] : '-') . "<br>Emergency contact : " .
-            //    ($row['emergency_number'] ? $row['emergency_number'] : '-') . "<br>G pay : " .
-            //    ($row['google_pay_number'] ? $row['google_pay_number'] : '-');
+            $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
             $nestedData[] = numberformat($row['experience'], 0);
+            $nestedData[] = $row['google_pay_number'];
             $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
@@ -223,7 +219,7 @@ class Employee extends Authenticatable
             $objEmployee->aadhar_card_number = $requestData['aadhar_card_number'];
             $objEmployee->parents_name = $requestData['parent_name'];
             $objEmployee->personal_number = $requestData['personal_number'];
-            $objEmployee->google_pay_number = $requestData['google_pay'] ?? '-';
+            $objEmployee->google_pay_number = $requestData['google_pay'];
             $objEmployee->emergency_number = $requestData['emergency_contact'];
             $objEmployee->address = $requestData['address'];
             $objEmployee->experience = $requestData['experience'];
@@ -308,7 +304,7 @@ class Employee extends Authenticatable
             $objEmployee->aadhar_card_number = $requestData['aadhar_card_number'];
             $objEmployee->parents_name = $requestData['parent_name'];
             $objEmployee->personal_number = $requestData['personal_number'];
-            $objEmployee->google_pay_number = $requestData['google_pay'] ?? '-';
+            $objEmployee->google_pay_number = $requestData['google_pay'];
             $objEmployee->emergency_number = $requestData['emergency_contact'];
             $objEmployee->address = $requestData['address'];
             $objEmployee->experience = $requestData['experience'];

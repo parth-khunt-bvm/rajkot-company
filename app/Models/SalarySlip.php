@@ -20,7 +20,7 @@ class SalarySlip extends Model
         $columns = array(
             0 => 'salary_slip.id',
             1 => DB::raw("CONCAT(employee.first_name,' ',employee.last_name)"),
-            2 => 'branch.technology_name',
+            2 => 'technology.technology_name',
             3 => 'designation.designation_name',
             4 =>  DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", salary_slip.month, "-01")), "-", year)'),
         );

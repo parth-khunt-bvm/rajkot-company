@@ -116,7 +116,7 @@
                                 <label>Month
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 month" id="month" name="month" disabled="disabled">
+                                <select class="form-control select2 month" id="expenseMonthId" name="month" disabled="disabled">
                                     <option value="">Month of expense</option>
                                 </select>
                             </div>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label>year</label>
                                 <span class="text-danger">*</span>
-                                <select class="form-control select2 year " id="yearId"  name="year">
+                                <select class="form-control select2 year" id="expenseYearId"  name="year">
                                     <option value="">Select Year</option>
                                     @for ($i = 2019; $i <= date('Y'); $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>
@@ -200,7 +200,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Month</label>
-                                    <select class="form-control select2 month change" id="monthId"  name="month">
+                                    <select class="form-control select2 month change" id="expenseFillMonthId"  name="month">
                                         <option value="">Select Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -220,7 +220,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>year</label>
-                                    <select class="form-control select2 year change" id="expenseYearId"  name="year">
+                                    <select class="form-control select2 year change" id="expenseFillYearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>

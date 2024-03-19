@@ -92,7 +92,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>year</label>
-                                            <select class="form-control select2 year change" id="yearId" name="year">
+                                            <select class="form-control select2 year change" id="salaryYearId" name="year">
                                                 <option value="">Select Year</option>
                                                 @for ($i = 2019; $i <= date('Y'); $i++)
                                                     <option value="{{ $i }}" {{ $i == $salary_details->year ? 'selected="selected"' : '' }}>{{ $i }}</option>
