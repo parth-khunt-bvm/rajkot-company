@@ -27,7 +27,7 @@
                                         <label>Employee Name
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 employee" id="employee"  name="employee">
+                                        <select class="form-control select2 employee" id="overtimeEmployeeId"  name="employee">
                                             <option value="">Please select Employee Name</option>
                                             @foreach ($employee  as $key => $value )
                                                 <option value="{{ $value['id'] }}" {{ $value['id'] == $emp_overtime_details->employee_id ? 'selected="selected"' : '' }}>{{ $value['first_name']. ' '. $value['last_name'] }}</option>

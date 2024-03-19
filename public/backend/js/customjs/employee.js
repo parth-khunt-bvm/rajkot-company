@@ -134,6 +134,7 @@ var Employee = function () {
                 '<th>Branch</th>'+
                 '<th>Date of Joining</th>' +
                 '<th>Experience</th>' +
+                '<th>Googal pay</th>'+
                 '<th>Status</th>';
                 if (isAdmin == 'Y' || intersection.length > 0 ) {
                     html += '<th>Action</th>';
@@ -777,6 +778,30 @@ var Employee = function () {
                         var arrList = {
                             'tableID': '#employee-asset-allocation-list',
                             'ajaxURL': baseurl + "admin/employee/asset-allocation/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0],
+                            'noSearchApply': [0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
+                    } else if (type == 'salary-slip') {
+
+                        var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
+
+                        if ($.fn.DataTable.isDataTable('#admin-emp-salary-slip-list')) {
+                            $('#admin-emp-salary-slip-list').DataTable().destroy();
+                        }
+
+                        $('.select2').select2();
+                        var dataArr = {'userId': userId,};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#admin-emp-salary-slip-list',
+                            'ajaxURL': baseurl + "admin/employee/salary-slip/ajaxcall",
                             'ajaxAction': 'getdatatable',
                             'postData': dataArr,
                             'hideColumnList': [],

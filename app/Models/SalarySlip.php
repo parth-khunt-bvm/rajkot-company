@@ -20,7 +20,7 @@ class SalarySlip extends Model
         $columns = array(
             0 => 'salary_slip.id',
             1 => DB::raw("CONCAT(employee.first_name,' ',employee.last_name)"),
-            2 => 'branch.technology_name',
+            2 => 'technology.technology_name',
             3 => 'designation.designation_name',
             4 =>  DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", salary_slip.month, "-01")), "-", year)'),
         );
@@ -213,6 +213,19 @@ class SalarySlip extends Model
             ->join("technology", "technology.id", "=", "salary_slip.department")
             ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
             ->where('salary_slip.id', $id)
+            ->where("salary_slip.is_deleted", "=", "N")
+            ->first();
+    }
+
+    public function get_salary_slip_details_for_employee($id)
+    {
+        return SalarySlip::from('salary_slip')
+            ->join("employee", "employee.id", "=", "salary_slip.employee")
+            ->join("designation", "designation.id", "=", "salary_slip.designation")
+            ->join("technology", "technology.id", "=", "salary_slip.department")
+            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
+            ->where('salary_slip.employee', $id)
+            ->where('employee.id', 'salary_slip.employee')
             ->where("salary_slip.is_deleted", "=", "N")
             ->first();
     }

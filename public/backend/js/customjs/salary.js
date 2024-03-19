@@ -4,7 +4,7 @@ var Salary = function(){
         var branch = $("#branch_id").val();
         var technology = $("#technology_id").val();
         var monthOf = $('#salary_month_of').val();
-        var year = $('#yearId').val();
+        var year = $('#salaryFillYearId').val();
 
         var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf ,'year':year};
         var columnWidth = [{"width": "5%", "targets": 0 }, {"width": "30%", "targets": 6 }];
@@ -89,7 +89,7 @@ var Salary = function(){
             var branch = $("#branch_id").val();
             var technology = $("#technology_id").val();
             var monthOf = $('#salary_month_of').val();
-            var year = $('#yearId').val();
+            var year = $('#salaryFillYearId').val();
 
             var dataArr = { 'manager': manager, 'branch':branch, 'technology':technology, 'monthOf':monthOf ,'year':year};
             var columnWidth = { "width": "5%", "targets": 0 };

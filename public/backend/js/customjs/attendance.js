@@ -250,8 +250,8 @@ var Attendance = function () {
     var calendar = function () {
         $('.select2').select2();
         var leaveType = $("#leave_type").val();
-        var month = $('#monthId').val();
-        var year = $("#yearId").val();
+        var month = $('#calendarMonthId').val();
+        var year = $("#calendaryearId").val();
         var data = { 'leaveType': leaveType, 'month': month, 'year': year };
 
         $.ajax({
@@ -392,8 +392,8 @@ var Attendance = function () {
             $(".attendance-list").html(html);
 
             var leaveType = $("#leave_type").val();
-            var month = $('#monthId').val().padStart(2, '0');
-            var year = $("#yearId").val();
+            var month = $('#calendarMonthId').val().padStart(2, '0');
+            var year = $("#calendaryearId").val();
             var data = { 'leaveType': leaveType, 'month': month, 'year': year };
             $.ajax({
                 type: "POST",

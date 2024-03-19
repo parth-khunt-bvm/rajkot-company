@@ -2,7 +2,7 @@ var HrIncome = function(){
     var list= function(){
         var manager = $('#hr_manager_id').val();
         var monthOf = $('#hr_month_of').val();
-        var year = $('#hrIncomeYearId').val();
+        var year = $('#hrIncomeFillYearId').val();
         var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
@@ -85,7 +85,7 @@ var HrIncome = function(){
 
             var manager = $('#hr_manager_id').val();
             var monthOf = $('#hr_month_of').val();
-            var year = $('#hrIncomeYearId').val();
+            var year = $('#hrIncomeFillYearId').val();
             var dataArr = {'manager':manager, 'monthOf': monthOf, 'year': year};
             var columnWidth = { "width": "5%", "targets": 0 };
             var arrList = {
