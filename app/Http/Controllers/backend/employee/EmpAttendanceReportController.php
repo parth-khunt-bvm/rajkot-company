@@ -14,6 +14,12 @@ class EmpAttendanceReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     function __construct()
+     {
+         $this->middleware('employee');
+     }
+
     public function index(Request $request)
     {
         $data['date'] = '01-Feb-2024';

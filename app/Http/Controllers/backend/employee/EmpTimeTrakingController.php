@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\backend\employee;
 
 use App\Http\Controllers\Controller;
-use App\Models\EmpAttendance;
+use App\Models\EmpTimeTracking;
 use Illuminate\Http\Request;
 use Config;
 
-class EmpAttendanceController extends Controller
+class EmpTimeTrakingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,49 +15,42 @@ class EmpAttendanceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function __construct()
-    {
-        $this->middleware('employee');
-    }
+     function __construct()
+     {
+         $this->middleware('employee');
+     }
+
 
     public function index()
     {
-        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
-        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
-        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Time Traking';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Time Traking';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Time Traking';
         $data['css'] = array(
-            'toastr/toastr.min.css'
+            'toastr/toastr.min.css',
+            'emp_time_traking.css',
         );
         $data['plugincss'] = array(
-            'plugins/custom/datatables/datatables.bundle.css',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.css',
         );
         $data['pluginjs'] = array(
-            'toastr/toastr.min.js',
-            'plugins/custom/datatables/datatables.bundle.js',
-            'pages/crud/datatables/data-sources/html.js',
-            'validate/jquery.validate.min.js',
-            'plugins/custom/fullcalendar/fullcalendar.bundle.js',
-            'pages/crud/forms/widgets/select2.js',
         );
         $data['js'] = array(
+            'emp_time_traking.js',
             'comman_function.js',
-            'ajaxfileupload.js',
-            'jquery.form.min.js',
-            'emp_attendance.js',
         );
         $data['funinit'] = array(
-            'EmpAttendance.init()',
+            'EmpTimeTraking.init()',
         );
         $data['header'] = array(
-            'title' => 'Attendance List',
+            'title' => 'Time Traking',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Attendance List' => 'Attendance List',
+                'Time Traking' => 'Time Traking',
             )
         );
-        return view('backend.employee.pages.attendance.index', $data);
+        return view('backend.employee.pages.time_traking.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -125,19 +118,33 @@ class EmpAttendanceController extends Controller
         //
     }
 
-
-    public function ajaxcall(Request $request){
-
-        $action = $request->input('action');
-        switch ($action) {
-
-            case 'get_emp_attendance_list':
-                $data = $request->input('data');
-                $userId = Auth()->guard('employee')->user()->id;
-                $objAttendance = new EmpAttendance();
-                $list = $objAttendance->get_attendance_details_by_employee($userId,  $data['month'], $data['year']);
-                echo json_encode($list);
-                break;
+    public function storeStart(Request $request)
+    {
+        $objEmpTimeTracking = new EmpTimeTracking();
+        $result = $objEmpTimeTracking->storeStart($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Time traking details successfully added.';
+            $return['redirect'] = route('time-traking.index');
+        } else{
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
         }
+        echo json_encode($return);
+        exit;
+
     }
+
+    // public function storeStop(Request $request)
+    // {
+    //     $EmpTimeTraking = new EmpTimeTraking();
+    //     $EmpTimeTraking->value = 'stop'; // Store the value 'stop'
+    //     $EmpTimeTraking->save();
+
+    //     return response()->json(['success' => true]);
+    // }
+
+
 }

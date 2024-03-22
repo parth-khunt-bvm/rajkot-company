@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\employee\EmpChangeRequestController;
 use App\Http\Controllers\backend\employee\EmpAttendanceController;
 use App\Http\Controllers\backend\employee\EmpAttendanceReportController;
 use App\Http\Controllers\backend\employee\EmpOvertimeController;
+use App\Http\Controllers\backend\employee\EmpTimeTrakingController;
 use App\Http\Controllers\backend\employee\LeaveRequestController;
 use App\Http\Controllers\backend\EmployeeDashboardController;
 use App\Http\Controllers\backend\EmployeeLoginController;
@@ -39,5 +40,9 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('emp-asset-allocations/ajaxcall', [EmpAssetAllocationController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
 
+    Route::resource('time-traking', EmpTimeTrakingController::class);
+
+    Route::post('/store-start', [EmpTimeTrakingController::class, 'storeStart']);
+    Route::post('/store-stop', [EmpTimeTrakingController::class, 'storeStop']);
 
 });
