@@ -42,7 +42,7 @@ Route::group(['prefix' => 'employee'], function () {
 
     Route::resource('time-traking', EmpTimeTrakingController::class);
 
-    Route::post('/store-start', [EmpTimeTrakingController::class, 'storeStart']);
-    Route::post('/store-stop', [EmpTimeTrakingController::class, 'storeStop']);
+    Route::post('/store-start-time', [EmpTimeTrakingController::class, 'storeStartTime']);
+    Route::post('/store-stop-time', [EmpTimeTrakingController::class, 'storeStopTime']);
 
 });

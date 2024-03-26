@@ -118,14 +118,14 @@ class EmpTimeTrakingController extends Controller
         //
     }
 
-    public function storeStart(Request $request)
+    public function storeStartTime(Request $request)
     {
         $objEmpTimeTracking = new EmpTimeTracking();
-        $result = $objEmpTimeTracking->storeStart($request);
+        $result = $objEmpTimeTracking->storeStartTime($request);
         if ($result == "added") {
             $return['status'] = 'success';
              $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Time traking details successfully added.';
+            $return['message'] = 'Start Time traking details successfully added.';
             $return['redirect'] = route('time-traking.index');
         } else{
             $return['status'] = 'error';
@@ -137,14 +137,23 @@ class EmpTimeTrakingController extends Controller
 
     }
 
-    // public function storeStop(Request $request)
-    // {
-    //     $EmpTimeTraking = new EmpTimeTraking();
-    //     $EmpTimeTraking->value = 'stop'; // Store the value 'stop'
-    //     $EmpTimeTraking->save();
-
-    //     return response()->json(['success' => true]);
-    // }
+    public function storeStopTime(Request $request)
+    {
+        $objEmpTimeTracking = new EmpTimeTracking();
+        $result = $objEmpTimeTracking->storeStopTime($request);
+        if ($result == "added") {
+            $return['status'] = 'success';
+             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'End time traking details successfully added.';
+            $return['redirect'] = route('time-traking.index');
+        } else{
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
+        }
+        echo json_encode($return);
+        exit;
+    }
 
 
 }

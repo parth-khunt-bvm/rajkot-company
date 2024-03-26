@@ -26,6 +26,7 @@
                     <button id="stop"> Stop </button>
                     <button id="pause"> Pause </button>
                     <button id="continue" hidden> Continue </button>
+                    {{-- <button id="continue">Continue</button> --}}
                     <p id="fulltime" class="fulltime"> </p>
                 </section>
                 <!--end: Datatable-->
