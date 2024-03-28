@@ -18,18 +18,26 @@
             </div>
             <div class="card-body">
                 <!--begin: Datatable-->
-                <section id="stopWatch">
+                {{-- <section id="stopWatch">
                     <h5>Watch - Count Up Timer</h5>
                     <h6>Hour : Minutes : Seconds</h6>
                     <p id="timer"> 00:00:00 </p>
                     <button id="start" class="start" data-attr="start"> Start </button>
                     <button id="stop"> Stop </button>
                     <button id="pause"> Pause </button>
-                    {{-- <button id="continue" hidden> Continue </button> --}}
-                    <button id="continue">Continue</button>
+                    <button id="continue" hidden> Continue </button>
                     <p id="fulltime" class="fulltime"> </p>
-                </section>
+                </section> --}}
                 <!--end: Datatable-->
+                <section id="stopWatch">
+                <p id="timer">00:00:00</p>
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>
+                <button id="pause">Pause</button>
+                {{-- <button id="continue" hidden>Continue</button> --}}
+                <button id="continue" style="display: none">Continue</button>
+                </section>
+
             </div>
         </div>
         <!--end::Card-->

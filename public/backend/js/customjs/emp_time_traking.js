@@ -1,270 +1,15 @@
 var EmpTimeTraking = function () {
+
     var list = function () {
-        /* initialization of different variables
-        to be used in Count-Up App*/
-        var clearTime;
-        var seconds = 0,
-            minutes = 0,
-            hours = 0;
-        var secs, mins, gethours;
+        let startTime;
+        let timerInterval;
+        let elapsedTime = 0;
+        let isPaused = false;
+        let isStopped = true;
 
-        function startWatch() {
-            /* check if seconds is equal to 60 and add a +1
-              to minutes, and set seconds to 0 */
-            if (seconds === 60) {
-                seconds = 0;
-                minutes = minutes + 1;
-            }
-
-            /* i used the javascript tenary operator to format
-              how the minutes should look and add 0 to minutes if
-              less than 10 */
-            mins = minutes < 10 ? "0" + minutes + ": " : minutes + ": ";
-            /* check if minutes is equal to 60 and add a +1
-              to hours set minutes to 0 */
-            if (minutes === 60) {
-                minutes = 0;
-                hours = hours + 1;
-            }
-            /* i used the javascript tenary operator to format
-              how the hours should look and add 0 to hours if less than 10 */
-            gethours = hours < 10 ? "0" + hours + ": " : hours + ": ";
-            secs = seconds < 10 ? "0" + seconds : seconds;
-
-            var continueButton = document.getElementById("continue");
-            continueButton.removeAttribute("hidden");
-
-            /* display the Count-Up Timer */
-            var x = document.getElementById("timer");
-            x.innerHTML = gethours + mins + secs;
-
-            /* call the seconds counter after displaying the Count-Up
-              and increment seconds by +1 to keep it counting */
-            seconds++;
-
-            /* call the setTimeout( ) to keep the Count-Up alive ! */
-            // clearTime = setTimeout("startWatch( )", 1000);
-            clearTime = setTimeout(startWatch, 1000);
-
-        }
-
-        //create a function to start the Count-Up
-        // function startTime() {
-        //     /* check if seconds, minutes, and hours are equal to zero
-        //       and start the Count-Up */
-        //     if (seconds === 0 && minutes === 0 && hours === 0) {
-        //         /* hide the fulltime when the Count-Up is running */
-        //         var fulltime = document.getElementById("fulltime");
-        //         fulltime.style.display = "none";
-        //         var showStart = document.getElementById("start");
-        //         showStart.style.display = "none";
-
-        //         /* call the startWatch( ) function to execute the Count-Up
-        //             whenever the startTime( ) is triggered */
-        //         startWatch();
-        //     }
-        // }
-        // var start = document.getElementById("start");
-        // start.addEventListener("click", startTime);
-
-        /*create a function to stop the time */
-        // function stopTime() {
-        //     /* check if seconds, minutes and hours are not equal to 0 */
-        //     if (seconds !== 0 || minutes !== 0 || hours !== 0) {
-        //         var continueButton = document.getElementById("continue");
-        //         continueButton.setAttribute("hidden", "true");
-        //         var fulltime = document.getElementById("fulltime");
-        //         fulltime.style.display = "block";
-        //         fulltime.style.color = "#ff4500";
-        //         var time = gethours + mins + secs;
-        //         fulltime.innerHTML = "Time Recorded is " + time;
-        //         // reset the Count-Up
-        //         seconds = 0;
-        //         minutes = 0;
-        //         hours = 0;
-        //         secs = "0" + seconds;
-        //         mins = "0" + minutes + ": ";
-        //         gethours = "0" + hours + ": ";
-
-        //         /* display the Count-Up Timer after it's been stopped */
-        //         var x = document.getElementById("timer");
-        //         var stopTime = gethours + mins + secs;
-        //         x.innerHTML = stopTime;
-
-        //         /* display all Count-Up control buttons */
-        //         var showStart = document.getElementById("start");
-        //         showStart.style.display = "inline-block";
-        //         var showStop = document.getElementById("stop");
-        //         showStop.style.display = "inline-block";
-        //         var showPause = document.getElementById("pause");
-        //         showPause.style.display = "inline-block";
-
-        //         /* clear the Count-Up using the setTimeout( )
-        //             return value 'clearTime' as ID */
-        //         clearTimeout(clearTime);
-        //     }
-        // }
-        // window.addEventListener("load", function () {
-        //     var stop = document.getElementById("stop");
-        //     stop.addEventListener("click", stopTime);
-        // });
-        /*********** End of Stop Button Operations *********/
-
-        /*********** Pause Button Operations *********/
-        // function pauseTime() {
-        //     if (seconds !== 0 || minutes !== 0 || hours !== 0) {
-        //         /* display the Count-Up Timer after clicking on pause button */
-        //         var x = document.getElementById("timer");
-        //         var stopTime = gethours + mins + secs;
-        //         x.innerHTML = stopTime;
-
-        //         /* display all Count-Up control buttons */
-        //         var showStop = document.getElementById("stop");
-        //         showStop.style.display = "inline-block";
-
-        //         /* clear the Count-Up using the setTimeout( )
-        //             return value 'clearTime' as ID */
-        //         clearTimeout(clearTime);
-        //     }
-        // }
-
-        // var pause = document.getElementById("pause");
-        // pause.addEventListener("click", pauseTime);
-        /*********** End of Pause Button Operations *********/
-
-        /*********** Continue Button Operations *********/
-        function continueTime() {
-            if (seconds !== 0 || minutes !== 0 || hours !== 0) {
-                /* display the Count-Up Timer after it's been paused */
-                var x = document.getElementById("timer");
-                var continueTime = gethours + mins + secs;
-                x.innerHTML = continueTime;
-
-                /* display all Count-Up control buttons */
-                var showStop = document.getElementById("stop");
-                showStop.style.display = "inline-block";
-                /* clear the Count-Up using the setTimeout( )
-                    return value 'clearTime' as ID.
-                    call the setTimeout( ) to keep the Count-Up alive ! */
-                clearTimeout(clearTime);
-                // clearTime = setTimeout("startWatch( )", 1000);
-                clearTime = setTimeout(startWatch, 1000);
-
-            }
-        }
-
-        window.addEventListener("load", function () {
-            var cTime = document.getElementById("continue");
-            cTime.addEventListener("click", continueTime);
-        });
-        /*********** End of Continue Button Operations *********/
-
-
-        // Assume you're using jQuery for AJAX
-        var intervalId; // Variable to store the interval ID
-
-        // Function to start the timer
-        function startTimer(startTime) {
-
-            var continueButton = document.getElementById("continue");
-            continueButton.removeAttribute("hidden");
-            var fulltime = document.getElementById("fulltime");
-            fulltime.style.display = "none";
-            var showStart = document.getElementById("start");
-            showStart.style.display = "none";
-
-            var startTimestamp = new Date(startTime).getTime();
-            // Update the timer every second
-            intervalId = setInterval(function () {
-                var elapsedTime = Date.now() - startTimestamp;
-                displayTime(elapsedTime);
-            }, 1000);
-
-            // startWatch();
-        }
-
-        // var start = document.getElementById("start");
-        // start.addEventListener("click", startTimer);
-
-        // Function to stop the timer
-        function stopTimer() {
-            var continueButton = document.getElementById("continue");
-            continueButton.setAttribute("hidden", "true");
-
-            var fulltime = document.getElementById("fulltime");
-            // fulltime.style.display = "block";
-            // fulltime.style.color = "#ff4500";
-            // var time = gethours + mins + secs;
-            // fulltime.innerHTML = "Time Recorded is " + time;
-            // reset the Count-Up
-            seconds = 0;
-            minutes = 0;
-            hours = 0;
-            secs = "0" + seconds;
-            mins = "0" + minutes + ": ";
-            gethours = "0" + hours + ": ";
-
-            /* display the Count-Up Timer after it's been stopped */
-            var x = document.getElementById("timer");
-            var stopTime = gethours + mins + secs;
-            x.innerHTML = stopTime;
-
-            /* display all Count-Up control buttons */
-            var showStart = document.getElementById("start");
-            showStart.style.display = "inline-block";
-            var showStop = document.getElementById("stop");
-            showStop.style.display = "inline-block";
-            var showPause = document.getElementById("pause");
-            showPause.style.display = "inline-block";
-
-            clearTimeout(clearTime);
-
-            clearInterval(intervalId); // Stop the interval
-            localStorage.removeItem('startTime'); // Clear the stored start time
-        }
-
-        // Function to pause the timer
-        function pauseTimer() {
-            clearInterval(intervalId); // Stop the timer interval
-            clearTimeout(clearTime); // Stop the countdown
-
-            // Store the current time as the pause time
-            var pauseTime = new Date().toISOString();
-            sessionStorage.setItem('pausedTime', pauseTime);
-        }
-
-        // Click event handler for the pause button
-        $('#pause').click(function () {
-            pauseTimer();
-        });
-
-
-
-        // Function to display the time
-        function displayTime(elapsedTime) {
-            var seconds = Math.floor(elapsedTime / 1000);
-            var minutes = Math.floor(seconds / 60);
-            var hours = Math.floor(minutes / 60);
-
-            seconds %= 60;
-            minutes %= 60;
-
-            // Display the time
-            $('#timer').text(
-                pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2)
-            );
-        }
-
-        // Function to pad numbers with leading zeros
-        function pad(number, length) {
-            var str = '' + number;
-            while (str.length < length) {
-                str = '0' + str;
-            }
-            return str;
-        }
-
-        $('#start').click(function () {
+        function startTimer() {
+            $('#start').hide();
+            $('#continue').show();
             var data = { _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
@@ -274,15 +19,61 @@ var EmpTimeTraking = function () {
                 url: baseurl + "employee/store-start-time",
                 data: { 'data': data },
                 success: function (data) {
-                    showToster("success", "I am back");
-                    var startTime = new Date().toISOString();
-                    localStorage.setItem('startTime', startTime); // Store the start time
-                    startTimer(startTime);
+                    if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
+                        showToster("success", "I am back");
+                        localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
+                    }
+
+                    if (isStopped) {
+                        startTime = Date.now() - elapsedTime;
+                        isStopped = false;
+                        localStorage.setItem("isStopped", "false");
+                    }
+                    if (!timerInterval) {
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
                 }
             });
+
+        }
+
+        $('body').on('click', '#start', function () {
+            startTimer();
         });
 
-        $('#stop').click(function () {
+        function updateTimer() {
+            elapsedTime = Date.now() - startTime;
+            displayTime(elapsedTime);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isPaused = true;
+            localStorage.setItem("isPaused", "true");
+        }
+
+        $('body').on('click', '#pause', function () {
+            $('#start').hide();
+            pauseTimer();
+        });
+
+        function continueTimer() {
+            if (isPaused) {
+                startTime = Date.now() - elapsedTime;
+                timerInterval = setInterval(updateTimer, 1000);
+                isPaused = false;
+                localStorage.setItem("isPaused", "false");
+            }
+        }
+
+        $('body').on('click', '#continue', function () {
+            continueTimer();
+        });
+
+
+        function stopTimer() {
+
             var data = { _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
@@ -293,35 +84,82 @@ var EmpTimeTraking = function () {
                 data: { 'data': data },
                 success: function (data) {
                     showToster("success", "I am going");
-                    stopTimer();
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    elapsedTime = 0;
+                    isStopped = true;
+                    localStorage.setItem("isStopped", "true");
+                    displayTime(elapsedTime);
+                    $('#start').show();
+                    localStorage.removeItem("timerStarted");
                 }
             });
-        });
 
-        // $('#pause').click(function () {
-        //     // var data = { _token: $('#_token').val() };
-        //     // $.ajax({
-        //     //     type: "POST",
-        //     //     headers: {
-        //     //         'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-        //     //     },
-        //     //     url: baseurl + "employee/store-start-time",
-        //     //     data: { 'data': data },
-        //         // success: function (data) {
-        //             showToster("success", "going fo lunch");
-        //             var pauseTime = new Date().toISOString();
-        //             localStorage.setItem('pauseTime', pauseTime); // Store the start time
-        //             pauseTimer(pauseTime);
-        //     //     }
-        //     // });
-        // });
 
-        // Check if there's a stored start time
-        var storedStartTime = localStorage.getItem('startTime');
-        if (storedStartTime) {
-            startTimer(storedStartTime);
         }
 
+        $('body').on('click', '#stop', function () {
+            $('#continue').hide();
+            stopTimer();
+        });
+
+
+
+        function displayTime(time) {
+            let hours = Math.floor(time / (1000 * 60 * 60));
+            let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((time % (1000 * 60)) / 1000);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            document.getElementById("timer").innerText = hours + ":" + minutes + ":" + seconds;
+        }
+
+        // Restore timer state on page refresh
+        window.onload = function () {
+            let storedTime = localStorage.getItem("timerElapsed");
+            let storedPaused = localStorage.getItem("isPaused");
+            let storedStopped = localStorage.getItem("isStopped");
+
+            if (storedTime) {
+                elapsedTime = parseInt(storedTime);
+                if (!isNaN(elapsedTime)) {
+                    if (storedStopped === "false" && storedPaused === "true") {
+                        $('#start').hide();
+                        $('#continue').show();
+
+                        pauseTimer();
+                        displayTime(elapsedTime);
+                    } else if (storedStopped === "false" && storedPaused === "false") {
+                        // startTimer();
+                        $('#start').hide();
+                        $('#continue').show();
+
+
+                        if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
+                            showToster("success", "I am back");
+                            localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
+                        }
+
+                        if (isStopped) {
+                            startTime = Date.now() - elapsedTime;
+                            isStopped = false;
+                            localStorage.setItem("isStopped", "false");
+                        }
+                        if (!timerInterval) {
+                            timerInterval = setInterval(updateTimer, 1000);
+                        }
+                    }
+                }
+            }
+        };
+
+        // Save timer state before page refresh
+        window.onbeforeunload = function () {
+            localStorage.setItem("timerElapsed", elapsedTime.toString());
+        };
     }
 
     return {
