@@ -153,7 +153,6 @@ class Employee extends Authenticatable
     }
 
     public function saveAdd($requestData){
-
         if($requestData['gmail'] != "" && $requestData['gmail'] != NULL){
             $checkEmployeegmail = Employee::from('employee')
                             ->where('is_deleted', 'N')
@@ -244,6 +243,12 @@ class Employee extends Authenticatable
             $objEmployee->is_deleted = 'N';
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
+
+            if (!empty($objEmployee['id'])) {
+                $employee_code = "EMP" . date('Ymd') . str_pad($objEmployee['id'], 5, '0', STR_PAD_LEFT);
+                $objEmployee->employee_code = $employee_code;
+            }
+
             if($objEmployee->save()){
 
                 $mailData['data']=[];
