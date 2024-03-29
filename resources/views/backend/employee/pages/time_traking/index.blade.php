@@ -36,6 +36,7 @@
                 <button id="pause">Pause</button>
                 {{-- <button id="continue" hidden>Continue</button> --}}
                 <button id="continue" style="display: none">Continue</button>
+                <p id="fulltime" class="fulltime"> </p>
                 </section>
 
             </div>

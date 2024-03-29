@@ -72,8 +72,39 @@ var EmpTimeTraking = function () {
         });
 
 
-        function stopTimer() {
+        // function stopTimer() {
 
+        //     var fulltime = document.getElementById("fulltime");
+        //     fulltime.style.display = "block";
+        //     fulltime.style.color = "#ff4500";
+        //     var time = gethours + mins + secs;
+        //     fulltime.innerHTML = "Time Recorded is " + time;
+
+        //     var data = { _token: $('#_token').val() };
+        //     $.ajax({
+        //         type: "POST",
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+        //         },
+        //         url: baseurl + "employee/store-stop-time",
+        //         data: { 'data': data },
+        //         success: function (data) {
+        //             showToster("success", "I am going");
+        //             clearInterval(timerInterval);
+        //             timerInterval = null;
+        //             elapsedTime = 0;
+        //             isStopped = true;
+        //             localStorage.setItem("isStopped", "true");
+        //             displayTime(elapsedTime);
+        //             $('#start').show();
+        //             localStorage.removeItem("timerStarted");
+        //         }
+        //     });
+
+
+        // }
+
+        function stopTimer() {
             var data = { _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
@@ -83,20 +114,41 @@ var EmpTimeTraking = function () {
                 url: baseurl + "employee/store-stop-time",
                 data: { 'data': data },
                 success: function (data) {
-                    showToster("success", "I am going");
                     clearInterval(timerInterval);
                     timerInterval = null;
-                    elapsedTime = 0;
                     isStopped = true;
                     localStorage.setItem("isStopped", "true");
-                    displayTime(elapsedTime);
+
+                    // Calculate hours, minutes, and seconds
+                    let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+                    let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+                    // Format time
+                    let formattedTime = (hours < 10 ? "0" + hours : hours) + ":" +
+                                        (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                                        (seconds < 10 ? "0" + seconds : seconds);
+
+                    // Display the recorded time
+                    var fulltime = document.getElementById("fulltime");
+                    fulltime.style.display = "block";
+                    fulltime.style.color = "#ff4500";
+                    fulltime.innerHTML = "Time Recorded is " + formattedTime;
+
+                    // Reset elapsed time
+                    elapsedTime = 0;
+
+                    showToster("success", "I am going");
+
                     $('#start').show();
+                    $('#continue').hide();
+
+                    // Remove timerStarted flag
                     localStorage.removeItem("timerStarted");
                 }
             });
-
-
         }
+
 
         $('body').on('click', '#stop', function () {
             $('#continue').hide();
