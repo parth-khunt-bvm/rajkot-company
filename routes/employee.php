@@ -4,11 +4,13 @@ use App\Http\Controllers\backend\employee\EmpAssetAllocationController;
 use App\Http\Controllers\backend\employee\EmpChangeRequestController;
 use App\Http\Controllers\backend\employee\EmpAttendanceController;
 use App\Http\Controllers\backend\employee\EmpAttendanceReportController;
+use App\Http\Controllers\backend\employee\EmployeeTimeTrakingController;
 use App\Http\Controllers\backend\employee\EmpOvertimeController;
 use App\Http\Controllers\backend\employee\EmpTimeTrakingController;
 use App\Http\Controllers\backend\employee\LeaveRequestController;
 use App\Http\Controllers\backend\EmployeeDashboardController;
 use App\Http\Controllers\backend\EmployeeLoginController;
+use App\Models\EmployeeTimeTracking;
 use Illuminate\Support\Facades\Route;
 
 Route::get('employee-logout', [EmployeeLoginController::class, 'employeeLogout'])->name('employee-logout');
@@ -40,9 +42,14 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('emp-asset-allocations/ajaxcall', [EmpAssetAllocationController::class, 'ajaxcall'])->name('emp-attendances.ajaxcall');
 
 
-    Route::resource('time-traking', EmpTimeTrakingController::class);
+    // Route::resource('time-tracking', EmpTimeTrakingController::class);
+    // Route::post('/store-start-time', [EmpTimeTrakingController::class, 'storeStartTime']);
+    // Route::post('/store-stop-time', [EmpTimeTrakingController::class, 'storeStopTime']);
 
-    Route::post('/store-start-time', [EmpTimeTrakingController::class, 'storeStartTime']);
-    Route::post('/store-stop-time', [EmpTimeTrakingController::class, 'storeStopTime']);
+    Route::get('time-tracking', [EmployeeTimeTrakingController::class,'list'] )->name('time-tracking.index');
+    Route::post('store-start-time', [EmployeeTimeTrakingController::class, 'storeStartTime']);
+    Route::post('store-stop-time', [EmployeeTimeTrakingController::class, 'storeStopTime']);
+    Route::post('time-tracking/ajaxcall', [EmployeeTimeTrakingController::class, 'ajaxcall'])->name('time-tracking.ajaxcall');
+
 
 });

@@ -17,27 +17,31 @@
                 </div>
             </div>
             <div class="card-body">
-                <!--begin: Datatable-->
+
                 {{-- <section id="stopWatch">
-                    <h5>Watch - Count Up Timer</h5>
-                    <h6>Hour : Minutes : Seconds</h6>
-                    <p id="timer"> 00:00:00 </p>
-                    <button id="start" class="start" data-attr="start"> Start </button>
-                    <button id="stop"> Stop </button>
-                    <button id="pause"> Pause </button>
-                    <button id="continue" hidden> Continue </button>
-                    <p id="fulltime" class="fulltime"> </p>
-                </section> --}}
-                <!--end: Datatable-->
-                <section id="stopWatch">
                 <p id="timer">00:00:00</p>
                 <button id="start">Start</button>
                 <button id="stop">Stop</button>
-                <button id="pause">Pause</button>
-                {{-- <button id="continue" hidden>Continue</button> --}}
-                <button id="continue" style="display: none">Continue</button>
                 <p id="fulltime" class="fulltime"> </p>
-                </section>
+                </section> --}}
+
+        <!--begin: Datatable-->
+        <table class="table table-bordered table-checkable" id="employee-tracker-list">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>In Time</th>
+                    <th>Out Time</th>
+                    <th>Working Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <!--end: Datatable-->
+
+
 
             </div>
         </div>
