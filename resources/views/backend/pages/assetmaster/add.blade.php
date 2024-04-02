@@ -15,7 +15,7 @@
                         <form class="form" id="add-asset-master-users" method="POST" action="{{ route('admin.asset-master.save-add-asset-master') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Suplier Name
                                                 <span class="text-danger">*</span>
@@ -36,7 +36,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Asset Name
                                                 <span class="text-danger">*</span>
@@ -49,9 +49,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Brand Name
                                                 <span class="text-danger">*</span>
@@ -64,7 +62,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
@@ -77,6 +75,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
@@ -94,8 +95,7 @@
                                             <input type="text" id="quantity" name="quantity" class="form-control onlyNumber" placeholder="Enter quantity" autocomplete="off">
                                         </div>
                                     </div>
-
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status
                                                 <span class="text-danger">*</span>
@@ -108,17 +108,14 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Description
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="description" id="description"></textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="description" id="description"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">

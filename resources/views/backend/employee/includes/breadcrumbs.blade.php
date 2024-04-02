@@ -48,6 +48,15 @@ $currentRoute = Route::current()->getName();
             </ul>
         </div>
         <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+            <!--begin::Actions-->
+            <p id="fulltime" class="fulltime"> </p>
+            <p id="timer">00:00:00</p>
+            <button id="toggle">Start</button>
+            {{-- <button id="start">Start</button>
+            <button id="stop">Stop</button> --}}
+            <!--end::Actions-->
+        </div>
         <!--end::Toolbar-->
 
        <!--end::Info-->

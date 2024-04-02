@@ -15,7 +15,7 @@
                     <form class="form" id="add-user-role" method="POST" action="{{ route('admin.user-role.save-add-user-role') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>User Role
                                         <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Status <span class="text-danger">*</span></label>
                                         <div class="radio-inline" style="margin-top:10px">

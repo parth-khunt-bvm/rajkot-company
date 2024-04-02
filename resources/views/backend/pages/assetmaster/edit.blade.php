@@ -15,7 +15,7 @@
                         <form class="form" id="edit-asset-master-users" method="POST" action="{{ route('admin.asset-master.save-edit-asset-master') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Suplier Name
                                                 <span class="text-danger">*</span>
@@ -37,7 +37,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
 
                                         <div class="form-group">
                                             <label>Asset Name
@@ -51,9 +51,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Brand Name
                                                 <span class="text-danger">*</span>
@@ -66,7 +64,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
@@ -81,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Price
                                             </label>
@@ -89,7 +87,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status
                                                 <span class="text-danger">*</span>
@@ -102,13 +100,12 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Description
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="description" id="description">{{ $asset_master_details->description }}</textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="description" id="description">{{ $asset_master_details->description }}</textarea>
                                         </div>
                                     </div>
                                 </div>

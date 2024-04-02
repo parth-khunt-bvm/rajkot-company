@@ -16,7 +16,7 @@
                             <div class="card-body">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Asset Type
                                                 <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                                             <input type="text" name="asset_type"  class="form-control" placeholder="Enter Asset Type" autocomplete="off">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Asset Code
                                                 <span class="text-danger">*</span>

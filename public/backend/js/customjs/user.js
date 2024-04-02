@@ -201,7 +201,7 @@ var User = function(){
             last_name : {required: true},
             email : {required: true},
             user_role : {required: true},
-            branch_id : {required: true},
+            "branch[]": {required: true},
         };
 
         var message = {
@@ -209,7 +209,7 @@ var User = function(){
             last_name : {required: "Please enter last name"},
             email : {required: "Please enter email"},
             user_role : {required: "Please select User"},
-            branch_id : {required: "Please select Branch Name"},
+            "branch[]" : {required: "Please select at least one Branch Name"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);

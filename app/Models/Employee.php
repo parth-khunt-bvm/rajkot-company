@@ -14,6 +14,8 @@ use Str;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\SendMail;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 class Employee extends Authenticatable
 {
     use HasFactory;
@@ -153,7 +155,6 @@ class Employee extends Authenticatable
     }
 
     public function saveAdd($requestData){
-
         if($requestData['gmail'] != "" && $requestData['gmail'] != NULL){
             $checkEmployeegmail = Employee::from('employee')
                             ->where('is_deleted', 'N')
@@ -244,6 +245,24 @@ class Employee extends Authenticatable
             $objEmployee->is_deleted = 'N';
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
+            $objEmployee->save();
+
+            if (!empty($objEmployee['id'])) {
+                $employee_code = "EMP" . date('ymd') . str_pad($objEmployee['id'], 2, '0', STR_PAD_LEFT);
+                $objEmployee->employee_code = $employee_code;
+                $objEmployee->save();
+
+                Schema::create('tracker_' . $employee_code, function (Blueprint $table) {
+                    $table->id();
+                    $table->date('date');
+                    $table->time('in_time')->nullable();
+                    $table->time('out_time')->nullable();
+                    $table->timestamps();
+                });
+
+
+            }
+
             if($objEmployee->save()){
 
                 $mailData['data']=[];

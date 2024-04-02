@@ -16,7 +16,7 @@
                      <form class="form" id="add-asset-allocation" method="POST" action="{{ route('admin.asset-allocation.save-add-asset-allocation') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Employee Name
                                             <span class="text-danger">*</span>
@@ -29,7 +29,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Branch Name
                                             <span class="text-danger">*</span>
@@ -45,7 +45,7 @@
                             </div>
                             <div id="add_asset_allocation_div">
                                 <div class="row asset-list">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Asset
                                                 <span class="text-danger">*</span>
@@ -59,7 +59,7 @@
                                             <span class="asset_error text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Asset Name
                                                 <span class="text-danger">*</span>

@@ -14,6 +14,11 @@ class EmpAssetAllocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('employee');
+    }
+
     public function index()
     {
         $data['date'] = '01-Feb-2024';

@@ -46,7 +46,7 @@
 
                 <form class="form" style="display: none;" id="add-brand-users" method="POST" action="{{ route('admin.brand.save-add-brand') }}" autocomplete="off">@csrf
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Brand Name
                                         <span class="text-danger">*</span>

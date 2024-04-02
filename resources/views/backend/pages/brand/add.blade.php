@@ -16,12 +16,12 @@
                             <div class="card-body">
 
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Brand Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="brand_name"  class="form-control" placeholder="Enter brand name" autocomplete="off">
+                                            <input type="text" name="brand_name"  class="form-control" placeholder="Enter brand name"  autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="col-md-2">

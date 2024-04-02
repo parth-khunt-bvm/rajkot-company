@@ -14,6 +14,12 @@ class EmpAttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware('employee');
+    }
+
     public function index()
     {
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance List';

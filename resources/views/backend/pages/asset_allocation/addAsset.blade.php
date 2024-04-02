@@ -1,5 +1,5 @@
 <div class="row asset-list remove-div">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <div class="form-group">
             <label>Asset
                 <span class="text-danger">*</span>
@@ -13,7 +13,7 @@
             <span class="asset_error text-danger"></span>
         </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-3">
         <div class="form-group">
             <label>Asset Name
                 <span class="text-danger">*</span>
