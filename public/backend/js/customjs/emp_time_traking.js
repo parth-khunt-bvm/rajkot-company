@@ -1,6 +1,6 @@
 var EmpTimeTraking = function () {
 
-    // var list = function () {
+    // var TimeTracker = function () {
     //     let startTime;
     //     let timerInterval;
     //     let elapsedTime = 0;
@@ -176,6 +176,9 @@ var EmpTimeTraking = function () {
     return {
         init: function () {
             list();
+        },
+        time_tracker: function () {
+            TimeTracker();
         },
     }
 }();

@@ -23,23 +23,15 @@ h6 {
 
 #timer,
 #fulltime {
-  width: 40vw;
   height: auto;
-  padding: 15px;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 25px;
   font-family: ubuntu;
-  /* margin-left: 27vw; */
-  margin-left: 20vw;
   display: block;
-  border: 1px solid #eee;
-  border-radius: 50px;
   text-align: center;
-  box-shadow: 0 2px 3px #ccc;
-  background-color: white;
-  /* color: #4caf50; */
   color: #1e1e2d;
   margin-top: 15px;
+  margin-right : 10px;
 }
 
 button {

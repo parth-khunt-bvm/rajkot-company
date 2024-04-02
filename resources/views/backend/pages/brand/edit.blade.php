@@ -16,9 +16,9 @@
                             @csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Manager Name
+                                            <label>Brand Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" name="brand_name"  class="form-control" placeholder="Enter manager name" value="{{ $brand_details->brand_name}}">

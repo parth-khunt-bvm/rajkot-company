@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>Suplier
+                                    <label>Supplier
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">

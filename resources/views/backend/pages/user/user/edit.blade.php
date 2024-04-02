@@ -14,10 +14,10 @@
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
                      <!--begin::Form-->
-                     <form class="form" id="edit-user" method="POST" action="{{ route('admin.user.save-edit-user') }}">@csrf
+                    <form class="form" id="edit-user" method="POST" action="{{ route('admin.user.save-edit-user') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>First Name
                                         <span class="text-danger">*</span>
@@ -26,7 +26,7 @@
                                         <input type="hidden" name="userId" value="{{ $user_detail['id'] }}" >
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Last Name
                                         <span class="text-danger">*</span>
@@ -34,18 +34,7 @@
                                         <input type="text" name="last_name" class="form-control" value="{{ $user_detail['last_name'] }}" placeholder="Enter Last name" autocomplete="off">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Email
-                                        <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="email" name="email" class="form-control" value="{{ $user_detail['email'] }}" placeholder="Enter email" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>User Type
                                         <span class="text-danger">*</span>
@@ -58,14 +47,12 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Branch Name
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 branch" id="branch"  name="branch[]" multiple>
+                                        <select class="form-control select2 branch multipleSelection" id="branch"  name="branch[]" multiple>
                                             <option value="">Please select Branch Name</option>
                                             @foreach ($branch as $key => $value)
                                                 <option value="{{ $value['id'] }}"
@@ -76,7 +63,18 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Email
+                                        <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" name="email" class="form-control" value="{{ $user_detail['email'] }}" placeholder="Enter email" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Status <span class="text-danger">*</span></label>
                                         <div class="radio-inline" style="margin-top:10px">
@@ -90,7 +88,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="card-footer">

@@ -15,7 +15,7 @@
                         <form class="form" id="edit-supplier" method="POST" action="{{ route('admin.supplier.save-edit-supplier') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Supplier Name
                                                 <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                                             <input type="text" class="form-control" name="supplier_name" id="supplier_name" placeholder="Supplier Name" value="{{ $supplier_details->suppiler_name }}" autocomplete="off" />
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Shop Name
                                                 <span class="text-danger">*</span>
@@ -32,32 +32,20 @@
                                             <input type="text" class="form-control" name="shop_name" id="shop_name" placeholder="Shop Name" value="{{ $supplier_details->supplier_shop_name }}" autocomplete="off" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Personal Contact
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" value="{{ $supplier_details->personal_contact }}" autocomplete="off" maxlength="10"/>
+                                            <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Personal Contact" value="{{ $supplier_details->personal_contact }}" autocomplete="off" maxlength="10"/>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Shop Contact
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" value="{{ $supplier_details->shop_contact }}" autocomplete="off" maxlength="10"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Address
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <textarea class="form-control" id="" cols="30" rows="3" name="address" id="address">{{ $supplier_details->address }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +71,15 @@
                                             <input type="text" class="form-control" name="short_name" id="short_name" value="{{ $supplier_details->sort_name }}" placeholder="Short Name" autocomplete="off" />
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Address
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="address" id="address">{{ $supplier_details->address }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
                                         <div class="form-group">
                                             <label>Status <span class="text-danger">*</span></label>
                                             <div class="radio-inline" style="margin-top:10px">

@@ -72,20 +72,20 @@
                                 <input type="text" class="form-control" name="shop_name" id="shop_name" placeholder="Shop Name" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group">
-                                <label>Personal Contact
+                                <label>Per Contact
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Supplier Name" autocomplete="off" />
+                                <input type="text" class="form-control onlyNumber" name="personal_contact" id="personal_contact" placeholder="Personal Contact" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group">
                                  <label>Shop Contact
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Name" autocomplete="off" />
+                                <input type="text" class="form-control onlyNumber" name="shop_contact" id="shop_contact" placeholder="Shop Contact" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -117,7 +117,7 @@
                                 <input type="text" class="form-control " name="short_name" id="short_name" placeholder="Short Name" autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label>Status <span class="text-danger">*</span></label>
                                 <div class="radio-inline" style="margin-top:10px">
@@ -132,7 +132,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group mt-8">
-                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                <button type="submit" class="btn btn-primary submitbtn green-btn">Submit</button>
                                 <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
                             </div>
                         </div>

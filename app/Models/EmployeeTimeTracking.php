@@ -74,13 +74,11 @@ class EmployeeTimeTracking extends Model
             $inTime = new DateTime($row['in_time']);
             $outTime = new DateTime($row['out_time']);
 
-
             $inTime12Hour = $inTime->format('h:i:s A'); // Example: 04:30:00 PM
             $outTime12Hour = $outTime->format('h:i:s A');
 
             $nestedData[] = $inTime12Hour;
             $nestedData[] = $outTime12Hour;
-
 
             // Calculate the difference
             $inTime = DateTime::createFromFormat('H:i:s', $row['in_time']);

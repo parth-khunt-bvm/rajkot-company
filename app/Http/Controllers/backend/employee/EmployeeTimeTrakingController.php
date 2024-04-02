@@ -9,6 +9,11 @@ use Config;
 
 class EmployeeTimeTrakingController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('employee');
+    }
+
 
     public function list()
     {
@@ -17,7 +22,7 @@ class EmployeeTimeTrakingController extends Controller
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Time Traking';
         $data['css'] = array(
             'toastr/toastr.min.css',
-            'emp_time_traking.css',
+            // 'emp_time_traking.css',
         );
         $data['plugincss'] = array(
             'plugins/custom/datatables/datatables.bundle.css'
@@ -31,6 +36,7 @@ class EmployeeTimeTrakingController extends Controller
         );
         $data['funinit'] = array(
             'EmpTimeTraking.init()',
+            // 'EmpTimeTraking.time_tracker()',
         );
         $data['header'] = array(
             'title' => 'Time Traking',
