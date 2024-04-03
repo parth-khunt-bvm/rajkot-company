@@ -15,7 +15,7 @@
                         <form class="form" id="add-salary-users" method="POST" action="{{ route('admin.salary.save-add-salary') }}" autocomplete="off" novalidate="novalidate" >@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Manager Name
                                                 <span class="text-danger">*</span>
@@ -28,7 +28,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
@@ -41,9 +41,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Technology Name
                                                 <span class="text-danger">*</span>
@@ -57,7 +55,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -91,7 +89,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -99,17 +97,14 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks"></textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">

@@ -16,16 +16,14 @@
                      <form class="form" id="edit-attendance-form" method="POST" action="{{ route('admin.attendance.day-save-edit-attendance') }}">@csrf
                         <input type="hidden" name="attendance_id" class="form-control" value="{{ $attendance_details->id}}">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <input type="text" name="date" id="datepicker_date" value="{{ date('d-M-Y', strtotime($attendance_details->date)) }}" class="form-control date" placeholder="Select Date" autocomplete="off" >
-                                    </div>
-                                </div>
-                            </div>
                             <div id="add_attendance_div">
                                 <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="text" name="date" id="datepicker_date" value="{{ date('d-M-Y', strtotime($attendance_details->date)) }}" class="form-control date" placeholder="Select Date" autocomplete="off" >
+                                        </div>
+                                    </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Employee Name

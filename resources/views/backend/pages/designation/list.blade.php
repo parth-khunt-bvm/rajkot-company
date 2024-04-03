@@ -47,7 +47,7 @@
 
                 <form class="form" style="display: none;" id="add-designation-users" method="POST" action="{{ route('admin.designation.save-add-designation') }}" autocomplete="off">@csrf
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>designation Name
                                         <span class="text-danger">*</span>

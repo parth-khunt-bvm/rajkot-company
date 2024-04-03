@@ -126,7 +126,7 @@ var Revenue = function(){
 
         $('body').on('change', '.date', function(){
             var selecteddate = $(this).val();
-            var html = '<option value="">Month of salary</option>';
+            var html = '<option value="">Month of</option>';
 
             if(selecteddate == '' || selecteddate == null){
                 $('.month_of').prop("disabled", true);
@@ -168,6 +168,11 @@ var Revenue = function(){
     var addRevenue= function(){
         $('.select2').select2();
         var form = $('#add-revenue-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             technology_id: {required: true},
@@ -175,7 +180,10 @@ var Revenue = function(){
             received_month: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
             bank_name: {required: true},
             holder_name: {required: true},
         };
@@ -221,7 +229,7 @@ var Revenue = function(){
 
         $('body').on('change', '.date', function(){
             var selecteddate = $(this).val();
-            var html = '<option value="">Month of salary</option>';
+            var html = '<option value="">Month of</option>';
 
             if(selecteddate == '' || selecteddate == null){
                 $('.month_of').prop("disabled", true);
@@ -274,6 +282,11 @@ var Revenue = function(){
 
         $('.select2').select2();
         var form = $('#edit-revenue-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             technology_id: {required: true},
@@ -281,7 +294,10 @@ var Revenue = function(){
             received_month: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
             bank_name: {required: true},
             holder_name: {required: true},
         };

@@ -32,7 +32,7 @@
 
                 <form class="form" id="add-emp-attendance-form" style="display: none;"  method="POST" action="{{ route('admin.emp-attendance.save-add-attendance') }}">@csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Date</label>
                                     <input type="text" name="date" id="datepicker_date_input" class="form-control date datepicker_date" value="{{ $date }}" placeholder="Select Date" value="" autocomplete="off">

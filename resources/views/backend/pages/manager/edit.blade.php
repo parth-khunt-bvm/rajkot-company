@@ -16,17 +16,17 @@
                             @csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Manager Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="manager_name"  class="form-control" placeholder="Enter manager name" value="{{ $manager_details->manager_name}}">
+                                            <input type="text" name="manager_name"  class="form-control" placeholder="Enter manager name" value="{{ $manager_details->manager_name}}" autocomplete="off">
                                             <input type="hidden" name="manager_Id"  class="form-control" placeholder="Enter manager name" value="{{ $manager_details->id}}">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status <span class="text-danger">*</span></label>
                                             <div class="radio-inline" style="margin-top:10px">

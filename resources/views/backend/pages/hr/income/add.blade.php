@@ -15,7 +15,7 @@
                         <form class="form" id="add-hr-income" method="POST" action="{{ route('admin.hr.income.save-add-income') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Manager Name
                                                 <span class="text-danger">*</span>
@@ -28,7 +28,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Payment Mode
                                                 <span class="text-danger">*</span>
@@ -40,9 +40,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -50,20 +48,21 @@
                                             <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 month_of" id="month_of"  name="month_of" disabled="disabled">
-                                                <option value="">Month of salary</option>
+                                                <option value="">Month of</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>year
                                                 <span class="text-danger">*</span>
@@ -76,7 +75,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -84,17 +83,14 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks"></textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">

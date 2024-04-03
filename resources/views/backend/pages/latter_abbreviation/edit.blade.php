@@ -18,7 +18,7 @@
                         @method('PUT')
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Key
                                         <span class="text-danger">*</span>
@@ -28,7 +28,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Value
                                         <span class="text-danger">*</span>

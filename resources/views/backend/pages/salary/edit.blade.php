@@ -15,7 +15,7 @@
                         <form class="form" id="edit-salary-users" method="POST" action="{{ route('admin.salary.save-edit-salary') }}" autocomplete="off">@csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <input type="hidden" name="editId"  class="form-control" placeholder="Enter manager name" value="{{ $salary_details->id}}">
                                             <label>Manager Name
@@ -30,7 +30,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
@@ -43,9 +43,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Technology Name
                                                 <span class="text-danger">*</span>
@@ -58,7 +56,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -67,6 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -102,7 +101,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -110,17 +109,14 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{ $salary_details->amount}}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks">{{ $salary_details->remarks}}</textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks">{{ $salary_details->remarks}}</textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">

@@ -50,7 +50,7 @@
                 <form class="form" style="display: none" id="add-branch" method="POST" action="{{ route('admin.branch.save-add-branch') }}">@csrf
 
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Branch name
                                     <span class="text-danger">*</span>

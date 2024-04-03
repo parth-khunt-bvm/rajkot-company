@@ -61,30 +61,21 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     });
 
     //  branch
-
     Route::get('admin/branch/list', [BranchController::class, 'list'])->name('admin.branch.list');
-
     Route::get('admin/branch/add', [BranchController::class, 'add'])->name('admin.branch.add');
     Route::post('admin/branch/save-add-branch', [BranchController::class, 'saveAdd'])->name('admin.branch.save-add-branch');
-
     Route::get('admin/branch/edit/{id}', [BranchController::class, 'edit'])->name('admin.branch.edit');
     Route::post('admin/branch/save-edit-branch', [BranchController::class, 'saveEdit'])->name('admin.branch.save-edit-branch');
-
     Route::post('admin/branch/ajaxcall', [BranchController::class, 'ajaxcall'])->name('admin.branch.ajaxcall');
-
     Route::post('admin/branch/save-import-branch', [BranchController::class, 'save_import'])->name('admin.branch.save-import-branch');
+
     //  manager
-
     Route::get('admin/manager/list', [ManagerController::class, 'list'])->name('admin.manager.list');
-
     Route::get('admin/manager/add', [ManagerController::class, 'add'])->name('admin.manager.add');
     Route::post('admin/manager/save-add-manager', [ManagerController::class, 'saveAdd'])->name('admin.manager.save-add-manager');
-
     Route::get('admin/manager/edit/{id}', [ManagerController::class, 'edit'])->name('admin.manager.edit');
     Route::post('admin/manager/save-edit-manager', [ManagerController::class, 'saveEdit'])->name('admin.manager.save-edit-manager');
-
     Route::post('admin/manager/ajaxcall', [ManagerController::class, 'ajaxcall'])->name('admin.manager.ajaxcall');
-
     Route::post('admin/manager/save-import-manager', [ManagerController::class, 'save_import'])->name('admin.manager.save-import-manager');
 
    //  technology

@@ -169,6 +169,11 @@ var Expense = function(){
     var addExpense= function(){
         $('.select2').select2();
         var form = $('#add-expense-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
@@ -176,7 +181,10 @@ var Expense = function(){
             date: {required: true},
             month: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{
@@ -267,14 +275,22 @@ var Expense = function(){
 
         $('.select2').select2();
         var form = $('#edit-expense-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
-            technology_id: {required: true},
+            type_id: {required: true},
             date: {required: true},
             month: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{
@@ -283,8 +299,8 @@ var Expense = function(){
             branch_id : {
                 required : "Please select branch name"
             },
-            technology_id : {
-                required : "Please select technology name"
+            type_id : {
+                required : "Please select type name"
             },
             date : {
                 required : "Please enter date"

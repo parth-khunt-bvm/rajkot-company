@@ -48,7 +48,7 @@
 
                 <form class="form" style="display: none;" id="add-technology-users" method="POST" action="{{ route('admin.technology.save-add-technology') }}" autocomplete="off">@csrf
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Technology Name
                                         <span class="text-danger">*</span>

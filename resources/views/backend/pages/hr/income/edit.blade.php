@@ -16,7 +16,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <input type="hidden" name="editId"  class="form-control"  value="{{ $hr_income_details->id}}">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Manager Name
                                                 <span class="text-danger">*</span>
@@ -29,7 +29,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Payment Mode
                                                 <span class="text-danger">*</span>
@@ -41,9 +41,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -51,12 +49,13 @@
                                             <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off" value="{{ date_formate($hr_income_details->date) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Month Of
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 month_of" id="month_of"  name="month_of" >
+                                                <option value="">Select month of</option>
                                                 <option value="1" {{ $hr_income_details->month_of == 1 ? 'selected="selected"' : '' }}>January</option>
                                                 <option value="2" {{ $hr_income_details->month_of == 2 ? 'selected="selected"' : '' }}>February</option>
                                                 <option value="3" {{ $hr_income_details->month_of == 3 ? 'selected="selected"' : '' }}>March</option>
@@ -74,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>year</label>
                                             <select class="form-control select2 year change" id="hrIncomeYearId" name="year">
@@ -85,7 +84,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -93,17 +92,14 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{ $hr_income_details->amount }}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks">{{ $hr_income_details->remarks}}</textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks">{{ $hr_income_details->remarks}}</textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">

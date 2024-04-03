@@ -113,74 +113,82 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <h3 class="card-title">HOUSE RENT ALLOWANCE</h3>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>HOUSE RENT ALLOWANCE(%) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="hra_pr" value="0" name="hra_pr">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="card-title">HOUSE RENT ALLOWANCE</h3>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>HOUSE RENT ALLOWANCE(%) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="hra_pr" value="0" name="hra_pr">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>HOUSE RENT ALLOWANCE(Amount) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="hra" value="0" name="hra">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>HOUSE RENT ALLOWANCE(Amount) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="hra" value="0" name="hra">
+                                </div>
+                                <div class="col-6">
+                                    <h3 class="card-title">Income Tax</h3>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Income Tax(%) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="income_tax_pr" value="0" name="income_tax_pr">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Income Tax(Amount) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="income_tax" value="0" name="income_tax">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <h3 class="card-title">Income Tax</h3>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Income Tax(%) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="income_tax_pr" value="0" name="income_tax_pr">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="card-title">Provident Fund </h3>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Provident Fund (%) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="pf_pr" value="0" name="pf_pr">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Provident Fund (Amount) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="pf" value="0" name="pf">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Income Tax(Amount) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="income_tax" value="0" name="income_tax">
+                                </div>
+                                <div class="col-6">
+                                    <h3 class="card-title">PROFESSIONAL Tax</h3>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>PROFESSIONAL Tax(%) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="pro_tax_pr" value="0" name="pro_tax_pr">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>PROFESSIONAL Tax(Amount) <span class="text-danger">*</span></label>
+                                                <input class="form-control " type="number" id="pro_tax" value="0" name="pro_tax">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <h3 class="card-title">Provident Fund </h3>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Provident Fund (%) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="pf_pr" value="0" name="pf_pr">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Provident Fund (Amount) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="pf" value="0" name="pf">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <h3 class="card-title">PROFESSIONAL Tax</h3>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>PROFESSIONAL Tax(%) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="pro_tax_pr" value="0" name="pro_tax_pr">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>PROFESSIONAL Tax(Amount) <span class="text-danger">*</span></label>
-                                            <input class="form-control " type="number" id="pro_tax" value="0" name="pro_tax">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>

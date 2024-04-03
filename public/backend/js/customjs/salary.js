@@ -163,6 +163,11 @@ var Salary = function(){
     var addSalary= function(){
         $('.select2').select2();
         var form = $('#add-salary-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
@@ -170,7 +175,10 @@ var Salary = function(){
             date: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{
@@ -261,6 +269,11 @@ var Salary = function(){
 
         $('.select2').select2();
         var form = $('#edit-salary-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             branch_id: {required: true},
@@ -268,7 +281,10 @@ var Salary = function(){
             date: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{

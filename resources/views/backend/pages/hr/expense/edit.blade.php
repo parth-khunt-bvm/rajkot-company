@@ -16,7 +16,7 @@
                             <div class="card-body">
                                 <input type="hidden" name="editId"  class="form-control" value="{{ $hr_expense_details->id}}">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                                             <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Enter Date" autocomplete="off" value="{{ date_formate($hr_expense_details->date) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Month
                                                 <span class="text-danger">*</span>
@@ -46,9 +46,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -56,13 +54,11 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{ $hr_expense_details->amount }}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks">{{ $hr_expense_details->remarks}}</textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks">{{ $hr_expense_details->remarks}}</textarea>
                                         </div>
                                     </div>
                                 </div>

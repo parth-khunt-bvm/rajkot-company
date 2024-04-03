@@ -134,7 +134,7 @@ var HrIncome = function(){
 
         $('body').on('change', '.date', function(){
             var selecteddate = $(this).val();
-            var html = '<option value="">Month of salary</option>';
+            var html = '<option value="">Month of</option>';
 
             if(selecteddate == '' || selecteddate == null){
                 $('.month_of').prop("disabled", true);
@@ -188,13 +188,21 @@ var HrIncome = function(){
     var addHrIncome= function(){
         $('.select2').select2();
         var form = $('#add-hr-income');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             payment_mode: {required: true},
             date: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{
@@ -229,7 +237,7 @@ var HrIncome = function(){
 
         $('body').on('change', '.date', function(){
             var selecteddate = $(this).val();
-            var html = '<option value="">Month of salary</option>';
+            var html = '<option value="">Month of</option>';
 
             if(selecteddate == '' || selecteddate == null){
                 $('.month_of').prop("disabled", true);
@@ -261,7 +269,7 @@ var HrIncome = function(){
         $('body').on('change', '.date', function(){
             console.log("hii");
             var selecteddate = $(this).val();
-            var html = '<option value="">Month of Revenue</option>';
+            var html = '<option value="">Month of</option>';
 
             if(selecteddate == '' || selecteddate == null){
                 $('.month_of').prop("disabled", true);
@@ -283,13 +291,21 @@ var HrIncome = function(){
 
         $('.select2').select2();
         var form = $('#edit-hr-income');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             manager_id: {required: true},
             payment_mode: {required: true},
             date: {required: true},
             month_of: {required: true},
             year: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             manager_id :{

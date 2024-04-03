@@ -16,13 +16,13 @@
                      <form class="form" id="add-emp-overtime" method="POST" action="{{ route('admin.emp-overtime.save-add-emp-overtime') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Date <span class="text-danger">*</span> </label>
                                         <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Employee Name
                                             <span class="text-danger">*</span>
@@ -35,7 +35,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>	Hours
                                         <span class="text-danger">*</span>
@@ -43,13 +43,11 @@
                                         <input type="text" name="hours" id="hours" class="form-control onlyNumber" placeholder="Enter Hours" autocomplete="off">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Note
                                         </label>
-                                        <textarea class="form-control" id="" cols="30" rows="10" name="note" id="note" placeholder="Enter your note"></textarea>
+                                        <textarea class="form-control" id="" cols="30" rows="1" name="note" id="note" placeholder="Enter your note"></textarea>
                                     </div>
                                 </div>
                             </div>
