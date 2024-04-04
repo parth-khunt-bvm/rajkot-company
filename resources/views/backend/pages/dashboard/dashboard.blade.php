@@ -314,13 +314,59 @@
                     </div>
                     <!--end::Advance Table Widget 2-->
                 </div> --}}
-                <div class="col-xxl-12 order-2 order-xxl-1">
+                <div class="col-xxl-6 order-2 order-xxl-1">
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label font-weight-bolder text-dark">Employee Bond Last Date List</span>
+                            </h3>
+                            <div class="card-toolbar">
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-2 pb-0 mt-n3 pb-5">
+                            <div class="tab-content mt-5" id="myTabTables11">
+                                <!--begin::Tap pane-->
+                                <div class="tab-pane fade show active" id="kt_tab_pane_11_3" role="tabpanel"
+                                    aria-labelledby="kt_tab_pane_11_3">
+                                    <!--begin::Table-->
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-checkable" id="dash-employee-bond-last-date-list">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Contact</th>
+                                                    <th>Department</th>
+                                                    <th>Designation</th>
+                                                    <th>Bond Last Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!--end::Table-->
+                                </div>
+                                <!--end::Tap pane-->
+                            </div>
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Advance Table Widget 2-->
+                </div>
+                <div class="col-xxl-6 order-2 order-xxl-1">
+                    <!--begin::Advance Table Widget 2-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0 pt-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label font-weight-bolder text-dark">Absent employee</span>
                             </h3>
                             <div class="card-toolbar">
                             </div>

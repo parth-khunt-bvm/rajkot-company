@@ -17,8 +17,8 @@ class EmployeeBirthday extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            2 => 'employee.DOB',
+            1 => 'employee.DOB',
+            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
             3 => 'technology.technology_name',
             4 => 'designation.designation_name',
         );
