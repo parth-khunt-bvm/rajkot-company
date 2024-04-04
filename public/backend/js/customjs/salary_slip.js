@@ -275,7 +275,7 @@ var SalarySlip = function(){
         // return new Date(year, month+1, 0).getDate();
         };
 
-        $("body").on("change","#monthId",function(){
+        $("body").on("change","#salarySlipMonthId",function(){
             var currentYear = new Date().getFullYear();
             var month = $(this).val();
             var html = '<option  value="">Select Salary Slip Year </option>';
@@ -284,18 +284,18 @@ var SalarySlip = function(){
                 temp_html = '<option value="' + i + '">' + i + '</option>';
                 html = html + temp_html;
             }
-            $("#yearId").html(html);
+            $("#SalarySlipYearId").html(html);
 
             if(month == '' || month == null){
 
-                $("#yearId").attr("disabled","true");
+                $("#SalarySlipYearId").attr("disabled","true");
             }else{
-                $("#yearId").removeAttr("disabled");
+                $("#SalarySlipYearId").removeAttr("disabled");
             }
         });
 
-        $("body").on("change","#yearId",function(){
-            var month = $("#monthId").val();
+        $("body").on("change","#SalarySlipYearId",function(){
+            var month = $("#salarySlipMonthId").val();
             var year = $(this).val();
             $("#wd").val(getDaysInMonth(month, year));
         });
@@ -350,7 +350,6 @@ var SalarySlip = function(){
             var pf = $(this).val();
             $("#pf_pr").val(countPercentageFromAmount(pf, salary).toFixed(2));
         });
-
 
         $("body").on("keyup","#pro_tax_pr",function(){
             var salary = $("#basic").val();
@@ -499,7 +498,7 @@ var SalarySlip = function(){
            return new Date(year, month, 0).getDate();
           };
 
-        $("body").on("change","#monthId",function(){
+        $("body").on("change","#salarySlipMonthId",function(){
             var currentYear = new Date().getFullYear();
             var month = $(this).val();
             var html = '<option  value="">Select Salary Slip Year </option>';
@@ -508,18 +507,18 @@ var SalarySlip = function(){
                 temp_html = '<option value="' + i + '">' + i + '</option>';
                 html = html + temp_html;
             }
-            $("#yearId").html(html);
+            $("#SalarySlipYearId").html(html);
 
             if(month == '' || month == null){
 
-                $("#yearId").attr("disabled","true");
+                $("#SalarySlipYearId").attr("disabled","true");
             }else{
-                $("#yearId").removeAttr("disabled");
+                $("#SalarySlipYearId").removeAttr("disabled");
             }
         });
 
-        $("body").on("change","#yearId",function(){
-            var month = $("#monthId").val();
+        $("body").on("change","#SalarySlipYearId",function(){
+            var month = $("#salarySlipMonthId").val();
             var year = $(this).val();
             $("#wd").val(getDaysInMonth(month, year));
         });

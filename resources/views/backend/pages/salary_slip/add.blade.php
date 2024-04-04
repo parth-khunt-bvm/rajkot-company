@@ -44,7 +44,7 @@
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Employee<span class="text-danger">*</span></label>
-                                            <select class="form-control employee select2" name="employee" id="employee">
+                                            <select class="form-control employee select2" name="employee" id="employeeSalarySlipId">
                                                 <option value="">Select Employee </option>
                                             </select>
                                         </div>
@@ -56,7 +56,7 @@
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Month<span class="text-danger">*</span></label>
-                                            <select class="form-control select2" name="month" id="monthId">
+                                            <select class="form-control select2" name="month" id="salarySlipMonthId">
                                                 <option value="">Select Salary Slip Month </option>
                                                 <option value="1">January </option>
                                                 <option value="2">February </option>
@@ -76,7 +76,7 @@
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Year<span class="text-danger">*</span></label>
-                                            <select class="form-control select2" name="year" id="yearId">
+                                            <select class="form-control select2" name="year" id="SalarySlipYearId">
                                                 <option value="">Select Salary Slip Year </option>
                                                 @for($i = 2015; $i <= date("Y") ; $i++) <option value="{{ $i }}">{{ $i }}</option>
                                                     @endfor
