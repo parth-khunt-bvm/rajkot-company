@@ -128,6 +128,52 @@ function displayTime(time) {
 }
 
 // Restore timer state on page refresh
+// window.onload = function () {
+//     let storedTime = localStorage.getItem("timerElapsed");
+//     let storedPaused = localStorage.getItem("isPaused");
+//     let storedStopped = localStorage.getItem("isStopped");
+
+//     if (storedTime) {
+//         elapsedTime = parseInt(storedTime);
+//         if (!isNaN(elapsedTime)) {
+//             if (storedStopped === "false" && storedPaused === "true") {
+//                 // $('#start').hide();
+//                 $('#continue').show();
+//                 displayTime(elapsedTime);
+//             } else if (storedStopped === "false" && storedPaused === "false") {
+//                 // startTimer();
+//                 // $('#start').hide();
+//                 $('#continue').show();
+
+
+//                 if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
+//                     showToster("success", "I am back");
+//                     localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
+//                 }
+
+//                 if (isStopped) {
+//                     startTime = Date.now() - elapsedTime;
+//                     isStopped = false;
+//                     localStorage.setItem("isStopped", "false");
+//                 }
+//                 if (!timerInterval) {
+//                     timerInterval = setInterval(updateTimer, 1000);
+//                 }
+//             }
+//         }
+//     }
+//     // Show "Stop" button if timer is running
+//     if (storedStopped === "false" && storedPaused === "false") {
+//         // $('#stop').show();
+//         $('#toggle').css('background-color','green');
+//     }
+// };
+
+// // Save timer state before page refresh
+// window.onbeforeunload = function () {
+//     localStorage.setItem("timerElapsed", elapsedTime.toString());
+// };
+
 window.onload = function () {
     let storedTime = localStorage.getItem("timerElapsed");
     let storedPaused = localStorage.getItem("isPaused");
@@ -137,39 +183,27 @@ window.onload = function () {
         elapsedTime = parseInt(storedTime);
         if (!isNaN(elapsedTime)) {
             if (storedStopped === "false" && storedPaused === "true") {
-                // $('#start').hide();
-                $('#continue').show();
-                displayTime(elapsedTime);
+                // Timer was paused
+                // Show appropriate UI
+                $('#toggle').css('background-color','red');
             } else if (storedStopped === "false" && storedPaused === "false") {
-                // startTimer();
-                // $('#start').hide();
-                $('#continue').show();
+                // Timer was running
+                // Resume timer and show appropriate UI
+                $('#toggle').css('background-color','green');
 
-
-                if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
-                    showToster("success", "I am back");
-                    localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
-                }
-
-                if (isStopped) {
-                    startTime = Date.now() - elapsedTime;
-                    isStopped = false;
-                    localStorage.setItem("isStopped", "false");
-                }
+                startTime = Date.now() - elapsedTime;
+                isStopped = false;
                 if (!timerInterval) {
                     timerInterval = setInterval(updateTimer, 1000);
                 }
             }
         }
     }
-    // Show "Stop" button if timer is running
-    if (storedStopped === "false" && storedPaused === "false") {
-        // $('#stop').show();
-        $('#toggle').css('background-color','green');
-    }
 };
 
-// Save timer state before page refresh
 window.onbeforeunload = function () {
     localStorage.setItem("timerElapsed", elapsedTime.toString());
+    localStorage.setItem("isPaused", isPaused.toString());
+    localStorage.setItem("isStopped", isStopped.toString());
 };
+
