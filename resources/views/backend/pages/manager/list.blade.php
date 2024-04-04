@@ -45,12 +45,10 @@
 
             </div>
             <div class="card-body">
-
-
                 <form class="form" id="add-manager" style="display: none" method="POST" action="{{ route('admin.manager.save-add-manager') }}" autocomplete="off">@csrf
 
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Manager Name
                                     <span class="text-danger">*</span>

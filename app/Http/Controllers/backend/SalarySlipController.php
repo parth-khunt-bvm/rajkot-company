@@ -77,7 +77,6 @@ class SalarySlipController extends Controller
 
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(127, explode(',', $permission_array[0]['permission']))){
 
-
             $objTechnology = new Technology();
             $data['technology'] = $objTechnology->get_admin_technology_details();
 

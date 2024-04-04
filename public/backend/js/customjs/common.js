@@ -15,10 +15,10 @@ let isStopped = true;
 function toggleTimer() {
     if (isStopped) {
         startTimer();
-        $('#toggle').text('Stop');
+        $('#toggle').css('background-color','green');
     } else {
         stopTimer();
-        $('#toggle').text('Start');
+        $('#toggle').css('background-color','red');
     }
 }
 
@@ -165,7 +165,7 @@ window.onload = function () {
     // Show "Stop" button if timer is running
     if (storedStopped === "false" && storedPaused === "false") {
         // $('#stop').show();
-        $('#toggle').text('Stop');
+        $('#toggle').css('background-color','green');
     }
 };
 

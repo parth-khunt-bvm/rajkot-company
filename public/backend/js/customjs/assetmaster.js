@@ -164,6 +164,11 @@ var AssetMaster = function(){
     }
     var addAssetMaster= function(){
         $('.select2').select2();
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var form = $('#add-asset-master-users');
         var rules = {
             supplier_id: {required: true},
@@ -173,6 +178,9 @@ var AssetMaster = function(){
             // description: {required: true},
             quantity: {required: true},
             // price: {required: true},
+            price: {
+                validateMaxValue: true,
+            },
             status: {required: true},
 
         };
@@ -210,6 +218,11 @@ var AssetMaster = function(){
     var editAssetMaster= function(){
         $('.select2').select2();
         var form = $('#edit-asset-master-users');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             supplier_id: {required: true},
             asset_id: {required: true},
@@ -217,6 +230,9 @@ var AssetMaster = function(){
             branch_id: {required: true},
             // description: {required: true},
             // price: {required: true},
+            price: {
+                validateMaxValue: true,
+            },
             status: {required: true},
 
         };

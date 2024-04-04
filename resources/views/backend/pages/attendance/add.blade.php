@@ -16,13 +16,13 @@
                      <form class="form" id="add-attendance-form" method="POST" action="{{ route('admin.attendance.save-add-attendance') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Date</label>
                                         <input type="text" name="date" id="datepicker_date" class="form-control date" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-4 col-form-label mt-5">
+                                <div class="col-2 col-form-label mt-5">
                                     <div class="checkbox-inline mt-3">
                                         <label class="checkbox checkbox-success">
                                             <input type="checkbox" id="all_present" name="all_present"/>

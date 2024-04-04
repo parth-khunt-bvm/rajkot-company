@@ -107,3 +107,31 @@ h6 {
     font-weight: bold;
 }
 
+
+/* button design */
+#toggle {
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    border: none; /* Remove border */
+  }
+  #squareInside {
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 3px; /* Add border-radius to the square */
+  }
+

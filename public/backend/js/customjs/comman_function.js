@@ -848,14 +848,29 @@ function refreshTable(coloumList, dataArr1, columnWidth1, tableID, ajaxURL, hide
 }
 
 
+// $(".onlyNumber").keypress(function(e) {
+//     //if the letter is not digit then display error and don't type anything
+//     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+//         //display error message
+//         //    $("#errmsg").html("Digits Only").show().fadeOut("slow");
+//         return false;
+//     }
+// });
+
 $(".onlyNumber").keypress(function(e) {
-    //if the letter is not digit then display error and don't type anything
-    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        //display error message
-        //    $("#errmsg").html("Digits Only").show().fadeOut("slow");
+    // Get the character code of the pressed key
+    var charCode = e.which ? e.which : e.keyCode;
+
+    // Allow digits (0-9), the dot character (.), and certain control keys (like backspace and delete)
+    if ((charCode >= 48 && charCode <= 57) || charCode == 46 || charCode == 8 || charCode == 0) {
+        // Allow input
+        return true;
+    } else {
+        // Prevent input
         return false;
     }
 });
+
 
 
 

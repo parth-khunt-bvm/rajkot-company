@@ -17,17 +17,17 @@
                             <div class="card-body">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Technology Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="hidden" name="technologyId"  class="form-control" placeholder="Enter first name" value="{{ $user_details->id }}">
-                                            <input type="text" name="technology_name"  class="form-control" placeholder="Enter technology name" value="{{ $user_details->technology_name }}">
+                                            <input type="text" name="technology_name"  class="form-control" placeholder="Enter technology name" value="{{ $user_details->technology_name }}" autocomplete="off">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status <span class="text-danger">*</span></label>
                                             <div class="radio-inline" style="margin-top:10px">

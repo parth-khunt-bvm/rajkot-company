@@ -204,10 +204,18 @@ var HrExpense = function(){
     var addHrExpense= function(){
         $('.select2').select2();
         var form = $('#add-hr-expense');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             date: {required: true},
             month: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             date : {
@@ -217,10 +225,11 @@ var HrExpense = function(){
                 required : "Please select month"
             },
             amount : {
-                required : "Please enter amount"
+                required : "Please enter amount",
             },
 
         }
+
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
@@ -256,7 +265,7 @@ var HrExpense = function(){
         });
 
     }
-    var editHrExpense= function(){
+    var editHrExpense = function(){
         $("#datepicker_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
@@ -266,10 +275,18 @@ var HrExpense = function(){
 
         $('.select2').select2();
         var form = $('#edit-hr-expense');
+
+        $.validator.addMethod("validateMaxValue", function(value, element) {
+            return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
+        }, "Please enter a valid amount");
+
         var rules = {
             date: {required: true},
             month: {required: true},
-            amount: {required: true},
+            amount: {
+                required: true,
+                validateMaxValue: true,
+            },
         };
         var message = {
             date : {

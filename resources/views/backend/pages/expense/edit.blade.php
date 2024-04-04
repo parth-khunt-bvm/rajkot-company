@@ -16,7 +16,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <input type="hidden" name="editId"  class="form-control" placeholder="Enter manager name" value="{{ $expense_details->id}}">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Manager Name
                                                 <span class="text-danger">*</span>
@@ -29,7 +29,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Branch Name
                                                 <span class="text-danger">*</span>
@@ -42,9 +42,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Type Name
                                                 <span class="text-danger">*</span>
@@ -57,7 +55,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date
                                                 <span class="text-danger">*</span>
@@ -101,7 +99,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>amount
                                                 <span class="text-danger">*</span>
@@ -109,17 +107,14 @@
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{ $expense_details->amount }}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>remarks
                                             </label>
-                                            <textarea class="form-control" id="" cols="30" rows="10" name="remarks" id="remarks" >{{ $expense_details->remarks }}</textarea>
+                                            <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks" >{{ $expense_details->remarks }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer">
