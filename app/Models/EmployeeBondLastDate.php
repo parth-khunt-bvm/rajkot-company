@@ -124,7 +124,6 @@ class EmployeeBondLastDate extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
-            // 1 => DB::raw('CONCAT(first_name, " ", last_name)'),
             1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Gmail : ", employee.gmail,  "<br>Contact : ", employee.personal_number)'),
             2 => 'employee.bond_last_date',
             3 => 'technology.technology_name',
@@ -175,9 +174,6 @@ class EmployeeBondLastDate extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            // $nestedData[] = $row['full_name'];
-            // $nestedData[] = "<br>Name : ".$row['full_name']. "<br>Gmail : ". $row['gmail'] . "<br>Emergency contact : ". $row['emergency_number'];
-
             $nestedData[] = '<div class="d-flex align-items-center">'.
             '<div class="symbol symbol-50 symbol-sm flex-shrink-0">'.
             '<div class="symbol-label">'.
@@ -189,10 +185,9 @@ class EmployeeBondLastDate extends Model
             '<a href="#" class="text-muted font-weight-bold text-hover-primary">' . $row['gmail'] . '</a>'.
             '</div>'.
             '</div>';
-            $nestedData[] = $row['personal_number'];
+            $nestedData[] = date_formate($row['bond_last_date']);
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['designation_name'];
-            $nestedData[] = date_formate($row['bond_last_date']);
             $data[] = $nestedData;
         }
         $json_data = array(

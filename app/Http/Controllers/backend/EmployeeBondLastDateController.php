@@ -65,7 +65,6 @@ class EmployeeBondLastDateController extends Controller
                 break;
 
             case 'get-bond-last-date-employee':
-                // dd("hii");
                 $obEmployeeBondLastDate = new EmployeeBondLastDate();
                 $list = $obEmployeeBondLastDate->getEmployee($request->input('data'));
                 echo json_encode($list);

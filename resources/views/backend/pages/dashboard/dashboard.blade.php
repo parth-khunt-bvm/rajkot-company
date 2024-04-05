@@ -339,10 +339,9 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Employee Name</th>
-                                                    <th>Contact</th>
+                                                    <th>Bond Last Date</th>
                                                     <th>Department</th>
                                                     <th>Designation</th>
-                                                    <th>Bond Last Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -380,22 +379,20 @@
                                     aria-labelledby="kt_tab_pane_11_3">
                                     <!--begin::Table-->
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-checkable" id="dash-employee-bond-last-date-list">
+                                        <table class="table table-bordered table-checkable" id="absent-emp-list">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Employee Name</th>
-                                                    <th>Contact</th>
-                                                    <th>Department</th>
-                                                    <th>Designation</th>
-                                                    <th>Bond Last Date</th>
+                                                    <th>Date</th>
+                                                    <th>Employee</th>
+                                                    <th>Attendance Type</th>
+                                                    <th>Minutes</th>
+                                                    <th>reason</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                             </tbody>
                                         </table>
-
                                     </div>
                                     <!--end::Table-->
                                 </div>
