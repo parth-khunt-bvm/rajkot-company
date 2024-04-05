@@ -104,7 +104,7 @@ class Countersheet extends Model
                             (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0))
                             -
                             CASE
-                                WHEN COALESCE(a.sortLeaveCount, 0) >= 1 THEN 1
+                                WHEN COALESCE(a.sortLeaveCount, 0) > 2 THEN 1
                                 WHEN COALESCE(a.sortLeaveCount, 0) > 4 THEN 2
                                 ELSE 0
                             END
@@ -117,6 +117,7 @@ class Countersheet extends Model
                                 WHEN COALESCE(a.halfDayCount, 0) >= 1 THEN 1
                                 ELSE 0
                             END
+                            + (IFNULL(o.overTime, 0)/8)
                         )
                     ),
 

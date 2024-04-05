@@ -56,6 +56,7 @@ class DashboardController extends Controller
         $data['funinit'] = array(
             'Dashboard.employee_birthday()',
             'Dashboard.employee_bond_last_date()',
+            'Dashboard.absent_employee_list()',
         );
         $data['header'] = array(
             'title' => 'Dashboard',
@@ -195,6 +196,12 @@ class DashboardController extends Controller
             case 'employees-bond-last-date-list':
                 $obEmployeeBondLastDate = new EmployeeBondLastDate();
                 $list = $obEmployeeBondLastDate->employeeBondLastDateList();
+                echo json_encode($list);
+                break;
+
+            case 'absent-emp-list':
+                $objTodayAttendance = new Attendance();
+                $list = $objTodayAttendance->getAbsentEmpList();
                 echo json_encode($list);
                 break;
         }
