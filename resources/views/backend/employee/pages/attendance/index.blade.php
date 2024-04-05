@@ -20,7 +20,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label> Month</label>
                             <select class="form-control select2 month emp-cal-fillter" id="empMonthId"  name="month">
@@ -40,7 +40,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label>year</label>
                             <select class="form-control select2 year emp-cal-fillter" id="empYearId"  name="year">

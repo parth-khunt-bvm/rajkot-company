@@ -16,7 +16,7 @@
                     <form class="form" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Date
                                             <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                                         <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Leave Type
                                             <span class="text-danger">*</span>
@@ -37,7 +37,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Manager
                                             <span class="text-danger">*</span>
@@ -50,7 +50,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Reson
                                         </label>
