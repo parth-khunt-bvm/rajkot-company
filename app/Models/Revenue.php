@@ -115,7 +115,7 @@ class Revenue extends Model
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['received_month'];
             $nestedData[] = $row['monthYear'];
-            $nestedData[] = numberformat($row['amount'],2);
+            $nestedData[] = numberformat($row['amount']);
             $nestedData[] = $row['bankDetail'];
             // $nestedData[] = $row['holder_name'];
             if (strlen($row['remarks']) > $max_length) {

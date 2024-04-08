@@ -91,10 +91,10 @@ function stopTimer() {
                 (seconds < 10 ? "0" + seconds : seconds);
 
             // Display the recorded time
-            var fulltime = document.getElementById("fulltime");
-            fulltime.style.display = "block";
-            fulltime.style.color = "#ff4500";
-            fulltime.innerHTML = "Time Recorded is " + formattedTime;
+            // var fulltime = document.getElementById("fulltime");
+            // fulltime.style.display = "block";
+            // fulltime.style.color = "#ff4500";
+            // fulltime.innerHTML = "Time Recorded is " + formattedTime;
 
             // Reset elapsed time
             elapsedTime = 0;

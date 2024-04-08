@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label> Month</label>
                             <select class="form-control select2 month att-report-fill" id="reportMonthId"  name="month">
@@ -46,7 +46,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label>year</label>
                             <select class="form-control select2 year att-report-fill" id="reportYearId"  name="year">
@@ -57,7 +57,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label>Leave Type</label>
                             <select class="form-control select2 leave_type leave_select att-report-fill"  name="leave_type" id="reportLeaveType">

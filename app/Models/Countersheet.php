@@ -32,7 +32,8 @@ class Countersheet extends Model
                 ),
                 ".",
                 FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
-            )')
+            )'),
+            // 10 => 'a.minutes'
 
         );
 
@@ -87,6 +88,7 @@ class Countersheet extends Model
                 'a.absentCount',
                 'a.halfDayCount',
                 'a.sortLeaveCount',
+                // 'a.minutes',
                 \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
             //     DB::raw('
             // CONCAT(
@@ -104,17 +106,17 @@ class Countersheet extends Model
                             (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0))
                             -
                             CASE
-                                WHEN COALESCE(a.sortLeaveCount, 0) > 2 THEN 1
-                                WHEN COALESCE(a.sortLeaveCount, 0) > 4 THEN 2
+                                WHEN COALESCE(a.sortLeaveCount, 0) >= 5 THEN 2
+                                WHEN COALESCE(a.sortLeaveCount, 0) >= 1 THEN 1
                                 ELSE 0
                             END
-                             -
+                            -
                             COALESCE(a.absentCount, 0)
                             -
                             CASE
-                                WHEN COALESCE(a.halfDayCount, 0) >= 5 THEN 3
-                                WHEN COALESCE(a.halfDayCount, 0) > 2 THEN 2
-                                WHEN COALESCE(a.halfDayCount, 0) >= 1 THEN 1
+                                WHEN COALESCE(a.halfDayCount, 0) >= 4 THEN 3
+                                WHEN COALESCE(a.halfDayCount, 0) >= 3 THEN 2
+                                WHEN COALESCE(a.halfDayCount, 0) >= 2 THEN 1
                                 ELSE 0
                             END
                             + (IFNULL(o.overTime, 0)/8)
@@ -141,6 +143,8 @@ class Countersheet extends Model
             )
             ->get();
 
+            // dd($resultArr);
+
         $data = array();
         $i = 0;
         // ccd($resultArr);
@@ -155,6 +159,7 @@ class Countersheet extends Model
             $nestedData[] = $row['full_name'];
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['totalDays'];
+            // $nestedData[] = $row['presentCount'] . " " . "(400)";
             $nestedData[] = $row['presentCount'];
             $nestedData[] = $row['absentCount'];
             $nestedData[] = $row['halfDayCount'];
