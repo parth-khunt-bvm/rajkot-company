@@ -47,7 +47,8 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation
         if (Revenue::where('manager_id', $managerId)->where('technology_id', $departmentID)->where('received_month', date("n", strtotime($row[1])))->where('month_of', date("n", strtotime($row[2])))->where('is_deleted', 'N')->count() == 0) {
             $objRevenue = new Revenue();
             // $objRevenue->date = $row[0] != null && $row[0] != '' ? $this->transformDate($row[0]) : NULL;
-            $objRevenue->date =  $this->transformDate($row[0]) ?? '-';
+            // $objRevenue->date =  $this->transformDate($row[0]) ?? '-';
+            $objRevenue->date = date('Y-m-d', strtotime($row['0']))  ?? '-';
             $objRevenue->received_month = date("n", strtotime($row[1]));
             $objRevenue->month_of = date("n", strtotime($row[2]));
             $objRevenue->year = $row[3];
