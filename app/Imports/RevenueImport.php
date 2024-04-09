@@ -7,9 +7,10 @@ use App\Models\Revenue;
 use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Carbon;
 
-class RevenueImport implements ToModel, WithStartRow
+class RevenueImport implements ToModel, WithStartRow, WithValidation
 {
     /**
      * @param array $row
@@ -18,6 +19,7 @@ class RevenueImport implements ToModel, WithStartRow
      */
     public function model(array $row)
     {
+
         $managerId = Manager::where('manager_name', $row[6])->value('id');
         if ($managerId == NULL) {
             $objManager = new Manager();
@@ -60,7 +62,25 @@ class RevenueImport implements ToModel, WithStartRow
             $objRevenue->updated_at = date('Y-m-d H:i:s');
             $objRevenue->save();
         }
+
     }
+
+    public function rules(): array
+    {
+        return [
+            '0' => 'required',
+            '3' => 'required',
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            '0.required' => 'Date is required',
+            '3.required' => 'Year is required',
+        ];
+    }
+
 
     public function transformDate($value, $format = 'Y-m-d')
     {

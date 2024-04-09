@@ -120,7 +120,7 @@ class ManagerController extends Controller
         if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(27, explode(',', $permission_array[0]['permission']))){
             $objManager = new Manager();
             $data['manager_details'] = $objManager->get_manager_details($managerId);
-           
+
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Edit Manager";
@@ -183,11 +183,8 @@ class ManagerController extends Controller
             case 'getdatatable':
                 $objManager = new Manager();
                 $list = $objManager->getdatatable();
-
                 echo json_encode($list);
                 break;
-
-
 
             case 'common-activity':
                 $objManager = new Manager();
