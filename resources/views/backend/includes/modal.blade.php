@@ -384,15 +384,13 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <label>Upload Excel File<span class="text-danger">*</span></label>
-                                    <a style="text-align: center;" href="{{ asset('upload/excel/revenue.csv')}}" download="revenue.csv"><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a>
+                                    <a style="text-align: center;" href="{{ asset('upload/excel/revenue1.csv')}}" download="revenue.csv"><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a>
                                     <div></div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
