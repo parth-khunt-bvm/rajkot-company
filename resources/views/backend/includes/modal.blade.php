@@ -374,9 +374,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Import Revenue</h5>
-
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
@@ -388,7 +386,7 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <label>Upload Excel File<span class="text-danger">*</span></label>
-                                    <a style="text-align: center;" href="{{ asset('upload/excel/revenue.csv')}}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a>
+                                    <a style="text-align: center;" href="{{ asset('upload/excel/revenue.xlsx')}}" download><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a>
                                     <div></div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="file" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
