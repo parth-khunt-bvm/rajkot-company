@@ -283,14 +283,46 @@ class RevenueController extends Controller
 
     public function save_import(Request $request){
 
+        // $path = $request->file('file')->store('temp');
+        // $data = \Excel::import(new RevenueImport($request->file('file')),$path);
+        // $return['status'] = 'success';
+        // $return['message'] = 'Revenue added successfully.';
+        // $return['redirect'] = route('admin.revenue.list');
 
-        $path = $request->file('file')->store('temp');
-        $data = \Excel::import(new RevenueImport($request->file('file')),$path);
-        $return['status'] = 'success';
-        $return['message'] = 'Revenue added successfully.';
-        $return['redirect'] = route('admin.revenue.list');
+        // echo json_encode($return);
+        // exit;
 
-        echo json_encode($return);
-        exit;
+
+        try {
+            $path = $request->file('file')->store('temp');
+            $data = \Excel::import(new RevenueImport($request->file('file')),$path);
+            $return['status'] = 'success';
+            $return['message'] = 'Revenue added successfully.';
+            $return['redirect'] = route('admin.revenue.list');
+
+            echo json_encode($return);
+            exit;
+
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+
+             $failures = $e->failures();
+             $errorMessages = [];
+
+             foreach ($failures as $failure) {
+                $errorMessages[] = [
+                    'row' => $failure->row(),
+                    'attribute' => $failure->attribute(),
+                    'errors' => $failure->errors(),
+                    'values' => $failure->values(),
+                ];
+             }
+
+           
+            $return['status'] = 'error';
+            $return['message'] = $errorMessages[0]['errors'][0]; // Sending all errors
+            // $return['message'] = "date is require"; // Sending all errors
+            echo json_encode($return);
+            exit;
+        }
     }
 }

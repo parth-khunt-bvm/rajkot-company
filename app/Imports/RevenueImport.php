@@ -8,10 +8,12 @@ use App\Models\Technology;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\Importable;
 use Carbon;
 
 class RevenueImport implements ToModel, WithStartRow, WithValidation
 {
+    use Importable;
     /**
      * @param array $row
      *
@@ -85,7 +87,7 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation
 
     public function transformDate($value, $format = 'Y-m-d')
     {
-        try {
+        try {   
             if (is_numeric($value)) {
                 return \Carbon\Carbon::createFromTimestamp(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value));
             } else {

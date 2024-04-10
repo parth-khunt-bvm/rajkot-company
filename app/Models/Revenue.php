@@ -13,6 +13,20 @@ class Revenue extends Model
 
     protected $table = 'revenue';
 
+    protected $fillable = [
+        'id',
+        'date',
+        'received_month',
+        'month_of',
+        'year',
+        'remarks',
+        'amount',
+        'manager_id',
+        'technology_id',
+        'bank_name',
+        'holder_name',
+    ];
+
     public function getdatatable($fillterdata)
     {
         $requestData = $_REQUEST;

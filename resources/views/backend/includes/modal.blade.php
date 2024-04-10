@@ -383,6 +383,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="form-group">
+                                    <div id="error-messages"></div>
                                     <label>Upload Excel File<span class="text-danger">*</span></label>
                                     <a style="text-align: center;" href="{{ asset('upload/excel/revenue1.csv')}}" download="revenue.csv"><u>Download File <i class="fa fa-download" style="color: #3699FF !important" ></i></u></a>
                                     <div></div>
