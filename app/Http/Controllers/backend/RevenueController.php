@@ -317,10 +317,10 @@ class RevenueController extends Controller
                 ];
              }
 
-           
+
             $return['status'] = 'error';
-            $return['message'] = $errorMessages[0]['errors'][0]; // Sending all errors
-            // $return['message'] = "date is require"; // Sending all errors
+            // $return['message'] = $errorMessages[0]['errors'][0]; // Sending all errors
+            $return['message'] = "Row " . $errorMessages[0]['row'] . ": " . $errorMessages[0]['errors'][0];
             echo json_encode($return);
             exit;
         }

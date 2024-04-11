@@ -330,8 +330,7 @@
                                                     <span class="text-dark text-bold">Hired By</span>
                                                 </div>
                                                 <div class="col-xl-9 col-md-9">
-                                                    <span
-                                                        class="text-muted font-size-lg">{{ $employee_details->hired_by }}</span>
+                                                    <span class="text-muted font-size-lg">{{ $employee_details->manager_name }}</span>
                                                 </div>
                                             </div>
                                             <div class="row mt-2">
