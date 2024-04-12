@@ -225,17 +225,7 @@ class Expense extends Model
         $objExpense = Expense::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objExpense->is_deleted = "Y";
-            $event = 'Delete Records';
-        }
-
-        if ($requestData['activity'] == 'active-records') {
-            $objExpense->status = "A";
-            $event = 'Active Records';
-        }
-
-        if ($requestData['activity'] == 'deactive-records') {
-            $objExpense->status = "I";
-            $event = 'Deactive Records';
+            $event = 'D';
         }
 
         $objExpense->updated_at = date("Y-m-d H:i:s");

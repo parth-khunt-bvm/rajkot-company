@@ -9,8 +9,8 @@ var EmployeeOverTime = function () {
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 0],
-            'noSearchApply': [0, 0],
+            'noSortingApply': [0, 5],
+            'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth

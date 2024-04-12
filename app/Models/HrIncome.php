@@ -17,12 +17,13 @@ class HrIncome extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'hr_income.id',
-            1 =>  DB::raw('DATE_FORMAT(hr_income.date, "%d-%b-%Y")'),
+            1 => 'hr_income.date',
             2 => 'manager.manager_name',
             3 => DB::raw('(CASE WHEN hr_income.payment_mode = "1" THEN "Cash" ELSE "Bank Transfer" END)'),
             4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", hr_income.month_of, "-01")), "-", year)'),
             5 => 'hr_income.amount',
             6 => 'hr_income.remarks',
+            7 => DB::raw('DATE_FORMAT(hr_income.date, "%d-%b-%Y")'),
         );
 
         $query = HrIncome::from('hr_income')
@@ -44,6 +45,7 @@ class HrIncome extends Model
             if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
                 $query->where(DB::raw('CONCAT(month_of, "-", year)'), $fillterdata['monthOf'] . "-" . $fillterdata['year']);
             }
+
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -219,7 +221,7 @@ class HrIncome extends Model
 
         if ($requestData['activity'] == 'delete-records') {
             $objHrIncome->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         $objHrIncome->updated_at = date("Y-m-d H:i:s");

@@ -112,7 +112,7 @@ class ExpenseController extends Controller
         }else{
             return redirect()->route('admin.expense.list');
         }
-        }
+    }
 
     public function saveAdd(Request $request)
     {
@@ -231,11 +231,7 @@ class ExpenseController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Expense details successfully deleted.";
-                    } elseif ($data['activity'] == 'active-records') {
-                        $return['message'] = "Expense details successfully actived.";
-                    } else {
-                        $return['message'] = "Expense details successfully deactived.";
-                    }
+                    } 
                     $return['redirect'] = route('admin.expense.list');
                 } else {
                     $return['status'] = 'error';
@@ -293,14 +289,46 @@ class ExpenseController extends Controller
 
     public function save_import(Request $request){
 
+        // $path = $request->file('file')->store('temp');
+        // $data = \Excel::import(new ExpenseImport($request->file('file')),$path);
+        // $return['status'] = 'success';
+        // $return['message'] = 'Expense added successfully.';
+        // $return['redirect'] = route('admin.expense.list');
 
-        $path = $request->file('file')->store('temp');
-        $data = \Excel::import(new ExpenseImport($request->file('file')),$path);
-        $return['status'] = 'success';
-        $return['message'] = 'Expense added successfully.';
-        $return['redirect'] = route('admin.expense.list');
+        // echo json_encode($return);
+        // exit;
+
+
+        try {
+            $path = $request->file('file')->store('temp');
+            $data = \Excel::import(new ExpenseImport($request->file('file')),$path);
+            $return['status'] = 'success';
+            $return['message'] = 'Expense added successfully.';
+            $return['redirect'] = route('admin.expense.list');
 
         echo json_encode($return);
         exit;
+
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+
+             $failures = $e->failures();
+             $errorMessages = [];
+
+             foreach ($failures as $failure) {
+                $errorMessages[] = [
+                    'row' => $failure->row(),
+                    'attribute' => $failure->attribute(),
+                    'errors' => $failure->errors(),
+                    'values' => $failure->values(),
+                ];
+             }
+
+
+            $return['status'] = 'error';
+            // $return['message'] = $errorMessages[0]['errors'][0]; // Sending all errors
+            $return['message'] = "Row " . $errorMessages[0]['row'] . ": " . $errorMessages[0]['errors'][0];
+            echo json_encode($return);
+            exit;
+        }
     }
 }

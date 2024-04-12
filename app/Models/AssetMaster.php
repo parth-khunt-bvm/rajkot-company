@@ -221,7 +221,7 @@ class AssetMaster extends Model
         $objAssetMaster = AssetMaster::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objAssetMaster->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($objAssetMaster->save()) {

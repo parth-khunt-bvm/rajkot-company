@@ -18,10 +18,11 @@ class EmpOvertime extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'emp_overtime.id',
-            1 => DB::raw('DATE_FORMAT(emp_overtime.date, "%d-%b-%Y")'),
+            1 => 'emp_overtime.date',
             2 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
             3 => 'emp_overtime.hours',
             4 => 'emp_overtime.note',
+            4 => DB::raw('DATE_FORMAT(emp_overtime.date, "%d-%b-%Y")'),
         );
         $query = EmpOvertime::from('emp_overtime')
             ->join("employee", "employee.id", "=", "emp_overtime.employee_id");

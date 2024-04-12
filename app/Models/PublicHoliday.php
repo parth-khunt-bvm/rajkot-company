@@ -17,9 +17,10 @@ class PublicHoliday extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'public_holiday.id',
-            1 => DB::raw('DATE_FORMAT(public_holiday.date, "%d-%b-%Y")'),
+            1 => 'public_holiday.date',
             2 => 'public_holiday.holiday_name',
             3 => 'public_holiday.note',
+            4 => DB::raw('DATE_FORMAT(public_holiday.date, "%d-%b-%Y")'),
 
         );
         $query = PublicHoliday::from('public_holiday')

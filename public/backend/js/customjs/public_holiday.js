@@ -11,8 +11,8 @@ var PublicHoliday = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 0],
-            'noSearchApply': [0, 0],
+            'noSortingApply': [0, 4],
+            'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -99,8 +99,8 @@ var PublicHoliday = function(){
                     'ajaxAction': 'getdatatable',
                     'postData': dataArr,
                     'hideColumnList': [],
-                    'noSortingApply': [0, 0],
-                    'noSearchApply': [0, 0],
+                    'noSortingApply': [0, 4],
+                    'noSearchApply': [0],
                     'defaultSortColumn': [0],
                     'defaultSortOrder': 'DESC',
                     'setColumnWidth': columnWidth

@@ -377,7 +377,8 @@ class Employee extends Authenticatable
        return  Employee::from('employee')
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password')
+             ->join("manager", "manager.id", "=", "employee.hired_by")
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password', 'manager.manager_name')
              ->where('employee.id', $employeeId)
              ->first();
     }
@@ -387,17 +388,17 @@ class Employee extends Authenticatable
         $objEmployee = Employee::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objEmployee->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'left-employee') {
             $objEmployee->status = "L";
-            $event = 'Left Employee';
+            $event = 'L';
         }
 
         if ($requestData['activity'] == 'working-employee') {
             $objEmployee->status = "W";
-            $event = 'Working Employee';
+            $event = 'W';
         }
 
         $objEmployee->updated_at = date("Y-m-d H:i:s");

@@ -14,8 +14,8 @@ var Revenue = function(){
             'ajaxAction': 'getdatatable',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 0],
-            'noSearchApply': [0, 0],
+            'noSortingApply': [0, 9],
+            'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
@@ -103,7 +103,7 @@ var Revenue = function(){
                 'postData': dataArr,
                 'hideColumnList': [],
                 'noSortingApply': [0, 9],
-                'noSearchApply': [0, 9],
+                'noSearchApply': [0],
                 'defaultSortColumn': [4],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth

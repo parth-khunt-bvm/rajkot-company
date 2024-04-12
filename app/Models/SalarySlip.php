@@ -235,7 +235,7 @@ class SalarySlip extends Model
         if ($requestData['activity'] == 'delete-records') {
             $objSalarySlip = SalarySlip::find($requestData['id']);
             $objSalarySlip->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'generate-salary-slip') {

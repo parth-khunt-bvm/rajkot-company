@@ -13,19 +13,34 @@ class Revenue extends Model
 
     protected $table = 'revenue';
 
+    protected $fillable = [
+        'id',
+        'date',
+        'received_month',
+        'month_of',
+        'year',
+        'remarks',
+        'amount',
+        'manager_id',
+        'technology_id',
+        'bank_name',
+        'holder_name',
+    ];
+
     public function getdatatable($fillterdata)
     {
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'revenue.id',
-            1 => DB::raw('DATE_FORMAT(revenue.date, "%d-%b-%Y")'),
+            1 => 'revenue.date',
             2 => 'manager.manager_name',
             3 => 'technology.technology_name',
-            4 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),
-            5 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),
+            4 => 'revenue.received_month',
+            5 => DB::raw('CONCAT(MONTHNAME(CONCAT("2023-", revenue.month_of, "-01")), "-", year)'),
             6 => 'revenue.amount',
             7 =>  DB::raw('CONCAT(revenue.bank_name, "-", revenue.holder_name)'),
             8 => 'revenue.remarks',
+            9 => DB::raw('MONTHNAME(CONCAT("2023-", revenue.received_month, "-01"))'),DB::raw('DATE_FORMAT(revenue.date, "%d-%b-%Y")')
         );
 
         $query = Revenue::from('revenue')

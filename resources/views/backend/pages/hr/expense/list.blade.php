@@ -56,7 +56,7 @@
                     </span>Add Hr Expense
                   </a>
                    @endif
-                   <span href="#" class="btn btn-success font-weight-bolder ml-5" id="total-amount">{{$amount}}</span>
+                   <span href="#" class="btn btn-success font-weight-bolder ml-5" id="total-amount">{{numberformat($amount)}}</span>
                     <!--end::Button-->
                 </div>
 

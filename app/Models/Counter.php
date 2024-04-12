@@ -244,7 +244,7 @@ class Counter extends Model
         $objCounter = Counter::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objCounter->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'salary-counted') {
