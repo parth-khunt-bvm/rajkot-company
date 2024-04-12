@@ -99,16 +99,13 @@ class SalaryIncrement extends Model
 
     public function saveAdd($requestData)
     {
-
         $countSalaryIncrement = SalaryIncrement::from('salary_increment')
         ->where('salary_increment.employee_id', $requestData['employee_id'])
         ->where('salary_increment.start_from', date('Y-m-d', strtotime($requestData['start_from'])))
         ->where('salary_increment.is_deleted', 'N')
         ->count();
 
-
         if ($countSalaryIncrement == 0) {
-
             $objSalaryIncrement = new SalaryIncrement();
             $objSalaryIncrement->employee_id = $requestData['employee_id'];
             $objSalaryIncrement->previous_salary = $requestData['previous_salary'];
@@ -118,6 +115,11 @@ class SalaryIncrement extends Model
             $objSalaryIncrement->created_at = date('Y-m-d H:i:s');
             $objSalaryIncrement->updated_at = date('Y-m-d H:i:s');
             if ($objSalaryIncrement->save()) {
+
+                $objEmployee = Employee::find($requestData['employee_id']);
+                $objEmployee->salary = $requestData['current_salary'];
+                $objEmployee->save();
+
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 unset($requestData['_token']);
@@ -128,7 +130,6 @@ class SalaryIncrement extends Model
             return 'wrong';
         }
         return 'salary_increment_exists';
-
     }
 
     public function saveEdit($requestData)
@@ -148,6 +149,11 @@ class SalaryIncrement extends Model
             $objSalaryIncrement->start_from = date('Y-m-d', strtotime($requestData['start_from']));
             $objSalaryIncrement->updated_at = date('Y-m-d H:i:s');
             if ($objSalaryIncrement->save()) {
+
+                $objEmployee = Employee::find($requestData['employee_id']);
+                $objEmployee->salary = $requestData['current_salary'];
+                $objEmployee->save();
+
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
@@ -186,5 +192,5 @@ class SalaryIncrement extends Model
         }
     }
 
-    
+
 }

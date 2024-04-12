@@ -501,7 +501,6 @@ class Employee extends Authenticatable
 
     }
 
-
     public function updateProfile($request){
         $countEmployee = Employee::where("gmail",$request->input('email'))
                         ->where("id",'!=',$request->input('edit_id'))
@@ -539,14 +538,11 @@ class Employee extends Authenticatable
         }
     }
 
-
-
     public function get_employee_for_salary_increment($employeeId){
         return  Employee::from('employee')
              ->select('employee.salary')
              ->where('employee.id', $employeeId)
              ->get();
     }
-
 
 }

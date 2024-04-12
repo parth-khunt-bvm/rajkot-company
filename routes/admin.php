@@ -40,6 +40,7 @@ use App\Http\Controllers\backend\LatterTemplateController;
 use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 use App\Http\Controllers\backend\SalaryIncrementController;
+use App\Http\Controllers\EmployeeSalaryIncrementController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -218,6 +219,9 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
 
     Route::get('admin/employee/asset-allocation/list', [EmployeeAssetAllocationController::class, 'assetAllocationList'])->name('admin.employee.asset-allocation.list');
     Route::post('admin/employee/asset-allocation/ajaxcall', [EmployeeAssetAllocationController::class, 'ajaxcall'])->name('admin.employee.asset-allocation.ajaxcall');
+
+    Route::get('admin/employee/salary-increment/list', [EmployeeSalaryIncrementController::class, 'salaryIncrementList'])->name('admin.employee.salary-increment.list');
+    Route::post('admin/employee/salary-increment/ajaxcall', [EmployeeSalaryIncrementController::class, 'ajaxcall'])->name('admin.employee.salary-increment.ajaxcall');
 
     // Route::get('admin/employee/salary-slip/list', [EmployeeSalarySlipController::class, 'salarySlipList'])->name('admin.employee.salary-slip.list');
     Route::post('admin/employee/salary-slip/ajaxcall', [EmployeeSalarySlipController::class, 'ajaxcall'])->name('admin.employee.salary-slip.ajaxcall');

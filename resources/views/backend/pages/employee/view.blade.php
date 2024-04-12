@@ -145,6 +145,16 @@
                                         <span class="nav-text">Salary Slip</span>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link user-menu" data-type="salary-increment"
+                                        data-user-id="{{ $employee_details->id }}" id="salary-increment-tab-2" data-toggle="tab"
+                                        href="#salary-increment-2" aria-controls="salary-increment">
+                                        <span class="nav-icon">
+                                            <i class="fas fa-calendar-check"></i>
+                                        </span>
+                                        <span class="nav-text">Salary Increment</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -515,9 +525,9 @@
 
                     {{-- @if ($salary_slip_details)
 
-                @else
+                    @else
 
-                @endif --}}
+                    @endif --}}
 
                     <div class="card card-custom gutter-b">
                         <div class="card-header flex-wrap py-3">
@@ -538,6 +548,36 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                                <!--end: Datatable-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="salary-increment-2" role="tabpanel" aria-labelledby="salary-increment-tab-2">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header flex-wrap py-3">
+                            <div class="card-toolbar">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="salary-increment-list-div">
+                                <!--begin: Datatable-->
+                                <table class="table table-bordered table-checkable" id="employee-salary-increment-list">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Employee Name</th>
+                                            <th>Previous Salary</th>
+                                            <th>Current Salary</th>
+                                            <th>Start From</th>
+                                        </tr>
+                                    </thead>
+
                                     <tbody>
 
                                     </tbody>
