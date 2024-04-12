@@ -25,7 +25,7 @@ class Countersheet extends Model
             6 => 'a.halfDayCount',
             7 => 'a.sortLeaveCount',
             8 =>  DB::raw('IFNULL(o.overTime, 0)'),
-            9 =>  DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays'),
+            9 =>  DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)'),
             10 => 'a.totalsortLeaveHours'
 
         );
@@ -41,15 +41,12 @@ class Countersheet extends Model
             FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . '
             GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('a.employee_id', '!=', ' ')
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
             ->where('employee.is_deleted', 'N');
 
 
         if ($fillterdata['technology'] != null && $fillterdata['technology'] != '') {
             $query->where("technology.id", $fillterdata['technology']);
-        }
-
-        if ($fillterdata['branch'] != null && $fillterdata['branch'] != '') {
-            $query->where("employee.branch", $fillterdata['branch']);
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -86,8 +83,6 @@ class Countersheet extends Model
 
                 // Calculate total working days
                 DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
-
-
             )
             ->get();
         $data = array();
@@ -111,7 +106,7 @@ class Countersheet extends Model
                 $nestedData[] = $row['sortLeaveCount'];
             }
 
-            $nestedData[] = number_format($row['overTime']);
+            $nestedData[] = numberformat($row['overTime']);
             $nestedData[] = $row['totalWorkingDays'];
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
@@ -125,84 +120,37 @@ class Countersheet extends Model
         return $json_data;
     }
 
-    public function counterSheetPdf($fillterdata,$branch,$technology,$month,$year)
+    public function counterSheetPdf($fillterdata,$technology,$month,$year)
     {
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
-            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ="'.$month.'" AND YEAR(date) = "'.$year.'" GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
-            ->leftJoin(\DB::raw('(SELECT employee_id, COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount, COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount, COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount, COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount FROM attendance WHERE MONTH(date) = "'.$month.'" AND YEAR(date) =  "'.$year.'" GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
-            // ->where('employee.status', 'W')
+
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='.$month.' AND YEAR(date) = '.$year.' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id,
+            COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount,
+            COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount,
+            COUNT(CASE WHEN attendance_type = "2" THEN 1  END) AS halfDayCount,
+            COUNT(CASE WHEN attendance_type = "3" THEN 1  END) AS sortLeaveCount,
+            CONCAT(SUM(CASE WHEN attendance_type = "3" THEN minutes END), " min")  AS totalsortLeaveHours
+            FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . '
+            GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('a.employee_id', '!=', ' ')
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
             ->where('employee.is_deleted', 'N');
 
         if ($technology != null && $technology != '') {
             $query->where("technology.id", $technology);
         }
 
-        if ($branch != null && $branch != '') {
-            $query->where("employee.branch", $branch);
-        }
+        return $query->select(
+                'employee.id', 'technology.technology_name',
+                DB::raw('IFNULL(o.overTime, 0) as overTime'),
+                DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
+                DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+                'a.presentCount', 'a.absentCount', 'a.halfDayCount', 'a.sortLeaveCount', 'a.totalsortLeaveHours',
 
-       return $query->select(
-            'employee.id',
-            'technology.technology_name',
-            DB::raw('IFNULL(o.overTime, 0) as overTime'),
-            \DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
-            'a.presentCount',
-            'a.absentCount',
-            'a.halfDayCount',
-            'a.sortLeaveCount',
-            \DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
-            // DB::raw('
-            // CONCAT(
-            //     FLOOR(
-            //         (COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))/8
-            //     ),
-            //     ".",
-            //     FLOOR((COALESCE(a.presentCount, 0)*8 + COALESCE(a.halfDayCount, 0)*4 + COALESCE(a.sortLeaveCount, 0)*2 + IFNULL(o.overTime, 0))%8)
-            // )
-            // as total')
-            DB::raw('
-            CONCAT(
-                FLOOR(
-                    (
-                        (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0))
-                        -
-                        CASE
-                            WHEN COALESCE(a.sortLeaveCount, 0) >= 1 THEN 1
-                            WHEN COALESCE(a.sortLeaveCount, 0) > 4 THEN 2
-                            ELSE 0
-                        END
-                         -
-                        COALESCE(a.absentCount, 0)
-                        -
-                        CASE
-                            WHEN COALESCE(a.halfDayCount, 0) >= 5 THEN 3
-                            WHEN COALESCE(a.halfDayCount, 0) > 2 THEN 2
-                            WHEN COALESCE(a.halfDayCount, 0) >= 1 THEN 1
-                            ELSE 0
-                        END
-                    )
-                ),
-
-                ".",
-                FLOOR(
-                    (
-                        COALESCE(a.presentCount, 0)*8 +
-                        COALESCE(a.halfDayCount, 0)*4 +
-                        (
-                            CASE
-                                WHEN COALESCE(a.sortLeaveCount, 0) = 1 THEN -2
-                                WHEN COALESCE(a.sortLeaveCount, 0) = 2 THEN -4
-                                WHEN COALESCE(a.sortLeaveCount, 0) >= 3 THEN -6
-                                ELSE 0
-                            END
-                        ) +
-                        IFNULL(o.overTime, 0)
-                    ) % 8
-                )
-            ) as total')
-        )
-            ->get();
+                // Calculate total working days
+                DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
+            )->get();
     }
 }

@@ -21,7 +21,6 @@ class CountersheetController extends Controller
 
     public function list(Request $request)
     {
-        $data['branch'] = getBranchDetails();
         $data['technology'] = getTechnologyDetails();
 
         $data['date'] = $request->date;
@@ -136,14 +135,12 @@ class CountersheetController extends Controller
     }
 
     public function counterSheetPdf(Request $request){
-
-        $branch = $request->input('branch');
         $technology = $request->input('technology');
         $month = $request->input('month');
         $year = $request->input('year');
 
         $objCounter = new Countersheet();
-        $data['counterSheet'] = $objCounter->counterSheetPdf($request->input('data'),$branch,$technology,$month,$year);
+        $data['counterSheet'] = $objCounter->counterSheetPdf($request->input('data'),$technology,$month,$year);
         $data['title'] = 'Counter Sheet Report';
 
         $customPaper = [0, 0, 612.00, 792.00];
