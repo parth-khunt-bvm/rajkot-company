@@ -21,11 +21,8 @@ class CountersheetController extends Controller
 
     public function list(Request $request)
     {
-        $objBranch = new Branch();
-        $data['branch'] = $objBranch->get_admin_branch_details();
-
-        $objTechnology = new Technology();
-        $data['technology'] = $objTechnology->get_admin_technology_details();
+        $data['branch'] = getBranchDetails();
+        $data['technology'] = getTechnologyDetails();
 
         $data['date'] = $request->date;
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Attendance Report List';

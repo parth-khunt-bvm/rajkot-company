@@ -106,7 +106,7 @@
                             <th>Half leave</th>
                             <th>Short Leave</th>
                             <th>OverTime</th>
-                            <th>total</th>
+                            <th>Total Working Days</th>
                             <th>Action</th>
                         </tr>
                     </thead>
