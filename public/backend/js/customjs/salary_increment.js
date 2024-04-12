@@ -69,46 +69,22 @@ var SalaryIncrement = function(){
         });
 
 
-        // $('body').on('change', '.employee_id', function(){
-        //     var employee = $('#employee_id').val();
-
-        //     var data = { 'employee': employee};
-        //     $.ajax({
-        //         type: "POST",
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-        //         },
-        //         url: baseurl + "admin/salary-increment/ajaxcall",
-        //         data: { 'action': 'get-employee-detail', 'data': data },
-        //         success: function (data) {
-        //            var Employee=  JSON.parse(data);
-
-        //            var html = '';
-        //            html += '<option value="">Please select Employee Name</option>';
-        //            for (var i = 0; i < Employee.length; i++) {
-        //                html += '<option value="'+ Employee[i].id +'">'+ Employee[i].first_name + ' ' + Employee[i].last_name +'</option>';
-        //            }
-        //            $(".employee").html(html);
-        //            $('.select2').select2();
-
-        //            $("body").on("change",".employee",function(){
-
-        //             var selectedEmployeeId = $(this).val();
-
-        //             var selectedEmployee = Employee.find(function (employee) {
-        //                 return employee.id == selectedEmployeeId;
-        //             });
-
-        //             if (selectedEmployee) {
-        //                 $("#basic").val(selectedEmployee.salary);
-        //                 salaryCount();
-        //             }
-
-        //             });
-
-        //         },
-        //     });
-        // });
+        $('body').on('change', '.employee_id', function(){
+            var employee = $('#employee_id').val();
+            var data = { 'employee': employee};
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/salary-increment/ajaxcall",
+                data: { 'action': 'get-employee-for-salary-increment', 'data': data },
+                success: function (data) {
+                   var Employee=  JSON.parse(data);
+                    $("#previous_salary").val(Employee[0].salary ?? "0");
+                },
+            });
+        });
     }
 
     var editSalaryIncrement = function(){
@@ -135,6 +111,23 @@ var SalaryIncrement = function(){
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto"
+        });
+
+        $('body').on('change', '.employee_id', function(){
+            var employee = $('#employee_id').val();
+            var data = { 'employee': employee};
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/salary-increment/ajaxcall",
+                data: { 'action': 'get-employee-for-salary-increment', 'data': data },
+                success: function (data) {
+                   var Employee=  JSON.parse(data);
+                    $("#previous_salary").val(Employee[0].salary ?? "0");
+                },
+            });
         });
     }
 

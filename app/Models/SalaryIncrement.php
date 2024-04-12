@@ -185,4 +185,6 @@ class SalaryIncrement extends Model
             return false;
         }
     }
+
+    
 }

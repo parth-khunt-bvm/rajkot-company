@@ -206,12 +206,12 @@ class SalaryIncrementController extends Controller
                 echo json_encode($list);
                 break;
 
-                // case 'get-employee-detail':
-                //     $data = $request->input('data');
-                //     $objEmployee = new Employee();
-                //     $list = $objEmployee->get_employee_salary_slip_detail($data['department'], $data['designation'] );
-                //     echo json_encode($list);
-                //     break;
+            case 'get-employee-for-salary-increment':
+                $data = $request->input('data');
+                $objEmployee = new Employee();
+                $list = $objEmployee->get_employee_for_salary_increment($data['employee'] );
+                echo json_encode($list);
+                break;
 
             case 'common-activity':
                 $data = $request->input('data');
