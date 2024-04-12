@@ -8,11 +8,12 @@
                 $i = 0 ;
             @endphp
 
-            @foreach ($abbreviation as $key)
-                {{ $key['short_name'] }} = {{  $key['full_name'] }}
+            @foreach ($abbreviation as $key => $value)
+                {{ $key }} = {{  $value }}
                 @php
                     $i++;
                 @endphp
+
                 @if($i != $count)
                     ,
                 @endif
