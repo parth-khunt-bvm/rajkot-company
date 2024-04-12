@@ -554,7 +554,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp --}}
                 {{-- salary increment Menu  --}}
                 {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
-                {{-- <li class="menu-item  {{ ( $currentRoute  ==  "admin.salary-increment.list" || $currentRoute  ==  "admin.salary-increment.add" || $currentRoute  ==  "admin.salary-increment.edit" || $currentRoute  ==  "admin.salary-increment.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.salary-increment.list" || $currentRoute  ==  "admin.salary-increment.add" || $currentRoute  ==  "admin.salary-increment.edit" || $currentRoute  ==  "admin.salary-increment.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.salary-increment.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
@@ -569,7 +569,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         </span>
                         <span class="menu-text">Salary Increment</span>
                     </a>
-                </li> --}}
+                </li>
                 {{-- @endif --}}
                 {{-- salary Menu End --}}
 

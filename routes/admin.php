@@ -39,6 +39,7 @@ use App\Http\Controllers\backend\LatterAbbreviationController;
 use App\Http\Controllers\backend\LatterTemplateController;
 use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
+use App\Http\Controllers\backend\SalaryIncrementController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
 
@@ -98,6 +99,15 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/salary/ajaxcall', [SalaryController::class, 'ajaxcall'])->name('admin.salary.ajaxcall');
     Route::get('admin/salary/view/{id}', [SalaryController::class, 'view'])->name('admin.salary.view');
     Route::post('admin/salary/save-import-salary', [SalaryController::class, 'save_import'])->name('admin.salary.save-import-salary');
+
+    // salary Increment
+
+    Route::get('admin/salary-increment/list', [SalaryIncrementController::class, 'list'])->name('admin.salary-increment.list');
+    Route::get('admin/salary-increment/add', [SalaryIncrementController::class, 'add'])->name('admin.salary-increment.add');
+    Route::post('admin/salary-increment/save-add-salary-increment', [SalaryIncrementController::class, 'saveAdd'])->name('admin.salary-increment.save-add-salary-increment');
+    Route::post('admin/salary-increment/ajaxcall', [SalaryIncrementController::class, 'ajaxcall'])->name('admin.salary-increment.ajaxcall');
+    Route::get('admin/salary-increment/edit/{id}', [SalaryIncrementController::class, 'edit'])->name('admin.salary-increment.edit');
+    Route::post('admin/salary-increment/save-edit-salary-increment', [SalaryIncrementController::class, 'saveEdit'])->name('admin.salary-increment.save-edit-salary-increment');
 
 
     // salary slip
