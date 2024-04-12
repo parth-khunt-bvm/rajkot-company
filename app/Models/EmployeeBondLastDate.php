@@ -137,7 +137,8 @@ class EmployeeBondLastDate extends Model
              ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
              ->where("employee.status", "=", "W")
              ->where("employee.is_deleted", "=", "N")
-             ->whereBetween("employee.bond_last_date", array(date("Y-m-d", strtotime( today()->startOfMonth())), date("Y-m-d", strtotime( today()->endOfMonth()))));
+             ->where("employee.bond_last_date", "<", date("Y-m-d"));
+            //  ->whereBetween("employee.bond_last_date", array(date("Y-m-d", strtotime( today()->startOfMonth())), date("Y-m-d", strtotime( today()->endOfMonth()))));
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];

@@ -166,7 +166,7 @@ class HrExpense extends Model
 
         if ($requestData['activity'] == 'delete-records') {
             $objHrExpense->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         $objHrExpense->updated_at = date("Y-m-d H:i:s");

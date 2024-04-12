@@ -117,7 +117,7 @@
                                             <label>amount
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{ $revenue_details->amount }}">
+                                            <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off" value="{{numberformat($revenue_details->amount)}}">
                                         </div>
                                     </div>
 

@@ -388,17 +388,17 @@ class Employee extends Authenticatable
         $objEmployee = Employee::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objEmployee->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'left-employee') {
             $objEmployee->status = "L";
-            $event = 'Left Employee';
+            $event = 'L';
         }
 
         if ($requestData['activity'] == 'working-employee') {
             $objEmployee->status = "W";
-            $event = 'Working Employee';
+            $event = 'W';
         }
 
         $objEmployee->updated_at = date("Y-m-d H:i:s");

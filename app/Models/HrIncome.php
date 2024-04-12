@@ -221,7 +221,7 @@ class HrIncome extends Model
 
         if ($requestData['activity'] == 'delete-records') {
             $objHrIncome->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         $objHrIncome->updated_at = date("Y-m-d H:i:s");

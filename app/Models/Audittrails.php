@@ -29,6 +29,10 @@ class Audittrails extends Model
             $activity = 'Deactive Records';
         }elseif($event == 'D'){
             $activity = 'Delete';
+        }elseif($event == 'W'){
+            $activity = 'working-employee';
+        }elseif($event == 'L'){
+            $activity = 'left-employee';
         }else{
             $activity = 'Unknow Activity';
         }

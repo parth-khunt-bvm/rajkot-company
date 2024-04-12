@@ -112,7 +112,7 @@ class ExpenseController extends Controller
         }else{
             return redirect()->route('admin.expense.list');
         }
-        }
+    }
 
     public function saveAdd(Request $request)
     {
@@ -231,11 +231,7 @@ class ExpenseController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Expense details successfully deleted.";
-                    } elseif ($data['activity'] == 'active-records') {
-                        $return['message'] = "Expense details successfully actived.";
-                    } else {
-                        $return['message'] = "Expense details successfully deactived.";
-                    }
+                    } 
                     $return['redirect'] = route('admin.expense.list');
                 } else {
                     $return['status'] = 'error';

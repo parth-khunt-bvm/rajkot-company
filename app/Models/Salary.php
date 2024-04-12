@@ -225,7 +225,7 @@ class Salary extends Model
         $objSalary = Salary::find($requestData['id']);
         if ($requestData['activity'] == 'delete-records') {
             $objSalary->is_deleted = "Y";
-            $event = 'Delete Records';
+            $event = 'D';
         }
 
         if ($requestData['activity'] == 'active-records') {

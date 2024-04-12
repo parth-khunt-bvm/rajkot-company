@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-3">
                                 <b>Amount</b> <br>
-                                 {{ $expense_details->amount }}
+                                 {{ numberformat($expense_details->amount)}}
                             </div>
                             <div class="col-3">
                                 <b>Remarks</b> <br>
