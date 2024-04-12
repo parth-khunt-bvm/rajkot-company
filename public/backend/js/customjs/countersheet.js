@@ -14,9 +14,9 @@ var Countersheet = function(){
             'postData': dataArr,
             'hideColumnList': [],
             'noSortingApply': [0, 10],
-            'noSearchApply': [0, 10],
-            'defaultSortColumn': [0],
-            'defaultSortOrder': 'DESC',
+            'noSearchApply': [0],
+            'defaultSortColumn': [1],
+            'defaultSortOrder': 'ASC',
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
@@ -35,8 +35,8 @@ var Countersheet = function(){
             '<th>Absent Day</th>'+
             '<th>Half leave</th>'+
             '<th>Short Leave</th>'+
-            '<th>OverTime</th>'+
-            '<th>total</th>'+
+            '<th>OverTime(Hrs</th>'+
+            '<th>Total Working Days</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+
@@ -60,8 +60,8 @@ var Countersheet = function(){
                 'postData': dataArr,
                 'hideColumnList': [],
                 'noSortingApply': [0, 10],
-                'noSearchApply': [0, 10],
-                'defaultSortColumn': [0],
+                'noSearchApply': [0],
+                'defaultSortColumn': [1],
                 'defaultSortOrder': 'DESC',
                 'setColumnWidth': columnWidth
             };
@@ -78,12 +78,11 @@ var Countersheet = function(){
         });
 
         $('body').on('click', '.download-countersheet-pdf', function(){
-            var branch = $("#att_report_branch_id").val();
             var technology = $("#att_report_technology_id").val();
             var month = $("#att_report_month_id").val();
             var year = $("#att_report_year_id").val();
 
-            var newURL = baseurl + "admin/countersheet/pdf?branch="+branch+"&technology="+technology+"&month="+month+"&year="+year;
+            var newURL = baseurl + "admin/countersheet/pdf?technology="+technology+"&month="+month+"&year="+year;
             $('#download-countersheet-pdf').attr('href', newURL);
         });
     }
@@ -123,37 +122,6 @@ var Countersheet = function(){
                             '</div>' +
                             '</div>' +
                             '</div>' +
-                        //     '<div class="row mt-5 ml-5">' +
-                        //     '<div class="col-md-3">' +
-                        //     '<div class="form-group">' +
-                        //     '<label> Month</label>' +
-                        //     '<select class="form-control select2 month change-fillter" id="monthId" name="month">' +
-                        //     '<option value="">Select Month</option>' +
-                        //     '<option value="1" ' + (month === "1"? 'selected="selected"' : '') + '>January</option>' +
-                        //     '<option value="2" ' + (month === "2"? 'selected="selected"' : '') + '>February</option>' +
-                        //     '<option value="3" ' + (month === "3"? 'selected="selected"' : '') + '>March</option>' +
-                        //     '<option value="4" ' + (month === "4"? 'selected="selected"' : '') + '>April</option>' +
-                        //     '<option value="5" ' + (month === "5"? 'selected="selected"' : '') + '>May</option>' +
-                        //     '<option value="6" ' + (month === "6"? 'selected="selected"' : '') + '>June</option>' +
-                        //     '<option value="7" ' + (month === "7"? 'selected="selected"' : '') + '>July</option>' +
-                        //     '<option value="8" ' + (month === "8"? 'selected="selected"' : '') + '>August</option>' +
-                        //     '<option value="9" ' + (month === "9"? 'selected="selected"' : '') + '>September</option>' +
-                        //     '<option value="10" ' + (month === "10" ? 'selected="selected"' : '') + '>October</option>' +
-                        //     '<option value="11" ' + (month === "11" ? 'selected="selected"' : '') + '>November</option>' +
-                        //     '<option value="12" ' + (month === "12" ? 'selected="selected"' : '') + '>December</option>'+
-                        //     '</select>' +
-                        //     '</div>' +
-                        //     '</div>' +
-                        //     '<div class="col-md-3">' +
-                        //     '<div class="form-group">' +
-                        //     '<label> Year</label>' +
-                        //     '<select class="form-control select2 year change-fillter" id="yearId" name="year">' +
-                        //     '<option value="">Select Year</option>';
-
-                        // for (var i = 2019; i <= year; i++) {
-                        //     html += '<option value="' + i + '" ' + (i == year ? 'selected="selected"' : '') + '>' + i + '</option>';
-                        // }
-                        // html += '</select>' +
                             '</div>' +
                             '</div>' +
                             '</div>' +
