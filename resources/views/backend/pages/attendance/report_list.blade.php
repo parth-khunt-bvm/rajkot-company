@@ -22,25 +22,21 @@
                 <div class="card-toolbar">
                     <!--begin::Button-->
                     <!--end::Button-->
-                    <a href="{{ route('admin-counter-sheet.pdf') }}" class="ml-4 mr-4 btn btn-primary download-countersheet-pdf" id="download-countersheet-pdf">Download Pdf</a>
+                    <a href="{{ route('admin-counter-sheet.pdf') }}" class="btn btn-icon btn-outline-danger mr-4 download-countersheet-pdf" id="download-countersheet-pdf">
+                        <i class="fa fa-file-pdf"></i>
+                    </a>
+
+                    <a href="{{ route('admin-counter-sheet.pdf') }}" class="btn btn-icon btn-outline-success mr-4">
+                        <i class="fa fa-file-excel"></i>
+                    </a>
+
                 </div>
             </div>
             <div class="card-body">
                 <div class="row report-list-filter" style="display:none;">
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Branch Name</label>
-                                    <select class="form-control select2 branch counter-sheet-filter" id="att_report_branch_id"  name="branch_id">
-                                        <option value="">Please select Branch Name</option>
-                                        @foreach ($branch  as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['branch_name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Technology Name</label>
                                     <select class="form-control select2 technology counter-sheet-filter" id="att_report_technology_id"  name="technology_id">
@@ -51,11 +47,8 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
+
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label> Month</label>
                                     <select class="form-control select2 month counter-sheet-filter" id="att_report_month_id"  name="month">
@@ -75,19 +68,22 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>year</label>
                                     <select class="form-control select2 year counter-sheet-filter" id="att_report_year_id"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
-                                        <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
+                                            <option value="{{ $i }}" {{ $i == date('Y') ? 'selected="selected"' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                     <div class="col-md-2 mt-5">
                         <button type="reset" class="btn btn-primary mt-2 reset">Reset</button>
                     </div>
@@ -105,7 +101,7 @@
                             <th>Absent Day</th>
                             <th>Half leave</th>
                             <th>Short Leave</th>
-                            <th>OverTime</th>
+                            <th>OverTime(Hrs.)</th>
                             <th>Total Working Days</th>
                             <th>Action</th>
                         </tr>

@@ -281,6 +281,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/countersheet/list', [CountersheetController::class, 'list'])->name('admin.countersheet.list');
     Route::post('admin/countersheet/ajaxcall', [CountersheetController::class, 'ajaxcall'])->name('admin.countersheet.ajaxcall');
     Route::get('admin/countersheet/pdf', [CountersheetController::class, 'counterSheetPdf'])->name('admin-counter-sheet.pdf');
+    Route::get('admin/countersheet/excel', [CountersheetController::class, 'counterSheetExcel'])->name('admin-counter-sheet.excel');
 
     //  User Role
     Route::get('admin/user-role/list', [UserroleController::class, 'list'])->name('admin.user-role.list');
