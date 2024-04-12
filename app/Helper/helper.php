@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Branch;
 use App\Models\Employee;
+use App\Models\Technology;
 use App\Models\LatterAbbreviation;
 use App\Models\PublicHoliday;
 use Faker\Provider\ar_EG\Company;
@@ -80,6 +81,16 @@ function user_branch($inArray = false){
         return $branchIdArray;
     }
 
+}
+
+function getBranchDetails(){
+    $objBranch = new Branch();
+    return $objBranch->get_admin_branch_details();
+}
+
+function getTechnologyDetails(){
+    $objTechnology = new Technology();
+    return $objTechnology->get_admin_technology_details();
 }
 
 function salaryCount($salary, $workingDay, $present, $absent, $halfLeave, $shortLeave){

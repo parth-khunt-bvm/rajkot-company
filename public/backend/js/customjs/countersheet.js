@@ -14,7 +14,7 @@ var Countersheet = function(){
             'postData': dataArr,
             'hideColumnList': [],
             'noSortingApply': [0, 10],
-            'noSearchApply': [0, 10],
+            'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
