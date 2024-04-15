@@ -13,7 +13,7 @@ $currentRoute = Route::current()->getName();
             {{-- <h5 class="text-dark font-weight-bold my-1 mr-5">{{$header['title']}}</h5> --}}
             <!--end::Page Title-->
             <!--begin::Breadcrumb-->
-            <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+            <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot  p-0 my-2 bvm-font">
 
                 @php
                 $count = count($header['breadcrumb']);
