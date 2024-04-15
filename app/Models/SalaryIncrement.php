@@ -27,6 +27,17 @@ class SalaryIncrement extends Model
             ->join("employee", "employee.id", "=", "salary_increment.employee_id")
             ->where('salary_increment.is_deleted', 'N');
 
+            if($fillterdata['employee'] != null && $fillterdata['employee'] != ''){
+                $query->where("salary_increment.employee_id", $fillterdata['employee']);
+            }
+
+            if($fillterdata['startDate'] != null && $fillterdata['startDate'] != ''){
+                $query->whereDate('salary_increment.start_from', '>=', date('Y-m-d', strtotime($fillterdata['startDate'])));
+            }
+            if($fillterdata['endDate'] != null && $fillterdata['endDate'] != ''){
+                $query->whereDate('salary_increment.start_from', '<=',  date('Y-m-d', strtotime($fillterdata['endDate'])));
+            }
+
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
@@ -61,18 +72,18 @@ class SalaryIncrement extends Model
         $max_length = 30;
         foreach ($resultArr as $row) {
 
-            // $target = [];
-            // $target = [45, 46, 47];
-            // $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+            $target = [];
+            $target = [153, 154];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $actionhtml = '';
-            // }
+            }
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission'])) )
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(153, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.salary-increment.edit', $row['id']) . '" class="btn btn-icon"><i class="fa fa-edit text-warning"> </i></a>';
 
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(47, explode(',', $permission_array[0]['permission'])) )
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(154, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
             $i++;
@@ -82,9 +93,9 @@ class SalaryIncrement extends Model
             $nestedData[] = numberformat($row['previous_salary']);
             $nestedData[] = numberformat($row['current_salary']);
             $nestedData[] = date_formate($row['start_from']);
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
-            // }
+            }
             $data[] = $nestedData;
         }
         $json_data = array(

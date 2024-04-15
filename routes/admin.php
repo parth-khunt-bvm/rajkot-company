@@ -30,6 +30,8 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\AssetMasterController;
 use App\Http\Controllers\backend\AttendanceSettingController;
 use App\Http\Controllers\backend\ChangeRequestController;
+use App\Http\Controllers\backend\DocumentController;
+use App\Http\Controllers\backend\DocumentTypeController;
 use App\Http\Controllers\backend\EmployeeAssetAllocationController;
 use App\Http\Controllers\backend\EmployeeBirthdayController;
 use App\Http\Controllers\backend\EmployeeBondLastDateController;
@@ -110,6 +112,25 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/salary-increment/edit/{id}', [SalaryIncrementController::class, 'edit'])->name('admin.salary-increment.edit');
     Route::post('admin/salary-increment/save-edit-salary-increment', [SalaryIncrementController::class, 'saveEdit'])->name('admin.salary-increment.save-edit-salary-increment');
 
+    // document type
+
+    Route::get('admin/document-type/list', [DocumentTypeController::class, 'list'])->name('admin.document-type.list');
+    Route::get('admin/document-type/add', [DocumentTypeController::class, 'add'])->name('admin.document-type.add');
+    Route::post('admin/document-type/save-add-document-type', [DocumentTypeController::class, 'saveAdd'])->name('admin.document-type.save-add-document-type');
+    Route::get('admin/document-type/edit/{id}', [DocumentTypeController::class, 'edit'])->name('admin.document-type.edit');
+    Route::post('admin/document-type/save-edit-document-type', [DocumentTypeController::class, 'saveEdit'])->name('admin.document-type.save-edit-document-type');
+    Route::post('admin/document-type/ajaxcall', [DocumentTypeController::class, 'ajaxcall'])->name('admin.document-type.ajaxcall');
+    Route::post('admin/document-type/save-import-document-type', [DocumentTypeController::class, 'save_import'])->name('admin.document-type.save-import-document-type');
+
+
+    // document
+
+    Route::get('admin/document/list', [DocumentController::class, 'list'])->name('admin.document.list');
+    Route::get('admin/document/add', [DocumentController::class, 'add'])->name('admin.document.add');
+    Route::post('admin/document/save-add-document', [DocumentController::class, 'saveAdd'])->name('admin.document.save-add-document');
+    // Route::get('admin/document/edit/{id}', [DocumentController::class, 'edit'])->name('admin.document.edit');
+    // Route::post('admin/document/save-edit-document', [DocumentController::class, 'saveEdit'])->name('admin.document.save-edit-document');
+    Route::post('admin/document/ajaxcall', [DocumentController::class, 'ajaxcall'])->name('admin.document.ajaxcall');
 
     // salary slip
     Route::get('admin/employee-salaryslip/list', [SalarySlipController::class, 'list'])->name('admin.employee-salaryslip.list');

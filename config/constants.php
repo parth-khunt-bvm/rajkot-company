@@ -126,6 +126,15 @@
                 ]
             ],
 
+            'salary_increment_menu' => [
+                'salary_increment_sub_menu' =>[
+                    '151'  => 'salary increment list',
+                    '152'  => 'add salary increment',
+                    '153'  => 'edit salary increment ',
+                    '154'  => 'delete salary increment',
+                ]
+            ],
+
             'expense_menu' => [
                 'expense_sub_menu' => [
                     '48'  => 'expense list',

@@ -6,6 +6,7 @@ use App\Models\CompanyInfo;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Branch;
+use App\Models\DocumentType;
 use App\Models\Employee;
 use App\Models\Technology;
 use App\Models\LatterAbbreviation;
@@ -140,5 +141,15 @@ function stringReplace(){
 
    ccd($employee);
 
+}
+
+
+function getImageRequirementNumber($id){
+    return DocumentType::from('document_type')
+    ->select('image_requirement')
+    ->where("document_type.status", "=", "A")
+    ->where("document_type.is_deleted", "=", "N")
+    ->where("document_type.id", "=", $id)
+    ->get();
 }
 ?>

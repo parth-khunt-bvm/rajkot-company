@@ -17,6 +17,8 @@ class SalaryIncrementController extends Controller
 
     public function list(Request $request)
     {
+        $objEmployee = new Employee();
+        $data['employee'] = $objEmployee->get_admin_employee_details();
 
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Salary Increment list';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Salary Increment list';
@@ -57,10 +59,10 @@ class SalaryIncrementController extends Controller
 
     public function add()
     {
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(44, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(152, explode(',', $permission_array[0]['permission']))){
 
             $objEmployee = new Employee();
             $data['employee'] = $objEmployee->get_admin_employee_details();
@@ -96,9 +98,9 @@ class SalaryIncrementController extends Controller
             );
             return view('backend.pages.salary_increment.add', $data);
 
-        // }else{
-        //     return redirect()->route('admin.salary.list');
-        // }
+        }else{
+            return redirect()->route('admin.salary-increment.list');
+        }
     }
 
     public function saveAdd(Request $request)
@@ -125,10 +127,10 @@ class SalaryIncrementController extends Controller
 
     public function edit($editId)
     {
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(46, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(153, explode(',', $permission_array[0]['permission']))){
 
             $objEmployee = new Employee();
             $data['employee'] = $objEmployee->get_admin_employee_details();
@@ -167,9 +169,9 @@ class SalaryIncrementController extends Controller
             );
             return view('backend.pages.salary_increment.edit', $data);
 
-        // }else{
-        //     return redirect()->route('admin.salary.list');
-        // }
+        }else{
+            return redirect()->route('admin.salary-increment.list');
+        }
 
     }
 

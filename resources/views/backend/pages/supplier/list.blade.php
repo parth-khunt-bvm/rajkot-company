@@ -15,7 +15,7 @@
                 <div class="card-title">
                     <h3 class="card-label">{{ $header['title'] }}</h3>
 
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(99, explode(',', $permission_array[0]['permission'])) )
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(151, explode(',', $permission_array[0]['permission'])) )
                     <span class="svg-icon svg-icon-primary svg-icon-2x show-supplier-filter" id="show-supplier-filter"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Text\Filter.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <rect x="0" y="0" width="24" height="24"/>
