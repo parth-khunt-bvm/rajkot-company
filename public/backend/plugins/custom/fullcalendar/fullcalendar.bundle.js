@@ -4228,7 +4228,7 @@ var DateComponent = /** @class */ (function (_super) {
         var segEl = elementClosest(el, this.fgSegSelector);
         return (!segEl || segEl.classList.contains('fc-mirror')) &&
             !elementClosest(el, '.fc-more') && // a "more.." link
-            // !elementClosest(el, 'a[data-goto]') && // a clickable nav link
+            !elementClosest(el, 'a[data-goto]') && // a clickable nav link
             !this.isInPopover(el);
     };
     DateComponent.prototype.isPopover = function () {
@@ -4564,7 +4564,7 @@ function expandRanges(daysOfWeek, startTime, framingRange, dateEnv) {
     var endMarker = framingRange.end;
     var instanceStarts = [];
     while (dayMarker < endMarker) {
-        var instanceStart
+        var instanceStart 
         // if everyday, or this particular day-of-week
         = void 0;
         // if everyday, or this particular day-of-week
@@ -6817,24 +6817,24 @@ var Calendar = /** @class */ (function () {
     Calendar.prototype.bindHandlers = function () {
         var _this = this;
         // event delegation for nav links
-        // this.removeNavLinkListener = listenBySelector(this.el, 'click', 'a[data-goto]', function (ev, anchorEl) {
-        //     var gotoOptions = anchorEl.getAttribute('data-goto');
-        //     gotoOptions = gotoOptions ? JSON.parse(gotoOptions) : {};
-        //     var dateEnv = _this.dateEnv;
-        //     var dateMarker = dateEnv.createMarker(gotoOptions.date);
-        //     var viewType = gotoOptions.type;
-        //     // property like "navLinkDayClick". might be a string or a function
-        //     var customAction = _this.viewOpt('navLink' + capitaliseFirstLetter(viewType) + 'Click');
-        //     if (typeof customAction === 'function') {
-        //         customAction(dateEnv.toDate(dateMarker), ev);
-        //     }
-        //     else {
-        //         if (typeof customAction === 'string') {
-        //             viewType = customAction;
-        //         }
-        //         _this.zoomTo(dateMarker, viewType);
-        //     }
-        // });
+        this.removeNavLinkListener = listenBySelector(this.el, 'click', 'a[data-goto]', function (ev, anchorEl) {
+            var gotoOptions = anchorEl.getAttribute('data-goto');
+            gotoOptions = gotoOptions ? JSON.parse(gotoOptions) : {};
+            var dateEnv = _this.dateEnv;
+            var dateMarker = dateEnv.createMarker(gotoOptions.date);
+            var viewType = gotoOptions.type;
+            // property like "navLinkDayClick". might be a string or a function
+            var customAction = _this.viewOpt('navLink' + capitaliseFirstLetter(viewType) + 'Click');
+            if (typeof customAction === 'function') {
+                customAction(dateEnv.toDate(dateMarker), ev);
+            }
+            else {
+                if (typeof customAction === 'string') {
+                    viewType = customAction;
+                }
+                _this.zoomTo(dateMarker, viewType);
+            }
+        });
         if (this.opt('handleWindowResize')) {
             window.addEventListener('resize', this.windowResizeProxy = debounce(// prevents rapid calls
             this.windowResize.bind(this), this.opt('windowResizeDelay')));
@@ -12825,7 +12825,7 @@ Docs & License: https://fullcalendar.io/
             var segEl = elementClosest(el, this.fgSegSelector);
             return (!segEl || segEl.classList.contains('fc-mirror')) &&
                 !elementClosest(el, '.fc-more') && // a "more.." link
-                // !elementClosest(el, 'a[data-goto]') && // a clickable nav link
+                !elementClosest(el, 'a[data-goto]') && // a clickable nav link
                 !this.isInPopover(el);
         };
         DateComponent.prototype.isPopover = function () {
@@ -13161,7 +13161,7 @@ Docs & License: https://fullcalendar.io/
         var endMarker = framingRange.end;
         var instanceStarts = [];
         while (dayMarker < endMarker) {
-            var instanceStart
+            var instanceStart 
             // if everyday, or this particular day-of-week
             = void 0;
             // if everyday, or this particular day-of-week
@@ -15414,24 +15414,24 @@ Docs & License: https://fullcalendar.io/
         Calendar.prototype.bindHandlers = function () {
             var _this = this;
             // event delegation for nav links
-            // this.removeNavLinkListener = listenBySelector(this.el, 'click', 'a[data-goto]', function (ev, anchorEl) {
-            //     var gotoOptions = anchorEl.getAttribute('data-goto');
-            //     gotoOptions = gotoOptions ? JSON.parse(gotoOptions) : {};
-            //     var dateEnv = _this.dateEnv;
-            //     var dateMarker = dateEnv.createMarker(gotoOptions.date);
-            //     var viewType = gotoOptions.type;
-            //     // property like "navLinkDayClick". might be a string or a function
-            //     var customAction = _this.viewOpt('navLink' + capitaliseFirstLetter(viewType) + 'Click');
-            //     if (typeof customAction === 'function') {
-            //         customAction(dateEnv.toDate(dateMarker), ev);
-            //     }
-            //     else {
-            //         if (typeof customAction === 'string') {
-            //             viewType = customAction;
-            //         }
-            //         _this.zoomTo(dateMarker, viewType);
-            //     }
-            // });
+            this.removeNavLinkListener = listenBySelector(this.el, 'click', 'a[data-goto]', function (ev, anchorEl) {
+                var gotoOptions = anchorEl.getAttribute('data-goto');
+                gotoOptions = gotoOptions ? JSON.parse(gotoOptions) : {};
+                var dateEnv = _this.dateEnv;
+                var dateMarker = dateEnv.createMarker(gotoOptions.date);
+                var viewType = gotoOptions.type;
+                // property like "navLinkDayClick". might be a string or a function
+                var customAction = _this.viewOpt('navLink' + capitaliseFirstLetter(viewType) + 'Click');
+                if (typeof customAction === 'function') {
+                    customAction(dateEnv.toDate(dateMarker), ev);
+                }
+                else {
+                    if (typeof customAction === 'string') {
+                        viewType = customAction;
+                    }
+                    _this.zoomTo(dateMarker, viewType);
+                }
+            });
             if (this.opt('handleWindowResize')) {
                 window.addEventListener('resize', this.windowResizeProxy = debounce(// prevents rapid calls
                 this.windowResize.bind(this), this.opt('windowResizeDelay')));
@@ -18087,14 +18087,14 @@ var DayGridFillRenderer = /** @class */ (function (_super) {
             '</div>');
         trEl = skeletonEl.getElementsByTagName('tr')[0];
         if (startCol > 0) {
-            (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.appendToElement)(trEl,
+            (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.appendToElement)(trEl, 
             // will create (startCol + 1) td's
             new Array(startCol + 1).join(EMPTY_CELL_HTML));
         }
         seg.el.colSpan = endCol - startCol;
         trEl.appendChild(seg.el);
         if (endCol < colCnt) {
-            (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.appendToElement)(trEl,
+            (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.appendToElement)(trEl, 
             // will create (colCnt - endCol) td's
             new Array(colCnt - endCol + 1).join(EMPTY_CELL_HTML));
         }
@@ -19755,14 +19755,14 @@ Docs & License: https://fullcalendar.io/
                 '</div>');
             trEl = skeletonEl.getElementsByTagName('tr')[0];
             if (startCol > 0) {
-                core.appendToElement(trEl,
+                core.appendToElement(trEl, 
                 // will create (startCol + 1) td's
                 new Array(startCol + 1).join(EMPTY_CELL_HTML));
             }
             seg.el.colSpan = endCol - startCol;
             trEl.appendChild(seg.el);
             if (endCol < colCnt) {
-                core.appendToElement(trEl,
+                core.appendToElement(trEl, 
                 // will create (colCnt - endCol) td's
                 new Array(colCnt - endCol + 1).join(EMPTY_CELL_HTML));
             }
@@ -25000,7 +25000,7 @@ __webpack_require__.r(__webpack_exports__);
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -25014,14 +25014,14 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
@@ -25034,12 +25034,12 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -25050,7 +25050,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.

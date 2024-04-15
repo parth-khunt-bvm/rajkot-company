@@ -170,7 +170,7 @@
       footer {
         color: #777777;
         width: 100%;
-        height: 30px;
+        height: auto;
         position: absolute;
         bottom: 0;
         border-top: 1px solid #a373a4;
