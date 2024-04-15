@@ -30,7 +30,7 @@ var Document = function () {
                 data: { 'action': 'get-image-requirement-number', 'data': data },
                 success: function (data) {
                     var imageRequirementcount = JSON.parse(data)[0]['image_requirement'];
-                    
+
                     var html = '';
                     for (var i = 0; i < imageRequirementcount; i++) {
                         html += '<div class="col-md-2">';
@@ -58,11 +58,6 @@ var Document = function () {
                 },
             });
         });
-
-        function updateAttachmentFields(count) {
-
-        }
-
     }
 
 
