@@ -49,11 +49,7 @@
         $systemsetting = get_system_details();
         @endphp
 
-        <style>
-        :root {
-            --theme-color: {{ $systemsetting[0]['theme_color_code'] }};
-        }
-        </style>
+
 
 	</head>
 	<!--end::Head-->
