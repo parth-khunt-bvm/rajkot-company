@@ -120,7 +120,7 @@ class Countersheet extends Model
         return $json_data;
     }
 
-    public function counterSheetPdf($fillterdata, $technology, $month, $year)
+    public function counterSheetPdf($technology, $month, $year)
     {
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')

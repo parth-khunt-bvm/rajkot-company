@@ -19,9 +19,6 @@ class CompanyInfo extends Model
         }else{
             $objCompanyinfo = new CompanyInfo();
         }
-        $objCompanyinfo->theme_color_code = $requestData->input('theme_color_code');
-        $objCompanyinfo->sidebar_color = $requestData->input('sidebar_color');
-        $objCompanyinfo->sidebar_menu_font_color = $requestData->input('sidebar_menu_font_color');
 
         if($requestData->file('logo')){
             $image = $requestData->file('logo');
@@ -56,22 +53,15 @@ class CompanyInfo extends Model
     }
 
     public function get_system_details($id){
-        $result = CompanyInfo::select('theme_color_code', 'sidebar_color', 'sidebar_menu_font_color','logo', 'favicon', 'signature')
+        $result = CompanyInfo::select('logo', 'favicon', 'signature')
                             ->where('id',$id)
                             ->get()->toArray();
 
         if(empty($result)){
-            // $result[0]['theme_color_code'] = '#e9125a';
-            // $result[0]['sidebar_color'] = '#ffffff';
-            // $result[0]['sidebar_menu_font_color'] = '#000000';
-            $result[0]['theme_color_code'] = '#389fff';
-            $result[0]['sidebar_color'] = '#1e1e2d';
-            $result[0]['sidebar_menu_font_color'] = '#ededed';
             $result[0]['logo'] = '';
             $result[0]['favicon'] = '';
             $result[0]['signature'] = '';
         }
-
         return $result;
     }
 

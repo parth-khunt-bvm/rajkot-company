@@ -85,6 +85,15 @@ var Countersheet = function(){
             var newURL = baseurl + "admin/countersheet/pdf?technology="+technology+"&month="+month+"&year="+year;
             $('#download-countersheet-pdf').attr('href', newURL);
         });
+
+        $('body').on('click', '.download-countersheet-excel', function(){
+            var technology = $("#att_report_technology_id").val();
+            var month = $("#att_report_month_id").val();
+            var year = $("#att_report_year_id").val();
+
+            var newURL = baseurl + "admin/countersheet/excel?technology="+technology+"&month="+month+"&year="+year;
+            $('#download-countersheet-excel').attr('href', newURL);
+        });
     }
 
     var countersheetcalender = function () {
