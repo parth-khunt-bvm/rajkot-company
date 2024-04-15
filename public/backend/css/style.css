@@ -135,10 +135,31 @@ h6 {
     border-radius: 3px; /* Add border-radius to the square */
   }
 
-  .brand,.header, .aside-menu, .aside {
+.brand,.header, .aside-menu, .aside {
     background-color: #FFFFFF !important;
-  }
+}
 
-  .header-fixed.subheader-fixed .subheader {
+.header-fixed.subheader-fixed .subheader {
     background-color: #edeff7 !important;
+}
+
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
+    font-weight: 600;
+    color: #000000;
+}
+
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link {
+    margin: 20px;
+    border-radius: 10px;
+    /* For WebKit (Safari, Chrome, etc.) */
+    background: -webkit-linear-gradient(left, #6586FC, #3632F2);
+
+    /* For Mozilla Firefox */
+    background: -moz-linear-gradient(left, #6586FC, #3632F2);
+
+    /* For Opera */
+    background: -o-linear-gradient(left, #6586FC, #3632F2);
+
+    /* Standard syntax */
+    background: linear-gradient(to right, #6586FC, #3632F2);
   }
