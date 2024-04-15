@@ -501,7 +501,6 @@ class Employee extends Authenticatable
 
     }
 
-
     public function updateProfile($request){
         $countEmployee = Employee::where("gmail",$request->input('email'))
                         ->where("id",'!=',$request->input('edit_id'))
@@ -539,35 +538,11 @@ class Employee extends Authenticatable
         }
     }
 
-    // public function changepassword($request)
-    // {
-    //     if (Hash::check($request->input('old_password'), $request->input('user_old_password'))) {
-    //         $countUser = Users::where("id",'=',$request->input('editid'))->count();
-    //         if($countUser == 1){
-    //             $objUsers = Users::find($request->input('editid'));
-    //             $objUsers->password =  Hash::make($request->input('new_password'));
-    //             $objUsers->updated_at = date('Y-m-d H:i:s');
-    //             if($objUsers->save()){
-    //                 $currentRoute = Route::current()->getName();
-    //                 $inputData = $request->input();
-    //                 unset($inputData['_token']);
-    //                 unset($inputData['user_old_password']);
-    //                 unset($inputData['old_password']);
-    //                 unset($inputData['new_password']);
-    //                 unset($inputData['new_confirm_password']);
-    //                 $objAudittrails = new Audittrails();
-    //                 $objAudittrails->add_audit("U", $inputData, 'Change Password');
-    //                 return true;
-    //             }else{
-    //                 return 'false';
-    //             }
-    //         }else{
-    //             return "false";
-    //         }
-    //     }else{
-    //         return "password_not_match";
-    //     }
-    // }
-
+    public function get_employee_for_salary_increment($employeeId){
+        return  Employee::from('employee')
+             ->select('employee.salary')
+             ->where('employee.id', $employeeId)
+             ->get();
+    }
 
 }

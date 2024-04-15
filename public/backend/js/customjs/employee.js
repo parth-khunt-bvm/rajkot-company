@@ -589,6 +589,7 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'get_employee_details', 'data': data },
                 success: function (data) {
+
                     if (type == 'attendance') {
                         var html = '';
                         html = '<div id="attendance_calendar"></div>';
@@ -778,6 +779,30 @@ var Employee = function () {
                         var arrList = {
                             'tableID': '#employee-asset-allocation-list',
                             'ajaxURL': baseurl + "admin/employee/asset-allocation/ajaxcall",
+                            'ajaxAction': 'getdatatable',
+                            'postData': dataArr,
+                            'hideColumnList': [],
+                            'noSortingApply': [0],
+                            'noSearchApply': [0],
+                            'defaultSortColumn': [0],
+                            'defaultSortOrder': 'DESC',
+                            'setColumnWidth': columnWidth
+                        };
+                        getDataTable(arrList);
+                    } else if (type == 'salary-increment') {
+
+                        var userId = document.querySelector('.user-menu').getAttribute('data-user-id');
+
+                        if ($.fn.DataTable.isDataTable('#employee-salary-increment-list')) {
+                            $('#employee-salary-increment-list').DataTable().destroy();
+                        }
+
+                        $('.select2').select2();
+                        var dataArr = {'userId': userId,};
+                        var columnWidth = { "width": "5%", "targets": 0 };
+                        var arrList = {
+                            'tableID': '#employee-salary-increment-list',
+                            'ajaxURL': baseurl + "admin/employee/salary-increment/ajaxcall",
                             'ajaxAction': 'getdatatable',
                             'postData': dataArr,
                             'hideColumnList': [],

@@ -283,16 +283,6 @@ class RevenueController extends Controller
 
     public function save_import(Request $request){
 
-        // $path = $request->file('file')->store('temp');
-        // $data = \Excel::import(new RevenueImport($request->file('file')),$path);
-        // $return['status'] = 'success';
-        // $return['message'] = 'Revenue added successfully.';
-        // $return['redirect'] = route('admin.revenue.list');
-
-        // echo json_encode($return);
-        // exit;
-
-
         try {
             $path = $request->file('file')->store('temp');
             $data = \Excel::import(new RevenueImport($request->file('file')),$path);

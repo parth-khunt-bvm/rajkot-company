@@ -1,6 +1,9 @@
 var SalaryIncrement = function(){
     var list = function(){
-        var dataArr = {};
+        var employee = $('#salary_incr_employee_id').val();
+        var startDate = $('#salary_incr_start_date_id').val();
+        var endDate = $('#salary_incr_end_date_id').val();
+        var dataArr = { 'employee': employee,'startDate': startDate, 'endDate': endDate };
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-salary-increment-list',
@@ -40,6 +43,66 @@ var SalaryIncrement = function(){
             });
         });
 
+        $("body").on("click", "#show-salary-increment-filter", function() {
+            $("div .salary-increment-filter").slideToggle("slow");
+        })
+
+
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+
+        $("body").on("click", ".reset", function () {
+            location.reload(true);
+        });
+
+        $("body").on("change", ".salary-incr-fill", function () {
+            var target = [151, 152, 153, 154];
+            const permissionArray = permission.split(",").map(numString => +numString);
+            const intersection = permissionArray.filter(value => target.includes(value));
+            var html = '';
+            html =     '<table class="table table-bordered table-checkable" id="admin-salary-increment-list">'+
+            '<thead>'+
+            '<tr>'+
+            '<th>#</th>'+
+            '<th>Employee Name</th>'+
+            '<th>Previous Salary</th>'+
+            '<th>Current Salary</th>'+
+            '<th>Start From</th>';
+            if (isAdmin == 'Y' || intersection.length > 0 ) {
+                html += '<th>Action</th>';
+            }
+            html +=  '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '</tbody>'+
+            '</table>';
+            $(".salary-increment-list-div").html(html);
+
+                var employee = $('#salary_incr_employee_id').val();
+                var startDate = $('#salary_incr_start_date_id').val();
+                var endDate = $('#salary_incr_end_date_id').val();
+                var dataArr = { 'employee': employee,'startDate': startDate, 'endDate': endDate };
+                var columnWidth = { "width": "5%", "targets": 0 };
+                var arrList = {
+                    'tableID': '#admin-salary-increment-list',
+                    'ajaxURL': baseurl + "admin/salary-increment/ajaxcall",
+                    'ajaxAction': 'getdatatable',
+                    'postData': dataArr,
+                    'hideColumnList': [],
+                    'noSortingApply': [0, 0],
+                    'noSearchApply': [0, 0],
+                    'defaultSortColumn': [0],
+                    'defaultSortOrder': 'DESC',
+                    'setColumnWidth': columnWidth
+                };
+                getDataTable(arrList);
+
+        })
+
     }
 
     var addSalaryIncrement = function(){
@@ -69,46 +132,22 @@ var SalaryIncrement = function(){
         });
 
 
-        // $('body').on('change', '.employee_id', function(){
-        //     var employee = $('#employee_id').val();
-
-        //     var data = { 'employee': employee};
-        //     $.ajax({
-        //         type: "POST",
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-        //         },
-        //         url: baseurl + "admin/salary-increment/ajaxcall",
-        //         data: { 'action': 'get-employee-detail', 'data': data },
-        //         success: function (data) {
-        //            var Employee=  JSON.parse(data);
-
-        //            var html = '';
-        //            html += '<option value="">Please select Employee Name</option>';
-        //            for (var i = 0; i < Employee.length; i++) {
-        //                html += '<option value="'+ Employee[i].id +'">'+ Employee[i].first_name + ' ' + Employee[i].last_name +'</option>';
-        //            }
-        //            $(".employee").html(html);
-        //            $('.select2').select2();
-
-        //            $("body").on("change",".employee",function(){
-
-        //             var selectedEmployeeId = $(this).val();
-
-        //             var selectedEmployee = Employee.find(function (employee) {
-        //                 return employee.id == selectedEmployeeId;
-        //             });
-
-        //             if (selectedEmployee) {
-        //                 $("#basic").val(selectedEmployee.salary);
-        //                 salaryCount();
-        //             }
-
-        //             });
-
-        //         },
-        //     });
-        // });
+        $('body').on('change', '.employee_id', function(){
+            var employee = $('#employee_id').val();
+            var data = { 'employee': employee};
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/salary-increment/ajaxcall",
+                data: { 'action': 'get-employee-for-salary-increment', 'data': data },
+                success: function (data) {
+                   var Employee=  JSON.parse(data);
+                    $("#previous_salary").val(Employee[0].salary ?? "0");
+                },
+            });
+        });
     }
 
     var editSalaryIncrement = function(){
@@ -135,6 +174,23 @@ var SalaryIncrement = function(){
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto"
+        });
+
+        $('body').on('change', '.employee_id', function(){
+            var employee = $('#employee_id').val();
+            var data = { 'employee': employee};
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/salary-increment/ajaxcall",
+                data: { 'action': 'get-employee-for-salary-increment', 'data': data },
+                success: function (data) {
+                   var Employee=  JSON.parse(data);
+                    $("#previous_salary").val(Employee[0].salary ?? "0");
+                },
+            });
         });
     }
 
