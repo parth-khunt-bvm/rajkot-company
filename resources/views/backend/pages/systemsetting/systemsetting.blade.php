@@ -97,26 +97,6 @@ if(file_exists( public_path().'/upload/company_info/'.$systemDetails[0]['favicon
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Theme Color</label>
-                                        <input class="form-control" name="theme_color_code" type="color" id="example-color-input" value="{{ $systemDetails[0]['theme_color_code'] }}"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Sidebar Color</label>
-                                        <input class="form-control" name="sidebar_color" type="color" id="example-color-input" value="{{ $systemDetails[0]['sidebar_color'] }}"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Sidebar Menu Color</label>
-                                        <input class="form-control" name="sidebar_menu_font_color" type="color" id="example-color-input" value="{{ $systemDetails[0]['sidebar_menu_font_color'] }}"/>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="card-footer">

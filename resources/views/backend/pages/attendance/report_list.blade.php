@@ -26,7 +26,7 @@
                         <i class="fa fa-file-pdf"></i>
                     </a>
 
-                    <a href="{{ route('admin-counter-sheet.pdf') }}" class="btn btn-icon btn-outline-success mr-4">
+                    <a href="{{ route('admin-counter-sheet.excel') }}" class="btn btn-icon btn-outline-success mr-4 download-countersheet-excel" id="download-countersheet-excel">
                         <i class="fa fa-file-excel"></i>
                     </a>
 

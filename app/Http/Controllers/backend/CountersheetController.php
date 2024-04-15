@@ -9,6 +9,8 @@ use App\Models\Countersheet;
 use App\Models\Branch;
 use App\Models\Technology;
 use App\Models\Employee;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportAttendance;
 use Config;
 use PDF;
 
@@ -159,7 +161,7 @@ class CountersheetController extends Controller
         $data['month'] = date('F', mktime(0, 0, 0, $month, 1));
 
         $objCounter = new Countersheet();
-        $data['counterSheet'] = $objCounter->counterSheetPdf($request->input('data'), $technology, $month, $data['year']);
+        $data['counterSheet'] = $objCounter->counterSheetPdf($technology, $month, $data['year']);
         $data['title'] = 'Counter Sheet Report';
         $data ['abbreviation'] = [
             'Emp.' => 'Employee',
@@ -178,6 +180,48 @@ class CountersheetController extends Controller
         $pdf = PDF::loadView('backend.pages.counter_sheet.pdf', $data)->setPaper($customPaper, 'portrait');
 
         return $pdf->download('Counter-sheet-for - '.$data['branch'].'-'.$data['technology'].' - '.$data['month'].'-'.$data['year'].'.pdf');
+    }
+
+    public function counterSheetExcel(Request $request){
+        $technology = $request->input('technology');
+        $month = $request->input('month');
+
+        $data['branch'] = $_COOKIE['branch'] == 'all' ? 'All Branch' : [$_COOKIE['branch']];
+
+        if($_COOKIE['branch'] == 'all'){
+            $data['branch'] = 'All Branch';
+        } else {
+            $objBranch = new Branch();
+            $branchDetails  = $objBranch->get_branch_details($_COOKIE['branch']);
+            $data['branch'] = $branchDetails['branch_name'];
+        }
+
+        if($technology == ''){
+            $data['technology'] = 'All Technology';
+        } else {
+            $objTechnology = new Technology();
+            $technologyDetails  = $objTechnology->get_technology_details($technology);
+            $data['technology'] = $technologyDetails['technology_name'];
+        }
+
+        $data['year'] = $request->input('year');
+        $data['month'] = date('F', mktime(0, 0, 0, $month, 1));
+
+        $data['title'] = 'Counter Sheet Report';
+        $data ['abbreviation'] = [
+            'Emp.' => 'Employee',
+            'Dept.' => 'Department',
+            'W.D.' => 'Working Days',
+            'P.D.' => 'Present Days',
+            'A.B.' => 'Absent Days',
+            'H.L.' => 'Half Leave',
+            'S.L.' => 'Sick Leave',
+            'O.T.' => 'Overtime',
+            'NOW' => 'Total number of working days',
+            'TP' => 'Total Paid Days',
+        ];
+
+        return Excel::download(new ExportAttendance($technology, $month, $data['year']), 'Counter-sheet-for - '.$data['branch'].'-'.$data['technology'].' - '.$data['month'].'-'.$data['year'].'.xlsx');
     }
 
 

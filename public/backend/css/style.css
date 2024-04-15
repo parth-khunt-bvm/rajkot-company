@@ -135,3 +135,10 @@ h6 {
     border-radius: 3px; /* Add border-radius to the square */
   }
 
+  .brand,.header, .aside-menu, .aside {
+    background-color: #FFFFFF !important;
+  }
+
+  .header-fixed.subheader-fixed .subheader {
+    background-color: #edeff7 !important;
+  }

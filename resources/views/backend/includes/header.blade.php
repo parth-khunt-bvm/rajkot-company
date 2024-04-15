@@ -64,52 +64,6 @@
          @endphp
 
             <style>
-                :root {
-                    --theme-color: {{ $systemsetting[0]['theme_color_code'] }}  !important;
-                }
-                :root {
-                    --sidebar-color: {{ $systemsetting[0]['sidebar_color'] }};
-                }
-                :root {
-                    --sidebar-menu-font-color: {{ $systemsetting[0]['sidebar_menu_font_color'] }};
-                }
-
-                .aside-menu {
-                    background-color: {{ $systemsetting[0]['sidebar_color'] }} !important;
-                    /* background-color: red; */
-                }
-
-                /* .aside-menu .menu-nav > .menu-item.menu-item-open > .menu-heading, .aside-menu .menu-nav > .menu-item.menu-item-open > .menu-link {
-                    background-color: {{ $systemsetting[0]['sidebar_menu_font_color'] }} !important;
-                } */
-
-                .aside,.brand {
-                    /* background-color: {{ $systemsetting[0]['sidebar_color'] }} !important; */
-                    /* background-color: white; */
-                }
-
-
-                .aside-menu .menu-nav > .menu-item > .menu-heading .menu-text, .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
-                    color:{{ $systemsetting[0]['sidebar_menu_font_color'] }}  ;
-                }
-
-                .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-text, .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-text {
-                    color:{{ $systemsetting[0]['sidebar_menu_font_color'] }}  ;
-                }
-
-                .aside-menu .menu-nav > .menu-item > .menu-heading .menu-icon.svg-icon svg g [fill], .aside-menu .menu-nav > .menu-item > .menu-link .menu-icon.svg-icon svg g [fill] {
-                    transition: fill 0.3s ease;
-                    fill: {{ $systemsetting[0]['sidebar_menu_font_color'] }}  ;
-                }
-                .svg-icon svg g [fill] {
-                    transition: fill 0.3s ease;
-                    fill: {{ $systemsetting[0]['sidebar_menu_font_color'] }}  ;
-                }
-
-                .aside-menu .menu-nav > .menu-item > .menu-heading .menu-arrow, .aside-menu .menu-nav > .menu-item > .menu-link .menu-arrow {
-                    color:{{ $systemsetting[0]['sidebar_menu_font_color'] }}  ;
-                }
-
             </style>
 
          <script>

@@ -38,17 +38,17 @@ var KTWizard3 = function () {
 
 						KTUtil.scrollTop();
 					} else {
-						// Swal.fire({
-						// 	text: "Sorry, looks like there are some errors detected, please try again.",
-						// 	icon: "error",
-						// 	buttonsStyling: false,
-						// 	confirmButtonText: "Ok, got it!",
-						// 	customClass: {
-						// 		confirmButton: "btn font-weight-bold btn-light"
-						// 	}
-						// }).then(function () {
-						// 	KTUtil.scrollTop();
-						// });
+						Swal.fire({
+							text: "Sorry, looks like there are some errors detected, please try again.",
+							icon: "error",
+							buttonsStyling: false,
+							confirmButtonText: "Ok, got it!",
+							customClass: {
+								confirmButton: "btn font-weight-bold btn-light"
+							}
+						}).then(function () {
+							KTUtil.scrollTop();
+						});
 					}
 				});
 			}
@@ -70,20 +70,19 @@ var KTWizard3 = function () {
 				validator.validate().then(function (status) {
 					if (status == 'Valid') {
 						_formEl.submit(); // submit form
-                    }
-					//  else {
-					// 	// Swal.fire({
-					// 	// 	text: "Sorry, looks like there are some errors detected, please try again.",
-					// 	// 	icon: "error",
-					// 	// 	buttonsStyling: false,
-					// 	// 	confirmButtonText: "Ok, got it!",
-					// 	// 	customClass: {
-					// 	// 		confirmButton: "btn font-weight-bold btn-light"
-					// 	// 	}
-					// 	// }).then(function () {
-					// 	// 	KTUtil.scrollTop();
-					// 	// });
-					// }
+					} else {
+						Swal.fire({
+							text: "Sorry, looks like there are some errors detected, please try again.",
+							icon: "error",
+							buttonsStyling: false,
+							confirmButtonText: "Ok, got it!",
+							customClass: {
+								confirmButton: "btn font-weight-bold btn-light"
+							}
+						}).then(function () {
+							KTUtil.scrollTop();
+						});
+					}
 				});
 			}
 		});
@@ -96,45 +95,38 @@ var KTWizard3 = function () {
 			_formEl,
 			{
 				fields: {
-					first_name: {
+					address1: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter first name'
+								message: 'Address is required'
 							}
 						}
 					},
-					last_name: {
+					postcode: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter last name'
+								message: 'Postcode is required'
 							}
 						}
 					},
-					technology: {
+					city: {
 						validators: {
 							notEmpty: {
-								message: 'Please select technology'
+								message: 'City is required'
 							}
 						}
 					},
-					dob: {
+					state: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter date of birth'
+								message: 'State is required'
 							}
 						}
 					},
-					doj: {
+					country: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter date of joining'
-							}
-						}
-					},
-                    personal_email: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter personal email'
+								message: 'Country is required'
 							}
 						}
 					}
@@ -155,55 +147,50 @@ var KTWizard3 = function () {
 			_formEl,
 			{
 				fields: {
-					bank_name: {
+					package: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter bank name'
+								message: 'Package details is required'
 							}
 						}
 					},
-					acc_holder_name: {
+					weight: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter account holder name'
-							},
-
-						}
-					},
-					account_number: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter account number'
+								message: 'Package weight is required'
 							},
 							digits: {
-								message: 'input type must be an integer. Please enter a valid integer value.'
+								message: 'The value added is not valid'
 							}
 						}
 					},
-					ifsc_code: {
+					width: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter ifsc code'
-							},
-						}
-					},
-					aadhar_card_number: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter aadhar card number'
+								message: 'Package width is required'
 							},
 							digits: {
-								message: 'input type must be an integer. Please enter a valid integer value.'
+								message: 'The value added is not valid'
 							}
 						}
 					},
-                    google_pay: {
+					height: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter google pay number'
+								message: 'Package height is required'
 							},
 							digits: {
-								message: 'input type must be an integer. Please enter a valid integer value.'
+								message: 'The value added is not valid'
+							}
+						}
+					},
+					packagelength: {
+						validators: {
+							notEmpty: {
+								message: 'Package length is required'
+							},
+							digits: {
+								message: 'The value added is not valid'
 							}
 						}
 					}
@@ -224,20 +211,27 @@ var KTWizard3 = function () {
 			_formEl,
 			{
 				fields: {
-					parent_name: {
+					delivery: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter parent name'
+								message: 'Delivery type is required'
 							}
 						}
 					},
-					address: {
+					packaging: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter address'
+								message: 'Packaging type is required'
 							}
 						}
 					},
+					preferreddelivery: {
+						validators: {
+							notEmpty: {
+								message: 'Preferred delivery window is required'
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -255,34 +249,41 @@ var KTWizard3 = function () {
 			_formEl,
 			{
 				fields: {
-					experience: {
+					locaddress1: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter experience'
+								message: 'Address is required'
 							}
 						}
 					},
-					hired_by: {
+					locpostcode: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter hired by'
+								message: 'Postcode is required'
 							}
 						}
 					},
-                    salary: {
+					loccity: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter salary'
+								message: 'City is required'
 							}
 						}
 					},
-					status: {
+					locstate: {
 						validators: {
 							notEmpty: {
-								message: 'Please select status'
+								message: 'State is required'
 							}
 						}
 					},
+					loccountry: {
+						validators: {
+							notEmpty: {
+								message: 'Country is required'
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
