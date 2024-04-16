@@ -29,7 +29,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                         <div class="symbol-label" style="background-image:url({{ $image }})"></div>
                     </span>
                 </div>
-                <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+                {{-- <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
                     <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
                         <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1" id="kt_quick_cart_toggle">
                             <span class="svg-icon svg-icon-xl svg-icon-primary">
@@ -37,7 +37,7 @@ if(file_exists( public_path().'/upload/userprofile/'.$data['userimage']) && $dat
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <!--end::User-->
         </div>
