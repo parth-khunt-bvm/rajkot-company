@@ -1,158 +1,164 @@
 var EmpTimeTraking = function () {
 
-    // var TimeTracker = function () {
-    //     let startTime;
-    //     let timerInterval;
-    //     let elapsedTime = 0;
-    //     let isPaused = false;
-    //     let isStopped = true;
+    var TimeTracker = function () {
+        let startTime;
+        let timerInterval;
+        let elapsedTime = 0;
+        let isPaused = false;
+        let isStopped = true;
 
-    //     function startTimer() {
-    //         // $('#start').hide();
-    //         $('#fulltime').hide();
-    //         $('#continue').show();
-    //         var data = { _token: $('#_token').val() };
-    //         $.ajax({
-    //             type: "POST",
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-    //             },
-    //             url: baseurl + "employee/store-start-time",
-    //             data: { 'data': data },
-    //             success: function (data) {
-    //                 if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
-    //                     showToster("success", "I am back");
-    //                     localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
-    //                 }
+        function toggleTimer() {
+            if (isStopped) {
+                startTimer();
+                $('#toggle').css('background-color','green');
+            } else {
+                stopTimer();
+                $('#toggle').css('background-color','red');
+            }
+        }
 
-    //                 if (isStopped) {
-    //                     startTime = Date.now() - elapsedTime;
-    //                     isStopped = false;
-    //                     localStorage.setItem("isStopped", "false");
-    //                 }
-    //                 if (!timerInterval) {
-    //                     timerInterval = setInterval(updateTimer, 1000);
-    //                 }
-    //             }
-    //         });
+        $('#toggle').on('click', function () {
+            toggleTimer();
+        });
 
-    //     }
+        function startTimer() {
+            // $('#start').hide();
+            $('#fulltime').hide();
+            var data = { _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "employee/store-start-time",
+                data: { 'data': data },
+                success: function (data) {
+                    if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
+                        showToster("success", "I am back");
+                        localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
+                    }
 
-    //     $('body').on('click', '#start', function () {
-    //         startTimer();
-    //     });
+                    if (isStopped) {
+                        startTime = Date.now() - elapsedTime;
+                        isStopped = false;
+                        localStorage.setItem("isStopped", "false");
+                    }
+                    if (!timerInterval) {
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
+                }
+            });
 
-    //     function updateTimer() {
-    //         elapsedTime = Date.now() - startTime;
-    //         displayTime(elapsedTime);
-    //     }
+        }
 
-    //     function stopTimer() {
-    //         var data = { _token: $('#_token').val() };
-    //         $.ajax({
-    //             type: "POST",
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-    //             },
-    //             url: baseurl + "employee/store-stop-time",
-    //             data: { 'data': data },
-    //             success: function (data) {
-    //                 clearInterval(timerInterval);
-    //                 timerInterval = null;
-    //                 isStopped = true;
-    //                 localStorage.setItem("isStopped", "true");
+        $('body').on('click', '#start', function () {
+            startTimer();
+        });
 
-    //                 // Calculate hours, minutes, and seconds
-    //                 let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-    //                 let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-    //                 let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+        function updateTimer() {
+            elapsedTime = Date.now() - startTime;
+            displayTime(elapsedTime);
+        }
 
-    //                 // Format time
-    //                 let formattedTime = (hours < 10 ? "0" + hours : hours) + ":" +
-    //                     (minutes < 10 ? "0" + minutes : minutes) + ":" +
-    //                     (seconds < 10 ? "0" + seconds : seconds);
+        function stopTimer() {
+            var data = { _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "employee/store-stop-time",
+                data: { 'data': data },
+                success: function (data) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    isStopped = true;
+                    localStorage.setItem("isStopped", "true");
 
-    //                 // Display the recorded time
-    //                 var fulltime = document.getElementById("fulltime");
-    //                 fulltime.style.display = "block";
-    //                 fulltime.style.color = "#ff4500";
-    //                 fulltime.innerHTML = "Time Recorded is " + formattedTime;
+                    // Calculate hours, minutes, and seconds
+                    let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+                    let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-    //                 // Reset elapsed time
-    //                 elapsedTime = 0;
+                    // Format time
+                    let formattedTime = (hours < 10 ? "0" + hours : hours) + ":" +
+                        (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                        (seconds < 10 ? "0" + seconds : seconds);
 
-    //                 showToster("success", "I am going");
+                    // Display the recorded time
+                    // var fulltime = document.getElementById("fulltime");
+                    // fulltime.style.display = "block";
+                    // fulltime.style.color = "#ff4500";
+                    // fulltime.innerHTML = "Time Recorded is " + formattedTime;
 
-    //                 $('#start').show();
-    //                 $('#continue').hide();
+                    // Reset elapsed time
+                    elapsedTime = 0;
 
-    //                 // Remove timerStarted flag
-    //                 localStorage.removeItem("timerStarted");
-    //             }
-    //         });
-    //     }
+                    showToster("success", "I am going");
 
-    //     $('body').on('click', '#stop', function () {
-    //         $('#continue').hide();
-    //         stopTimer();
-    //     });
+                    $('#start').show();
+                    $('#continue').hide();
 
-    //     function displayTime(time) {
-    //         let hours = Math.floor(time / (1000 * 60 * 60));
-    //         let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    //         let seconds = Math.floor((time % (1000 * 60)) / 1000);
+                    // Remove timerStarted flag
+                    localStorage.removeItem("timerStarted");
+                }
+            });
+        }
 
-    //         hours = (hours < 10) ? "0" + hours : hours;
-    //         minutes = (minutes < 10) ? "0" + minutes : minutes;
-    //         seconds = (seconds < 10) ? "0" + seconds : seconds;
+        $('body').on('click', '#stop', function () {
+            $('#continue').hide();
+            stopTimer();
+        });
 
-    //         document.getElementById("timer").innerText = hours + ":" + minutes + ":" + seconds;
-    //     }
+        function displayTime(time) {
+            let hours = Math.floor(time / (1000 * 60 * 60));
+            let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((time % (1000 * 60)) / 1000);
 
-    //     // Restore timer state on page refresh
-    //     window.onload = function () {
-    //         let storedTime = localStorage.getItem("timerElapsed");
-    //         let storedPaused = localStorage.getItem("isPaused");
-    //         let storedStopped = localStorage.getItem("isStopped");
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-    //         if (storedTime) {
-    //             elapsedTime = parseInt(storedTime);
-    //             if (!isNaN(elapsedTime)) {
-    //                 if (storedStopped === "false" && storedPaused === "true") {
-    //                     // $('#start').hide();
-    //                     $('#continue').show();
+            document.getElementById("timer").innerText = hours + ":" + minutes + ":" + seconds;
+        }
 
-    //                     pauseTimer();
-    //                     displayTime(elapsedTime);
-    //                 } else if (storedStopped === "false" && storedPaused === "false") {
-    //                     // startTimer();
-    //                     // $('#start').hide();
-    //                     $('#continue').show();
+        // Restore timer state on page refresh
 
+        window.onload = function () {
+            let storedTime = localStorage.getItem("timerElapsed");
+            let storedPaused = localStorage.getItem("isPaused");
+            let storedStopped = localStorage.getItem("isStopped");
 
-    //                     if (!localStorage.getItem("timerStarted")) { // Check if timer was just started
-    //                         showToster("success", "I am back");
-    //                         localStorage.setItem("timerStarted", true); // Set flag indicating timer was started
-    //                     }
+            if (storedTime) {
+                elapsedTime = parseInt(storedTime);
+                if (!isNaN(elapsedTime)) {
+                    if (storedStopped === "false" && storedPaused === "true") {
+                        // Timer was paused
+                        // Show appropriate UI
+                        $('#toggle').css('background-color','red');
+                    } else if (storedStopped === "false" && storedPaused === "false") {
+                        // Timer was running
+                        // Resume timer and show appropriate UI
+                        $('#toggle').css('background-color','green');
 
-    //                     if (isStopped) {
-    //                         startTime = Date.now() - elapsedTime;
-    //                         isStopped = false;
-    //                         localStorage.setItem("isStopped", "false");
-    //                     }
-    //                     if (!timerInterval) {
-    //                         timerInterval = setInterval(updateTimer, 1000);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     };
+                        startTime = Date.now() - elapsedTime;
+                        // startTime = Date.now();
+                        isStopped = false;
+                        if (!timerInterval) {
+                            timerInterval = setInterval(updateTimer, 1000);
+                        }
+                    }
+                }
+            }
+        };
 
-    //     // Save timer state before page refresh
-    //     window.onbeforeunload = function () {
-    //         localStorage.setItem("timerElapsed", elapsedTime.toString());
-    //     };
-    // }
+        window.onbeforeunload = function () {
+            localStorage.setItem("timerElapsed", elapsedTime.toString());
+            localStorage.setItem("isPaused", isPaused.toString());
+            localStorage.setItem("isStopped", isStopped.toString());
+        };
+
+    }
 
     var list = function () {
 
