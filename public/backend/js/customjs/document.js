@@ -1,5 +1,97 @@
 var Document = function () {
 
+    var list = function(){
+        var dataArr = {};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#document-list',
+            'ajaxURL': baseurl + "admin/document/ajaxcall",
+            'ajaxAction': 'getdatatable',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 0],
+            'noSearchApply': [0, 0],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("click", ".delete-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'delete-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/document/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+        $("body").on("click", ".deactive-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure-deactive:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure-deactive', function() {
+            var id = $(this).attr('data-id');
+            console.log(id);
+            var data = { 'id': id, 'activity': 'deactive-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/document/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+        $("body").on("click", ".active-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure-active:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure-active', function() {
+            var id = $(this).attr('data-id');
+            var data = { 'id': id, 'activity': 'active-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/document/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+    }
+
 
     var addDocument = function () {
         var form = $('#add-document');
@@ -55,15 +147,46 @@ var Document = function () {
                     }
 
                     $('#attachment_fields_container').html(html);
+
+                    new KTImageInput('kt_image_1');
+                    new KTImageInput('kt_image_2');
+                    new KTImageInput('kt_image_3');
+                    new KTImageInput('kt_image_4');
+                    new KTImageInput('kt_image_5');
+                    new KTImageInput('kt_image_6');
                 },
             });
         });
     }
 
+    var editDocument = function () {
+        var form = $('#edit-document');
+        var rules = {
+            employee_id: { required: true },
+            document_type_id: { required: true },
+            status: { required: true }
+        };
+        var message = {
+            employee_id: { required: "Please enter document name" },
+            document_type_id: { required: "Please enter document name" },
+            status: { required: "Please select status" },
+        }
+        handleFormValidateWithMsg(form, rules, message, function (form) {
+            handleAjaxFormSubmit(form, true);
+        });
+
+    }
+
 
     return {
+        init:function(){
+            list();
+        },
         add: function () {
             addDocument();
+        },
+        edit:function(){
+            editDocument();
         },
 
     }

@@ -52,10 +52,10 @@ class DocumentTypeController extends Controller
     }
 
     public function add (){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(20, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(156, explode(',', $permission_array[0]['permission']))){
             $data['title'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Document Type";
             $data['description'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Document Type";
             $data['keywords'] = Config::get( 'constants.PROJECT_NAME' ) . " || Add Document Type";
@@ -87,9 +87,9 @@ class DocumentTypeController extends Controller
                 )
             );
             return view('backend.pages.document_type.add', $data);
-        // }else{
-        //     return redirect()->route('admin.document-type.list');
-        // }
+        }else{
+            return redirect()->route('admin.document-type.list');
+        }
     }
 
     public function saveAdd(Request $request){
@@ -114,10 +114,10 @@ class DocumentTypeController extends Controller
     }
 
     public function edit ($documentTypeId){
-        // $userId = Auth()->guard('admin')->user()->user_type;
-        // $permission_array = get_users_permission($userId);
+        $userId = Auth()->guard('admin')->user()->user_type;
+        $permission_array = get_users_permission($userId);
 
-        // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(21, explode(',', $permission_array[0]['permission']))){
+        if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(157, explode(',', $permission_array[0]['permission']))){
             $objDocumentType = new DocumentType();
             $data['document_type_details'] = $objDocumentType->get_document_type_details($documentTypeId);
 
@@ -152,9 +152,9 @@ class DocumentTypeController extends Controller
                 )
             );
             return view('backend.pages.document_type.edit', $data);
-        // }else{
-        //     return redirect()->route('admin.document-type.list');
-        // }
+        }else{
+            return redirect()->route('admin.document-type.list');
+        }
     }
 
     public function saveEdit(Request $request){
@@ -184,7 +184,6 @@ class DocumentTypeController extends Controller
             case 'getdatatable':
                 $objDocumentType = new DocumentType();
                 $list = $objDocumentType->getdatatable();
-
                 echo json_encode($list);
                 break;
 

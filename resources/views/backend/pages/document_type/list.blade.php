@@ -18,11 +18,11 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(20, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(156, explode(',', $permission_array[0]['permission'])) )
                        <button class="btn btn-primary font-weight-bolder mr-5 show-document-type-form" id="show-document-type-form">+</button>
-                    {{-- @endif --}}
+                    @endif
 
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(20, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(156, explode(',', $permission_array[0]['permission'])) )
                         <a href="{{ route('admin.document-type.add') }}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -36,7 +36,7 @@
                                 <!--end::Svg Icon-->
                             </span>Add Document Type
                         </a>
-                    {{-- @endif --}}
+                    @endif
                     <!--end::Button-->
                 </div>
 
@@ -74,6 +74,7 @@
                             </div>
                         </div>
                 </form>
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(155, explode(',', $permission_array[0]['permission'])) )
 
                 <!--begin: Datatable-->
                 <table class="table table-bordered table-checkable" id="document-type-list">
@@ -82,13 +83,13 @@
                             <th>#</th>
                             <th>Document Name</th>
                             <th>Status</th>
-                            {{-- @php
+                            @php
                             $target = [];
-                            $target = [20,21,22,23];
-                            @endphp --}}
-                            {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                            $target = [157,158,159];
+                            @endphp
+                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                                 <th>Action</th>
-                            {{-- @endif --}}
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +97,8 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+
+                @endif
             </div>
         </div>
         <!--end::Card-->

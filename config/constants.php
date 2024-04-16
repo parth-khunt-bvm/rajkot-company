@@ -135,6 +135,27 @@
                 ]
             ],
 
+            'document_type_menu' => [
+                'document_type_sub_menu' =>[
+                    '155'  => 'document type list',
+                    '156'  => 'add document type',
+                    '157'  => 'edit document type',
+                    '158'  => 'change document type status',
+                    '159'  => 'delete document type',
+                ]
+            ],
+
+            'document_menu' => [
+                'document_sub_menu' =>[
+                    '160'  => 'document list',
+                    '161'  => 'add document',
+                    '162'  => 'edit document',
+                    '163'  => 'change document status',
+                    '164'  => 'delete document',
+                ]
+            ],
+
+
             'expense_menu' => [
                 'expense_sub_menu' => [
                     '48'  => 'expense list',

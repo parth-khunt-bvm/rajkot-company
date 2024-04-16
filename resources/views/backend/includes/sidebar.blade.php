@@ -573,12 +573,12 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 {{-- @endif --}}
                 {{-- salary Menu End --}}
 
-                {{-- @php
+                @php
                 $target = [];
-                $target = array(151, 152, 153, 154);
-                @endphp --}}
+                $target = array(155, 156, 157, 158, 159);
+                @endphp
                 {{-- document type Menu  --}}
-                {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.document-type.list" || $currentRoute  ==  "admin.document-type.add" || $currentRoute  ==  "admin.document-type.edit"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.document-type.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -595,15 +595,15 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Document Type</span>
                     </a>
                 </li>
-                {{-- @endif --}}
+                @endif
                 {{-- document type Menu End --}}
 
-                {{-- @php
+                @php
                 $target = [];
-                $target = array(151, 152, 153, 154);
-                @endphp --}}
+                $target = array(160, 161, 162, 163, 164);
+                @endphp
                 {{-- document Menu  --}}
-                {{-- @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                 <li class="menu-item  {{ ( $currentRoute  ==  "admin.document.list" || $currentRoute  ==  "admin.document.add" || $currentRoute  ==  "admin.document.edit"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.document.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -620,7 +620,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                         <span class="menu-text">Document</span>
                     </a>
                 </li>
-                {{-- @endif --}}
+                @endif
                 {{-- document Menu End --}}
 
                 {{-- @php

@@ -18,11 +18,11 @@
 
                 <div class="card-toolbar">
                     <!--begin::Button-->
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(20, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(161, explode(',', $permission_array[0]['permission'])) )
                        <button class="btn btn-primary font-weight-bolder mr-5 show-document-type-form" id="show-document-type-form">+</button>
-                    {{-- @endif --}}
+                    @endif
 
-                    {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(20, explode(',', $permission_array[0]['permission'])) ) --}}
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(161, explode(',', $permission_array[0]['permission'])) )
                         <a href="{{ route('admin.document.add') }}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
@@ -34,61 +34,32 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span>Add Document Type
+                            </span>Add Document
                         </a>
-                    {{-- @endif --}}
+                    @endif
                     <!--end::Button-->
                 </div>
 
             </div>
             <div class="card-body">
 
-                <form class="form" style="display: none" id="add-document-type" method="POST" action="{{ route('admin.document-type.save-add-document-type') }}">@csrf
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Document Name
-                                        <span class="text-danger">*</span>
-                                        </label>
-                                    <input type="text" name="document_name" class="form-control" placeholder="Enter document name" autocomplete="off">
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Status <span class="text-danger">*</span></label>
-                                    <div class="radio-inline" style="margin-top:10px">
-                                        <label class="radio radio-lg radio-success" >
-                                        <input type="radio" name="status" class="radio-btn" value="A" checked="checked"/>
-                                        <span></span>Active</label>
-                                        <label class="radio radio-lg radio-danger" >
-                                        <input type="radio" name="status" class="radio-btn" value="I"/>
-                                        <span></span>Inactive</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5  mt-8">
-                                <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                            </div>
-                        </div>
-                </form>
+                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(160, explode(',', $permission_array[0]['permission'])) )
 
                 <!--begin: Datatable-->
-                <table class="table table-bordered table-checkable" id="document-type-list">
+                <table class="table table-bordered table-checkable" id="document-list">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Document Name</th>
+                            <th>Employee Name</th>
+                            <th>Document Type</th>
                             <th>Status</th>
-                            {{-- @php
+                            @php
                             $target = [];
-                            $target = [20,21,22,23];
-                            @endphp --}}
-                            {{-- @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ) --}}
+                            $target = [162, 163, 164];
+                            @endphp
+                            @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
                                 <th>Action</th>
-                            {{-- @endif --}}
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +67,9 @@
                     </tbody>
                 </table>
                 <!--end: Datatable-->
+
+                @endif
+
             </div>
         </div>
         <!--end::Card-->

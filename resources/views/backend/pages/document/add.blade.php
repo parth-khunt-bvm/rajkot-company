@@ -62,56 +62,7 @@
                                     </div>
                                 </div>
                                 <div id="attachment_fields_container" class="row">
-                                    <!-- Attachment fields will be appended here -->
                                 </div>
-                                @php
-                                    $count = 2;
-                                @endphp
-                                @for ($i = 0; $i < $count; $i++)
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Attachment {{ $i + 1 }}</label>
-                                        <div>
-                                            <div class="image-input image-input-outline" id="kt_image_{{ $i + 1 }}">
-                                                <div class="image-input-wrapper"></div>
-                                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="Change Attachment {{ $i + 1 }}">
-                                                    <i class="fa fa-pencil icon-sm text-muted"></i>
-                                                    <input type="file" name="attachment[]" accept=".png, .jpg, .jpeg"/>
-                                                    <input type="hidden" name="profile_avatar_remove"/>
-                                                </label>
-                                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel Attachment {{ $i + 1 }}">
-                                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                </span>
-                                            </div>
-                                            <span class="form-text text-muted">Allowed file types: png, jpg, jpeg. (Max Size For Upload 2MB)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endfor
-
-
-                                {{-- <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Attachement</label>
-                                        <div class="">
-                                            <div class="image-input image-input-outline" id="kt_image_1">
-                                                <div class="image-input-wrapper" style="background-image: url({{ $image }})"></div>
-
-                                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change Attachement 1">
-                                                    <i class="fa fa-pencil  icon-sm text-muted"></i>
-                                                    <input type="file" name="attachement" id="attachement" accept=".png, .jpg, .jpeg" />
-                                                    <input type="hidden" name="profile_avatar_remove" />
-                                                </label>
-                                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel Attachement 1">
-                                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                </span>
-                                            </div>
-                                            <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.<br>(Max Size For Upload 2MB)</span>
-                                            <span class="attachement_1_error text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                             </div>
                         </div>
 

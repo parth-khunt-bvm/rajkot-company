@@ -128,8 +128,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/document/list', [DocumentController::class, 'list'])->name('admin.document.list');
     Route::get('admin/document/add', [DocumentController::class, 'add'])->name('admin.document.add');
     Route::post('admin/document/save-add-document', [DocumentController::class, 'saveAdd'])->name('admin.document.save-add-document');
-    // Route::get('admin/document/edit/{id}', [DocumentController::class, 'edit'])->name('admin.document.edit');
-    // Route::post('admin/document/save-edit-document', [DocumentController::class, 'saveEdit'])->name('admin.document.save-edit-document');
+    Route::get('admin/document/edit/{id}', [DocumentController::class, 'edit'])->name('admin.document.edit');
+    Route::post('admin/document/save-edit-document', [DocumentController::class, 'saveEdit'])->name('admin.document.save-edit-document');
     Route::post('admin/document/ajaxcall', [DocumentController::class, 'ajaxcall'])->name('admin.document.ajaxcall');
 
     // salary slip
