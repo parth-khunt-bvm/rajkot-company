@@ -30,11 +30,13 @@ class Audittrails extends Model
         }elseif($event == 'D'){
             $activity = 'Delete';
         }elseif($event == 'W'){
-            $activity = 'working-employee';
+            $activity = 'Working Employee';
         }elseif($event == 'L'){
-            $activity = 'left-employee';
+            $activity = 'Left Employee';
+        }elseif($event == 'R'){
+            $activity = 'Restore Record';
         }else{
-            $activity = 'Unknow Activity';
+            $activity = 'Unknown Activity';
         }
         unset($data['_token']);
         $loginUser = Session::all();
