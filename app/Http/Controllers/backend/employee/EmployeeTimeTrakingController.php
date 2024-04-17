@@ -36,7 +36,7 @@ class EmployeeTimeTrakingController extends Controller
         );
         $data['funinit'] = array(
             'EmpTimeTraking.init()',
-            'EmpTimeTraking.time_tracker()',
+            // 'EmpTimeTraking.time_tracker()',
         );
         $data['header'] = array(
             'title' => 'Time Traking',
