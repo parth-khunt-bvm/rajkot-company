@@ -10,10 +10,10 @@ var EmpTimeTraking = function () {
         function toggleTimer() {
             if (isStopped) {
                 startTimer();
-                $('#toggle').css('background-color','green');
+                $('#toggle').css('background-color', 'green');
             } else {
                 stopTimer();
-                $('#toggle').css('background-color','red');
+                $('#toggle').css('background-color', 'red');
             }
         }
 
@@ -22,7 +22,6 @@ var EmpTimeTraking = function () {
         });
 
         function startTimer() {
-            // $('#start').hide();
             $('#fulltime').hide();
             var data = { _token: $('#_token').val() };
             $.ajax({
@@ -97,8 +96,6 @@ var EmpTimeTraking = function () {
                     showToster("success", "I am going");
 
                     $('#start').show();
-                    $('#continue').hide();
-
                     // Remove timerStarted flag
                     localStorage.removeItem("timerStarted");
                 }
@@ -106,7 +103,6 @@ var EmpTimeTraking = function () {
         }
 
         $('body').on('click', '#stop', function () {
-            $('#continue').hide();
             stopTimer();
         });
 
@@ -119,30 +115,28 @@ var EmpTimeTraking = function () {
             minutes = (minutes < 10) ? "0" + minutes : minutes;
             seconds = (seconds < 10) ? "0" + seconds : seconds;
 
+            console.log(hours, minutes, seconds);
+
             document.getElementById("timer").innerText = hours + ":" + minutes + ":" + seconds;
         }
 
         // Restore timer state on page refresh
-
         window.onload = function () {
             let storedTime = localStorage.getItem("timerElapsed");
             let storedPaused = localStorage.getItem("isPaused");
             let storedStopped = localStorage.getItem("isStopped");
+            let storedStartTime = localStorage.getItem("startTime"); // Retrieve startTime from local storage
 
-            if (storedTime) {
+            if (storedTime && storedStartTime) { // Check if both elapsedTime and startTime are available
                 elapsedTime = parseInt(storedTime);
                 if (!isNaN(elapsedTime)) {
                     if (storedStopped === "false" && storedPaused === "true") {
-                        // Timer was paused
-                        // Show appropriate UI
-                        $('#toggle').css('background-color','red');
+                        // Timer was stop
+                        $('#toggle').css('background-color', 'red');
                     } else if (storedStopped === "false" && storedPaused === "false") {
                         // Timer was running
-                        // Resume timer and show appropriate UI
-                        $('#toggle').css('background-color','green');
-
-                        startTime = Date.now() - elapsedTime;
-                        // startTime = Date.now();
+                        $('#toggle').css('background-color', 'green');
+                        startTime = parseInt(storedStartTime); // Set startTime from local storage
                         isStopped = false;
                         if (!timerInterval) {
                             timerInterval = setInterval(updateTimer, 1000);
@@ -152,11 +146,14 @@ var EmpTimeTraking = function () {
             }
         };
 
+        // Modify the window.onbeforeunload function to save startTime in local storage:
         window.onbeforeunload = function () {
             localStorage.setItem("timerElapsed", elapsedTime.toString());
             localStorage.setItem("isPaused", isPaused.toString());
             localStorage.setItem("isStopped", isStopped.toString());
+            localStorage.setItem("startTime", startTime.toString()); // Store startTime in local storage
         };
+
 
     }
 
