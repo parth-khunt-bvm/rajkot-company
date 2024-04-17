@@ -43,7 +43,7 @@ class EmployeeDashboardController extends Controller
             'pages/crud/datatables/data-sources/html.js',
         );
         $data['js'] = array(
-            'dashboard.js',
+            'employee_dashboard.js',
             'jquery.form.min.js',
             'comman_function.js',
         );
@@ -158,10 +158,10 @@ class EmployeeDashboardController extends Controller
             'comman_function.js',
             'ajaxfileupload.js',
             'jquery.form.min.js',
-            'dashboard.js',
+            'employee_dashboard.js',
         );
         $data['funinit'] = array(
-            'Dashboard.edit_profile()'
+            'EmployeeDashboard.edit_profile()'
         );
         $data['header'] = array(
             'title' => 'Edit Profile',

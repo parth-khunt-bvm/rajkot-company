@@ -128,12 +128,6 @@
                                                                     {{ $value['branch_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="branch" hidden>
-                                                             <option value="">Please select Branch Name</option>
-                                                            @foreach ($branch as $key => $value)
-                                                                <option value="{{ $value['id'] }}" {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['branch_name'] }}</option>
-                                                            @endforeach
-                                                        </select> --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
@@ -150,12 +144,6 @@
                                                                     {{ $value['technology_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="technology" hidden>
-                                                            <option value="">Please select Technology Name</option>
-                                                            @foreach ($technology as $key => $value)
-                                                                <option value="{{ $value['id'] }}" {{ $data['department'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['technology_name'] }}</option>
-                                                            @endforeach
-                                                       </select> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -174,20 +162,13 @@
                                                                     {{ $value['designation_name'] }}</option>
                                                             @endforeach
                                                         </select>
-                                                        {{-- <select name="hidden_select" id="hidden_select" class="old_value" data-attribute="designation" hidden>
-                                                            <option value="">Please select Designation Name</option>
-                                                            @foreach ($designation as $key => $value)
-                                                                <option value="{{ $value['id'] }}" {{ $data['designation'] == $value['id'] ? 'selected="selected"' : '' }}> {{ $value['designation_name'] }}</option>
-                                                            @endforeach
-                                                       </select> --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input type="text" class="form-control date_of_birth"
-                                                            name="DOB" id="dob"
-                                                            value="{{ date_formate($data['DOB']) }}"
+                                                        <input type="text" class="form-control date_of_birth" name="DOB" id="dob"
+                                                            value="{{ $data['DOB'] != null && $data['DOB'] != '' ? date_formate($data['DOB']) : '' }}"
                                                             max="{{ date('Y-m-d') }}" placeholder="Date Of Birth"
                                                             autocomplete="off" />
                                                         <input type="hidden" value="{{ date_formate($data['DOB']) }}"
@@ -199,7 +180,7 @@
                                                         <label>Date Of joining</label>
                                                         <input type="text" class="form-control datepicker_date"
                                                             name="DOJ" id="doj"
-                                                            value="{{ date_formate($data['DOJ']) }}"
+                                                            value="{{ $data['DOJ'] != null && $data['DOJ'] != '' ? date_formate($data['DOJ']) : '' }}"
                                                             placeholder="Date Of Joining" autocomplete="off" />
                                                         <input type="hidden" value="{{ date_formate($data['DOJ']) }}"
                                                             class="old_value" data-attribute="doj">
