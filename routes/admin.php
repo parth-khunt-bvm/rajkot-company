@@ -218,6 +218,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
     Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
     Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
+    Route::get('admin/hr/income/deleted', [HrIncomeController::class, 'showDeletedData'])->name('admin.hr.income.deleted');
+
 
     //  Hr expense
     Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');

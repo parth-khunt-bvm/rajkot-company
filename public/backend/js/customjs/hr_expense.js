@@ -202,7 +202,6 @@ var HrExpense = function(){
 
     }
 
-
     var trashHrExpense= function(){
 
         var dataArr = {};
