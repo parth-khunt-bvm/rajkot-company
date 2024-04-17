@@ -73,7 +73,7 @@ class ChangeRequestController extends Controller
                 $list = $objChangeRequest->getdatatable();
                 echo json_encode($list);
                 break;
-                
+
             case 'change-request-view':
                 $inputData = $request->input('data');
                 $objChangeRequest = new ChangeRequest();

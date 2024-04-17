@@ -228,6 +228,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/hr/expense/ajaxcall', [HrExpenseController::class, 'ajaxcall'])->name('admin.hr.expense.ajaxcall');
     Route::get('admin/hr/expense/view/{id}', [HrExpenseController::class, 'view'])->name('admin.hr.expense.view');
     Route::post('admin/hr/expense/save-import-expense', [HrExpenseController::class, 'save_import'])->name('admin.hr.expense.save-import-expense');
+    Route::get('admin/hr/expense/deleted', [HrExpenseController::class, 'showDeletedData'])->name('admin.hr.expense.deleted');
+
 
     // Employee
     Route::get('admin/employee/list', [EmployeeController::class, 'list'])->name('admin.employee.list');

@@ -187,44 +187,6 @@ class HrExpenseController extends Controller
         exit;
     }
 
-    public function ajaxcall(Request $request)
-    {
-        $action = $request->input('action');
-        switch ($action) {
-            case 'getdatatable':
-                $objHrExpense = new HrExpense();
-                $list = $objHrExpense->getdatatable($request->input('data'));
-                echo json_encode($list);
-                break;
-
-            case 'total-amount':
-                $data = $request->input('data');
-                $objHrExpense = new HrExpense();
-                $list = $objHrExpense->get_total_amount($data['month'],$data['year']);
-                echo json_encode($list);
-                break;
-
-            case 'common-activity':
-                $data = $request->input('data');
-                $objHrExpense = new HrExpense();
-                $result = $objHrExpense->common_activity($data);
-                if ($result) {
-                    $return['status'] = 'success';
-                    if ($data['activity'] == 'delete-records') {
-                        $return['message'] = "Hr Expense details successfully deleted.";
-                    }
-                    $return['redirect'] = route('admin.hr.expense.list');
-                } else {
-                    $return['status'] = 'error';
-                    $return['jscode'] = '$("#loader").hide();';
-                    $return['message'] = 'It seems like something is wrong';;
-                }
-
-                echo json_encode($return);
-                exit;
-        }
-    }
-
     public function view($viewId){
 
         $userId = Auth()->guard('admin')->user()->user_type;
@@ -280,4 +242,95 @@ class HrExpenseController extends Controller
         echo json_encode($return);
         exit;
     }
+
+    public function showDeletedData(Request $request)
+    {
+        $objHrExpense = new HrExpense();
+        $data['amount'] = $objHrExpense->get_total_amount();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Expense Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'hr_expense.js',
+        );
+        $data['funinit'] = array(
+            'HrExpense.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Hr Expense Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Hr Expense Deleted list' => 'Hr Expense Deleted list',
+            )
+        );
+        return view('backend.pages.hr.expense.trash', $data);
+
+    }
+
+    public function ajaxcall(Request $request)
+    {
+        $action = $request->input('action');
+        switch ($action) {
+            case 'getdatatable':
+                $objHrExpense = new HrExpense();
+                $list = $objHrExpense->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'get-hr-expense-trash':
+                $objHrExpense = new HrExpense();
+                $list = $objHrExpense->getHrExpenseDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'total-amount':
+                $data = $request->input('data');
+                $objHrExpense = new HrExpense();
+                $list = $objHrExpense->get_total_amount($data['month'],$data['year']);
+                echo json_encode($list);
+                break;
+
+            case 'common-activity':
+                $data = $request->input('data');
+                $objHrExpense = new HrExpense();
+                $result = $objHrExpense->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if ($data['activity'] == 'delete-records') {
+                        $return['message'] = "Hr Expense details successfully deleted.";
+                        $return['redirect'] = route('admin.hr.expense.list');
+                    } else if ($data['activity'] == 'restore-records') {
+                        $return['message'] = "Hr Expense details successfully restore.";
+                        $return['redirect'] = route('admin.hr.expense.deleted');
+                    }
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
+
+                echo json_encode($return);
+                exit;
+        }
+    }
+
+
+
+
 }

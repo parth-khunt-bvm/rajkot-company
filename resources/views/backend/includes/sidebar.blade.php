@@ -259,7 +259,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- Hr Menu End --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit" || $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.income.view" || $currentRoute  ==  "admin.hr.expense.view" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.hr.income.list" || $currentRoute  ==  "admin.hr.income.add" || $currentRoute  ==  "admin.hr.income.edit" || $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.income.view" || $currentRoute  ==  "admin.hr.expense.view" || $currentRoute  ==  "admin.hr.expense.deleted" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -311,7 +311,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                             {{-- Expense Menu --}}
                             @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.expense.view"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.hr.expense.list" || $currentRoute  ==  "admin.hr.expense.add" || $currentRoute  ==  "admin.hr.expense.edit" || $currentRoute  ==  "admin.hr.expense.view" || $currentRoute  ==  "admin.hr.expense.deleted"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.hr.expense.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->

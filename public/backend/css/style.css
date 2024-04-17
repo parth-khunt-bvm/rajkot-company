@@ -108,7 +108,7 @@ h6 {
 }
 
 
-/* button design */
+/* tracker button design */
 #toggle {
     width: 40px;
     height: 40px;
@@ -124,6 +124,7 @@ h6 {
     position: relative;
     border: none; /* Remove border */
   }
+
   #squareInside {
     width: 15px;
     height: 15px;
@@ -134,6 +135,10 @@ h6 {
     transform: translate(-50%, -50%);
     border-radius: 3px; /* Add border-radius to the square */
   }
+
+  /* tracker button design end*/
+
+
 
 .brand,.header, .aside-menu, .aside {
     background-color: #FFFFFF !important;

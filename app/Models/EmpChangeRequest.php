@@ -13,6 +13,7 @@ class EmpChangeRequest extends Model
 
     public function savePersonalInfo($request)
     {
+        // dd($request);
         $countRequest = ChangeRequest::where("employee_id", $request->input('id'))->where("request_type", '1')->count();
 
         if ($countRequest === 0) {
@@ -21,14 +22,15 @@ class EmpChangeRequest extends Model
                 ->where("id", '!=', $request->input('id'))
                 ->count();
 
-            if ($countEmployee == 0) {
+            // if ($countEmployee == 0) {
 
                 $objEmpChangeRequest = Employees::find($request->input('id'));
-                if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != date('Y-m-d', strtotime($request['DOB'])) || $objEmpChangeRequest->DOJ != date('Y-m-d', strtotime($request['DOJ'])) || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
+                $request['DOB'] = $request['DOB'] != null && $request['DOB'] != '' ? date('Y-m-d', strtotime($request['DOB'])) : null ;
+                $request['DOJ'] = $request['DOJ'] != null && $request['DOJ'] != '' ? date('Y-m-d', strtotime($request['DOJ'])) : null;
+
+                if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != $request['DOB'] || $objEmpChangeRequest->DOJ != $request['DOJ'] || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
                     $data = $request->input();
                     unset($data['_token']);
-                    $data['DOB'] = date('Y-m-d', strtotime($data['DOB']));
-                    $data['DOJ'] = date('Y-m-d', strtotime($data['DOJ']));
                     $objEmpChangeRequest = new EmpChangeRequest();
                     $objEmpChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
                     $objEmpChangeRequest->request_type = "1";
@@ -43,9 +45,9 @@ class EmpChangeRequest extends Model
                 } else {
                     return 'no_change';
                 }
-            } else {
-                return "email_exist";
-            }
+            // } else {
+            //     return "email_exist";
+            // }
         } else {
             return "change_request_exit";
         }
