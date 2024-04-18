@@ -341,7 +341,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 {{-- Assets Menu End --}}
 
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add" || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" ||$currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute == "admin.asset-master.edit" || $currentRoute  ==  "admin.asset-allocation.add" ||$currentRoute  ==  "admin.asset-allocation.list" ||$currentRoute  ==  "admin.asset-allocation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add"   || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.supplier.deleted" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" ||$currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute  ==  "admin.brand.deleted" || $currentRoute == "admin.asset-master.edit" || $currentRoute  ==  "admin.asset-allocation.add" ||$currentRoute  ==  "admin.asset-allocation.list" ||$currentRoute  ==  "admin.asset-allocation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -395,7 +395,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
 
                              @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                             <li class="menu-item  {{ ( $currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute  ==  "admin.brand.deleted"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.brand.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
                                         <svg width="21" height="25" viewBox="0 0 21 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -415,7 +415,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
 
                             @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                                <li class="menu-item  {{ ( $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.supplier.deleted" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                 <a href="{{ route('admin.supplier.list') }}" class="menu-link">
                                     <span class="svg-icon menu-icon">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->

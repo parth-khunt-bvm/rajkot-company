@@ -50,7 +50,7 @@ $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_ty
                     </a>
                     @endif
 
-                    <a href="{{ route('admin.employee.deleted') }}" class="btn btn-primary font-weight-bolder ml-2">Trash Data</a>
+                    <a href="{{ route('admin.employee.deleted') }}" class="btn btn-primary font-weight-bolder ml-5">Trash Data</a>
 
 
                     <!--end::Button-->
