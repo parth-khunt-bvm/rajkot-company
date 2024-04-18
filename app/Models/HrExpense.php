@@ -172,10 +172,6 @@ class HrExpense extends Model
             if (Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(69, explode(',', $permission_array[0]['permission'])))
                 $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
 
-
-            // if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(71, explode(',', $permission_array[0]['permission'])) )
-            // $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
-
             $i++;
             $nestedData = array();
             $nestedData[] = $i;

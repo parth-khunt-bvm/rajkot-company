@@ -212,6 +212,12 @@ class HrIncomeController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-hr-income-trash':
+                $objHrIncome = new HrIncome();
+                $list = $objHrIncome->getHrIncomeDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'total-amount':
                 $data = $request->input('data');
                 $objHrIncome = new HrIncome();
@@ -227,8 +233,11 @@ class HrIncomeController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Hr Income details successfully deleted.";
+                        $return['redirect'] = route('admin.hr.income.list');
+                    } else if ($data['activity'] == 'restore-records') {
+                        $return['message'] = "Hr Income details successfully restore.";
+                        $return['redirect'] = route('admin.hr.income.deleted');
                     }
-                    $return['redirect'] = route('admin.hr.income.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -294,6 +303,49 @@ class HrIncomeController extends Controller
 
         echo json_encode($return);
         exit;
+    }
+
+    public function showDeletedData(Request $request)
+    {
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
+        $objHrIncome = new HrIncome();
+        $data['amount'] = $objHrIncome->get_total_amount();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Hr Income Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'hr_income.js',
+        );
+        $data['funinit'] = array(
+            'HrIncome.trash_init()'
+        );
+        $data['header'] = array(
+            'title' => 'Hr Income Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Hr Income Deleted list' => 'Hr Income Deleted list',
+            )
+        );
+        return view('backend.pages.hr.income.trash', $data);
+
     }
 
 }

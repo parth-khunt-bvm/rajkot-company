@@ -218,6 +218,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/hr/income/ajaxcall', [HrIncomeController::class, 'ajaxcall'])->name('admin.hr.income.ajaxcall');
     Route::get('admin/hr/income/view/{id}', [HrIncomeController::class, 'view'])->name('admin.hr.income.view');
     Route::post('admin/hr/income/save-import-income', [HrIncomeController::class, 'save_import'])->name('admin.hr.income.save-import-income');
+    Route::get('admin/hr/income/deleted', [HrIncomeController::class, 'showDeletedData'])->name('admin.hr.income.deleted');
+
 
     //  Hr expense
     Route::get('admin/hr/expense/list', [HrExpenseController::class, 'list'])->name('admin.hr.expense.list');
@@ -259,6 +261,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/employee/attendance/list', [EmployeeController::class, 'attendancelist'])->name('admin.employee.attendance.list');
     Route::get('admin/employee/offer/letter/pdf/{id}', [EmployeeController::class, 'offerLetterPdf'])->name('admin.employee.offer-letter');
     Route::get('admin/employee/cover/letter/pdf/{id}', [EmployeeController::class, 'coverLetterPdf'])->name('admin.employee.cover-letter');
+    Route::get('admin/employee/deleted', [EmployeeController::class, 'showDeletedData'])->name('admin.employee.deleted');
+
 
 
     // Counter
@@ -338,6 +342,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/user/ajaxcall', [UserController::class, 'ajaxcall'])->name('admin.user.ajaxcall');
     Route::get('admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::post('admin/user/save-edit-user', [UserController::class, 'saveEdit'])->name('admin.user.save-edit-user');
+    Route::get('admin/user/deleted', [UserController::class, 'showDeletedData'])->name('admin.user.deleted');
 
     Route::get('admin/supplier/list', [SupplierController::class, 'list'])->name('admin.supplier.list');
     Route::get('admin/supplier/add', [SupplierController::class, 'add'])->name('admin.supplier.add');

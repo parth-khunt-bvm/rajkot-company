@@ -194,6 +194,45 @@ class UserController extends Controller
         exit;
     }
 
+    public function showDeletedData(){
+
+        $objTechnology = new UserRole();
+        $data['userRole'] = $objTechnology->get_admin_user_role_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || User Deleted  List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || User Deleted  List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || User Deleted  List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'user.js',
+        );
+        $data['funinit'] = array(
+            'User.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'User Deleted List',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'User Deleted List' => 'User Deleted List',
+            )
+        );
+        return view('backend.pages.user.user.trash', $data);
+    }
+
     public function ajaxcall(Request $request){
 
         $action = $request->input('action');
@@ -201,6 +240,12 @@ class UserController extends Controller
             case 'getdatatable':
                 $objUser = new User();
                 $list = $objUser->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'get-user-trash':
+                $objUser = new User();
+                $list = $objUser->getUserDatatable($request->input('data'));
                 echo json_encode($list);
                 break;
 

@@ -252,6 +252,54 @@ class EmployeeController extends Controller
         exit;
     }
 
+    public function showDeletedData(Request $request)
+    {
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $objDesignation = new Designation();
+        $data['designation'] = $objDesignation->get_admin_designation_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objCompanyinfo = new CompanyInfo();
+        $data['systemDetails'] = $objCompanyinfo->get_system_details(1);
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Employee Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Employee Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Employee Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'employee.js',
+        );
+        $data['funinit'] = array(
+            'Employee.trash_init()'
+        );
+        $data['header'] = array(
+            'title' => 'Employee Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Employee Deleted list' => 'Employee Deleted list',
+            )
+        );
+        return view('backend.pages.employee.trash', $data);
+    }
+
     public function ajaxcall(Request $request)
     {
         $action = $request->input('action');
@@ -259,6 +307,12 @@ class EmployeeController extends Controller
             case 'getdatatable':
                 $objEmployee = new Employee();
                 $list = $objEmployee->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'get-employee-trash':
+                $objEmployee = new Employee();
+                $list = $objEmployee->getEmployeeDatatable($request->input('data'));
                 echo json_encode($list);
                 break;
 
@@ -339,12 +393,21 @@ class EmployeeController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Employee details successfully deleted.";
+                        $return['redirect'] = route('admin.employee.list');
+
                     } elseif ($data['activity'] == 'left-employee') {
                         $return['message'] = "Employee details successfully left.";
+                        $return['redirect'] = route('admin.employee.list');
+
+                    } elseif ($data['activity'] == 'restore-records') {
+                        $return['message'] = "Employee details successfully restore.";
+                        $return['redirect'] = route('admin.employee.deleted');
+
                     } else {
                         $return['message'] = "Employee details successfully working.";
+                        $return['redirect'] = route('admin.employee.list');
+
                     }
-                    $return['redirect'] = route('admin.employee.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';

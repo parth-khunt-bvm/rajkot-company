@@ -185,6 +185,53 @@ var HrIncome = function(){
         });
 
     }
+
+    var trashHrIncome= function(){
+
+        var dataArr = {};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#hr-income-trash-list',
+            'ajaxURL': baseurl + "admin/hr/income/ajaxcall",
+            'ajaxAction': 'get-hr-income-trash',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 7],
+            'noSearchApply': [0],
+            'defaultSortColumn': [0],
+            'sumOfCol': [5],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+
+        $("body").on("click", ".restore-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        });
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { id: id, 'activity': 'restore-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/hr/income/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+    }
+
     var addHrIncome= function(){
         $('.select2').select2();
         var form = $('#add-hr-income');
@@ -334,6 +381,9 @@ var HrIncome = function(){
         },
         edit:function(){
             editHrIncome();
+        },
+        trash_init:function(){
+            trashHrIncome();
         },
     }
 }();

@@ -50,7 +50,9 @@
                         </a>
                     @endif
 
-                    <span href="#" class="btn btn-success font-weight-bolder ml-5" id="total-amount">{{numberformat($amount)}}</span>
+                    <span href="#" class="btn btn-success font-weight-bolder ml-5 mr-5" id="total-amount">{{numberformat($amount)}}</span>
+                   <a href="{{ route('admin.hr.income.deleted') }}" class="btn btn-primary font-weight-bolder">Trash Data</a>
+
 
                     <!--end::Button-->
                 </div>
