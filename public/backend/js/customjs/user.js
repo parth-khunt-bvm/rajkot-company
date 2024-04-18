@@ -149,6 +149,53 @@ var User = function(){
         });
     }
 
+    var trashUserList = function(){
+
+        $('.select2').select2();
+        var dataArr = { };
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#user-trash-list',
+            'ajaxURL': baseurl + "admin/user/ajaxcall",
+            'ajaxAction': 'get-user-trash',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0],
+            'noSearchApply': [0],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("click", ".restore-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        })
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { id: id, 'activity': 'restore-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/user/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+
+
+    }
+
     var addUser = function(){
         $('.select2').select2();
         var form = $('#add-user');
@@ -225,6 +272,9 @@ var User = function(){
         },
         edit:function(){
             EditUser();
+        },
+        trash_init:function(){
+            trashUserList();
         },
     }
 }();

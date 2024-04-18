@@ -196,10 +196,10 @@ var HrIncome = function(){
             'ajaxAction': 'get-hr-income-trash',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 5],
+            'noSortingApply': [0, 7],
             'noSearchApply': [0],
             'defaultSortColumn': [0],
-            'sumOfCol': [3],
+            'sumOfCol': [5],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth
         };
@@ -211,7 +211,7 @@ var HrIncome = function(){
             setTimeout(function() {
                 $('.yes-sure:visible').attr('data-id', id);
             }, 500);
-        })
+        });
 
         $('body').on('click', '.yes-sure', function() {
             var id = $(this).attr('data-id');
@@ -221,7 +221,7 @@ var HrIncome = function(){
                 headers: {
                     'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                 },
-                url:baseurl + "admin/hr/expense/ajaxcall",
+                url:baseurl + "admin/hr/income/ajaxcall",
                 data: { 'action': 'common-activity', 'data': data },
                 success: function(data) {
                     $("#loader").show();

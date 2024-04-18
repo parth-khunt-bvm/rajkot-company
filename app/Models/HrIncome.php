@@ -155,23 +155,6 @@ class HrIncome extends Model
             ->join("manager", "manager.id", "=", "hr_income.manager_id")
             ->where("hr_income.is_deleted", "=", "Y");
 
-            if($fillterdata['manager'] != null && $fillterdata['manager'] != ''){
-                $query->where("manager.id", $fillterdata['manager']);
-            }
-
-            if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != ''){
-                $query->where("hr_income.month_of", $fillterdata['monthOf']);
-            }
-
-            if($fillterdata['year'] != null && $fillterdata['year'] != ''){
-                $query->where("hr_income.year", $fillterdata['year']);
-            }
-
-            if($fillterdata['monthOf'] != null && $fillterdata['monthOf'] != '' && $fillterdata['year'] != null && $fillterdata['year'] != ''){
-                $query->where(DB::raw('CONCAT(month_of, "-", year)'), $fillterdata['monthOf'] . "-" . $fillterdata['year']);
-            }
-
-
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
             $searchVal = $requestData['search']['value'];
             $query->where(function ($query) use ($columns, $searchVal, $requestData) {
@@ -225,7 +208,7 @@ class HrIncome extends Model
                 $payment_mode = '<span>Bank Transfer</span>';
             }
 
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
 
             $i++;
             $nestedData = array();

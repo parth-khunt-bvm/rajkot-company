@@ -253,7 +253,7 @@ class AttendanceController extends Controller
             case 'get_employee_list':
                 $data = $request->input('data');
                 $objEmployee = new Employee();
-                $data['employeeList'] = $objEmployee->get_admin_employee_details(json_decode($data['employee']));
+                $data['employeeList'] = $objEmployee->get_admin_employee_attendance_details();
                 $details =  view('backend.pages.attendance.addEmployee', $data);
                 echo $details;
                 break;

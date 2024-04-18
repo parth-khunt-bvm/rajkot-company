@@ -154,6 +154,92 @@ class Employee extends Authenticatable
         return $json_data;
     }
 
+    public function getEmployeeDatatable($fillterdata)
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => 'employee.id',
+            1 => DB::raw('CONCAT("Name :", first_name, " ", last_name, "<br>Technology : ", technology.technology_name, "<br>Gmail : ", employee.gmail, "<br>Designation : ", designation.designation_name , "<br>Emergency contact : ", employee.emergency_number  )'),
+            2 => 'branch.branch_name',
+            3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
+            4 => 'employee.experience',
+            5 => 'employee.google_pay_number',
+            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
+        );
+
+        $query = Employee::from('employee')
+             ->join("technology", "technology.id", "=", "employee.department")
+             ->join("branch", "branch.id", "=", "employee.branch")
+             ->join("designation", "designation.id", "=", "employee.designation")
+             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+             ->where("employee.is_deleted", "=", "Y");
+
+        if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+            $searchVal = $requestData['search']['value'];
+            $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                $flag = 0;
+                foreach ($columns as $key => $value) {
+                    $searchVal = $requestData['search']['value'];
+                    if ($requestData['columns'][$key]['searchable'] == 'true') {
+                        if ($flag == 0) {
+                            $query->where($value, 'like', '%' . $searchVal . '%');
+                            $flag = $flag + 1;
+                        } else {
+                            $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                        }
+                    }
+                }
+            });
+        }
+
+        $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+
+        $totalData = count($temp->get());
+        $totalFiltered = count($temp->get());
+
+        $resultArr = $query->skip($requestData['start'])
+            ->take($requestData['length'])
+            ->select( 'employee.id', DB::raw('CONCAT("Name :", first_name, " ", last_name) as full_name'), 'technology.technology_name', 'branch.branch_name','designation.designation_name','employee.DOJ', 'employee.experience', 'employee.status', 'employee.gmail','designation.designation_name','employee.emergency_number','employee.google_pay_number')
+            ->get();
+
+        $data = array();
+        $i = 0;
+
+        foreach ($resultArr as $row) {
+
+            $target = [];
+            $target = [75, 76, 77, 78, 79, 80];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
+            }
+
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
+
+            $i++;
+            $nestedData = array();
+            $nestedData[] = $i;
+            $nestedData[] = $row['full_name']."<br>Technology Name : ". $row['technology_name']. "<br>Gmail : ". $row['gmail'] . "<br>Designation : ". $row['designation_name'] . "<br>Emergency contact : ". $row['emergency_number'];
+            $nestedData[] = $row['branch_name'];
+            $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
+            $nestedData[] = numberformat($row['experience'], 0);
+            $nestedData[] = $row['google_pay_number'];
+            $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
+            $data[] = $nestedData;
+        }
+        $json_data = array(
+            "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal" => intval($totalData), // total number of records
+            "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data   // total data array
+        );
+        return $json_data;
+    }
+
     public function saveAdd($requestData){
         if($requestData['gmail'] != "" && $requestData['gmail'] != NULL){
             $checkEmployeegmail = Employee::from('employee')
@@ -391,6 +477,11 @@ class Employee extends Authenticatable
             $event = 'D';
         }
 
+        if ($requestData['activity'] == 'restore-records') {
+            $objEmployee->is_deleted = "N";
+            $event = 'R';
+        }
+
         if ($requestData['activity'] == 'left-employee') {
             $objEmployee->status = "L";
             $event = 'L';
@@ -424,6 +515,16 @@ class Employee extends Authenticatable
            $qurey->whereNotIn('employee.id', $employeIdArray);
         }
         return $qurey->get();
+    }
+
+    public function get_admin_employee_attendance_details(){
+
+      return  Employee::from('employee')->select('employee.id','employee.first_name','employee.last_name')
+        ->join("branch", "branch.id", "=", "employee.branch")
+        ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+        ->where("employee.status", "=", "W")
+        ->where("employee.is_deleted", "=", "N")
+        ->get();
     }
 
     public function get_admin_employee_details_view($employeIdArray = null){

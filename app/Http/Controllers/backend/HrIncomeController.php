@@ -212,7 +212,7 @@ class HrIncomeController extends Controller
                 echo json_encode($list);
                 break;
 
-            case 'get-hr-expense-trash':
+            case 'get-hr-income-trash':
                 $objHrIncome = new HrIncome();
                 $list = $objHrIncome->getHrIncomeDatatable($request->input('data'));
                 echo json_encode($list);
