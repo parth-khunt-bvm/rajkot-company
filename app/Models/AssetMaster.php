@@ -144,6 +144,112 @@ class AssetMaster extends Model
 
         return $json_data;
     }
+
+    public function getAssetMasterDatatable($fillterdata)
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => 'asset_master.id',
+            1 => 'asset_master.asset_code',
+            2 => 'supplier.suppiler_name',
+            3 => 'asset.asset_type',
+            4 => 'branch.branch_name',
+            5 => 'brand.brand_name',
+            6 => 'asset_master.description',
+            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
+            8 => 'asset_master.price',
+        );
+
+        $query = AssetMaster::from('asset_master')
+            ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
+            ->join("branch", "branch.id", "=", "asset_master.branch_id")
+            ->join("asset", "asset.id", "=", "asset_master.asset_id")
+            ->join("brand", "brand.id", "=", "asset_master.brand_id")
+            ->whereIn('asset_master.branch_id', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->where("asset_master.is_deleted", "=", "Y");
+
+        if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+            $searchVal = $requestData['search']['value'];
+            $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                $flag = 0;
+                foreach ($columns as $key => $value) {
+                    $searchVal = $requestData['search']['value'];
+                    if ($requestData['columns'][$key]['searchable'] == 'true') {
+                        if ($flag == 0) {
+                            $query->where($value, 'like', '%' . $searchVal . '%');
+                            $flag = $flag + 1;
+                        } else {
+                            $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                        }
+                    }
+                }
+            });
+        }
+
+        $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+
+        $totalData = count($temp->get());
+        $totalFiltered = count($temp->get());
+
+        $resultArr = $query->skip($requestData['start'])
+            ->take($requestData['length'])
+            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->get();
+
+        $data = array();
+        $i = 0;
+        $max_length = 30;
+        foreach ($resultArr as $row) {
+            $target = [];
+            $target = [111, 112,113,114,115];
+            $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
+
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $actionhtml = '';
+            }
+
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
+
+            if ($row['status'] == '1') {
+                $status = '<span class="label label-lg label-light-success label-inline">Working</span>';
+            } elseif($row['status'] == '2') {
+                $status = '<span class="label label-lg label-light-warning label-inline">Need To Service</span>';
+            } else {
+                $status = '<span class="label label-lg label-light-danger label-inline">Not Working</span>';
+            }
+
+            $i++;
+            $nestedData = array();
+            $nestedData[] = $i;
+            $nestedData[] = $row['asset_code'];
+            $nestedData[] = $row['suppiler_name'];
+            $nestedData[] = $row['asset_type'];
+            $nestedData[] = $row['branch_name'];
+            $nestedData[] = $row['brand_name'];
+            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = $status;
+
+            if (strlen($row['description']) > $max_length) {
+                $nestedData[] = substr($row['description'], 0, $max_length) . '...';
+            }else {
+                $nestedData[] = $row['description']; // If it's not longer than max_length, keep it as is
+            }
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
+                $nestedData[] = $actionhtml;
+            }
+            $data[] = $nestedData;
+        }
+        $json_data = array(
+            "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal" => intval($totalData), // total number of records
+            "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data   // total data array
+        );
+
+        return $json_data;
+    }
+
+
     public function saveAdd($requestData)
     {
             $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
@@ -222,6 +328,11 @@ class AssetMaster extends Model
         if ($requestData['activity'] == 'delete-records') {
             $objAssetMaster->is_deleted = "Y";
             $event = 'D';
+        }
+
+        if ($requestData['activity'] == 'restore-records') {
+            $objAssetMaster->is_deleted = "N";
+            $event = 'R';
         }
 
         if ($objAssetMaster->save()) {

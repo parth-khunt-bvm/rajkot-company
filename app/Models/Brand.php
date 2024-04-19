@@ -145,7 +145,6 @@ class Brand extends Model
 
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
 
-
             $i++;
             $nestedData = array();
             $nestedData[] = $i;

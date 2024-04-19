@@ -341,7 +341,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 {{-- Assets Menu End --}}
 
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add"   || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.supplier.deleted" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" ||$currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute  ==  "admin.brand.deleted" || $currentRoute == "admin.asset-master.edit" || $currentRoute  ==  "admin.asset-allocation.add" ||$currentRoute  ==  "admin.asset-allocation.list" ||$currentRoute  ==  "admin.asset-allocation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.asset-master.deleted"  ||$currentRoute  ==  "admin.assets.list" || $currentRoute  ==  "admin.assets.add"   || $currentRoute  ==  "admin.supplier.list" ||$currentRoute  ==  "admin.supplier.add" ||$currentRoute  ==  "admin.supplier.edit" ||$currentRoute  ==  "admin.supplier.deleted" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" ||$currentRoute  ==  "admin.brand.list" ||$currentRoute  ==  "admin.brand.add" ||$currentRoute  ==  "admin.brand.edit" || $currentRoute  ==  "admin.brand.deleted" || $currentRoute == "admin.asset-master.edit" || $currentRoute  ==  "admin.asset-allocation.add" ||$currentRoute  ==  "admin.asset-allocation.list" ||$currentRoute  ==  "admin.asset-allocation.edit" ? 'menu-item-open' : '' ) }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -436,7 +436,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
 
                               @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
 
-                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" || $currentRoute == "admin.asset-master.edit"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                              <li class="menu-item  {{ ( $currentRoute  ==  "admin.asset-master.add" ||$currentRoute  ==  "admin.assets-master.list" ||$currentRoute  ==  "admin.assets-master.add" ||$currentRoute  ==  "admin.assets-master.edit" || $currentRoute == "admin.asset-master.edit" ||$currentRoute  ==  "admin.asset-master.deleted"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                                  <a href="{{ route('admin.assets-master.list') }}" class="menu-link">
                                        <span class="svg-icon menu-icon">
                                         <svg width="20" height="25" viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -484,7 +484,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- expense Menu --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item  {{ ( $currentRoute  ==  "admin.expense.list" || $currentRoute  ==  "admin.expense.add" || $currentRoute  ==  "admin.expense.edit" || $currentRoute  ==  "admin.expense.view"   ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.expense.list" || $currentRoute  ==  "admin.expense.add" || $currentRoute  ==  "admin.expense.edit" || $currentRoute  ==  "admin.expense.view" || $currentRoute  ==  "admin.expense.deleted" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.expense.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
@@ -506,7 +506,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- Revenue Menu --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item  {{ ( $currentRoute  ==  "admin.revenue.list" || $currentRoute  ==  "admin.revenue.add" || $currentRoute  ==  "admin.revenue.edit" || $currentRoute  ==  "admin.revenue.view"    ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.revenue.list" || $currentRoute  ==  "admin.revenue.add" || $currentRoute  ==  "admin.revenue.edit" || $currentRoute  ==  "admin.revenue.view" || $currentRoute  ==  "admin.revenue.deleted" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.revenue.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->

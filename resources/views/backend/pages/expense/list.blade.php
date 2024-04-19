@@ -55,6 +55,9 @@
                     </span>Add Expense
                     </a>
                     @endif
+
+                  <a href="{{ route('admin.expense.deleted') }}" class="btn btn-primary font-weight-bolder ml-5">Trash Data</a>
+
                     <!--end::Button-->
                 </div>
 

@@ -139,10 +139,10 @@ class BrandController extends Controller
                     if($data['activity'] == 'delete-records'){
                         $return['message'] = "Brand's details successfully deleted.";
                         $return['redirect'] = route('admin.brand.list');
-                    }elseif($data['activity'] == 'restore-records'){
+                    }else if($data['activity'] == 'restore-records'){
                         $return['message'] = "Brand's details successfully restore.";
                         $return['redirect'] = route('admin.brand.deleted');
-                    }elseif($data['activity'] == 'active-records'){
+                    }else if($data['activity'] == 'active-records'){
                         $return['message'] = "Brand's details successfully actived.";
                         $return['redirect'] = route('admin.brand.list');
                     }else{

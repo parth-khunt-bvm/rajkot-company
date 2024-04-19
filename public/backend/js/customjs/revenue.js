@@ -165,6 +165,50 @@ var Revenue = function(){
         })
 
     }
+
+    var trashList= function(){
+
+        var dataArr = {};
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#admin-revenue-trash-list',
+            'ajaxURL': baseurl + "admin/revenue/ajaxcall",
+            'ajaxAction': 'get-revenue-trash',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 9],
+            'noSearchApply': [0],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("click", ".restore-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        });
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { id: id, 'activity': 'restore-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/revenue/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+
+    }
     var addRevenue= function(){
         $('.select2').select2();
         var form = $('#add-revenue-users');
@@ -344,5 +388,8 @@ var Revenue = function(){
         edit:function(){
             editRevenue();
         },
+        trash_init:function(){
+            trashList();
+        }
     }
 }();

@@ -274,6 +274,12 @@ class AssetMasterController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-asset-master-trash':
+                $objAssetMaster = new AssetMaster();
+                $list = $objAssetMaster->getAssetMasterDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'asset-master-view';
                 $objAssetMaster = new AssetMaster();
                 $list = $objAssetMaster->get_asset_master_details_view($request->input('data'));
@@ -288,8 +294,11 @@ class AssetMasterController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Assets details successfully deleted.";
+                        $return['redirect'] = route('admin.assets-master.list');
+                    }else if($data['activity'] == 'restore-records'){
+                        $return['message'] = "Assets details successfully restore.";
+                        $return['redirect'] = route('admin.asset-master.deleted');
                     }
-                    $return['redirect'] = route('admin.assets-master.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -339,7 +348,7 @@ class AssetMasterController extends Controller
             'assetmaster.js',
         );
         $data['funinit'] = array(
-            'AssetMaster.trash_init()()',
+            'AssetMaster.trash_init()',
         );
         $data['header'] = array(
             'title' => 'Asset Master Deleted list',

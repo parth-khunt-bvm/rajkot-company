@@ -14,35 +14,34 @@
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">{{ $header['title'] }}</h3>
-
                 </div>
 
                 <div class="card-toolbar">
+
                     <!--begin::Button-->
                     <!--end::Button-->
                 </div>
 
             </div>
                 <div class="card-body">
+                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(42, explode(',', $permission_array[0]['permission'])) )
 
-                    @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(111, explode(',', $permission_array[0]['permission'])) )
-                    <div class="asset-master-list">
+                    <div class="salary-list">
                         <!--begin: Datatable-->
-                        <table class="table table-bordered table-checkable" id="admin-asset-master-trash-list">
+                        <table class="table table-bordered table-checkable" id="admin-salary-trash-list">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Asset Code</th>
-                                    <th>Suplier Name</th>
-                                    <th>Asset Name</th>
+                                    <th>Date</th>
+                                    <th>Manager Name</th>
                                     <th>Branch Name</th>
-                                    <th>Brand Name</th>
-                                    <th>Price</th>
-                                    <th>status</th>
-                                    <th>Description</th>
+                                    <th>Technology Name</th>
+                                    <th>Month_Of</th>
+                                    <th>Amount</th>
+                                    <th>Rmark</th>
                                     @php
                                         $target = [];
-                                        $target = [113 ,114 ,115];
+                                        $target = [45,46,47];
                                     @endphp
 
                                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
