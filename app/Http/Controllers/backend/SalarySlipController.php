@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Designation;
 use App\Models\Employee;
+use App\Models\SalaryIncrement;
 use App\Models\SalarySlip;
 use App\Models\Technology;
 use Illuminate\Http\Request;
@@ -82,6 +83,10 @@ class SalarySlipController extends Controller
 
             $objDesignation = new Designation();
             $data['designation'] = $objDesignation->get_admin_designation_details();
+
+            $objSalaryIncrement = new SalaryIncrement();
+            $data['salary_increment'] = $objSalaryIncrement->get_admin_Salary_increment_details();
+
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || Add Salary Slip";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || Add Salary Slip";
@@ -340,6 +345,20 @@ class SalarySlipController extends Controller
             case 'getdatatable':
                 $objSalarySlip = new SalarySlip();
                 $list = $objSalarySlip->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
+            case 'get-salary-increment-date':
+                $objSalaryIncrement = new SalaryIncrement();
+                $data = $request->input('data');
+                $list = $objSalaryIncrement->get_admin_Salary_increment_details($data['month']);
+                echo json_encode($list);
+                break;
+
+            case 'get-employee-old-salary':
+                $objSalaryIncrement = new SalaryIncrement();
+                $data = $request->input('data');
+                $list = $objSalaryIncrement->get_employee_old_salary($data['selectedEmployeeId']);
                 echo json_encode($list);
                 break;
 

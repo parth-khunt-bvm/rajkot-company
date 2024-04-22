@@ -113,6 +113,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="salary-icrement">
+                                
+                            </div>
 
                             <div class="row">
                                 <div class="col-6">
@@ -206,4 +209,5 @@
     <!--end::Container-->
 </div>
 <!--end::Entry-->
+
 @endsection

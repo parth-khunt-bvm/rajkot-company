@@ -203,5 +203,29 @@ class SalaryIncrement extends Model
         }
     }
 
+    public function get_admin_Salary_increment_details($month = null){
+        $query = SalaryIncrement::from('salary_increment')
+        ->join("employee", "employee.id", "=", "salary_increment.employee_id")
+        ->select('salary_increment.id', 'salary_increment.employee_id', 'salary_increment.previous_salary', 'salary_increment.current_salary', DB::raw('MONTH(salary_increment.start_from) AS month_number'))
+        ->where(DB::raw('MONTH(salary_increment.start_from)'), "=", $month)
+        // ->where('salary_increment.employee_id', "=", "employee.id")
+        ->first();  
+        return $query;
+    }
+
+
+    public function get_employee_old_salary($empId){
+
+        $query = SalaryIncrement::from('salary_increment')
+        ->join("employee", "employee.id", "=", "salary_increment.employee_id")
+        ->select('salary_increment.id', 'salary_increment.employee_id', 'salary_increment.previous_salary', 'salary_increment.current_salary', DB::raw('MONTH(salary_increment.start_from) AS month_number'))
+        ->where('salary_increment.employee_id', "=", $empId)
+        ->first();
+        return $query;
+
+    }
+
+
+
 
 }
