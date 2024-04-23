@@ -117,7 +117,7 @@
                             <div class="salary-icrement">
                             </div>
 
-                            <div class="row">
+                            <div class="row ml-1">
                                 <div class="col-6">
                                     <h3 class="card-title">HOUSE RENT ALLOWANCE</h3>
                                     <div class="row">
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row ml-1">
                                 <div class="col-6">
                                     <h3 class="card-title">Provident Fund </h3>
                                     <div class="row">

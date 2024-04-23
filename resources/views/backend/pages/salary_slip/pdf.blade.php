@@ -22,150 +22,159 @@
 </head>
 @php
 
-        // $data['salaryCount'] = salaryCount($salary_slip_details['basic_salary'], $salary_slip_details['working_day'], $present, $absent, $halfLeave, $shortLeave);
-        // dd($data['salaryCount']);
+// $data['salaryCount'] = salaryCount($salary_slip_details['basic_salary'], $salary_slip_details['working_day'], $present, $absent, $halfLeave, $shortLeave);
+// dd($data['salaryCount']);
 
-        if ($salary_slip_details['old_basic_salary'] !== null) {
-            $old_basic_salary = $salary_slip_details['old_basic_salary'];
+if ($salary_slip_details['old_basic_salary'] !== null) {
+    $old_basic_salary = $salary_slip_details['old_basic_salary'];
+} else {
+    $old_basic_salary = 0;
+}
+
+$month = [
+    '',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
+    // dd($salary_slip_details);
+
+$oldgrossEarnings = $old_basic_salary + numberformat($salary_slip_details['house_rent_allow']);
+$newgrossEarnings = $salary_slip_details['basic_salary'] + numberformat($salary_slip_details['house_rent_allow']);
+
+if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
+    $daySalary = $salary_slip_details['basic_salary'] / ($salary_slip_details['working_day'] + $salary_slip_details['old_working_day']);
+    $totalSalary = $daySalary * $salary_slip_details['working_day'];
+
+    $olddaySalary = $salary_slip_details['old_basic_salary'] / ($salary_slip_details['working_day'] + $salary_slip_details['old_working_day']);
+    $oldtotalSalary = $olddaySalary * $salary_slip_details['old_working_day'];
+
+     $basicSalary = $totalSalary + $oldtotalSalary;
+
+    // $basicSalary = ($salary_slip_details['basic_salary'] + $old_basic_salary) / 2;
+    $grossEarnings = $basicSalary  + numberformat($salary_slip_details['house_rent_allow']);
+} else {
+    $basicSalary = $salary_slip_details['basic_salary'] + $old_basic_salary;
+    $grossEarnings = $oldgrossEarnings + $newgrossEarnings;
+}
+
+$lopdays = $salary_slip_details['loss_of_pay'] + $salary_slip_details['old_loss_of_pay'];
+
+
+$newLopDays = $salary_slip_details['loss_of_pay'];
+
+$oldLopDays = $salary_slip_details['old_loss_of_pay'];
+
+$newLop = (numberformat($newgrossEarnings) / $salary_slip_details['working_day']) * $newLopDays;
+
+if ($salary_slip_details['old_working_day'] !== null) {
+    $oldLop = (numberformat($oldgrossEarnings) / $salary_slip_details['old_working_day']) * $oldLopDays;
+}
+
+if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
+    $lop = ($daySalary * $salary_slip_details['loss_of_pay']) + ($olddaySalary * $salary_slip_details['old_loss_of_pay'])  ;
+} else {
+    $lop = $newLop;
+}
+
+$totalDeductions =
+    numberformat($salary_slip_details['income_tax']) +
+    numberformat($salary_slip_details['pf']) +
+    numberformat($salary_slip_details['pt']) +
+    $lop;
+$totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions);
+
+function AmountInWords(float $amount)
+{
+    $amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
+    // Check if there is any number after decimal
+    $amt_hundred = null;
+    $count_length = strlen($num);
+    $x = 0;
+    $string = [];
+    $change_words = [
+        0 => '',
+        1 => 'One',
+        2 => 'Two',
+        3 => 'Three',
+        4 => 'Four',
+        5 => 'Five',
+        6 => 'Six',
+        7 => 'Seven',
+        8 => 'Eight',
+        9 => 'Nine',
+        10 => 'Ten',
+        11 => 'Eleven',
+        12 => 'Twelve',
+        13 => 'Thirteen',
+        14 => 'Fourteen',
+        15 => 'Fifteen',
+        16 => 'Sixteen',
+        17 => 'Seventeen',
+        18 => 'Eighteen',
+        19 => 'Nineteen',
+        20 => 'Twenty',
+        30 => 'Thirty',
+        40 => 'Forty',
+        50 => 'Fifty',
+        60 => 'Sixty',
+        70 => 'Seventy',
+        80 => 'Eighty',
+        90 => 'Ninety',
+    ];
+    $here_digits = ['', 'Hundred', 'Thousand', 'Lakh', 'Crore'];
+    while ($x < $count_length) {
+        $get_divider = $x == 2 ? 10 : 100;
+        $amount = floor($num % $get_divider);
+        $num = floor($num / $get_divider);
+        $x += $get_divider == 10 ? 1 : 2;
+        if ($amount) {
+            $add_plural = ($counter = count($string)) && $amount > 9 ? 's' : null;
+            $amt_hundred = $counter == 1 && $string[0] ? ' and ' : null;
+            $string[] =
+                $amount < 21
+                    ? $change_words[$amount] .
+                        ' ' .
+                        $here_digits[$counter] .
+                        $add_plural .
+                        '
+' .
+                        $amt_hundred
+                    : $change_words[floor($amount / 10) * 10] .
+                        ' ' .
+                        $change_words[$amount % 10] .
+                        '
+' .
+                        $here_digits[$counter] .
+                        $add_plural .
+                        ' ' .
+                        $amt_hundred;
         } else {
-            $old_basic_salary = 0;
+            $string[] = null;
         }
-
-        $month = [
-            '',
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ];
-
-        $oldgrossEarnings = $old_basic_salary + numberformat($salary_slip_details['house_rent_allow']);
-        $newgrossEarnings =
-            $salary_slip_details['basic_salary'] + numberformat($salary_slip_details['house_rent_allow']);
-
-        if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
-            $basicSalary = ($salary_slip_details['basic_salary'] + $old_basic_salary) / 2;
-            $grossEarnings = ($oldgrossEarnings + $newgrossEarnings) / 2;
-        } else {
-            $basicSalary = $salary_slip_details['basic_salary'] + $old_basic_salary;
-            $grossEarnings = $oldgrossEarnings + $newgrossEarnings;
-        }
-
-        $lopdays = $salary_slip_details['loss_of_pay'] + $salary_slip_details['old_loss_of_pay'];
-
-        $newLopDays = $salary_slip_details['loss_of_pay'];
-
-        $oldLopDays = $salary_slip_details['old_loss_of_pay'];
-
-        $newLop = (numberformat($newgrossEarnings) / $salary_slip_details['working_day']) * $newLopDays;
-
-        if ($salary_slip_details['old_working_day'] !== null) {
-            $oldLop = (numberformat($oldgrossEarnings) / $salary_slip_details['old_working_day']) * $oldLopDays;
-        }
-
-        if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
-            $lop = ($newLop + $oldLop) / 2;
-        } else {
-            $lop = $newLop;
-        }
-
-        $totalDeductions =
-            numberformat($salary_slip_details['income_tax']) +
-            numberformat($salary_slip_details['pf']) +
-            numberformat($salary_slip_details['pt']) +
-            $lop;
-        $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions);
-
-        function AmountInWords(float $amount)
-        {
-            $amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
-            // Check if there is any number after decimal
-            $amt_hundred = null;
-            $count_length = strlen($num);
-            $x = 0;
-            $string = [];
-            $change_words = [
-                0 => '',
-                1 => 'One',
-                2 => 'Two',
-                3 => 'Three',
-                4 => 'Four',
-                5 => 'Five',
-                6 => 'Six',
-                7 => 'Seven',
-                8 => 'Eight',
-                9 => 'Nine',
-                10 => 'Ten',
-                11 => 'Eleven',
-                12 => 'Twelve',
-                13 => 'Thirteen',
-                14 => 'Fourteen',
-                15 => 'Fifteen',
-                16 => 'Sixteen',
-                17 => 'Seventeen',
-                18 => 'Eighteen',
-                19 => 'Nineteen',
-                20 => 'Twenty',
-                30 => 'Thirty',
-                40 => 'Forty',
-                50 => 'Fifty',
-                60 => 'Sixty',
-                70 => 'Seventy',
-                80 => 'Eighty',
-                90 => 'Ninety',
-            ];
-            $here_digits = ['', 'Hundred', 'Thousand', 'Lakh', 'Crore'];
-            while ($x < $count_length) {
-                $get_divider = $x == 2 ? 10 : 100;
-                $amount = floor($num % $get_divider);
-                $num = floor($num / $get_divider);
-                $x += $get_divider == 10 ? 1 : 2;
-                if ($amount) {
-                    $add_plural = ($counter = count($string)) && $amount > 9 ? 's' : null;
-                    $amt_hundred = $counter == 1 && $string[0] ? ' and ' : null;
-                    $string[] =
-                        $amount < 21
-                            ? $change_words[$amount] .
-                                ' ' .
-                                $here_digits[$counter] .
-                                $add_plural .
-                                '
-       ' .
-                                $amt_hundred
-                            : $change_words[floor($amount / 10) * 10] .
-                                ' ' .
-                                $change_words[$amount % 10] .
-                                '
-       ' .
-                                $here_digits[$counter] .
-                                $add_plural .
-                                ' ' .
-                                $amt_hundred;
-                } else {
-                    $string[] = null;
-                }
-            }
-            $implode_to_Rupees = implode('', array_reverse($string));
-            $get_paise =
-                $amount_after_decimal > 0
-                    ? 'And ' .
-                        ($change_words[$amount_after_decimal / 10] .
-                            "
-   " .
-                            $change_words[$amount_after_decimal % 10]) .
-                        ' Paise'
-                    : '';
-            return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
-        }
-    @endphp
+    }
+    $implode_to_Rupees = implode('', array_reverse($string));
+    $get_paise =
+        $amount_after_decimal > 0
+            ? 'And ' .
+                ($change_words[$amount_after_decimal / 10] .
+                    "
+" .
+                    $change_words[$amount_after_decimal % 10]) .
+                ' Paise'
+            : '';
+    return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
+}
+@endphp
 <body>
 
 
