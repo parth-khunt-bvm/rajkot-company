@@ -102,6 +102,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/salary/ajaxcall', [SalaryController::class, 'ajaxcall'])->name('admin.salary.ajaxcall');
     Route::get('admin/salary/view/{id}', [SalaryController::class, 'view'])->name('admin.salary.view');
     Route::post('admin/salary/save-import-salary', [SalaryController::class, 'save_import'])->name('admin.salary.save-import-salary');
+    Route::get('admin/salary/deleted', [SalaryController::class, 'showDeletedData'])->name('admin.salary.deleted');
+
 
     // salary Increment
 
@@ -171,6 +173,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/brand/save-add-brand', [BrandController::class, 'saveAdd'])->name('admin.brand.save-add-brand');
     Route::get('admin/brand/edit/{id}', [BrandController::class, 'edit'])->name('admin.brand.edit');
     Route::post('admin/brand/save-edit-expense', [BrandController::class,   'saveEdit'])->name('admin.brand.save-edit-brand');
+    Route::get('admin/brand/deleted', [BrandController::class, 'showDeletedData'])->name('admin.brand.deleted');
+
 
     //asset master
     Route::get('admin/asset-master/list', [AssetMasterController::class, 'list'])->name('admin.assets-master.list');
@@ -180,6 +184,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/asset-master/edit/{id}', [AssetMasterController::class, 'edit'])->name('admin.asset-master.edit');
     Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
     Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
+    Route::get('admin/asset-master/deleted', [AssetMasterController::class, 'showDeletedData'])->name('admin.asset-master.deleted');
+
 
     //asset allocation
     Route::get('admin/asset-allocation/list', [AssetAllocationController::class, 'list'])->name('admin.asset-allocation.list');
@@ -198,6 +204,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/expense/ajaxcall', [ExpenseController::class, 'ajaxcall'])->name('admin.expense.ajaxcall');
     Route::get('admin/expense/view/{id}', [ExpenseController::class, 'view'])->name('admin.expense.view');
     Route::post('admin/expense/save-import-expense', [ExpenseController::class, 'save_import'])->name('admin.expense.save-import-expense');
+    Route::get('admin/expense/deleted', [ExpenseController::class, 'showDeletedData'])->name('admin.expense.deleted');
 
     // Revenue
     Route::get('admin/revenue/list', [RevenueController::class, 'list'])->name('admin.revenue.list');
@@ -208,6 +215,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/revenue/ajaxcall', [RevenueController::class, 'ajaxcall'])->name('admin.revenue.ajaxcall');
     Route::get('admin/revenue/view/{id}', [RevenueController::class, 'view'])->name('admin.revenue.view');
     Route::post('admin/revenue/save-import-revenue', [RevenueController::class, 'save_import'])->name('admin.revenue.save-import-revenue');
+    Route::get('admin/revenue/deleted', [RevenueController::class, 'showDeletedData'])->name('admin.revenue.deleted');
+
 
     //  Hr income
     Route::get('admin/hr/income/list', [HrIncomeController::class, 'list'])->name('admin.hr.income.list');
@@ -351,6 +360,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('admin.supplier.edit');
     Route::post('admin/supplier/save-edit-supplier', [SupplierController::class, 'saveEdit'])->name('admin.supplier.save-edit-supplier');
     Route::get('admin/supplier/view/{id}', [SupplierController::class, 'view'])->name('admin.supplier.view');
+    Route::get('admin/supplier/deleted', [SupplierController::class, 'showDeletedData'])->name('admin.supplier.deleted');
+
 
 
     //Employee Overtime

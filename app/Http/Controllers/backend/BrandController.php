@@ -124,6 +124,12 @@ class BrandController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-brand-trash':
+                $objBrand = new Brand();
+                $list = $objBrand->getBrandDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'common-activity':
                 $objBrand = new Brand();
                 $data = $request->input('data');
@@ -132,12 +138,17 @@ class BrandController extends Controller
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
                         $return['message'] = "Brand's details successfully deleted.";
-                    }elseif($data['activity'] == 'active-records'){
+                        $return['redirect'] = route('admin.brand.list');
+                    }else if($data['activity'] == 'restore-records'){
+                        $return['message'] = "Brand's details successfully restore.";
+                        $return['redirect'] = route('admin.brand.deleted');
+                    }else if($data['activity'] == 'active-records'){
                         $return['message'] = "Brand's details successfully actived.";
+                        $return['redirect'] = route('admin.brand.list');
                     }else{
                         $return['message'] = "Brand's details successfully deactived.";
+                        $return['redirect'] = route('admin.brand.list');
                     }
-                    $return['redirect'] = route('admin.brand.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -211,5 +222,42 @@ class BrandController extends Controller
         }
         echo json_encode($return);
         exit;
+    }
+
+    public function showDeletedData()
+    {
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Brand Deleted List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Brand Deleted List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Brand Deleted List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'brand.js',
+        );
+        $data['funinit'] = array(
+            'Brand.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Brand Deleted List',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Brand Deleted List' => 'Brand Deleted List',
+            )
+        );
+        return view('backend.pages.brand.trash',$data);
     }
 }

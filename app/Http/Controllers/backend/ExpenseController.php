@@ -219,7 +219,12 @@ class ExpenseController extends Controller
             case 'getdatatable':
                 $objExpense = new Expense();
                 $list = $objExpense->getdatatable($request->input('data'));
+                echo json_encode($list);
+                break;
 
+            case 'get-expense-trash':
+                $objExpense = new Expense();
+                $list = $objExpense->getExpenseDatatable($request->input('data'));
                 echo json_encode($list);
                 break;
 
@@ -231,8 +236,11 @@ class ExpenseController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Expense details successfully deleted.";
-                    } 
-                    $return['redirect'] = route('admin.expense.list');
+                        $return['redirect'] = route('admin.expense.list');
+                    } else if($data['activity'] == 'restore-records'){
+                        $return['message'] = "Expense details successfully restore.";
+                        $return['redirect'] = route('admin.expense.deleted');
+                    }
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -331,4 +339,52 @@ class ExpenseController extends Controller
             exit;
         }
     }
+
+    public function showDeletedData(Request $request)
+    {
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objType = new Type();
+        $data['type'] = $objType->get_admin_type_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Expense Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Expense Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Expense Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'expense.js',
+        );
+        $data['funinit'] = array(
+            'Expense.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Expense Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Expense Deleted list' => 'Expense Deleted list',
+            )
+        );
+        return view('backend.pages.expense.trash', $data);
+
+    }
+
+
 }

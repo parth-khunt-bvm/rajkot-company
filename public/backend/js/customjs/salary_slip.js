@@ -252,16 +252,45 @@ var SalarySlip = function(){
 
                     var selectedEmployeeId = $(this).val();
 
-                    var selectedEmployee = Employee.find(function (employee) {
-                        return employee.id == selectedEmployeeId;
+                    var data = { 'selectedEmployeeId': selectedEmployeeId, _token: $('#_token').val() };
+                    $.ajax({
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                        },
+                        url: baseurl + "admin/employee-salaryslip/ajaxcall",
+                        data: { 'action': 'get-employee-old-salary', 'data': data },
+                        success: function (data) {
+                           var salaryIncrement =  JSON.parse(data);
+
+                           console.log("salary_increment",salaryIncrement['previous_salary']);
+
+                           if(salaryIncrement == null){
+
+                            var selectedEmployeeId = $(this).val();
+
+                            var selectedEmployee = Employee.find(function (employee) {
+                                return employee.id == selectedEmployeeId;
+                            });
+
+                            if (selectedEmployee) {
+                                $("#basic").val(selectedEmployee.salary);
+                                salaryCount();
+                            }
+
+
+                           }else {
+                            $("#basic").val(salaryIncrement['previous_salary']);
+
+
+                           }
+                        },
                     });
 
-                    if (selectedEmployee) {
-                        $("#basic").val(selectedEmployee.salary);
-                        salaryCount();
-                    }
 
                     });
+
+
 
                 },
             });
@@ -276,6 +305,7 @@ var SalarySlip = function(){
         };
 
         $("body").on("change","#salarySlipMonthId",function(){
+
             var currentYear = new Date().getFullYear();
             var month = $(this).val();
             var html = '<option  value="">Select Salary Slip Year </option>';
@@ -292,6 +322,55 @@ var SalarySlip = function(){
             }else{
                 $("#SalarySlipYearId").removeAttr("disabled");
             }
+
+            var data = { 'month': month, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee-salaryslip/ajaxcall",
+                data: { 'action': 'get-salary-increment-date', 'data': data },
+                success: function (data) {
+                   var salaryIncrement =  JSON.parse(data);
+
+                   console.log();
+
+                   if(salaryIncrement == null){
+                    var html = '';
+                    $(".salary-icrement").html(html);
+
+                   }else {
+
+                    var html = '';
+                    html =  '<div class="col-12">'+
+                    '<div class="row">'+
+                    '<div class="col-4">'+
+                    '<div class="form-group">'+
+                    '<label class="" for="exampleSelect1">BASIC SALARY <span class="text-danger">*</span></label>'+
+                    '<input class="form-control " type="number" id="basic" value="'+salaryIncrement['current_salary']+'" name="basic_old">'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="col-4">'+
+                    '<div class="form-group">'+
+                    '<label class="" for="exampleSelect1">WORKING DAY <span class="text-danger">*</span></label>'+
+                    '<input class="form-control " type="number" id="wd" value="0" name="wd_old">'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="col-4">'+
+                    '<div class="form-group">'+
+                    '<label class="" for="exampleSelect1">Loss Of Pay(LOP) <span class="text-danger">*</span></label>'+
+                    '<input class="form-control " type="number" id="lop" value="0" name="lop_old">'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'+
+                    ' </div>';
+
+                    $(".salary-icrement").html(html);
+
+                   }
+                },
+            });
         });
 
         $("body").on("change","#SalarySlipYearId",function(){

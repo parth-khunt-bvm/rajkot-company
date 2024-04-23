@@ -231,6 +231,12 @@ class SalaryController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-salary-trash':
+                $objSalary = new Salary();
+                $list = $objSalary->getSalaryDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'common-activity':
                 $data = $request->input('data');
                 $objSalary = new Salary();
@@ -239,12 +245,17 @@ class SalaryController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Salary details successfully deleted.";
+                        $return['redirect'] = route('admin.salary.list');
+                    } else if($data['activity'] == 'restore-records'){
+                        $return['message'] = "Revenue details successfully restore.";
+                        $return['redirect'] = route('admin.salary.deleted');
                     } elseif ($data['activity'] == 'active-records') {
                         $return['message'] = "Salary details successfully actived.";
+                        $return['redirect'] = route('admin.salary.list');
                     } else {
                         $return['message'] = "Salary details successfully deactived.";
+                        $return['redirect'] = route('admin.salary.list');
                     }
-                    $return['redirect'] = route('admin.salary.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -310,5 +321,53 @@ class SalaryController extends Controller
 
         echo json_encode($return);
         exit;
+    }
+
+    public function showDeletedData(Request $request)
+    {
+        $objManager = new Manager();
+        $data['manager'] = $objManager->get_admin_manager_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objTechnology = new Technology();
+        $data['technology'] = $objTechnology->get_admin_technology_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Salary Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Salary Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Salary Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'pages/crud/forms/widgets/select2.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'salary.js',
+        );
+        $data['funinit'] = array(
+            'Salary.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Salary Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Salary Deleted list' => 'Salary Deleted list',
+            )
+        );
+        return view('backend.pages.salary.trash', $data);
+
     }
 }

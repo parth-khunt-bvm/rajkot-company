@@ -186,6 +186,12 @@ class SupplierController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-supplier-trash':
+                $objSupplier = new Supplier();
+                $list = $objSupplier->getSupplierDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'supplier-view':
                 $objSupplier = new Supplier();
                 $list = $objSupplier->get_Supplier_details($request->input('data'));
@@ -200,12 +206,17 @@ class SupplierController extends Controller
                     $return['status'] = 'success';
                     if($data['activity'] == 'delete-records'){
                         $return['message'] = 'Supplier details successfully deleted.';;
+                        $return['redirect'] = route('admin.supplier.list');
                     }elseif($data['activity'] == 'active-records'){
                         $return['message'] = 'Supplier details successfully actived.';;
+                        $return['redirect'] = route('admin.supplier.list');
+                    }elseif($data['activity'] == 'restore-records'){
+                        $return['message'] = "Supplier details successfully restore.";
+                        $return['redirect'] = route('admin.supplier.deleted');
                     }else{
                         $return['message'] = 'Supplier details successfully deactived.';;
+                        $return['redirect'] = route('admin.supplier.list');
                     }
-                    $return['redirect'] = route('admin.supplier.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -258,4 +269,43 @@ class SupplierController extends Controller
             return redirect()->route('admin.supplier.list');
         }
     }
+
+
+    public function showDeletedData(){
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Supplier Deleted List';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Supplier Deleted List';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Supplier Deleted List';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'supplier.js',
+        );
+        $data['funinit'] = array(
+            'Supplier.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Supplier Deleted List',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'Supplier Deleted List' => 'Supplier Deleted List',
+            )
+        );
+        return view('backend.pages.supplier.trash', $data);
+    }
+
+
+
 }

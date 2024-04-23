@@ -121,6 +121,7 @@ class SalarySlip extends Model
     public function saveAdd($requestData)
     {
 
+
         $checkSalarySlip = SalarySlip::from('salary_slip')
             ->where("month", $requestData->input('month'))
             ->where("year", $requestData->input('year'))
@@ -139,6 +140,9 @@ class SalarySlip extends Model
             $objSalaryslip->basic_salary = $requestData['basic'];
             $objSalaryslip->working_day = $requestData['wd'];
             $objSalaryslip->loss_of_pay = $requestData['lop'];
+            $objSalaryslip->old_basic_salary = $requestData['basic_old'] ?? '-';
+            $objSalaryslip->old_working_day = $requestData['wd_old'] ?? '-';
+            $objSalaryslip->old_loss_of_pay = $requestData['lop_old'] ?? '-';
             $objSalaryslip->house_rent_allow_pr = $requestData['hra_pr'];
             $objSalaryslip->house_rent_allow = $requestData['hra'];
             $objSalaryslip->income_tax_pr = $requestData['income_tax_pr'];
@@ -211,7 +215,7 @@ class SalarySlip extends Model
             ->join("employee", "employee.id", "=", "salary_slip.employee")
             ->join("designation", "designation.id", "=", "salary_slip.designation")
             ->join("technology", "technology.id", "=", "salary_slip.department")
-            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
+            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.old_basic_salary', 'salary_slip.old_working_day', 'salary_slip.old_loss_of_pay','salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
             ->where('salary_slip.id', $id)
             ->where("salary_slip.is_deleted", "=", "N")
             ->first();
@@ -223,7 +227,7 @@ class SalarySlip extends Model
             ->join("employee", "employee.id", "=", "salary_slip.employee")
             ->join("designation", "designation.id", "=", "salary_slip.designation")
             ->join("technology", "technology.id", "=", "salary_slip.department")
-            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
+            ->select('salary_slip.id', 'salary_slip.department', 'salary_slip.designation', 'salary_slip.employee', 'salary_slip.month', 'salary_slip.year', 'salary_slip.pay_salary_date', 'salary_slip.basic_salary', 'salary_slip.working_day', 'salary_slip.loss_of_pay', 'salary_slip.old_basic_salary', 'salary_slip.old_working_day', 'salary_slip.old_loss_of_pay', 'salary_slip.house_rent_allow_pr', 'salary_slip.house_rent_allow', 'salary_slip.income_tax_pr', 'salary_slip.income_tax', 'salary_slip.pf_pr', 'salary_slip.pf', 'salary_slip.pt_pr', 'salary_slip.pt', 'employee.first_name', 'employee.last_name')
             ->where('salary_slip.employee', $id)
             ->where('employee.id', 'salary_slip.employee')
             ->where("salary_slip.is_deleted", "=", "N")

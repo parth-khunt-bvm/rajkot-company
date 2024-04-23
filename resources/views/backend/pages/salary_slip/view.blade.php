@@ -6,10 +6,33 @@
 // dd($data['salaryCount']);
 
 $month= ["","January","February","March","April","May","June","July","August","September","October","November","December"];
-$grossEarnings =  numberformat($salary_slip_details['basic_salary']) + numberformat($salary_slip_details['house_rent_allow']) ;
-$lop = numberformat($grossEarnings) / $salary_slip_details['working_day'] * $salary_slip_details['loss_of_pay'];
+$basicSalary =($salary_slip_details['basic_salary'] + $salary_slip_details['old_basic_salary']) / 2;
+
+$oldgrossEarnings =  $salary_slip_details['old_basic_salary'] + numberformat($salary_slip_details['house_rent_allow']) ;
+$newgrossEarnings =  $salary_slip_details['basic_salary'] + numberformat($salary_slip_details['house_rent_allow']) ;
+
+$grossEarnings = ($oldgrossEarnings + $newgrossEarnings) / 2;
+
+$lopdays = $salary_slip_details['loss_of_pay'] + $salary_slip_details['old_loss_of_pay'];
+
+$newLopDays = $salary_slip_details['loss_of_pay'];
+
+$oldLopDays = $salary_slip_details['old_loss_of_pay'];
+
+    $newLop = numberformat($newgrossEarnings) / $salary_slip_details['working_day'] * $newLopDays;
+
+    $oldLop = numberformat($oldgrossEarnings) / $salary_slip_details['old_working_day'] * $oldLopDays;
+
+$lop = $newLop + $oldLop ;
+
+
 $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
 $totalNetPayble = numberformat($grossEarnings) - numberformat($totalDeductions) ;
+
+
+
+
+
 
 function AmountInWords(float $amount)
 
@@ -162,11 +185,11 @@ function AmountInWords(float $amount)
                                             <tbody>
                                             <tr>
                                                 <td>Paid Days</td>
-                                                <td class="text-start">: {{ $salary_slip_details['working_day'] }}</td>
+                                                <td class="text-start">: {{ $salary_slip_details['working_day'] + $salary_slip_details['old_working_day']}}</td>
                                             </tr>
                                             <tr>
                                                 <td>LOP Days</td>
-                                                <td class="text-start">: {{ $salary_slip_details['loss_of_pay'] }}</td>
+                                                <td class="text-start">: {{ $lopdays }}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -187,7 +210,7 @@ function AmountInWords(float $amount)
                                                     </thead>
                                                     <tr>
                                                         <td>Basic</td>
-                                                        <th class="text-right">₹{{ $salary_slip_details['basic_salary']}}</th>
+                                                        <th class="text-right">₹{{ $basicSalary }}</th>
                                                     </tr>
                                                     <tr>
                                                         <td>House Rent Allowance</td>

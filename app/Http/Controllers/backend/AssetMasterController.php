@@ -67,7 +67,6 @@ class AssetMasterController extends Controller
             )
         );
         return view('backend.pages.assetmaster.list', $data);
-
     }
 
     public function add()
@@ -200,6 +199,7 @@ class AssetMasterController extends Controller
             return redirect()->route('admin.assets-master.list');
         }
     }
+
     public function saveEdit(Request $request)
     {
         $objAssetMaster = new AssetMaster();
@@ -274,6 +274,12 @@ class AssetMasterController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'get-asset-master-trash':
+                $objAssetMaster = new AssetMaster();
+                $list = $objAssetMaster->getAssetMasterDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
+
             case 'asset-master-view';
                 $objAssetMaster = new AssetMaster();
                 $list = $objAssetMaster->get_asset_master_details_view($request->input('data'));
@@ -288,8 +294,11 @@ class AssetMasterController extends Controller
                     $return['status'] = 'success';
                     if ($data['activity'] == 'delete-records') {
                         $return['message'] = "Assets details successfully deleted.";
+                        $return['redirect'] = route('admin.assets-master.list');
+                    }else if($data['activity'] == 'restore-records'){
+                        $return['message'] = "Assets details successfully restore.";
+                        $return['redirect'] = route('admin.asset-master.deleted');
                     }
-                    $return['redirect'] = route('admin.assets-master.list');
                 } else {
                     $return['status'] = 'error';
                     $return['jscode'] = '$("#loader").hide();';
@@ -299,6 +308,56 @@ class AssetMasterController extends Controller
                 echo json_encode($return);
                 exit;
         }
+    }
+
+    public function showDeletedData(Request $request)
+    {
+        $objSupplier = new Supplier();
+        $data['suppier'] = $objSupplier->get_admin_suplier_details();
+
+        $objBrand = new Brand();
+        $data['brand'] = $objBrand->get_admin_brand_details();
+
+        $objBranch = new Branch();
+        $data['branch'] = $objBranch->get_admin_branch_details();
+
+        $objAsset = new Asset();
+        $data['asset'] = $objAsset->get_admin_asset_details();
+
+        $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master Deleted list';
+        $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master Deleted list';
+        $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Asset Master Deleted list';
+        $data['css'] = array(
+            'toastr/toastr.min.css'
+        );
+        $data['plugincss'] = array(
+            'plugins/custom/datatables/datatables.bundle.css'
+
+        );
+        $data['pluginjs'] = array(
+            'toastr/toastr.min.js',
+            'plugins/custom/datatables/datatables.bundle.js',
+            'pages/crud/datatables/data-sources/html.js',
+            'pages/crud/forms/widgets/select2.js',
+            'validate/jquery.validate.min.js',
+        );
+        $data['js'] = array(
+            'comman_function.js',
+            'ajaxfileupload.js',
+            'jquery.form.min.js',
+            'assetmaster.js',
+        );
+        $data['funinit'] = array(
+            'AssetMaster.trash_init()',
+        );
+        $data['header'] = array(
+            'title' => 'Asset Master Deleted list',
+            'breadcrumb' => array(
+                'Dashboard' => route('my-dashboard'),
+                'AssetMaster Deleted list' => 'Asset Master Deleted list',
+            )
+        );
+        return view('backend.pages.assetmaster.trash', $data);
     }
 
 }
