@@ -263,7 +263,9 @@ var SalarySlip = function(){
                         success: function (data) {
                            var salaryIncrement =  JSON.parse(data);
 
-                           console.log("salary_increment",salaryIncrement['previous_salary']);
+                           console.log(salaryIncrement);
+
+                           console.log("salary_increment",salaryIncrement['previous_salary'],salaryIncrement['previous_salary']);
 
                            if(salaryIncrement == null){
 
@@ -280,6 +282,7 @@ var SalarySlip = function(){
 
 
                            }else {
+
                             $("#basic").val(salaryIncrement['previous_salary']);
 
 
@@ -308,6 +311,7 @@ var SalarySlip = function(){
 
             var currentYear = new Date().getFullYear();
             var month = $(this).val();
+            var employee = $("#employeeSalarySlipId").val();
             var html = '<option  value="">Select Salary Slip Year </option>';
             var temp_html = '';
             for (var i = 2015; i <= currentYear; i++) {
@@ -317,13 +321,12 @@ var SalarySlip = function(){
             $("#SalarySlipYearId").html(html);
 
             if(month == '' || month == null){
-
                 $("#SalarySlipYearId").attr("disabled","true");
             }else{
                 $("#SalarySlipYearId").removeAttr("disabled");
             }
 
-            var data = { 'month': month, _token: $('#_token').val() };
+            var data = { 'employee': employee,'month': month, _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {

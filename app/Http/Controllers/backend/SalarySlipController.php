@@ -351,7 +351,7 @@ class SalarySlipController extends Controller
             case 'get-salary-increment-date':
                 $objSalaryIncrement = new SalaryIncrement();
                 $data = $request->input('data');
-                $list = $objSalaryIncrement->get_admin_Salary_increment_details($data['month']);
+                $list = $objSalaryIncrement->get_admin_Salary_increment_details($data['month'], $data['employee']);
                 echo json_encode($list);
                 break;
 
