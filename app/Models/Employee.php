@@ -593,6 +593,7 @@ class Employee extends Authenticatable
              ->select('employee.id','employee.first_name','employee.last_name','employee.salary')
              ->where('employee.department', $departmentId)
              ->where('employee.designation', $designationId)
+             ->where("employee.is_deleted", "=", "N")
              ->get();
     }
 

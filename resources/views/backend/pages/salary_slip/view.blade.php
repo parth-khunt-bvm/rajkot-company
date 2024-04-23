@@ -23,7 +23,7 @@ $oldLopDays = $salary_slip_details['old_loss_of_pay'];
 
     $oldLop = numberformat($oldgrossEarnings) / $salary_slip_details['old_working_day'] * $oldLopDays;
 
-$lop = $newLop + $oldLop ;
+$lop = ($newLop + $oldLop) / 2 ;
 
 
 $totalDeductions =  numberformat($salary_slip_details['income_tax']) + numberformat($salary_slip_details['pf']) + numberformat($salary_slip_details['pt']) + $lop;
