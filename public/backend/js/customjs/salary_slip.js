@@ -347,6 +347,7 @@ var SalarySlip = function(){
 
                     var html = '';
                     html =  '<div class="col-12">'+
+                    '<h3 class="card-title">Increment</h3>'+
                     '<div class="row">'+
                     '<div class="col-4">'+
                     '<div class="form-group">'+
