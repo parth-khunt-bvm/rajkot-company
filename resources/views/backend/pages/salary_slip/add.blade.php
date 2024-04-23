@@ -113,8 +113,8 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="salary-icrement">
-                                
                             </div>
 
                             <div class="row">

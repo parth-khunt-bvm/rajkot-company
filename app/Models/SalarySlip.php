@@ -140,9 +140,9 @@ class SalarySlip extends Model
             $objSalaryslip->basic_salary = $requestData['basic'];
             $objSalaryslip->working_day = $requestData['wd'];
             $objSalaryslip->loss_of_pay = $requestData['lop'];
-            $objSalaryslip->old_basic_salary = $requestData['basic_old'] ?? '-';
-            $objSalaryslip->old_working_day = $requestData['wd_old'] ?? '-';
-            $objSalaryslip->old_loss_of_pay = $requestData['lop_old'] ?? '-';
+            $objSalaryslip->old_basic_salary = $requestData['basic_old'] ?? null;
+            $objSalaryslip->old_working_day = $requestData['wd_old'] ?? null;
+            $objSalaryslip->old_loss_of_pay = $requestData['lop_old'] ?? null;
             $objSalaryslip->house_rent_allow_pr = $requestData['hra_pr'];
             $objSalaryslip->house_rent_allow = $requestData['hra'];
             $objSalaryslip->income_tax_pr = $requestData['income_tax_pr'];
@@ -188,6 +188,9 @@ class SalarySlip extends Model
             $objSalaryslip->basic_salary = $requestData['basic'];
             $objSalaryslip->working_day = $requestData['wd'];
             $objSalaryslip->loss_of_pay = $requestData['lop'];
+            $objSalaryslip->old_basic_salary = $requestData['basic_old'] ?? null;
+            $objSalaryslip->old_working_day = $requestData['wd_old'] ?? null;
+            $objSalaryslip->old_loss_of_pay = $requestData['lop_old'] ?? null;
             $objSalaryslip->house_rent_allow_pr = $requestData['hra_pr'];
             $objSalaryslip->house_rent_allow = $requestData['hra'];
             $objSalaryslip->income_tax_pr = $requestData['income_tax_pr'];

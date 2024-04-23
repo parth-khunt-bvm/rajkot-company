@@ -118,6 +118,31 @@
                                     </div>
                                 </div>
                             </div>
+                               @if ($salary_slip_details['old_basic_salary'] !== null || $salary_slip_details['old_working_day'] !== null || $salary_slip_details['old_loss_of_pay'] !== null)
+                               <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label class="" for="exampleSelect1">BASIC SALARY <span class="text-danger">*</span></label>
+                                            <input class="form-control " type="number" id="basic" value="{{ $salary_slip_details->old_basic_salary }}" name="basic_old">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label class="" for="exampleSelect1">WORKING DAY <span class="text-danger">*</span></label>
+                                            <input class="form-control " type="number" id="wd" value="{{ $salary_slip_details->old_working_day }}" name="wd_old">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label class="" for="exampleSelect1">Loss Of Pay(LOP) <span class="text-danger">*</span></label>
+                                            <input class="form-control " type="number" id="lop" value="{{ $salary_slip_details->old_loss_of_pay }}" name="lop_old">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               @endif
+
 
                             <div class="row">
                                 <div class="col-lg-6">
