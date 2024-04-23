@@ -26,14 +26,22 @@
             'November',
             'December',
         ];
+            // dd($salary_slip_details);
 
         $oldgrossEarnings = $old_basic_salary + numberformat($salary_slip_details['house_rent_allow']);
-        $newgrossEarnings =
-            $salary_slip_details['basic_salary'] + numberformat($salary_slip_details['house_rent_allow']);
+        $newgrossEarnings = $salary_slip_details['basic_salary'] + numberformat($salary_slip_details['house_rent_allow']);
 
         if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
-            $basicSalary = ($salary_slip_details['basic_salary'] + $old_basic_salary) / 2;
-            $grossEarnings = ($oldgrossEarnings + $newgrossEarnings) / 2;
+            $daySalary = $salary_slip_details['basic_salary'] / ($salary_slip_details['working_day'] + $salary_slip_details['old_working_day']);
+            $totalSalary = $daySalary * $salary_slip_details['working_day'];
+
+            $olddaySalary = $salary_slip_details['old_basic_salary'] / ($salary_slip_details['working_day'] + $salary_slip_details['old_working_day']);
+            $oldtotalSalary = $olddaySalary * $salary_slip_details['old_working_day'];
+
+             $basicSalary = $totalSalary + $oldtotalSalary;
+
+            // $basicSalary = ($salary_slip_details['basic_salary'] + $old_basic_salary) / 2;
+            $grossEarnings = $basicSalary  + numberformat($salary_slip_details['house_rent_allow']);
         } else {
             $basicSalary = $salary_slip_details['basic_salary'] + $old_basic_salary;
             $grossEarnings = $oldgrossEarnings + $newgrossEarnings;
@@ -53,7 +61,7 @@
         }
 
         if ($salary_slip_details['working_day'] !== null && $salary_slip_details['old_working_day'] !== null) {
-            $lop = ($newLop + $oldLop) / 2;
+            $lop = ($daySalary * $salary_slip_details['loss_of_pay']) + ($olddaySalary * $salary_slip_details['old_loss_of_pay'])  ;
         } else {
             $lop = $newLop;
         }
@@ -293,7 +301,7 @@
                                                         </thead>
                                                         <tr>
                                                             <td>Basic</td>
-                                                            <th class="text-right">₹{{ $basicSalary }}</th>
+                                                            <th class="text-right">₹{{ numberformat ($basicSalary, ',') }}</th>
                                                         </tr>
                                                         <tr>
                                                             <td>House Rent Allowance</td>
