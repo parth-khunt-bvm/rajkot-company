@@ -115,7 +115,7 @@ class Countersheet extends Model
             // $nestedData[] = '723723';
                 // Calculate Payee Days
             $payeeDays = $row['totalWorkingDays'];
-            if ($totalAbsence > 1) {
+            if ($totalAbsence >= 1) {
                 $payeeDays = $row['totalWorkingDays'] + 1; // Deduct the extra absence days (above 1) from total working days
             }
             $nestedData[] = $payeeDays;
