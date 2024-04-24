@@ -140,7 +140,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label class="" for="exampleSelect1">BASIC SALARY <span
+                                                <label class="" for="exampleSelect1">Basic Salary <span
                                                         class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="basic"
                                                     value="{{ $salary_slip_details->basic_salary }}" name="basic">
@@ -148,7 +148,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label class="" for="exampleSelect1">WORKING DAY <span
+                                                <label class="" for="exampleSelect1">Working Day <span
                                                         class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="wd"
                                                     value="{{ $salary_slip_details->working_day }}" name="wd">
@@ -169,11 +169,11 @@
                                         $salary_slip_details['old_working_day'] !== null ||
                                         $salary_slip_details['old_loss_of_pay'] !== null)
                                     <div class="col-12">
-                                        <h3 class="card-title">Increment</h3>
+                                        <h4 class="card-title">AFTER INCREMENT</h4>
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label class="" for="exampleSelect1">BASIC SALARY <span
+                                                    <label class="" for="exampleSelect1">Basic Salary <span
                                                             class="text-danger">*</span></label>
                                                     <input class="form-control " type="number" id="basic"
                                                         value="{{ $salary_slip_details->old_basic_salary }}"
@@ -182,7 +182,7 @@
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label class="" for="exampleSelect1">WORKING DAY <span
+                                                    <label class="" for="exampleSelect1">Working Day <span
                                                             class="text-danger">*</span></label>
                                                     <input class="form-control " type="number" id="wd"
                                                         value="{{ $salary_slip_details->old_working_day }}"
@@ -209,7 +209,7 @@
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group">
-                                                            <label>HOUSE RENT ALLOWANCE(%) <span
+                                                            <label>House Rent Allowance(%) <span
                                                                     class="text-danger">*</span></label>
                                                             <input class="form-control " type="number" id="hra_pr"
                                                                 value="{{ $salary_slip_details->house_rent_allow_pr }}"
@@ -218,7 +218,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-group">
-                                                            <label>HOUSE RENT ALLOWANCE(Amount) <span
+                                                            <label>House Rent Allowance(Amount) <span
                                                                     class="text-danger">*</span></label>
                                                             <input class="form-control " type="number" id="hra"
                                                                 value="{{ $salary_slip_details->house_rent_allow }}"
@@ -231,7 +231,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="col-12">
-                                            <h3 class="card-title">Income Tax</h3>
+                                            <h3 class="card-title">INCOME TAX</h3>
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
@@ -259,7 +259,7 @@
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-12">
-                                                <h3 class="card-title">Provident Fund </h3>
+                                                <h3 class="card-title">PROVIDENT FUND </h3>
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group">
@@ -282,13 +282,13 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="row">
+                                        <div class="row ml-1">
                                             <div class="col-12">
-                                                <h3 class="card-title">PROFESSIONAL Tax</h3>
+                                                <h3 class="card-title">PROFESSIONAL TAX</h3>
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group">
-                                                            <label>PROFESSIONAL Tax(%) <span
+                                                            <label>Professional Tax(%) <span
                                                                     class="text-danger">*</span></label>
                                                             <input class="form-control " type="number" id="pro_tax_pr"
                                                                 value="{{ $salary_slip_details->pt_pr }}"
@@ -297,7 +297,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-group">
-                                                            <label>PROFESSIONAL Tax(Amount) <span
+                                                            <label>Professional Tax(Amount) <span
                                                                     class="text-danger">*</span></label>
                                                             <input class="form-control " type="number" id="pro_tax"
                                                                 value="{{ $salary_slip_details->pt }}" name="pro_tax">

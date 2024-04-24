@@ -95,13 +95,13 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label class="" for="exampleSelect1">BASIC SALARY <span class="text-danger">*</span></label>
+                                            <label class="" for="exampleSelect1">Basic Salary <span class="text-danger">*</span></label>
                                             <input class="form-control " type="number" id="basic" value="0" name="basic">
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label class="" for="exampleSelect1">WORKING DAY <span class="text-danger">*</span></label>
+                                            <label class="" for="exampleSelect1">Working Day <span class="text-danger">*</span></label>
                                             <input class="form-control " type="number" id="wd" value="0" name="wd">
                                         </div>
                                     </div>
@@ -123,20 +123,20 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label>HOUSE RENT ALLOWANCE(%) <span class="text-danger">*</span></label>
+                                                <label>House Rent Allowance(%) <span class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="hra_pr" value="0" name="hra_pr">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label>HOUSE RENT ALLOWANCE(Amount) <span class="text-danger">*</span></label>
+                                                <label>House Rent Allowance(Amount) <span class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="hra" value="0" name="hra">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <h3 class="card-title">Income Tax</h3>
+                                    <h3 class="card-title">INCOME TAX</h3>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
@@ -156,7 +156,7 @@
 
                             <div class="row ml-1">
                                 <div class="col-6">
-                                    <h3 class="card-title">Provident Fund </h3>
+                                    <h3 class="card-title">PROVIDENT FUND </h3>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
@@ -177,13 +177,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label>PROFESSIONAL Tax(%) <span class="text-danger">*</span></label>
+                                                <label>Professional Tax(%) <span class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="pro_tax_pr" value="0" name="pro_tax_pr">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label>PROFESSIONAL Tax(Amount) <span class="text-danger">*</span></label>
+                                                <label>Professional Tax(Amount) <span class="text-danger">*</span></label>
                                                 <input class="form-control " type="number" id="pro_tax" value="0" name="pro_tax">
                                             </div>
                                         </div>

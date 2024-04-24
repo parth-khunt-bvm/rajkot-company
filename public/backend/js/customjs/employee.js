@@ -906,6 +906,8 @@ var Employee = function () {
                 var year = $("#yearId").val();
 
                 var data = { 'type': type, 'userId': userId, 'month': month, 'year': year }
+
+                console.log(data);
                 $.ajax({
                     type: "POST",
                     headers: {
