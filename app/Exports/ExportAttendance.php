@@ -24,14 +24,14 @@ class ExportAttendance implements FromCollection, WithHeadings
     }
 
     public function headings():array{
-        $headingArray  = ['P', '','' ];
-
-        ccd($this->month." - ".$this->year);
+        $headingArray  = ['Employee', 'Department','Total Working Day', 'Present Day',  'Absent Day', 'Half Leave', 'Short Leave', 'Overtime(Hrs.)', 'Total Working Day'];
+        return $headingArray;
     }
 
     public function collection()
     {
         $objCounter = new Countersheet();
-        return $objCounter->counterSheetPdf($this->technology, $this->month, $this->year);
+        $aaa = $objCounter->counterSheetExcel($this->technology, $this->month, $this->year);
+        return $aaa;
     }
 }

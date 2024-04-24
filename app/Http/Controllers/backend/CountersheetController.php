@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Exports\CounterSheetExport;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -223,6 +224,12 @@ class CountersheetController extends Controller
 
         return Excel::download(new ExportAttendance($technology, $month, $data['year']), 'Counter-sheet-for - '.$data['branch'].'-'.$data['technology'].' - '.$data['month'].'-'.$data['year'].'.xlsx');
     }
+
+
+    // public function export()
+    // {
+    //     return Excel::download(new CounterSheetExport, 'CounterSheet.xlsx');
+    // }
 
 
 }
