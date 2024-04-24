@@ -116,7 +116,7 @@ class EmployeeController extends Controller
                 'Employee.add()'
             );
             $data['header'] = array(
-                'title' => 'Add Employee',
+                'title' => 'ADD EMPLOYEE',
                 'breadcrumb' => array(
                     'My Dashboard' => route('my-dashboard'),
                     'Employee List' => route('admin.employee.list'),
@@ -217,7 +217,7 @@ class EmployeeController extends Controller
                 'Employee.edit()'
             );
             $data['header'] = array(
-                'title' => 'Edit Employee',
+                'title' => 'EDIT EMPLOYEE',
                 'breadcrumb' => array(
                     'My Dashboard' => route('my-dashboard'),
                     'Employee List' => route('admin.employee.list'),
