@@ -351,13 +351,13 @@ var SalarySlip = function(){
                     '<div class="row">'+
                     '<div class="col-4">'+
                     '<div class="form-group">'+
-                    '<label class="" for="exampleSelect1">BASIC SALARY <span class="text-danger">*</span></label>'+
+                    '<label class="" for="exampleSelect1">Basic Salary <span class="text-danger">*</span></label>'+
                     '<input class="form-control " type="number" id="basic" value="'+salaryIncrement['current_salary']+'" name="basic_old">'+
                     '</div>'+
                     '</div>'+
                     '<div class="col-4">'+
                     '<div class="form-group">'+
-                    '<label class="" for="exampleSelect1">WORKING DAY <span class="text-danger">*</span></label>'+
+                    '<label class="" for="exampleSelect1">Working Day <span class="text-danger">*</span></label>'+
                     '<input class="form-control " type="number" id="wd" value="0" name="wd_old">'+
                     '</div>'+
                     '</div>'+
