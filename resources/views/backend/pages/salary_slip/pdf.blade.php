@@ -279,7 +279,7 @@ function AmountInWords(float $amount)
                             Paid Days
                         </td>
                         <td style="padding-left: 25px!important; padding-top: 5px!important;font-size: 14px!important; color:black">
-                            : {{ $salary_slip_details['working_day'] }}</td>
+                            : {{ $salary_slip_details['working_day'] + $salary_slip_details['old_working_day'] }}</td>
                     </tr>
 
                     <tr>
@@ -335,7 +335,7 @@ function AmountInWords(float $amount)
                     <tr>
                         <td style="text-align: left !important; font-size: small">Basic</td>
                         <td style="text-align: right !important; font-weight: bold;"><span
-                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat($salary_slip_details['basic_salary'])}}
+                                style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ numberformat ($basicSalary, ',') }}
                         </td>
                     </tr>
                 </table>
