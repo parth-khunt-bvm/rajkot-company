@@ -429,7 +429,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label> Month</label>
-                                    <select class="form-control select2 month change-fillter" id="monthId"
+                                    <select class="form-control select2 month change-fillter" id="EmpCalMonthId"
                                         name="month">
                                         <option value="">Select Month</option>
                                         <option value="1" {{ date('n') == 1 ? 'selected="selected"' : '' }}>January
@@ -462,7 +462,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>year</label>
-                                    <select class="form-control select2 year change-fillter" id="yearId"
+                                    <select class="form-control select2 year change-fillter" id="empCalYearId"
                                         name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)

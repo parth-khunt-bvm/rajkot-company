@@ -646,7 +646,7 @@ var Employee = function () {
                             '<div class="col-md-3">' +
                             '<div class="form-group">' +
                             '<label> Month</label>' +
-                            '<select class="form-control select2 month change-fillter" id="monthId" name="month">' +
+                            '<select class="form-control select2 month change-fillter" id="EmpCalMonthId" name="month">' +
                             '<option value="">Select Month</option>' +
                             '<option value="1" ' + (new Date().getMonth() + 1 === 1 ? 'selected="selected"' : '') + '>January</option>' +
                             '<option value="2" ' + (new Date().getMonth() + 1 === 2 ? 'selected="selected"' : '') + '>February</option>' +
@@ -666,7 +666,7 @@ var Employee = function () {
                             '<div class="col-md-3">' +
                             '<div class="form-group">' +
                             '<label> Year</label>' +
-                            '<select class="form-control select2 year change-fillter" id="yearId" name="year">' +
+                            '<select class="form-control select2 year change-fillter" id="empCalYearId" name="year">' +
                             '<option value="">Select Year</option>';
 
                         for (var i = 2019; i <= new Date().getFullYear(); i++) {
@@ -902,8 +902,8 @@ var Employee = function () {
 
                 $(".attendance-list").html(html);
 
-                var month = $('#monthId').val().padStart(2, '0');
-                var year = $("#yearId").val();
+                var month = $('#EmpCalMonthId').val().padStart(2, '0');
+                var year = $("#empCalYearId").val();
 
                 var data = { 'type': type, 'userId': userId, 'month': month, 'year': year }
 
