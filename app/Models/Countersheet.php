@@ -82,7 +82,9 @@ class Countersheet extends Model
                 'a.presentCount', 'a.absentCount', 'a.halfDayCount', 'a.sortLeaveCount', 'a.totalsortLeaveHours',
 
                 // Calculate total working days
-                DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
+                DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays'),
+
+
             )
             ->get();
         $data = array();
@@ -98,8 +100,10 @@ class Countersheet extends Model
             $nestedData[] = $row['technology_name'];
             $nestedData[] = $row['totalDays'];
             $nestedData[] = $row['presentCount'];
-            $nestedData[] = $row['absentCount'];
-            $nestedData[] = $row['halfDayCount'];
+             // Calculate the total absence including half days
+            $totalAbsence = $row['absentCount'] + ($row['halfDayCount'] * 0.5);
+            $nestedData[] = $totalAbsence;
+            // dd($totalAbsence - 1);
             if($row['totalsortLeaveHours'] != null){
                 $nestedData[] = $row['sortLeaveCount']." (".$row['totalsortLeaveHours'].")";
             } else {
@@ -108,6 +112,13 @@ class Countersheet extends Model
 
             $nestedData[] = numberformat($row['overTime']);
             $nestedData[] = $row['totalWorkingDays'];
+            // $nestedData[] = '723723';
+                // Calculate Payee Days
+            $payeeDays = $row['totalWorkingDays'];
+            if ($totalAbsence > 1) {
+                $payeeDays = $row['totalWorkingDays'] + 1; // Deduct the extra absence days (above 1) from total working days
+            }
+            $nestedData[] = $payeeDays;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }
