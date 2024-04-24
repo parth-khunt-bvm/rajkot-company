@@ -225,11 +225,4 @@ class CountersheetController extends Controller
         return Excel::download(new ExportAttendance($technology, $month, $data['year']), 'Counter-sheet-for - '.$data['branch'].'-'.$data['technology'].' - '.$data['month'].'-'.$data['year'].'.xlsx');
     }
 
-
-    // public function export()
-    // {
-    //     return Excel::download(new CounterSheetExport, 'CounterSheet.xlsx');
-    // }
-
-
 }
