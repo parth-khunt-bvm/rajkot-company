@@ -121,9 +121,23 @@ class Countersheet extends Model
             if ($row['absentDay'] > 1) {
                 $absentDay = $row['absentDay'] - 1;
                 $totalDays =  $row['totalDays'] - $absentDay;
+
+                if ($row['totalsortLeaveHours'] != null) {
+                    // Convert sort leave minutes to hours
+                    $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
+                    // dd($sortLeaveHours);
+                    // Subtract sort leave hours from total days
+                    $totalDays -= $sortLeaveHours;
+                }
+
+            }
+            if ($row['overTime'] > 0) {
+                $overtimeHours = $row['overTime'] / 8; // Convert overtime minutes to hours
+                $totalDays += $overtimeHours;
             }
 
             $nestedData[] = $totalDays;
+            // $nestedData[] = $a;
             $nestedData[] = $actionhtml;
             $data[] = $nestedData;
         }
