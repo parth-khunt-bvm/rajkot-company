@@ -43,7 +43,7 @@ class Countersheet extends Model
             FROM attendance WHERE MONTH(date) ='  . $fillterdata['month'] . ' AND YEAR(date) = ' . $fillterdata['year'] . '
             GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('a.employee_id', '!=', ' ')
-            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where('employee.is_deleted', 'N');
 
 
@@ -77,7 +77,8 @@ class Countersheet extends Model
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
             ->select(
-                'employee.id', 'technology.technology_name',
+                'employee.id',
+                'technology.technology_name',
                 DB::raw('IFNULL(o.overTime, 0) as overTime'),
                 DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
                 DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
@@ -88,7 +89,8 @@ class Countersheet extends Model
                 DB::raw('ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) as absentDay'),
 
                 'a.halfDayCount',
-                'a.sortLeaveCount', 'a.totalsortLeaveHours',
+                'a.sortLeaveCount',
+                'a.totalsortLeaveHours',
 
                 // Calculate total working days
                 DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
@@ -108,8 +110,8 @@ class Countersheet extends Model
             $nestedData[] = $row['totalDays'];
             $nestedData[] = $row['presentCount'];
             $nestedData[] = $row['absentDay'];
-            if($row['totalsortLeaveHours'] != null){
-                $nestedData[] = $row['sortLeaveCount']." (".$row['totalsortLeaveHours'].")";
+            if ($row['totalsortLeaveHours'] != null) {
+                $nestedData[] = $row['sortLeaveCount'] . " (" . $row['totalsortLeaveHours'] . ")";
             } else {
                 $nestedData[] = $row['sortLeaveCount'];
             }
@@ -118,19 +120,36 @@ class Countersheet extends Model
             $nestedData[] = $row['totalWorkingDays'];
 
             $totalDays = $row['totalDays'];
-            if ($row['absentDay'] > 1) {
-                $absentDay = $row['absentDay'] - 1;
-                $totalDays =  $row['totalDays'] - $absentDay;
+            if ($row['totalWorkingDays'] >= 15) {
+                if ($row['absentDay'] >= 1) {
+                    $absentDay = $row['absentDay'] - 1;
+                    $totalDays =  $row['totalDays'] - $absentDay;
 
-                if ($row['totalsortLeaveHours'] != null) {
-                    // Convert sort leave minutes to hours
-                    $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
-                    // dd($sortLeaveHours);
-                    // Subtract sort leave hours from total days
-                    $totalDays -= $sortLeaveHours;
+                    if ($row['totalsortLeaveHours'] != null) {
+                        // Convert sort leave minutes to hours
+                        $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
+                        // dd($sortLeaveHours);
+                        // Subtract sort leave hours from total days
+                        $totalDays -= $sortLeaveHours;
+                    }
+                }
+            } else {
+
+                if ($row['absentDay'] >= 1) {
+                    $absentDay = $row['absentDay'];
+                    $totalDays =  $row['totalDays'] - $absentDay;
+
+                    if ($row['totalsortLeaveHours'] != null) {
+                        // Convert sort leave minutes to hours
+                        $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
+                        // dd($sortLeaveHours);
+                        // Subtract sort leave hours from total days
+                        $totalDays -= $sortLeaveHours;
+                    }
                 }
 
             }
+
             if ($row['overTime'] > 0) {
                 $overtimeHours = $row['overTime'] / 8; // Convert overtime minutes to hours
                 $totalDays += $overtimeHours;
@@ -154,7 +173,7 @@ class Countersheet extends Model
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
 
-            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='.$month.' AND YEAR(date) = '.$year.' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) =' . $month . ' AND YEAR(date) = ' . $year . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
             ->leftJoin(\DB::raw('(SELECT employee_id,
             COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount,
             COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount,
@@ -164,7 +183,7 @@ class Countersheet extends Model
             FROM attendance WHERE MONTH(date) ='  . $month . ' AND YEAR(date) = ' . $year . '
             GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('a.employee_id', '!=', ' ')
-            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where('employee.is_deleted', 'N');
 
         if ($technology != null && $technology != '') {
@@ -172,15 +191,20 @@ class Countersheet extends Model
         }
 
         return $query->select(
-                'employee.id', 'technology.technology_name',
-                DB::raw('ROUND(IFNULL(o.overTime, 0), 1) as overTime'),
-                DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
-                DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
-                'a.presentCount', 'a.absentCount', 'a.halfDayCount', 'a.sortLeaveCount', 'a.totalsortLeaveHours',
+            'employee.id',
+            'technology.technology_name',
+            DB::raw('ROUND(IFNULL(o.overTime, 0), 1) as overTime'),
+            DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
+            DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+            'a.presentCount',
+            'a.absentCount',
+            'a.halfDayCount',
+            'a.sortLeaveCount',
+            'a.totalsortLeaveHours',
 
-                // Calculate total working days
-                DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
-            )->orderBy('full_name', 'ASC')->orderBy('technology_name', 'ASC')->get();
+            // Calculate total working days
+            DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
+        )->orderBy('full_name', 'ASC')->orderBy('technology_name', 'ASC')->get();
     }
 
     public function counterSheetExcel($technology, $month, $year)
@@ -188,7 +212,7 @@ class Countersheet extends Model
         $query = Employee::query()
             ->join('technology', 'technology.id', '=', 'employee.department')
 
-            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) ='.$month.' AND YEAR(date) = '.$year.' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
+            ->leftJoin(\DB::raw('(SELECT employee_id, SUM(hours) AS overTime FROM emp_overtime WHERE MONTH(date) =' . $month . ' AND YEAR(date) = ' . $year . ' GROUP BY employee_id) o'), 'o.employee_id', '=', 'employee.id')
             ->leftJoin(\DB::raw('(SELECT employee_id,
             COUNT(CASE WHEN attendance_type = "0" THEN 1  END) AS presentCount,
             COUNT(CASE WHEN attendance_type = "1" THEN 1  END) AS absentCount,
@@ -198,7 +222,7 @@ class Countersheet extends Model
             FROM attendance WHERE MONTH(date) ='  . $month . ' AND YEAR(date) = ' . $year . '
             GROUP BY employee_id) a'), 'a.employee_id', '=', 'employee.id')
             ->where('a.employee_id', '!=', ' ')
-            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']] )
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where('employee.is_deleted', 'N');
 
         if ($technology != null && $technology != '') {
@@ -207,25 +231,25 @@ class Countersheet extends Model
 
         return $query->select(
             DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
-                 'technology.technology_name',
-                 DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
-                 'a.presentCount',
-                //   'a.absentCount',
-                // 'a.halfDayCount',
-                DB::raw('CAST(a.absentCount AS CHAR) as absentCount'),
-                DB::raw('CAST(a.halfDayCount AS CHAR) as halfDayCount'),
+            'technology.technology_name',
+            DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+            'a.presentCount',
+            //   'a.absentCount',
+            // 'a.halfDayCount',
+            DB::raw('CAST(a.absentCount AS CHAR) as absentCount'),
+            DB::raw('CAST(a.halfDayCount AS CHAR) as halfDayCount'),
 
 
-                DB::raw('CONCAT(
+            DB::raw('CONCAT(
                      COALESCE(a.sortLeaveCount, 0),
                     "(", COALESCE(a.totalsortLeaveHours, 0),")"
                 ) AS sortLeaveInfo'),
-                DB::raw('ROUND(IFNULL(o.overTime, 0), 1) as overTime'),
+            DB::raw('ROUND(IFNULL(o.overTime, 0), 1) as overTime'),
 
 
 
-                // Calculate total working days
-                DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
-            )->orderBy('full_name', 'ASC')->orderBy('technology_name', 'ASC')->get();
+            // Calculate total working days
+            DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
+        )->orderBy('full_name', 'ASC')->orderBy('technology_name', 'ASC')->get();
     }
 }
