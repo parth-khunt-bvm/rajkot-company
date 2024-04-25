@@ -33,10 +33,10 @@ var Countersheet = function(){
             '<th>Total Working Day</th>'+
             '<th>Present Day</th>'+
             '<th>Absent Day</th>'+
-            '<th>Half leave</th>'+
             '<th>Short Leave</th>'+
             '<th>OverTime(Hrs</th>'+
-            '<th>Total Working Days</th>'+
+            '<th>Working Days</th>'+
+            '<th>payee days</th>'+
             '<th>Action</th>'+
             '</tr>'+
             '</thead>'+

@@ -101,7 +101,7 @@
                             <th>Absent Day</th>
                             <th>Short Leave</th>
                             <th>OverTime(Hrs.)</th>
-                            <th>Total Working Days</th>
+                            <th>Working Days</th>
                             <th>payee days</th>
                             <th>Action</th>
                         </tr>
