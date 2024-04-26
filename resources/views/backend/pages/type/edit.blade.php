@@ -16,7 +16,7 @@
                      <form class="form" id="edit-type" method="POST" action="{{ route('admin.type.save-edit-type') }}">@csrf
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3">  
                                     <div class="form-group">
                                         <label>Type name
                                         <span class="text-danger">*</span>

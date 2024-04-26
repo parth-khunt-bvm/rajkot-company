@@ -24,7 +24,7 @@ class ExportAttendance implements FromCollection, WithHeadings
     }
 
     public function headings():array{
-        $headingArray  = ['Employee', 'Department','Total Working Day', 'Present Day',  'Absent Day', 'Half Leave', 'Short Leave', 'Overtime(Hrs.)', 'Total Working Day'];
+        $headingArray  = ['Employee', 'Department','Total Working Day', 'Present Day',  'Absent Day', 'Short Leave', 'Overtime(Hrs.)', 'Total Working Day', "Payee Day"];
         return $headingArray;
     }
 
