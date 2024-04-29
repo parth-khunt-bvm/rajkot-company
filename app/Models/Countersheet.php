@@ -147,7 +147,6 @@ class Countersheet extends Model
                         $totalDays -= $sortLeaveHours;
                     }
                 }
-
             }
 
             if ($row['overTime'] > 0) {
@@ -229,27 +228,220 @@ class Countersheet extends Model
             $query->where("technology.id", $technology);
         }
 
-        return $query->select(
+        $resultArr = $query->select(
+            // 'employee.id',
             DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
             'technology.technology_name',
-            DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) + COALESCE(a.sortLeaveCount, 0) AS totalDays'),
+            DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) +  COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0) AS totalDays'),
             'a.presentCount',
-            //   'a.absentCount',
+            DB::raw('ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) as absentDay'),
+
+
+            // 'a.absentCount',
+            // \DB::raw(' COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) as absentDay'),
+            // DB::raw('ROUND(((COALESCE(1, 0) * 0) + (COALESCE(1) * 4)) / 8, 1) as absentDay'),
+
+
             // 'a.halfDayCount',
-            DB::raw('CAST(a.absentCount AS CHAR) as absentCount'),
-            DB::raw('CAST(a.halfDayCount AS CHAR) as halfDayCount'),
-
-
+            // 'a.sortLeaveCount',
+            // 'a.totalsortLeaveHours',
             DB::raw('CONCAT(
-                     COALESCE(a.sortLeaveCount, 0),
-                    "(", COALESCE(a.totalsortLeaveHours, 0),")"
-                ) AS sortLeaveInfo'),
-            DB::raw('ROUND(IFNULL(o.overTime, 0), 1) as overTime'),
-
+                COALESCE(a.sortLeaveCount, 0),
+               "(", COALESCE(a.totalsortLeaveHours, 0),")"
+           ) AS sortLeaveInfo'),
+            DB::raw('IFNULL(o.overTime, 0) as overTime'),
 
 
             // Calculate total working days
-            DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays')
-        )->orderBy('full_name', 'ASC')->orderBy('technology_name', 'ASC')->get();
+            DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays'),
+
+            // Apply additional calculations to get the final total days
+
+            DB::raw('CASE
+                    WHEN overTime > 0 THEN
+                        CASE
+                    WHEN totalsortLeaveHours IS NOT NULL THEN
+                        CASE
+                            WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                                CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END - (totalsortLeaveHours / (60 * 8))
+                            ELSE
+                                CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END - (totalsortLeaveHours / (60 * 8))
+                        END
+                    ELSE
+                        CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END
+                END + (overTime / 8)
+                    ELSE
+                        CASE
+                    WHEN totalsortLeaveHours IS NOT NULL THEN
+                        CASE
+                            WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                                CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END - (totalsortLeaveHours / (60 * 8))
+                            ELSE
+                                CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END - (totalsortLeaveHours / (60 * 8))
+                        END
+                    ELSE
+                        CASE
+                    WHEN ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) >= 15 THEN
+                        CASE
+                            WHEN (ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1)) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - (ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) - 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                    ELSE
+                        CASE
+                            WHEN ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) >= 1 THEN
+                                (COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)) - ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1)
+                            ELSE
+                                COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) + COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0)
+                        END
+                END
+                END
+                END AS totalDaysWithOvertime')
+
+
+
+
+        )
+            ->get();
+
+        $data = array();
+        $i = 0;
+
+        foreach ($resultArr as $row) {
+
+            $i++;
+            $nestedData = array();
+            $nestedData[] = $i;
+            $nestedData[] = $row['full_name'];
+            $nestedData[] = $row['technology_name'];
+            $nestedData[] = $row['totalDays'];
+            $nestedData[] = $row['presentCount'];
+            // $nestedData[] = $row['absentDay'];
+            if ($row['totalsortLeaveHours'] != null) {
+                $nestedData[] = $row['sortLeaveCount'] . " (" . $row['totalsortLeaveHours'] . ")";
+            } else {
+                $nestedData[] = $row['sortLeaveCount'];
+            }
+
+            $nestedData[] = numberformat($row['overTime']);
+            $nestedData[] = $row['totalWorkingDays'];
+
+            $totalDays = $row['totalDays'];
+            if ($row['totalWorkingDays'] >= 15) {
+                if ($row['absentDay'] >= 1) {
+                    $absentDay = $row['absentDay'] - 1;
+                    $totalDays =  $row['totalDays'] - $absentDay;
+
+                    if ($row['totalsortLeaveHours'] != null) {
+                        // Convert sort leave minutes to hours
+                        $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
+                        // dd($sortLeaveHours);
+                        // Subtract sort leave hours from total days
+                        $totalDays -= $sortLeaveHours;
+                    }
+                }
+            } else {
+
+                if ($row['absentDay'] >= 1) {
+                    $absentDay = $row['absentDay'];
+                    $totalDays =  $row['totalDays'] - $absentDay;
+
+                    if ($row['totalsortLeaveHours'] != null) {
+                        // Convert sort leave minutes to hours
+                        $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
+                        // dd($sortLeaveHours);
+                        // Subtract sort leave hours from total days
+                        $totalDays -= $sortLeaveHours;
+                    }
+                }
+            }
+
+            if ($row['overTime'] > 0) {
+                $overtimeHours = $row['overTime'] / 8; // Convert overtime minutes to hours
+                $totalDays += $overtimeHours;
+            }
+
+            $nestedData[] = $totalDays;
+            // $nestedData[] = $a;
+            $data[] = $nestedData;
+            // return $nestedData;
+        }
+        return $resultArr;
     }
 }
