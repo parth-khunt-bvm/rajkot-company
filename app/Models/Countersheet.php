@@ -229,34 +229,19 @@ class Countersheet extends Model
         }
 
         $resultArr = $query->select(
-            // 'employee.id',
             DB::raw('CONCAT(employee.first_name, " ", employee.last_name) AS full_name'),
             'technology.technology_name',
             DB::raw('COALESCE(a.presentCount, 0) + COALESCE(a.absentCount, 0) +  COALESCE(a.sortLeaveCount, 0) + COALESCE(a.halfDayCount, 0) AS totalDays'),
             'a.presentCount',
             DB::raw('ROUND(((COALESCE(a.absentCount, 0) * 8) + (COALESCE(a.halfDayCount, 0) * 4)) / 8, 1) as absentDay'),
-
-
-            // 'a.absentCount',
-            // \DB::raw(' COALESCE(a.absentCount, 0) + COALESCE(a.halfDayCount, 0) as absentDay'),
-            // DB::raw('ROUND(((COALESCE(1, 0) * 0) + (COALESCE(1) * 4)) / 8, 1) as absentDay'),
-
-
-            // 'a.halfDayCount',
-            // 'a.sortLeaveCount',
-            // 'a.totalsortLeaveHours',
             DB::raw('CONCAT(
                 COALESCE(a.sortLeaveCount, 0),
                "(", COALESCE(a.totalsortLeaveHours, 0),")"
            ) AS sortLeaveInfo'),
             DB::raw('IFNULL(o.overTime, 0) as overTime'),
-
-
             // Calculate total working days
             DB::raw('ROUND(((COALESCE(a.presentCount, 0) * 8) + (COALESCE(a.absentCount, 0) * 0) + (COALESCE(a.halfDayCount, 0) * 4) + (COALESCE(a.sortLeaveCount, 0) * 8)) / 8, 1) AS totalWorkingDays'),
-
             // Apply additional calculations to get the final total days
-
             DB::raw('CASE
                     WHEN overTime > 0 THEN
                         CASE
@@ -373,13 +358,8 @@ class Countersheet extends Model
                 END
                 END
                 END AS totalDaysWithOvertime')
-
-
-
-
         )
             ->get();
-
         $data = array();
         $i = 0;
 
@@ -411,7 +391,6 @@ class Countersheet extends Model
                     if ($row['totalsortLeaveHours'] != null) {
                         // Convert sort leave minutes to hours
                         $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
-                        // dd($sortLeaveHours);
                         // Subtract sort leave hours from total days
                         $totalDays -= $sortLeaveHours;
                     }
@@ -425,7 +404,6 @@ class Countersheet extends Model
                     if ($row['totalsortLeaveHours'] != null) {
                         // Convert sort leave minutes to hours
                         $sortLeaveHours = (intval($row['totalsortLeaveHours']) / 60) / 8;
-                        // dd($sortLeaveHours);
                         // Subtract sort leave hours from total days
                         $totalDays -= $sortLeaveHours;
                     }
@@ -438,9 +416,7 @@ class Countersheet extends Model
             }
 
             $nestedData[] = $totalDays;
-            // $nestedData[] = $a;
             $data[] = $nestedData;
-            // return $nestedData;
         }
         return $resultArr;
     }
