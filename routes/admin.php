@@ -319,6 +319,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/attendance/save-add-attendance', [AttendanceController::class, 'saveAdd'])->name('admin.attendance.save-add-attendance');
     Route::post('admin/attendance/ajaxcall', [AttendanceController::class, 'ajaxcall'])->name('admin.attendance.ajaxcall');
     Route::get('admin/attendance/view/{id}', [AttendanceController::class, 'view'])->name('admin.attendance.view');
+    Route::get('admin/attendance/deleted', [AttendanceController::class, 'showDeletedData'])->name('admin.attendance.deleted');
 
     Route::post('admin/emp/attendance/save-add-attendance', [AttendanceController::class, 'empSaveAdd'])->name('admin.emp-attendance.save-add-attendance');
 

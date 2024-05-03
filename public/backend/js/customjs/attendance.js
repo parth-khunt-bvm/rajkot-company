@@ -247,6 +247,55 @@ var Attendance = function () {
         });
 
     }
+    var trashList = function () {
+        $('.select2').select2();
+        $(".datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+        });
+        var date = $('.change_date').val();
+        var dataArr = {  };
+        var columnWidth = { "width": "5%", "targets": 0 };
+        var arrList = {
+            'tableID': '#attendance-list',
+            'ajaxURL': baseurl + "admin/attendance/ajaxcall",
+            'ajaxAction': 'get-attendance-data',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [0, 5],
+            'noSearchApply': [0, 5],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'DESC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+
+        $("body").on("click", ".restore-records", function() {
+            var id = $(this).data('id');
+            setTimeout(function() {
+                $('.yes-sure:visible').attr('data-id', id);
+            }, 500);
+        });
+
+        $('body').on('click', '.yes-sure', function() {
+            var id = $(this).attr('data-id');
+            var data = { id: id, 'activity': 'restore-records', _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url:baseurl + "admin/attendance/ajaxcall",
+                data: { 'action': 'common-activity', 'data': data },
+                success: function(data) {
+                    $("#loader").show();
+                    handleAjaxResponse(data);
+                }
+            });
+        });
+    }
     var calendar = function () {
         $('.select2').select2();
         var leaveType = $("#leave_type").val();
@@ -736,5 +785,8 @@ var Attendance = function () {
         attendance_list: function () {
             attendanceReportList();
         },
+        trash_init:function(){
+            trashList();
+        }
     }
 }();

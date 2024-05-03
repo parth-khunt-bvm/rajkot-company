@@ -37,7 +37,8 @@ class Attendance extends Model
                 ->join("employee", "employee.id", "=", "attendance.employee_id")
                 ->join("branch", "branch.id", "=", "employee.branch")
                 ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
-                ->where("attendance.date", $outputDate);
+                ->where("attendance.date", $outputDate)
+                ->where("attendance.is_deleted", "=", "N");
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
@@ -110,6 +111,98 @@ class Attendance extends Model
         return $json_data;
     }
 
+    public function getAttendanceDatatable($fillterdata)
+    {
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => 'attendance.id',
+            1 => 'attendance.date',
+            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Present"
+                                WHEN attendance.attendance_type = "1" THEN "Absent"
+                                WHEN attendance.attendance_type = "2" THEN "Half Day"
+                                ELSE "Short Leave" END)'),
+            4 => 'attendance.reason',
+            5 => 'attendance.minutes',
+            // 6 => 'emp_overtime.hours',
+        );
+        
+        $query = Attendance::from('attendance')
+            ->join("employee", "employee.id", "=", "attendance.employee_id")
+            ->join("branch", "branch.id", "=", "employee.branch")
+            ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("attendance.is_deleted", "=", "Y");
+        
+
+        if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+            $searchVal = $requestData['search']['value'];
+            $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                $flag = 0;
+                foreach ($columns as $key => $value) {
+                    $searchVal = $requestData['search']['value'];
+                    if ($requestData['columns'][$key]['searchable'] == 'true') {
+                        if ($flag == 0) {
+                            $query->where($value, 'like', '%' . $searchVal . '%');
+                            $flag = $flag + 1;
+                        } else {
+                            $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                        }
+                    }
+                }
+            });
+        }
+
+        $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+        $totalData = count($temp->get());
+        $totalFiltered = count($temp->get());
+
+        $resultArr = $query->skip($requestData['start'])
+            ->take($requestData['length'])
+            ->select('attendance.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'), 'attendance.date', 'attendance.attendance_type','attendance.minutes', 'attendance.reason')
+            ->get();
+        // dd($resultArr);
+
+        $data = array();
+        $i = 0;
+        $max_length = 30;
+        foreach ($resultArr as $row) {
+
+            $actionhtml = '';
+            if ($row['attendance_type'] == '0') {
+                $attendance_type = '<span class="label label-lg label-light-success label-inline">Present</span>';
+            } else if ($row['attendance_type'] == '1') {
+                $attendance_type = '<span class="label label-lg label-light-danger label-inline">Absent</span>';
+            } else if ($row['attendance_type'] == '2') {
+                $attendance_type = '<span class="label label-lg label-light-warning label-inline">Half Day</span>';
+            } else {
+                $attendance_type = '<span class="label label-lg label-light-info  label-inline">Short Leave</span>';
+            }
+            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon  restore-records" data-id="' . $row["id"] . '"><i class="fa fa-undo text-danger" ></i></a>';
+
+            $i++;
+            $nestedData = array();
+            $nestedData[] = $i;
+            $nestedData[] = date_formate($row['date']);
+            $nestedData[] = $row['fullName'];
+            $nestedData[] = $attendance_type;
+            $nestedData[] = $row['minutes'];
+            if (strlen($row['reason']) > $max_length) {
+                $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
+            } else {
+                $nestedData[] = $row['reason'] ?? '-'; // If it's not longer than max_length, keep it as is
+            }
+            $nestedData[] = $actionhtml;
+            $data[] = $nestedData;
+        }
+        $json_data = array(
+            "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal" => intval($totalData), // total number of records
+            "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data   // total data array
+        );
+        return $json_data;
+    }
+
     public function saveAdd($requestData)
     {
 
@@ -132,6 +225,7 @@ class Attendance extends Model
             ->join("branch", "branch.id", "=", "employee.branch")
             ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("attendance.is_deleted", "=", "N")
             ->count();
 
         $allPresent = $requestData['all_present'];
@@ -188,6 +282,7 @@ class Attendance extends Model
             ->where('attendance.date', date('Y-m-d', strtotime($requestData['date'])))
             ->where('attendance.employee_id', $requestData['employee_id'])
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+            ->where("attendance.is_deleted", "=", "N")
             ->count();
 
         if ($checkAttendance == 0) {
@@ -246,6 +341,7 @@ class Attendance extends Model
             ->join("employee", "employee.id", "=", "attendance.employee_id")
             ->select('attendance.id', 'attendance.date', 'attendance.attendance_type', 'attendance.reason', 'attendance.employee_id', 'attendance.minutes')
             ->where('attendance.id', $attendanceId)
+            ->where("attendance.is_deleted", "=", "N")
             ->first();
     }
 
@@ -259,6 +355,7 @@ class Attendance extends Model
                 $objAttendance =  Attendance::find($requestData['id']);
                 $objAttendance->where('id',$requestData['id']);  //->delete();
                 $event = 'D';
+                $objAttendance->is_deleted = "Y";
                 $objAttendance->updated_at = date("Y-m-d H:i:s");
 
                 if ($objAttendance->save()) {
@@ -284,6 +381,28 @@ class Attendance extends Model
                 }
             }
 
+        }
+
+        if ($requestData['activity'] == 'restore-records') {
+            $objAttendance = Attendance::find($requestData['id']);
+            $previousRecord = Attendance::from('attendance')
+                ->where('employee_id', '=', $objAttendance['employee_id'])
+                ->where('date', '=', $objAttendance['date'])
+                ->where('is_deleted', '=', 'N');
+            if($previousRecord->count() > 0){
+                $previousRecord->delete();
+            }
+            $objAttendance->is_deleted = "N";
+            $event = 'R';
+            $objAttendance->updated_at = date("Y-m-d H:i:s");
+
+            if ($objAttendance->save()) {
+                $objAudittrails = new Audittrails();
+                $res = $objAudittrails->add_audit($event, $requestData, 'Attendance');
+                return "emp_attendance";
+            } else {
+                return false;
+            }
         }
 
     }
@@ -324,6 +443,7 @@ class Attendance extends Model
                         ->where('attendance_type', '0')
                         ->where('date', $formattedDate)
                         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->where("attendance.is_deleted", "=", "N")
                         ->count();
 
                     $dates[$index]['absent'] = Attendance::from('attendance')
@@ -332,6 +452,7 @@ class Attendance extends Model
                         ->where('attendance_type', '1')
                         ->where('date', $formattedDate)
                         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->where("attendance.is_deleted", "=", "N")
                         ->count();
 
                     $dates[$index]['half_day'] = Attendance::from('attendance')
@@ -340,6 +461,7 @@ class Attendance extends Model
                         ->where('attendance_type', '2')
                         ->where('date', $formattedDate)
                         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->where("attendance.is_deleted", "=", "N")
                         ->count();
 
                     $dates[$index]['sort_leave'] = Attendance::from('attendance')
@@ -348,6 +470,7 @@ class Attendance extends Model
                         ->where('attendance_type', '3')
                         ->where('date', $formattedDate)
                         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
+                        ->where("attendance.is_deleted", "=", "N")
                         ->count();
 
                     $dates[$index]['emp_overtime'] = EmployeeOvertime::from('emp_overtime')
@@ -402,6 +525,7 @@ class Attendance extends Model
             ->where('attendance.employee_id', $employeeId)
             ->whereDate('date', '>=', $start)
             ->whereDate('date', '<=', $end)
+            ->where("attendance.is_deleted", "=", "N")
             ->get();
 
         foreach ($attendanceData as $value) {
@@ -441,6 +565,7 @@ class Attendance extends Model
     {
         return Attendance::from('attendance')
             ->select('id', 'date', 'employee_id', 'attendance_type', 'reason')
+            ->where("attendance.is_deleted", "=", "N")
             ->get();
     }
     public function get_admin_attendance_daily_detail()
@@ -461,6 +586,7 @@ class Attendance extends Model
             ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
             ->where("employee.is_deleted", "=", "N")
             ->where("employee.status", "=", "W")
+            ->where("attendance.is_deleted", "=", "N")
             ->first();
         $formattedDate = now()->format('Y-m-d');
         $monthDayFormat = now()->format('m-d');
@@ -500,7 +626,8 @@ class Attendance extends Model
                 ->join("branch", "branch.id", "=", "employee.branch")
                 ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
                 ->where("attendance.attendance_type", "!=" , "0")
-                ->where("attendance.date", $outputDate);
+                ->where("attendance.date", $outputDate)
+                ->where("attendance.is_deleted", "=", "N");
         }
 
         if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
