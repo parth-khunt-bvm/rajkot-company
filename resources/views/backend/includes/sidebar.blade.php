@@ -173,7 +173,7 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endphp
                 {{-- Attendance Menu --}}
                 @if($userDetails['is_admin'] == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
-                <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.list" || $currentRoute  ==  "admin.attendance.add" || $currentRoute  ==  "admin.attendance.edit" || $currentRoute  ==  "admin.attendance.view" || $currentRoute  ==  "admin.attendance.day-edit" || $currentRoute  ==  "admin.attendance.day-list" || $currentRoute  ==  "admin.attendance.day-save-edit-attendance"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                <li class="menu-item  {{ ( $currentRoute  ==  "admin.attendance.list" || $currentRoute  ==  "admin.attendance.add" || $currentRoute  ==  "admin.attendance.edit" || $currentRoute  ==  "admin.attendance.view" || $currentRoute  ==  "admin.attendance.day-edit" || $currentRoute  ==  "admin.attendance.day-list" || $currentRoute  ==  "admin.attendance.day-save-edit-attendance" || $currentRoute  ==  "admin.attendance.deleted"  ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
                     <a href="{{ route('admin.attendance.list') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
