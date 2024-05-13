@@ -25,6 +25,9 @@ class RevenueController extends Controller
         $objManager = new Manager();
         $data['manager'] = $objManager->get_admin_manager_details();
 
+        $objRevenue = new Revenue();
+        $data['amount'] = $objRevenue->get_total_amount();
+
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();
 

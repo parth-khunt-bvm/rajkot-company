@@ -422,5 +422,22 @@ class Expense extends Model
         return $details;
     }
 
+    public function get_total_amount($manager = null, $monthOf =null, $year= null){
+        $query = Revenue::from('expense');
+
+        if (!empty($manager)) {
+            $query->where('manager_id', $manager);
+        }
+        if (!empty($monthOf)) {
+            $query->where('month', $monthOf);
+        }
+        if (!empty($year)) {
+            $query->where('year', $year);
+        }
+        $totalAmount = $query
+        ->where('is_deleted', 'N')
+        ->sum('amount');
+        return $totalAmount;
+    }
 
 }

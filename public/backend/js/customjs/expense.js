@@ -19,6 +19,7 @@ var Expense = function(){
             'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
+            'sumOfCol': [6],
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
@@ -85,6 +86,16 @@ var Expense = function(){
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
+            '<tfoot>'+
+            '<tr>'+
+            '<th colspan="3">Total:</th>'+
+            '<th></th>'+
+            '<th></th>';
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
+                    html += "<th></th>"
+                }
+            html += '</tr>'+
+            '</tfoot>'+
             '</table>';
 
             $('.expense-list').html(html);
@@ -107,6 +118,7 @@ var Expense = function(){
                 'noSearchApply': [0, 0],
                 'defaultSortColumn': [4],
                 'defaultSortOrder': 'DESC',
+                'sumOfCol': [6],
                 'setColumnWidth': columnWidth
             };
             getDataTable(arrList);
@@ -180,6 +192,7 @@ var Expense = function(){
             'noSearchApply': [0, 0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
+            'sumOfCol': [6],
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
