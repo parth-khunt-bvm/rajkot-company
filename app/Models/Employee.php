@@ -383,12 +383,14 @@ class Employee extends Authenticatable
 
     public function saveEdit($requestData)
     {
+        $inputData = [];
         $countEmployee = Employee::from('employee')
             ->where('employee.gmail', $requestData['gmail'])
             ->where('employee.is_deleted', 'N')
             ->where('employee.id', "!=", $requestData['employee_id'])
             ->count();
         if ($countEmployee == 0) {
+            $inputData['oldData'] = Employee::find($requestData['employee_id']);
             $objEmployee = Employee::find($requestData['employee_id']);
             $objEmployee->first_name = ucfirst($requestData['first_name']);
             $objEmployee->last_name = ucfirst($requestData['last_name']);
@@ -446,9 +448,18 @@ class Employee extends Authenticatable
             $objEmployee->status = $requestData['status'];
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if ($objEmployee->save()) {
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
-                unset($inputData['slack_password']);
+                
+                $inputData['newData'] = Employee::find($requestData['employee_id']);
+                $inputData['employee_id'] = $requestData['employee_id'];
+                unset($inputData['newData']['_token']);
+                unset($inputData['newData']['employee_code']);
+                unset($inputData['newData']['password']);
+                unset($inputData['newData']['created_at']);
+                unset($inputData['newData']['updated_at']);
+                unset($inputData['oldData']['employee_code']);
+                unset($inputData['oldData']['password']);
+                unset($inputData['oldData']['created_at']);
+                unset($inputData['oldData']['updated_at']);
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit('U', $inputData, 'Employee');
                 return 'added';

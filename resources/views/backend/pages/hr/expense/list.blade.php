@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>amount
+                                <label>Amount
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
@@ -149,7 +149,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>year</label>
+                                    <label>Year</label>
                                     <select class="form-control select2 year change_month" id="hrExpenseYearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)

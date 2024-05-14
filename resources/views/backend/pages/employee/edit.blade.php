@@ -304,7 +304,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-group">
-                                                <label>salary
+                                                <label>Salary
                                                 </label>
                                                 <input type="number" class="form-control input-name" name="salary" id="salary" value="{{ numberformat( $employee_details->salary, 0)  }}" placeholder="Salary" autocomplete="off" />
                                                 <span class="type_error text-danger"></span>
@@ -362,7 +362,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-group">
-                                                <label>cheque Image</label>
+                                                <label>Cheque Image</label>
                                                 <div class="">
                                                     <div class="image-input image-input-outline" id="kt_image_1">
                                                         <div class="image-input-wrapper my-avtar" style="background-image: url({{ $image }})"></div>
