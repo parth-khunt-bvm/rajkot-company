@@ -426,25 +426,27 @@ class Employee extends Authenticatable
             $employeeCheque = public_path('employee/cheque/'.$objEmployee['cancel_cheque']);
 
             if($requestData->hasFile('cancel_cheque') && $requestData->file('cancel_cheque')->isValid()){
-                if(file_exists($employeeCheque)){
+                if(file_exists($employeeCheque && is_file($employeeCheque))){
                     unlink($employeeCheque);
                 }
                 $chequeImage = time().'.'.$requestData['cancel_cheque']->extension();
                 $requestData['cancel_cheque']->move(public_path('employee/cheque'), $chequeImage);
+                $objEmployee->cancel_cheque = $chequeImage;
             }
 
             $employeeBond = public_path('employee/bond/'.$objEmployee['bond_file']);
 
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
-                if(file_exists($employeeBond)){
+                if(file_exists($employeeBond) && is_file($employeeBond)){
                     unlink($employeeBond);
                 }
-            $bondImage = time().'.'.$requestData['bond_file']->extension();
-            $requestData['bond_file']->move(public_path('employee/bond'), $bondImage);
+                $bondImage = time().'.'.$requestData['bond_file']->extension();
+                $requestData['bond_file']->move(public_path('employee/bond'), $bondImage);
+                $objEmployee->bond_file = $bondImage;
             }
 
-            $objEmployee->cancel_cheque = $chequeImage ?? '-';
-            $objEmployee->bond_file = $bondImage ?? '-';
+            // $objEmployee->cancel_cheque = $chequeImage ?? '-';
+            // $objEmployee->bond_file = $bondImage ?? '-';
             $objEmployee->trainee_performance = $requestData['trainee_performance'];
             $objEmployee->status = $requestData['status'];
             $objEmployee->cheque_status = $requestData['cheque_status'];

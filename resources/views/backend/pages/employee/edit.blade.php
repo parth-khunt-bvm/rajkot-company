@@ -348,7 +348,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                     <input type="file" class="form-control custom-file-input" name="bond_file" id="bond_file" autocomplete="off" />
                                                     <label class="custom-file-label" for="customFile">Bond File</label>
                                                 </div>
-                                                @if ($employee_details->bond_file != '')
+                                                @if ($employee_details->bond_file != '-')
                                                 <a href="{{ asset('employee/bond/' . $employee_details->bond_file) }}" download>Download</a>
                                                 @endif
                                             </div>
@@ -368,8 +368,13 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                 <label>Cheque Image</label>
                                                 <div class="">
                                                     <div class="image-input image-input-outline" id="kt_image_1">
-                                                        <div class="image-input-wrapper my-avtar" style="background-image: url({{ $image }})"></div>
+                                                        <div class="image-input-wrapper my-avatar" style="background-image: url({{ $image }})"></div>
 
+                                                        @if ($image != url("upload/userprofile/default.jpg"))
+                                                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow resetBtn" data-action="reset" data-toggle="tooltip" data-id="{{ $employee_details->id }}" title="" data-original-title="Reset Image">
+                                                            <i class="ki ki-bold-close icon-xs text-danger"></i>
+                                                        </label>
+                                                        @endif
                                                         <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
                                                             <i class="fa fa-pencil  icon-sm text-muted"></i>
                                                             <input type="file" name="cancel_cheque" accept=".png, .jpg, .jpeg" />

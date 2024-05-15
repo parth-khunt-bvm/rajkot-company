@@ -336,6 +336,15 @@ class EmployeeController extends Controller
                 echo json_encode($list);
                 break;
 
+            case 'clear_cheque_image':
+                $objEmployee = Employee::find($request->input('user_id'));
+                
+                $objEmployee->cancel_cheque = null;
+                $objEmployee->save();
+
+                echo json_encode($objEmployee->cancel_cheque == null);
+                break;
+
             case 'get_employee_details' :
                 $inputData = $request->input('data');
 
