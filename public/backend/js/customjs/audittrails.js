@@ -30,11 +30,33 @@ var Audittrails = function(){
                     var html = '';
                     var details = JSON.parse(data);
                     console.log(details);
-                    $.each(details, function( index, value ) {
-                        var temp = '';
-                        temp  = index + " : " + value + "<br>";
-                        html = html + temp;
-                    });
+                    if(details.oldData == null){
+                        $.each(details, function( index, value ) {
+                            var temp = '';
+                            temp  = index + " : " + value + "<br>";
+                            html = html + temp;
+                        });
+                    } else {
+                        html += "Employee ID: " + details.employee_id + "<br>";
+                        html += "First Name: " + details.newData.first_name + "<br>";
+                        html += "Last Name: " + details.newData.last_name + "<br>";
+
+                        var editedFieldsFound = false;
+
+                        for (var key in details.oldData) {
+                            // Check if the value in oldData is different from newData
+                            if (details.oldData.hasOwnProperty(key) && details.oldData[key] !== details.newData[key]) {
+                                if (!editedFieldsFound) {
+                                    html += "<h4>Edited Fields :-</h4>";
+                                    editedFieldsFound = true;
+                                }
+                                // If different, append the key and new value to html
+                                var temp = key + " : " + details.oldData[key] + "<br>";
+                                html += temp;
+                            }
+                        }
+                        
+                    }
                     $("#view-audit-trails").html(html);
                 }
             });

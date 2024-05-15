@@ -56,6 +56,7 @@
                     </a>
                     @endif
 
+                    <span href="#" class="btn btn-success font-weight-bolder ml-5" id="total-amount">{{numberformat($amount)}}</span>
                   <a href="{{ route('admin.expense.deleted') }}" class="btn btn-primary font-weight-bolder ml-5">Trash Data</a>
 
                     <!--end::Button-->
@@ -263,6 +264,16 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="6">Total:</th>
+                                <th></th>
+                                <th></th>
+                                @if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 )
+                                    <th></th>
+                                @endif
+                            </tr>
+                        </tfoot>
                     </table>
                     <!--end: Datatable-->
                 </div>

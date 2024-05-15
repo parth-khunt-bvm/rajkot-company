@@ -22,6 +22,9 @@ class ExpenseController extends Controller
         $objManager = new Manager();
         $data['manager'] = $objManager->get_admin_manager_details();
 
+        $objExpense = new Expense();
+        $data['amount'] = $objExpense->get_total_amount();
+
         $objBranch = new Branch();
         $data['branch'] = $objBranch->get_admin_branch_details();
 

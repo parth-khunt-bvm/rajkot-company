@@ -460,6 +460,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Cheque Status</label>
+                                                    <div class="radio-inline" style="margin-top:10px">
+                                                        <label class="radio radio-lg radio-success" >
+                                                        <input type="radio" name="cheque_status" class="radio-btn" value="S"/>
+                                                        <span></span>Submitted</label>
+                                                        <label class="radio radio-lg radio-warning" >
+                                                        <input type="radio" name="cheque_status" class="radio-btn" value="P"/>
+                                                        <span></span>Pending</label>
+                                                        <label class="radio radio-lg radio-danger" >
+                                                        <input type="radio" name="cheque_status" class="radio-btn" value="R"/>
+                                                        <span></span>Return</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="button-container d-flex justify-content-between float-right">
                                             <button type="button" data-prev-page="3" data-current-page="4"

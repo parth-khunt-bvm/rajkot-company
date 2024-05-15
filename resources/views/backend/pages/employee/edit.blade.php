@@ -304,7 +304,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-group">
-                                                <label>salary
+                                                <label>Salary
                                                 </label>
                                                 <input type="number" class="form-control input-name" name="salary" id="salary" value="{{ numberformat( $employee_details->salary, 0)  }}" placeholder="Salary" autocomplete="off" />
                                                 <span class="type_error text-danger"></span>
@@ -348,6 +348,9 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                     <input type="file" class="form-control custom-file-input" name="bond_file" id="bond_file" autocomplete="off" />
                                                     <label class="custom-file-label" for="customFile">Bond File</label>
                                                 </div>
+                                                @if ($employee_details->bond_file != '')
+                                                <a href="{{ asset('employee/bond/' . $employee_details->bond_file) }}" download>Download</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +365,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-group">
-                                                <label>cheque Image</label>
+                                                <label>Cheque Image</label>
                                                 <div class="">
                                                     <div class="image-input image-input-outline" id="kt_image_1">
                                                         <div class="image-input-wrapper my-avtar" style="background-image: url({{ $image }})"></div>
@@ -377,6 +380,22 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                         </span>
                                                     </div>
                                                     <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Cheque Status</label>
+                                                <div class="radio-inline" style="margin-top:10px">
+                                                    <label class="radio radio-lg radio-success" >
+                                                    <input type="radio" name="cheque_status" class="radio-btn" value="S" {{ $employee_details->cheque_status == 'S' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>Submitted</label>
+                                                    <label class="radio radio-lg radio-warning" >
+                                                    <input type="radio" name="cheque_status" class="radio-btn" value="P" {{ $employee_details->cheque_status == 'P' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>Pending</label>
+                                                    <label class="radio radio-lg radio-danger" >
+                                                    <input type="radio" name="cheque_status" class="radio-btn" value="R" {{ $employee_details->cheque_status == 'R' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>Return</label>
                                                 </div>
                                             </div>
                                         </div>
