@@ -5,9 +5,25 @@
             file_exists(public_path() . '/employee/cheque/' . $employee_details['cancel_cheque']) &&
             $employee_details['cancel_cheque'] != ''
         ) {
-            $image = url('employee/cheque/' . $employee_details['cancel_cheque']);
+            $cheque_image = url('employee/cheque/' . $employee_details['cancel_cheque']);
         } else {
-            $image = url('upload/userprofile/default.jpg');
+            $cheque_image = url('upload/userprofile/default.jpg');
+        }
+        if (
+            file_exists(public_path() . '/upload/userprofile/' . $employee_details['employee_image']) &&
+            $employee_details['employee_image'] != ''
+        ) {
+            $employee_image = url('upload/userprofile/' . $employee_details['employee_image']);
+        } else {
+            $employee_image = url('upload/userprofile/default.jpg');
+        }
+        if (
+            file_exists(public_path() . '/employee/bond/' . $employee_details['bond_file']) &&
+            $employee_details['bond_file'] != ''
+        ) {
+            $bond_file = url('employee/bond/' . $employee_details['bond_file']);
+        } else {
+            $bond_file = '';
         }
     @endphp
 
@@ -27,7 +43,7 @@
                                 <div class="col-xl-2 col-md-2">
                                     <div class="image-input image-input-outline" id="kt_profile_avatar"
                                         style="background-image: url(assets/media/users/blank.png)">
-                                        <img class="" src="{{ $image }}" alt="" style="">
+                                        <img class="" src="{{ $employee_image }}" alt="" style="" width="100">
                                     </div>
                                 </div>
                                 <div class="col-xl-10 col-md-10">
@@ -397,18 +413,29 @@
                                                         class="text-muted font-size-lg">{{ $employee_details->trainee_performance ?? '-' }}</span>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="row mt-2">
+                                                <div class="col-xl-3 col-md-3">
+                                                    <span class="text-dark text-bold">Bond File</span>
+                                                </div>
+                                                <div class="col-xl-9 col-md-9">
+                                                    @if ($bond_file != '')
+                                                    <a href="{{ $bond_file }}" class="btn btn-primary font-weight-bolder" download>Download</a>
+                                                    @else
+                                                    <span class="text-muted font-size-lg">-</span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             <div class="row mt-2">
                                                 <div class="col-xl-3 col-md-3">
                                                     <span class="text-dark text-bold">Cancel Cheque</span>
                                                 </div>
                                                 <div class="col-xl-9 col-md-9">
-                                                    <div class="col-lg-9 col-xl-6">
-                                                        <div class="image-input image-input-outline"
-                                                            id="kt_profile_avatar"
-                                                            style="background-image: url(assets/media/users/blank.png)">
-                                                            <img class="" src="{{ $image }}" alt=""
-                                                                style="">
-                                                        </div>
+                                                    <div class="image-input image-input-outline"
+                                                        id="kt_profile_avatar"
+                                                        style="background-image: url(assets/media/users/blank.png)">
+                                                        <img class="" src="{{ $cheque_image }}" alt=""
+                                                            style="" width="100">
                                                     </div>
                                                 </div>
                                             </div>

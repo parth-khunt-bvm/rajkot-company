@@ -63273,6 +63273,11 @@ code {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.resetBtn{
+  position: absolute;
+  top: -10px;
+  left: -10px;
+}
 .image-input [data-action=change] {
   cursor: pointer;
   position: absolute;
