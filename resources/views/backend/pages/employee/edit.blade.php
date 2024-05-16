@@ -388,7 +388,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Cheque Status</label>
                                                 <div class="radio-inline" style="margin-top:10px">

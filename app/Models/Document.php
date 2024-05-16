@@ -161,28 +161,45 @@ class Document extends Model
             $objDocument->document_type = $requestData['document_type_id'];
 
             if ($requestData->hasFile('attachment')) {
-
+                // Get the current attachments of the document
                 $currentAttachments = explode(', ', $objDocument->attachement);
-
-                foreach ($currentAttachments as $attachment) {
-                    $path = public_path('/upload/document/') . $attachment;
-                    if (file_exists($path)) {
-                        unlink($path);
-                    }
-                }
-
-                $attachments = [];
-                foreach ($requestData->file('attachment') as $index => $image) {
-                    $increment = $index + 1;
-                    $imagename = 'att' . time() . '_' . $increment . '.' . $image->getClientOriginalExtension();
+                
+                // Initialize an index to track the position of attachments in the array
+                $attachmentsIndex = 0;
+            
+                // Loop through each file in the request
+                foreach ($requestData->file('attachment') as $image) {
+                    // Generate a unique image name for the attachment
+                    $imageName = 'att' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                     $destinationPath = public_path('/upload/document/');
-                    $image->move($destinationPath, $imagename);
-                    $attachments[] = $imagename;
+            
+                    // Check if the attachment is valid
+                    if ($image->isValid()) {
+                        // Update the corresponding attachment in the list based on the attachments index
+                        if (isset($currentAttachments[$attachmentsIndex])) {
+                            $existingImage = $currentAttachments[$attachmentsIndex];
+                            // Remove the existing file if it exists
+                            if (file_exists($destinationPath . $existingImage)) {
+                                unlink($destinationPath . $existingImage);
+                            }
+                            $currentAttachments[$attachmentsIndex] = $imageName;
+                        } else {
+                            // Add new attachment to the list
+                            $currentAttachments[] = $imageName;
+                        }
+                        
+                        // Move the new attachment to the destination folder
+                        $image->move($destinationPath, $imageName);
+                    }
+            
+                    // Increment the attachments index to synchronize with the next attachment
+                    $attachmentsIndex++;
                 }
-                $attachmentString = implode(', ', $attachments);
+            
+                // Update the attachment column with the new attachments
+                $attachmentString = implode(', ', $currentAttachments);
                 $objDocument->attachement = $attachmentString;
-                // $objDocument->save(); // Save the document model after updating the attachment column
-            }
+            }                         
 
             $objDocument->status = $requestData['status'];
             $objDocument->updated_at = date('Y-m-d H:i:s');
