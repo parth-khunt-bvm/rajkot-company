@@ -316,7 +316,7 @@ class EmployeeController extends Controller
                 echo json_encode($list);
                 break;
 
-            case 'add-branch-employee-import';
+            case 'add-branch-employee-import':
                 $objBranch = new Branch();
                 $list = $objBranch->get_admin_branch_details();
                 echo json_encode($list);

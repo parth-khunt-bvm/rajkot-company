@@ -615,16 +615,19 @@ var Employee = function () {
                 url: baseurl + "admin/employee/ajaxcall",
                 data: { 'action': 'clear_cheque_image', 'user_id': user_id },
                 success: function (data) {
-                    $('.my-avatar').css('background-image', 'url(http://127.0.0.1:8000/upload/userprofile/default.jpg)');
-                    $('.resetBtn').remove();
-                    $('.arrow').remove();
-                    $('.tooltip-inner').remove();
-                    Toastr.init('success', 'Cheque Image Removed.', 'Success');
                     console.log(data);
+                    if(data == 'true'){
+                        $('.my-avatar').css('background-image', 'url(http://127.0.0.1:8000/upload/userprofile/default.jpg)');
+                        $('.resetBtn').remove();
+                        $('.arrow').remove();
+                        $('.tooltip-inner').remove();
+                        showToster("success", "Cheque Image Removed.");
+                    } else {
+                        showToster("warning", "Something went wrong.");
+                    }
                 }
             });
 
-            // console.log(user_id);
         });
 
         $(".datepicker_date").datepicker({
