@@ -316,7 +316,7 @@ class EmployeeController extends Controller
                 echo json_encode($list);
                 break;
 
-            case 'add-branch-employee-import';
+            case 'add-branch-employee-import':
                 $objBranch = new Branch();
                 $list = $objBranch->get_admin_branch_details();
                 echo json_encode($list);
@@ -334,6 +334,15 @@ class EmployeeController extends Controller
                 $list = $objEmployee->getbondlastdatedatatable($request->input('data'));
 
                 echo json_encode($list);
+                break;
+
+            case 'clear_cheque_image':
+                $objEmployee = Employee::find($request->input('user_id'));
+                
+                $objEmployee->cancel_cheque = null;
+                $objEmployee->save();
+
+                echo json_encode($objEmployee->cancel_cheque == null);
                 break;
 
             case 'get_employee_details' :

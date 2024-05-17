@@ -18,6 +18,7 @@ var Revenue = function(){
             'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
+            'sumOfCol': [6],
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);
@@ -85,6 +86,16 @@ var Revenue = function(){
             '</thead>'+
             '<tbody>'+
             '</tbody>'+
+            '<tfoot>'+
+            '<tr>'+
+            '<th colspan="3">Total:</th>'+
+            '<th></th>'+
+            '<th></th>';
+                if (isAdmin == 'Y' || intersection.length > 0 ) {
+                    html += "<th></th>"
+                }
+            html += '</tr>'+
+            '</tfoot>'+
             '</table>';
 
             $('.revenue-list').html(html);
@@ -106,6 +117,7 @@ var Revenue = function(){
                 'noSearchApply': [0],
                 'defaultSortColumn': [4],
                 'defaultSortOrder': 'DESC',
+                'sumOfCol': [6],
                 'setColumnWidth': columnWidth
             };
             getDataTable(arrList);
@@ -180,6 +192,7 @@ var Revenue = function(){
             'noSearchApply': [0],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
+            'sumOfCol': [6],
             'setColumnWidth': columnWidth
         };
         getDataTable(arrList);

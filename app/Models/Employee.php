@@ -328,6 +328,7 @@ class Employee extends Authenticatable
             $objEmployee->bond_file = $bondImage ?? '-';
             $objEmployee->trainee_performance = $requestData['trainee_performance'];
             $objEmployee->status = $requestData['status'];
+            $objEmployee->cheque_status = $requestData['cheque_status'];
             $objEmployee->is_deleted = 'N';
             $objEmployee->created_at = date('Y-m-d H:i:s');
             $objEmployee->updated_at = date('Y-m-d H:i:s');
@@ -383,12 +384,14 @@ class Employee extends Authenticatable
 
     public function saveEdit($requestData)
     {
+        $inputData = [];
         $countEmployee = Employee::from('employee')
             ->where('employee.gmail', $requestData['gmail'])
             ->where('employee.is_deleted', 'N')
             ->where('employee.id', "!=", $requestData['employee_id'])
             ->count();
         if ($countEmployee == 0) {
+            $inputData['oldData'] = Employee::find($requestData['employee_id']);
             $objEmployee = Employee::find($requestData['employee_id']);
             $objEmployee->first_name = ucfirst($requestData['first_name']);
             $objEmployee->last_name = ucfirst($requestData['last_name']);
@@ -423,32 +426,44 @@ class Employee extends Authenticatable
             $employeeCheque = public_path('employee/cheque/'.$objEmployee['cancel_cheque']);
 
             if($requestData->hasFile('cancel_cheque') && $requestData->file('cancel_cheque')->isValid()){
-                if(file_exists($employeeCheque)){
+                if(file_exists($employeeCheque && is_file($employeeCheque))){
                     unlink($employeeCheque);
                 }
                 $chequeImage = time().'.'.$requestData['cancel_cheque']->extension();
                 $requestData['cancel_cheque']->move(public_path('employee/cheque'), $chequeImage);
+                $objEmployee->cancel_cheque = $chequeImage;
             }
 
             $employeeBond = public_path('employee/bond/'.$objEmployee['bond_file']);
 
             if($requestData->hasFile('bond_file') && $requestData->file('bond_file')->isValid()){
-                if(file_exists($employeeBond)){
+                if(file_exists($employeeBond) && is_file($employeeBond)){
                     unlink($employeeBond);
                 }
-            $bondImage = time().'.'.$requestData['bond_file']->extension();
-            $requestData['bond_file']->move(public_path('employee/bond'), $chequeImage);
+                $bondImage = time().'.'.$requestData['bond_file']->extension();
+                $requestData['bond_file']->move(public_path('employee/bond'), $bondImage);
+                $objEmployee->bond_file = $bondImage;
             }
 
-            $objEmployee->cancel_cheque = $chequeImage ?? '-';
-            $objEmployee->bond_file = $bondImage ?? '-';
+            // $objEmployee->cancel_cheque = $chequeImage ?? '-';
+            // $objEmployee->bond_file = $bondImage ?? '-';
             $objEmployee->trainee_performance = $requestData['trainee_performance'];
             $objEmployee->status = $requestData['status'];
+            $objEmployee->cheque_status = $requestData['cheque_status'];
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if ($objEmployee->save()) {
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
-                unset($inputData['slack_password']);
+                
+                $inputData['newData'] = Employee::find($requestData['employee_id']);
+                $inputData['employee_id'] = $requestData['employee_id'];
+                unset($inputData['newData']['_token']);
+                unset($inputData['newData']['employee_code']);
+                unset($inputData['newData']['password']);
+                unset($inputData['newData']['created_at']);
+                unset($inputData['newData']['updated_at']);
+                unset($inputData['oldData']['employee_code']);
+                unset($inputData['oldData']['password']);
+                unset($inputData['oldData']['created_at']);
+                unset($inputData['oldData']['updated_at']);
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit('U', $inputData, 'Employee');
                 return 'added';
@@ -464,7 +479,7 @@ class Employee extends Authenticatable
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("manager", "manager.id", "=", "employee.hired_by")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password', 'manager.manager_name')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.cheque_status','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password', 'manager.manager_name')
              ->where('employee.id', $employeeId)
              ->first();
     }
