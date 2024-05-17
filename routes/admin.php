@@ -266,6 +266,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/employee/save-edit-employee', [EmployeeController::class, 'saveEdit'])->name('admin.employee.save-edit-employee');
     Route::post('admin/employee/ajaxcall', [EmployeeController::class, 'ajaxcall'])->name('admin.employee.ajaxcall');
     Route::get('admin/employee/view/{id}', [EmployeeController::class, 'view'])->name('admin.employee.view');
+    Route::get('admin/employee/view/zip/{id}', [EmployeeController::class, 'document_zip'])->name('admin.employee.zip');
     Route::post('admin/employee/save-import-employee', [EmployeeController::class, 'save_import'])->name('admin.employee.save-import-employee');
     Route::get('admin/employee/attendance/list', [EmployeeController::class, 'attendancelist'])->name('admin.employee.attendance.list');
     Route::get('admin/employee/offer/letter/pdf/{id}', [EmployeeController::class, 'offerLetterPdf'])->name('admin.employee.offer-letter');

@@ -154,62 +154,53 @@ class Document extends Model
         ->where('document.id', '!=', $requestData['editId'])
         ->count();
 
+        $countImage = DocumentType::from('document_type')
+        ->where('id', $requestData['document_type_id'])
+        ->value('image_requirement');
 
-        if($countDocument == 0){
+
+        if ($countDocument == 0) {
             $objDocument = Document::find($requestData['editId']);
             $objDocument->employee_id = $requestData['employee_id'];
             $objDocument->document_type = $requestData['document_type_id'];
+        
+            for ($imageIndex = 0; $imageIndex < $countImage; $imageIndex++) {
 
-            if ($requestData->hasFile('attachment')) {
-                // Get the current attachments of the document
-                $currentAttachments = explode(', ', $objDocument->attachement);
+                $attachmentsIndex = $imageIndex + 1;
                 
-                // Initialize an index to track the position of attachments in the array
-                $attachmentsIndex = 0;
-            
-                // Loop through each file in the request
-                foreach ($requestData->file('attachment') as $image) {
-                    // Generate a unique image name for the attachment
-                    $imageName = 'att' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $currentAttachments = explode(', ', $objDocument->attachement);
+                if ($requestData->hasFile("attachment_{$attachmentsIndex}")) {
+                    
+                    $image = $requestData->file("attachment_{$attachmentsIndex}");
+                        
+                    $imageName = 'att' . time() . '_' . $attachmentsIndex . '.' . $image->getClientOriginalExtension();
                     $destinationPath = public_path('/upload/document/');
-            
-                    // Check if the attachment is valid
+                    
                     if ($image->isValid()) {
-                        // Update the corresponding attachment in the list based on the attachments index
-                        if (isset($currentAttachments[$attachmentsIndex])) {
-                            $existingImage = $currentAttachments[$attachmentsIndex];
-                            // Remove the existing file if it exists
+                        if (isset($currentAttachments[$imageIndex])) {
+                            $existingImage = $currentAttachments[$imageIndex];
                             if (file_exists($destinationPath . $existingImage)) {
                                 unlink($destinationPath . $existingImage);
                             }
-                            $currentAttachments[$attachmentsIndex] = $imageName;
-                        } else {
-                            // Add new attachment to the list
-                            $currentAttachments[] = $imageName;
+                            $currentAttachments[$imageIndex] = $imageName;
                         }
-                        
-                        // Move the new attachment to the destination folder
                         $image->move($destinationPath, $imageName);
                     }
-            
-                    // Increment the attachments index to synchronize with the next attachment
-                    $attachmentsIndex++;
+                    
+                    $attachmentString = implode(', ', $currentAttachments);
+                    $objDocument->attachement = $attachmentString;
                 }
-            
-                // Update the attachment column with the new attachments
-                $attachmentString = implode(', ', $currentAttachments);
-                $objDocument->attachement = $attachmentString;
-            }                         
-
+            }
+        
             $objDocument->status = $requestData['status'];
             $objDocument->updated_at = date('Y-m-d H:i:s');
-            if($objDocument->save()){
+            if ($objDocument->save()) {
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit("U", $inputData, 'Document Type');
                 return 'updated';
-            }else{
+            } else {
                 return 'wrong';
             }
         }
@@ -260,6 +251,15 @@ class Document extends Model
                 ->where("document.id", $documentId)
                 ->select('document.id', 'document.employee_id', 'document.document_type', 'document.status', 'document.attachement' )
                 ->first();
+    }
+
+    public function get_document_for_employee($employeeId){
+        return Document::from('document')
+                ->join("document_type", "document_type.id", "=", "document.document_type")
+                ->select('document.id', 'document.employee_id', 'document.document_type', 'document.status', 'document.attachement', 'document_type.document_name', 'document_type.image_requirement' )
+                ->where("document.employee_id", $employeeId)
+                ->where("document.is_deleted", "N")
+                ->get();
     }
 }
 

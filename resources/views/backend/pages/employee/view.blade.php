@@ -171,6 +171,18 @@
                                         <span class="nav-text">Salary Increment</span>
                                     </a>
                                 </li>
+                                @if (count($document_details) !== 0)
+                                <li class="nav-item">
+                                    <a class="nav-link user-menu" data-type="documents"
+                                    data-user-id="{{ $employee_details->id }}" id="documents-tab-2" data-toggle="tab"
+                                    href="#documents-2" aria-controls="documents">
+                                        <span class="nav-icon">
+                                            <i class="fas fa-folder font-size-h4"></i>
+                                        </span>
+                                        <span class="nav-text">Documents</span>
+                                    </a>
+                                </li>
+                            @endif
                             </ul>
                         </div>
                     </div>
@@ -614,6 +626,48 @@
                         </div>
                     </div>
                 </div>
+                @if (count($document_details) !== 0)                    
+                <div class="tab-pane fade" id="documents-2" role="tabpanel" aria-labelledby="documents-tab-2">
+                    <a href="{{ route('admin.employee.zip', $employee_details->id) }}" class="btn btn-primary gutter-b">Download All</a>
+                    <div class="row">
+                        @foreach ($document_details as $document_detail)
+                            
+                        <div class="col-xl-6">
+                            <!--begin::List Widget 3-->
+                            <div class="card card-custom card-stretch gutter-b">
+                                <!--begin::Header-->
+                                <div class="card-header border-0">
+                                    <h3 class="card-title font-weight-bolder text-dark">{{ $document_detail->document_name }}</h3>
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+
+                                <div class="card-body pt-2">
+                                    <div class="row">
+                                        @php
+                                            $images = explode(', ', $document_detail->attachement);
+                                        @endphp
+                                        @foreach ($images as $image)
+                                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                            <div class="doc-img">
+                                                <img src="{{ asset('upload/document/' . $image) }}" alt="">
+                                                <a href="{{ asset('upload/document/' . $image) }}" class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow downloadBtn" data-toggle="tooltip" data-original-title="Download" download>
+                                                    <i class="fa fa-download text-primary"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::List Widget 3-->
+                        </div>
+
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
