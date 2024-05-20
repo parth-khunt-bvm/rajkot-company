@@ -60,10 +60,10 @@ var AdminLeaveRequest = function(){
                     const year = inputDate.getFullYear();
                     return `${day}-${month}-${year}`;
                   }
-                  const inputDate = new Date(LeaveRequest.date);
-                  const formattedDate = formatDate(inputDate);
+                  const inputStartDate = new Date(LeaveRequest.start_date);
+                  const formattedStartDate = formatDate(inputStartDate);
 
-                   $("#leave_date").text(formattedDate);
+                   $("#leave_start_date").text(formattedStartDate);
                    $("#leave_emp_name").text(LeaveRequest.first_name + " " + LeaveRequest.last_name);
                    $("#leave_man_name").text(LeaveRequest.manager_name);
 
@@ -77,7 +77,7 @@ var AdminLeaveRequest = function(){
                    } else if (LeaveRequest.leave_type === "3") {
                         leave_type = "Short Leave";
                    }
-                   $("#leeave_type").text(leave_type);
+                   $("#leave_type").text(leave_type);
 
                    var leave_status;
                    if (LeaveRequest.leave_status === "P") {

@@ -38,7 +38,7 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <label>Reson</label>
+            <label>Reason</label>
             <textarea class="form-control" id="" cols="30" rows="1" name="reason[]" id="reason"></textarea>
         </div>
     </div>

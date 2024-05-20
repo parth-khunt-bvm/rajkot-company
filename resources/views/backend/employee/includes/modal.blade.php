@@ -39,8 +39,12 @@
             <div class="modal-body">
                 <div class="row mt-5 mr-5 ml-5">
                     <div class="col-3">
-                        <b>Date</b> <br>
-                        <span id="leave_date"></span>
+                        <b>Start Date</b> <br>
+                        <span id="leave_start_date"></span>
+                    </div>
+                    <div class="col-3">
+                        <b>End Date</b> <br>
+                        <span id="leave_end_date"></span>
                     </div>
                     <div class="col-3">
                         <b>Employee Name</b> <br>
@@ -51,12 +55,12 @@
                         <b>Manager Name</b> <br>
                         <span id="leave_man_name"></span>
                     </div>
-                    <div class="col-3">
-                        <b>Leave Type</b> <br>
-                        <span id="leeave_type"></span>
-                    </div>
                 </div>
                 <div class="row mt-5 mr-5 ml-5">
+                    <div class="col-3">
+                        <b>Leave Type</b> <br>
+                        <span id="leaveType"></span>
+                    </div>
                     <div class="col-3">
                         <b>Leave Status</b> <br>
                         <span id="leave_status"></span>

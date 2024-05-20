@@ -111,24 +111,48 @@ class LeaveRequestController extends Controller
     public function store(Request $request)
     {
         $objLeaveRequest = new LeaveRequest();
-        $result = $objLeaveRequest->store($request);
-        if ($result == "added") {
-            $return['status'] = 'success';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Leave Request details successfully added.';
-            $return['redirect'] = route('leave-request.index');
-        } elseif ($result == "leave_request_exists") {
-            $return['status'] = 'warning';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Leave Request has already exists.';
-        } else {
-            $return['status'] = 'error';
-            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'Something goes to wrong';
+        $results = $objLeaveRequest->store($request);
+
+        $return = [
+            'status' => 'success',
+            'jscode' => '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();',
+            'message' => '',
+            'redirect' => ''
+        ];
+
+        $addedCount = 0;
+        $existsCount = 0;
+        $errorCount = 0;
+
+        foreach ($results as $result) {
+            if ($result == 'added') {
+                $addedCount++;
+            } elseif ($result == 'leave_request_exists') {
+                $existsCount++;
+            } else {
+                $errorCount++;
+            }
         }
+
+        if ($addedCount > 0) {
+            $return['message'] .= "$addedCount Leave Request(s) successfully added. ";
+            $return['redirect'] = route('leave-request.index');
+        }
+
+        if ($existsCount > 0) {
+            $return['message'] .= "$existsCount Leave Request(s) already exist. ";
+            $return['status'] = 'warning';
+        }
+
+        if ($errorCount > 0) {
+            $return['message'] .= "$errorCount Leave Request(s) failed to add.";
+            $return['status'] = 'error';
+        }
+
         echo json_encode($return);
         exit;
     }
+
 
     /**
      * Display the specified resource.
@@ -233,35 +257,45 @@ class LeaveRequestController extends Controller
         $action = $request->input('action');
         switch ($action) {
             case 'getdatatable':
-                $objLeaveRequest = new LeaveRequest();
-                $list = $objLeaveRequest->getdatatable();
-                echo json_encode($list);
-                break;
+            $objLeaveRequest = new LeaveRequest();
+            $list = $objLeaveRequest->getdatatable();
+            echo json_encode($list);
+            break;
 
-                case 'leave-request-view';
-                $objLeaveRequest = new LeaveRequest();
-                $list = $objLeaveRequest->get_Leave_request_details($request->input('data'));
-                echo json_encode($list);
-                break;
+            case 'leave-request-view';
+            $objLeaveRequest = new LeaveRequest();
+            $list = $objLeaveRequest->get_Leave_request_details($request->input('data'));
+            echo json_encode($list);
+            break;
 
-                case 'common-activity':
-                    $objLeaveRequest = new LeaveRequest();
-                    $data = $request->input('data');
-                    $result = $objLeaveRequest->common_activity($data);
-                    if ($result) {
-                        $return['status'] = 'success';
-                        if($data['activity'] == 'delete-records'){
-                            $return['message'] = 'Leave Request details successfully deleted.';;
-                        }
-                        $return['redirect'] = route('leave-request.index');
-                    } else {
-                        $return['status'] = 'error';
-                        $return['jscode'] = '$("#loader").hide();';
-                        $return['message'] = 'It seems like something is wrong';;
+            case 'get-manager-detail';
+            $objManager = new Manager();
+            $lists = $objManager->get_admin_manager_details();
+            $manager_option = '<option value="">Please select Manager Name</option>';
+            foreach($lists as $list) {
+                $manager_option .= "<option value='{$list['id']}'>{$list['manager_name']}</option>";
+            }
+            echo $manager_option;
+            break;
+
+            case 'common-activity':
+                $objLeaveRequest = new LeaveRequest();
+                $data = $request->input('data');
+                $result = $objLeaveRequest->common_activity($data);
+                if ($result) {
+                    $return['status'] = 'success';
+                    if($data['activity'] == 'delete-records'){
+                        $return['message'] = 'Leave Request details successfully deleted.';;
                     }
+                    $return['redirect'] = route('leave-request.index');
+                } else {
+                    $return['status'] = 'error';
+                    $return['jscode'] = '$("#loader").hide();';
+                    $return['message'] = 'It seems like something is wrong';;
+                }
 
-                    echo json_encode($return);
-                    exit;
+                echo json_encode($return);
+                exit;
         }
     }
 }

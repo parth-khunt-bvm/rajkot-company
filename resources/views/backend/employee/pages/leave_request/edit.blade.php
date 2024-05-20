@@ -17,16 +17,24 @@
                         @method('PUT')
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Date
+                                        <label>Start Date
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="hidden" name="leave_req_Id"  value="{{ $Leave_request_details->id}}">
-                                        <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->date) }}" autocomplete="off">
+                                        <input type="text" name="start_date" id="datepicker_start_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->start_date) }}" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>End Date
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="end_date" id="datepicker_end_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->end_date) }}" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Leave Type
                                             <span class="text-danger">*</span>
@@ -39,7 +47,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Manager
                                             <span class="text-danger">*</span>
@@ -52,9 +60,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Reson
+                                        <label>Reason
                                         </label>
                                         <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason">{{ $Leave_request_details->reason }}</textarea>
                                     </div>

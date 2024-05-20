@@ -42,10 +42,18 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Date
+                                <label>Start Date
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                                <input type="text" name="start_date[]" class="form-control date datepicker_start_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>End Date
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="end_date[]" class="form-control date datepicker_end_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -53,7 +61,7 @@
                                 <label>Leave Type
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 leave_type leave_select" name="leave_type" id="leave_type">
+                                <select class="form-control select2 leave_type leave_select" name="leave_type[]" id="leave_type">
                                     <option value="">Please select Leave Type</option>
                                     <option value="1">Full Day Leave</option>
                                     <option value="2">Half Day Leave</option>
@@ -66,7 +74,7 @@
                                 <label>Manager
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 manager input-name" id="manager" name="manager">
+                                <select class="form-control select2 manager input-name" id="manager" name="manager[]">
                                     <option value="">Please select Manager Name</option>
                                     @foreach ($manager as $key => $value )
                                     <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -77,9 +85,9 @@
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Reson
+                                <label>Reason
                                 </label>
-                                <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason"></textarea>
+                                <textarea class="form-control" id="" cols="40" rows="1" name="reason[]" id="reason"></textarea>
                             </div>
                         </div>
 
@@ -96,7 +104,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Date</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
                             <th>Employee Name</th>
                             <th>Manager</th>
                             <th>Leave Type</th>

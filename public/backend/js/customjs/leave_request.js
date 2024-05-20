@@ -65,6 +65,7 @@ var LeaveRequest = function(){
                 data: { 'action': 'leave-request-view', 'data': data },
                 success: function (data) {
                    var LeaveRequest =  JSON.parse(data);
+                //    console.log(LeaveRequest);
                    function formatDate(inputDate) {
                     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     const day = inputDate.getDate();
@@ -72,10 +73,13 @@ var LeaveRequest = function(){
                     const year = inputDate.getFullYear();
                     return `${day}-${month}-${year}`;
                   }
-                  const inputDate = new Date(LeaveRequest.date);
-                  const formattedDate = formatDate(inputDate);
+                  const inputStartDate = new Date(LeaveRequest.start_date);
+                  const formattedStartDate = formatDate(inputStartDate);
+                  const inputEndDate = new Date(LeaveRequest.end_date);
+                  const formattedEndDate = formatDate(inputEndDate);
 
-                   $("#leave_date").text(formattedDate);
+                   $("#leave_start_date").text(formattedStartDate);
+                   $("#leave_end_date").text(formattedEndDate);
                    $("#leave_emp_name").text(LeaveRequest.first_name + " " + LeaveRequest.last_name);
                    $("#leave_man_name").text(LeaveRequest.manager_name);
 
@@ -89,7 +93,7 @@ var LeaveRequest = function(){
                    } else if (LeaveRequest.leave_type === "3") {
                         leave_type = "Short Leave";
                    }
-                   $("#leeave_type").text(leave_type);
+                   $("#leaveType").text(leave_type);
 
                    var leave_status;
                    if (LeaveRequest.leave_status === "P") {
@@ -110,32 +114,151 @@ var LeaveRequest = function(){
     var addLeaveRequest = function(){
         var form = $('#add-leave-request');
         var rules = {
-            date : {required: true},
-            manager : {required: true},
-            leave_type : {required: true}
+            'start_date[]' : {required: true},
+            'end_date[]' : {required: true},
+            'manager[]' : {required: true},
+            'leave_type[]' : {required: true}
         };
 
         var message = {
-            date : {required: "Please select date"},
-            manager : {required: "Please select manager"},
-            leave_type : {required: "Please select leave type"},
+            'start_date[]' : {required: "Please select date"},
+            'end_date[]' : {required: "Please select date"},
+            'manager[]' : {required: "Please select manager"},
+            'leave_type[]' : {required: "Please select leave type"},
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
-
+        
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = today.toLocaleString('en-US', { month: 'short' });
         var yyyy = today.getFullYear();
         today = dd + '-' + mm + '-' + yyyy;
-        $("#datepicker_date").val(today);
-        $("#datepicker_date").datepicker({
+        $(".datepicker_start_date").val(today);
+        $(".datepicker_end_date").val(today);
+        $(".datepicker_start_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
             autoclose: true,
             orientation: "bottom auto",
             startDate: new Date()
+        });
+        $(".datepicker_end_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+            startDate: new Date()
+        });
+
+        var index = 1;
+
+        $('body').on('click', '.add-leave', function (e) {
+            e.preventDefault();
+            if(form.valid()){
+
+                var add_leave_row = `<div class="row new-leave-row" style="display: none;">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Start Date
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="start_date[]" class="form-control date datepicker_start_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>End Date
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="end_date[]" class="form-control date datepicker_end_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Leave Type
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control select2 leave_type leave_select" name="leave_type[]" id="leave_type_${index}">
+                                <option value="">Please select Leave Type</option>
+                                <option value="1">Full Day Leave</option>
+                                <option value="2">Half Day Leave</option>
+                                <option value="3">Short Leave</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Manager
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control select2 manager input-name" id="manager_${index}" name="manager[]">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Reason
+                            </label>
+                            <textarea class="form-control" id="" cols="40" rows="1" name="reason[]" id="reason"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <button class="btn btn-primary font-weight-bolder mr-4 add-leave" id="">+</button>
+                        <button class="btn btn-danger font-weight-bolder remove-leave" id="">-</button>
+                    </div>
+                </div>`;
+                    $('.add-leave-body').append(add_leave_row);
+                    $('.new-leave-row').last().slideDown('slow').removeClass('new-leave-row');
+                    $('#leave_type_' + index).select2();
+                    $('#manager_' + index).select2();
+                    
+                    $.ajax({
+                        type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "employee/admin/leave-request/ajaxcall",
+                    data: { 'action': 'get-manager-detail' },
+                    success: function(data) {
+                        var manager = $('.add-leave-body').find('.row').last().find('.manager');
+                        $(manager).html(data);
+                    }
+                });
+
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = today.toLocaleString('en-US', { month: 'short' });
+                var yyyy = today.getFullYear();
+                today = dd + '-' + mm + '-' + yyyy;
+                $(".datepicker_start_date_" + index).val(today);
+                $(".datepicker_end_date_" + index).val(today);
+                $(".datepicker_start_date_" + index).datepicker({
+                    format: 'd-M-yyyy',
+                    todayHighlight: true,
+                    autoclose: true,
+                    orientation: "bottom auto",
+                    startDate: new Date()
+                });
+                $(".datepicker_end_date_" + index).datepicker({
+                    format: 'd-M-yyyy',
+                    todayHighlight: true,
+                    autoclose: true,
+                    orientation: "bottom auto",
+                    startDate: new Date()
+                });
+                
+                index++;
+            }
+        });
+
+        $('body').on('click', '.remove-leave', function (e) {
+            e.preventDefault();
+            var row = $(this).closest('.row');
+            row.slideUp('slow', function() {
+                $(this).remove();
+            });
         });
 
     }
@@ -144,13 +267,15 @@ var LeaveRequest = function(){
     var editLeaveRequest = function(){
         var form = $('#edit-leave-request');
         var rules = {
-            date : {required: true},
+            start_date : {required: true},
+            end_date : {required: true},
             manager : {required: true},
             leave_type : {required: true}
         };
 
         var message = {
-            date : {required: "Please select date"},
+            start_date : {required: "Please select date"},
+            end_date : {required: "Please select date"},
             manager : {required: "Please select manager"},
             leave_type : {required: "Please select leave type"},
         }
@@ -158,7 +283,14 @@ var LeaveRequest = function(){
             handleAjaxFormSubmit(form,true);
         });
 
-        $("#datepicker_date").datepicker({
+        $("#datepicker_start_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto",
+            startDate: new Date()
+        });
+        $("#datepicker_end_date").datepicker({
             format: 'd-M-yyyy',
             todayHighlight: true,
             autoclose: true,

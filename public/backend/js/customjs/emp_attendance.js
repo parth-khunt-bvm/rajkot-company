@@ -99,7 +99,7 @@ var EmpAttendance = function () {
                         var mm = clickedDate.toLocaleString('en-US', { month: 'short' });
                         var yyyy = clickedDate.getFullYear();
                         clickedDate = dd + '-' + mm + '-' + yyyy;
-                        window.location.href = baseurl + 'admin/attendance/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
+                        window.location.href = baseurl + 'employee/emp-attendances/day/list?date=' + clickedDate; // Change 'another-page.html' to your desired page
                     },
                     height: 800,
                     contentHeight: 1500,

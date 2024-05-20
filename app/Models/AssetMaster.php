@@ -122,7 +122,7 @@ class AssetMaster extends Model
             $nestedData[] = $row['asset_type'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['brand_name'];
-            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = numberformat($row['price']);
             $nestedData[] = $status;
 
             if (strlen($row['description']) > $max_length) {
@@ -226,7 +226,7 @@ class AssetMaster extends Model
             $nestedData[] = $row['asset_type'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['brand_name'];
-            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = numberformat($row['price']);
             $nestedData[] = $status;
 
             if (strlen($row['description']) > $max_length) {
@@ -273,7 +273,7 @@ class AssetMaster extends Model
                     $objAssetMaster->branch_id = $requestData['branch_id'];
                     $objAssetMaster->description = $requestData['description'] ?? '-';
                     $objAssetMaster->status = $requestData['status'];
-                    $objAssetMaster->price = $requestData['price']?? '-';
+                    $objAssetMaster->price = $requestData['price'] ?? '-';
                     $objAssetMaster->asset_code = $asset_code;
                     $objAssetMaster->is_deleted = 'N';
                     $objAssetMaster->created_at = date('Y-m-d H:i:s');

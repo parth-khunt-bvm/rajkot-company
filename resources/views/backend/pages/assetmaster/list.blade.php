@@ -157,7 +157,7 @@
                             <div class="col-md-2">
                                 <div class="form-group mt-8">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                    <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
+                                    <button type="reset" class="btn btn-secondary"><a href="">Cancel</a></button>
                                 </div>
                             </div>
                         </div>

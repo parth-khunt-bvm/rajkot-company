@@ -14,22 +14,30 @@
                     </div>
                     <!--begin::Form-->
                     <form class="form" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}">@csrf
-                        <div class="card-body">
+                        <div class="card-body add-leave-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Date
+                                        <label>Start Date
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="date" id="datepicker_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                                        <input type="text" name="start_date[]" class="form-control date datepicker_start_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>End Date
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="end_date[]" class="form-control date datepicker_end_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Leave Type
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 leave_type leave_select" name="leave_type" id="leave_type">
+                                        <select class="form-control select2 leave_type leave_select" name="leave_type[]" id="leave_type">
                                             <option value="">Please select Leave Type</option>
                                             <option value="1">Full Day Leave</option>
                                             <option value="2">Half Day Leave</option>
@@ -37,12 +45,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Manager
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control select2 manager input-name" id="manager" name="manager">
+                                        <select class="form-control select2 manager input-name" id="manager" name="manager[]">
                                             <option value="">Please select Manager Name</option>
                                             @foreach ($manager as $key => $value )
                                             <option value="{{ $value['id'] }}">{{ $value['manager_name'] }}</option>
@@ -50,12 +58,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Reson
+                                        <label>Reason
                                         </label>
-                                        <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason"></textarea>
+                                        <textarea class="form-control" id="" cols="40" rows="1" name="reason" id="reason[]"></textarea>
                                     </div>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <button class="btn btn-primary font-weight-bolder add-leave" id="">+</button>
                                 </div>
                             </div>
                         </div>
