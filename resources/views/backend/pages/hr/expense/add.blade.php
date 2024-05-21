@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>amount
+                                            <label>Amount
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>remarks
+                                            <label>Remarks
                                             </label>
                                             <textarea class="form-control" id="" cols="30" rows="1" name="remarks" id="remarks"></textarea>
                                         </div>

@@ -127,7 +127,7 @@
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
-                                <label>year</label>
+                                <label>Year</label>
                                 <span class="text-danger">*</span>
                                 <select class="form-control select2 year" id="expenseYearId"  name="year">
                                     <option value="">Select Year</option>
@@ -223,7 +223,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>year</label>
+                                    <label>Year</label>
                                     <select class="form-control select2 year change" id="expenseFillYearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)

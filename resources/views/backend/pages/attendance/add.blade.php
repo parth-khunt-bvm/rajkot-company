@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>minute (1 hour = 60 min)
+                                            <label>Minute (1 hour = 60 min)
                                             </label>
                                             <input type="number" name="minutes[]" id="minutes" class="form-control minutes" placeholder="Enter minutes" value="" autocomplete="off">
                                             <span class="minute_error text-danger"></span>

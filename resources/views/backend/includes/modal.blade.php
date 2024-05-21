@@ -1181,7 +1181,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>year</label><br>
+                                <label>Year</label><br>
                                 <select class="form-control select2 year change-fillter" id="yearId"  name="year">
                                     <option value="">Select Year</option>
                                     @for ($i = 2019; $i <= date('Y'); $i++)
@@ -1270,7 +1270,11 @@
     </div>
 </div>
 
-
+<!-- The Modal -->
+<div id="imagePreviewModal" class="previewModal">
+    <span class="imagePreviewClose">&times;</span>
+    <img class="imgPreview-modal-content" id="previewModalImage">
+</div>
 
 
 

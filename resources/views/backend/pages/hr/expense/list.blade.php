@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label> Month
+                                <label>Month
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-control select2 month" id="hrExpenseMonthId"  name="month">

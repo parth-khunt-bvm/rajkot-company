@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>year
+                                        <label>Year
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select class="form-control select2 year change" id="yearID"  name="year">

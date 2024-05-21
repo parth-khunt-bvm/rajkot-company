@@ -365,7 +365,7 @@
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label font-weight-bolder text-dark">Absent employee</span>
+                                <span class="card-label font-weight-bolder text-dark">Absent Employee</span>
                             </h3>
                             <div class="card-toolbar">
                             </div>
@@ -387,7 +387,7 @@
                                                     <th>Employee</th>
                                                     <th>Attendance Type</th>
                                                     <th>Minutes</th>
-                                                    <th>reason</th>
+                                                    <th>Reason</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

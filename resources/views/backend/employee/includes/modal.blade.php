@@ -109,3 +109,10 @@
         </div>
     </div>
 </div>
+
+
+<!-- The Modal -->
+<div id="imagePreviewModal" class="previewModal">
+    <span class="imagePreviewClose">&times;</span>
+    <img class="imgPreview-modal-content" id="previewModalImage">
+</div>

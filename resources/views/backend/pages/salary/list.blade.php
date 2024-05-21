@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>year</label>
+                                    <label>Year</label>
                                     <select class="form-control select2 year" id="salaryYearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>year</label>
+                                        <label>Year</label>
                                         <select class="form-control select2 year change" id="salaryFillYearId"  name="year">
                                             <option value="">Select Year</option>
                                             @for ($i = 2019; $i <= date('Y'); $i++)
@@ -241,7 +241,7 @@
                                     <th>Technology Name</th>
                                     <th>Month_Of</th>
                                     <th>Amount</th>
-                                    <th>Rmark</th>
+                                    <th>Remark</th>
                                     @php
                                         $target = [];
                                         $target = [45,46,47];

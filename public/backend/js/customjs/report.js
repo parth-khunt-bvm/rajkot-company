@@ -346,7 +346,7 @@ var Report = function () {
                             data: res.amount.salary ,
                         },
                         {
-                            name: 'profit-loss',
+                            name: 'Profit-Loss',
                             type: 'column',
                             data: res.amount.revenue.map((value, index) => value - res.amount.expense[index] - res.amount.salary[index]),
                             stack: 'total',

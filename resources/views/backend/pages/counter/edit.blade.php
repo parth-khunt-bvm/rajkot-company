@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>year</label>
+                                        <label>Year</label>
                                         <select class="form-control select2 year change" id="yearID" name="year">
                                             <option value="">Select Year</option>
                                             @for ($i = 2019; $i <= date('Y'); $i++)

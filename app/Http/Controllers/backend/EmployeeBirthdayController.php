@@ -53,10 +53,10 @@ class EmployeeBirthdayController extends Controller
                 'EmployeeBirthday.init()',
             );
             $data['header'] = array(
-                'title' => 'Employee Birthday list',
+                'title' => 'Employee Birthday List',
                 'breadcrumb' => array(
                     'Dashboard' => route('my-dashboard'),
-                    'Employee Birthday list' => 'Employee Birthday list',
+                    'Employee Birthday List' => 'Employee Birthday list',
                 )
             );
             return view('backend.pages.employee.birthday_list', $data);

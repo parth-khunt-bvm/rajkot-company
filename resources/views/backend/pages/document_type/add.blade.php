@@ -27,7 +27,7 @@
 
                                 <div class="col-xl-3">
                                     <div class="form-group">
-                                        <label>Image reqired
+                                        <label>Image Required
                                         <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control input-name" name="image_requirement" id="image_requirement" placeholder="required image Number" maxlength="2" autocomplete="off" />

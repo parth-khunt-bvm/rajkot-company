@@ -14,12 +14,12 @@ class Employees extends Model
     protected $table = 'employee';
 
     public function saveProfile($request){
-        $countEmployee = Employees::where("gmail",$request->input('email'))
-                        ->where("id",'!=',$request->input('edit_id'))
-                        ->count();
+        $countEmployee = Employees::where("gmail", $request->input('gmail'))
+        ->where('id', '!=', $request->input('id'))
+        ->count();
 
         if($countEmployee == 0){
-            $objEmployees = Employees::find($request->input('edit_id'));
+            $objEmployees = Employees::find($request->input('id'));
 
             $objEmployees->first_name = $request->input('first_name');
             $objEmployees->last_name = $request->input('last_name');
@@ -29,7 +29,7 @@ class Employees extends Model
                 $imagename = 'employee_image'.time().'.'.$image->getClientOriginalExtension();
                 $destinationPath = public_path('/upload/userprofile/');
                 $image->move($destinationPath, $imagename);
-                $objEmployees->employee_image  = $imagename ;
+                $objEmployees->employee_image = $imagename;
             }
             if($objEmployees->save()){
                 $currentRoute = Route::current()->getName();

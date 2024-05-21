@@ -130,17 +130,17 @@ var LeaveRequest = function(){
             handleAjaxFormSubmit(form,true);
         });
         
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = today.toLocaleString('en-US', { month: 'short' });
-        var yyyy = today.getFullYear();
-        today = dd + '-' + mm + '-' + yyyy;
-        $(".datepicker_start_date").val(today);
-        $(".datepicker_end_date").val(today);
+        // var today = new Date();
+        // var dd = String(today.getDate()).padStart(2, '0');
+        // var mm = today.toLocaleString('en-US', { month: 'short' });
+        // var yyyy = today.getFullYear();
+        // today = dd + '-' + mm + '-' + yyyy;
+        // $(".datepicker_start_date").val(today);
+        // $(".datepicker_end_date").val(today);
         $(".datepicker_start_date").datepicker({
+            multidate: true,
             format: 'd-M-yyyy',
             todayHighlight: true,
-            autoclose: true,
             orientation: "bottom auto",
             startDate: new Date()
         });

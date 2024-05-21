@@ -71,7 +71,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>year</label>
+                                    <label>Year</label>
                                     <select class="form-control select2 year counter-sheet-filter" id="att_report_year_id"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)
@@ -102,7 +102,7 @@
                             <th>Short Leave</th>
                             <th>OverTime(Hrs.)</th>
                             <th>Working Days</th>
-                            <th>payee days</th>
+                            <th>Payee days</th>
                             <th>Action</th>
                         </tr>
                     </thead>

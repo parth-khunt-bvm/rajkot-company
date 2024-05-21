@@ -43,7 +43,7 @@
                                 <div class="col-xl-2 col-md-2">
                                     <div class="image-input image-input-outline" id="kt_profile_avatar"
                                         style="background-image: url(assets/media/users/blank.png)">
-                                        <img class="" src="{{ $employee_image }}" alt="" style="" width="100">
+                                        <img class="pre-img" src="{{ $employee_image }}" alt="" style="" width="100">
                                     </div>
                                 </div>
                                 <div class="col-xl-10 col-md-10">
@@ -446,8 +446,12 @@
                                                     <div class="image-input image-input-outline"
                                                         id="kt_profile_avatar"
                                                         style="background-image: url(assets/media/users/blank.png)">
-                                                        <img class="" src="{{ $cheque_image }}" alt=""
-                                                            style="" width="100">
+                                                        <div class="doc-img">
+                                                            <img src="{{ $cheque_image }}" alt="" width="100" class="pre-img">
+                                                            <a href="{{ $cheque_image }}" class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow downloadBtn" data-toggle="tooltip" data-original-title="Download" download>
+                                                                <i class="fa fa-download text-primary"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -650,7 +654,7 @@
                                         @foreach ($images as $image)
                                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
                                             <div class="doc-img">
-                                                <img src="{{ asset('upload/document/' . $image) }}" alt="">
+                                                <img src="{{ asset('upload/document/' . $image) }}" alt="" class="pre-img">
                                                 <a href="{{ asset('upload/document/' . $image) }}" class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow downloadBtn" data-toggle="tooltip" data-original-title="Download" download>
                                                     <i class="fa fa-download text-primary"></i>
                                                 </a>

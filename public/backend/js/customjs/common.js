@@ -159,3 +159,30 @@ window.onbeforeunload = function () {
     localStorage.setItem("startTime", startTime.toString()); // Store startTime in local storage
 };
 
+$('body').on('click', '.pre-img', function() {
+    var $modal = $("#imagePreviewModal");
+    var $modalImg = $("#previewModalImage");
+
+    var imageUrl = $(this).attr('src');
+    if(imageUrl == null) {
+        var backgroundImage = $(this).css('background-image');
+        imageUrl = backgroundImage.replace(/^url\(['"](.+)['"]\)$/,'$1');
+    }
+
+    $modal.show();
+    $modalImg.attr('src', imageUrl);
+});
+
+$('body').on('click', '.imagePreviewClose', function() {
+    var $modal = $("#imagePreviewModal");
+    $modal.hide();
+});
+
+$('body').on('click', '#imagePreviewModal', function(event) {
+    var $modal = $("#imagePreviewModal");
+    var $modalImg = $("#previewModalImage");
+
+    if (!$(event.target).is($modalImg)) {
+        $modal.hide();
+    }
+});
