@@ -16,24 +16,16 @@
                     <form class="form" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}">@csrf
                         <div class="card-body add-leave-body">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-2 leaveDate">
                                     <div class="form-group">
-                                        <label>Start Date
+                                        <label>Leave Date
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="start_date[]" class="form-control date datepicker_start_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                                        <input type="text" name="date[]" class="form-control date datepicker_start_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>End Date
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="end_date[]" class="form-control date datepicker_end_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
+                                <div class="col-md-2 leave-type-container">
+                                    <div class="form-group leave-type-group">
                                         <label>Leave Type
                                             <span class="text-danger">*</span>
                                         </label>

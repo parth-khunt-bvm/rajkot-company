@@ -104,8 +104,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Leave Date</th>
                             <th>Employee Name</th>
                             <th>Manager</th>
                             <th>Leave Type</th>

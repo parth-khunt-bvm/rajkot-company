@@ -91,10 +91,10 @@ class AttendanceController extends Controller
             'EmployeeOverTimeDay.init()',
         );
         $data['header'] = array(
-            'title' => 'Attendance list',
+            'title' => 'Attendance List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Attendance list' => 'Attendance list',
+                'Attendance List' => 'Attendance list',
             )
         );
         return view('backend.pages.attendance.attendance_day_list', $data);

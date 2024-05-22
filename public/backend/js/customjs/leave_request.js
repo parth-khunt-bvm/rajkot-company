@@ -65,7 +65,6 @@ var LeaveRequest = function(){
                 data: { 'action': 'leave-request-view', 'data': data },
                 success: function (data) {
                    var LeaveRequest =  JSON.parse(data);
-                //    console.log(LeaveRequest);
                    function formatDate(inputDate) {
                     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     const day = inputDate.getDate();
@@ -73,13 +72,10 @@ var LeaveRequest = function(){
                     const year = inputDate.getFullYear();
                     return `${day}-${month}-${year}`;
                   }
-                  const inputStartDate = new Date(LeaveRequest.start_date);
+                  const inputStartDate = new Date(LeaveRequest.date);
                   const formattedStartDate = formatDate(inputStartDate);
-                  const inputEndDate = new Date(LeaveRequest.end_date);
-                  const formattedEndDate = formatDate(inputEndDate);
 
                    $("#leave_start_date").text(formattedStartDate);
-                   $("#leave_end_date").text(formattedEndDate);
                    $("#leave_emp_name").text(LeaveRequest.first_name + " " + LeaveRequest.last_name);
                    $("#leave_man_name").text(LeaveRequest.manager_name);
 
@@ -114,15 +110,13 @@ var LeaveRequest = function(){
     var addLeaveRequest = function(){
         var form = $('#add-leave-request');
         var rules = {
-            'start_date[]' : {required: true},
-            'end_date[]' : {required: true},
+            'date[]' : {required: true},
             'manager[]' : {required: true},
             'leave_type[]' : {required: true}
         };
 
         var message = {
-            'start_date[]' : {required: "Please select date"},
-            'end_date[]' : {required: "Please select date"},
+            'date[]' : {required: "Please select date"},
             'manager[]' : {required: "Please select manager"},
             'leave_type[]' : {required: "Please select leave type"},
         }
@@ -143,14 +137,46 @@ var LeaveRequest = function(){
             todayHighlight: true,
             orientation: "bottom auto",
             startDate: new Date()
+        }).on("changeDate", function(e) {
+            var dates = $(this).val().split(',');
+            
+            dates.sort(function(a, b) {
+                return new Date(a) - new Date(b);
+            });
+
+            $(this).val(dates.join(', '));
+            updateLeaveTypeFields(dates);
         });
-        $(".datepicker_end_date").datepicker({
-            format: 'd-M-yyyy',
-            todayHighlight: true,
-            autoclose: true,
-            orientation: "bottom auto",
-            startDate: new Date()
-        });
+        function updateLeaveTypeFields(dates) {
+            var $leaveDateElement = $('.leaveDate');
+            var $container = $leaveDateElement.nextAll('.leave-type-container').last();
+
+            $leaveDateElement.nextAll('.leave-type-container').remove();
+    
+            dates.forEach(function(date, index) {
+                var leaveTypeField = `
+                    <div class="col-md-2 leave-type-container">
+                        <div class="form-group leave-type-group" data-date="${date}">
+                            <label>Leave Type for ${date}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control select2 leave_type" name="leave_type[]">
+                                <option value="">Please select Leave Type</option>
+                                <option value="1">Full Day Leave</option>
+                                <option value="2">Half Day Leave</option>
+                                <option value="3">Short Leave</option>
+                            </select>
+                        </div>
+                    </div>`;
+                if (index === 0) {
+                    $('.leaveDate').after(leaveTypeField);
+                } else {
+                    $container.after(leaveTypeField);
+                }
+                $container = $leaveDateElement.nextAll('.leave-type-container').last();
+                $('.select2').select2();
+            });
+        }
 
         var index = 1;
 

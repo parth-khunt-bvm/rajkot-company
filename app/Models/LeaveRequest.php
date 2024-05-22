@@ -16,21 +16,20 @@ class LeaveRequest extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'leave_request.id',
-            1 =>  DB::raw('DATE_FORMAT(leave_request.start_date, "%d-%b-%Y")'),
-            2 =>  DB::raw('DATE_FORMAT(leave_request.end_date, "%d-%b-%Y")'),
-            3 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
-            4 => 'manager.manager_name',
-            5 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
+            1 =>  DB::raw('DATE_FORMAT(leave_request.date, "%d-%b-%Y")'),
+            2 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
+            3 => 'manager.manager_name',
+            4 => DB::raw('(CASE WHEN leave_request.leave_type = "0" THEN "Present"
                     WHEN leave_request.leave_type = "1" THEN "Absent"
                     WHEN leave_request.leave_type = "2" THEN "Half Day"
                     ELSE "Short Leave" END)'),
-            6 => DB::raw('(CASE WHEN leave_request.leave_status = "P" THEN "Pending"
+            5 => DB::raw('(CASE WHEN leave_request.leave_status = "P" THEN "Pending"
             WHEN leave_request.leave_status = "R" THEN "Rejected"
             ELSE "Approved" END)'),
-            7 => 'leave_request.reason',
-            8 => DB::raw('CONCAT(users.first_name, " ", users.last_name)'),
-            9 => 'leave_request.reject_reason',
-            10 => 'leave_request.approved_date',
+            6 => 'leave_request.reason',
+            7 => DB::raw('CONCAT(users.first_name, " ", users.last_name)'),
+            8 => 'leave_request.reject_reason',
+            9 => 'leave_request.approved_date',
         );
         $query = LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
@@ -63,7 +62,7 @@ class LeaveRequest extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('leave_request.id', 'leave_request.start_date','leave_request.end_date', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as fullName'),DB::raw('CONCAT(users.first_name, " ", users.last_name) as UserFullName') ,'manager.manager_name', 'leave_request.leave_type', 'leave_request.leave_status', 'leave_request.reason', 'leave_request.reject_reason','leave_request.approved_date')
+            ->select('leave_request.id', 'leave_request.date', DB::raw('CONCAT(employee.first_name, " ", employee.last_name) as fullName'),DB::raw('CONCAT(users.first_name, " ", users.last_name) as UserFullName') ,'manager.manager_name', 'leave_request.leave_type', 'leave_request.leave_status', 'leave_request.reason', 'leave_request.reject_reason','leave_request.approved_date')
             ->get();
 
         $data = array();
@@ -96,8 +95,7 @@ class LeaveRequest extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
-            $nestedData[] = date_formate($row['start_date']);
-            $nestedData[] = date_formate($row['end_date']);
+            $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['fullName'];
             $nestedData[] = $row['manager_name'];
             $nestedData[] = $leave_type;
@@ -122,25 +120,22 @@ class LeaveRequest extends Model
     {
 
         $responses = [];
-
-        foreach ($requestData['start_date'] as $index => $startDate) {
-
-            $start_date = date('Y-m-d', strtotime($startDate));
-            $end_date = date('Y-m-d', strtotime($requestData['end_date'][$index]));
-            $manager = $requestData['manager'][$index];
+        $dateArray = explode(',', $requestData['date'][0]);
+        
+        foreach ($dateArray as $index => $startDate) {
+            $date = date('Y-m-d', strtotime($startDate));
             $leave_type = $requestData['leave_type'][$index];
-            $reason = isset($requestData['reason'][$index]) ? $requestData['reason'][$index] : null;
-
+            $manager = $requestData['manager'][0];
+            $reason = isset($requestData['reason']) ? $requestData['reason'] : null;
+            
             $checkLeaveRequest = LeaveRequest::from('leave_request')
-                ->where('leave_request.start_date', $start_date)
-                ->where('leave_request.end_date', $end_date)
-                ->where('leave_request.employee_id', Auth()->guard('employee')->user()->id)
-                ->count();
-
+            ->where('leave_request.date', $date)
+            ->where('leave_request.employee_id', Auth()->guard('employee')->user()->id)
+            ->count();
+            
             if ($checkLeaveRequest == 0) {
                 $objLeaveRequest = new LeaveRequest();
-                $objLeaveRequest->start_date = $start_date;
-                $objLeaveRequest->end_date = $end_date;
+                $objLeaveRequest->date = $date;
                 $objLeaveRequest->employee_id = Auth()->guard('employee')->user()->id;
                 $objLeaveRequest->manager_id = $manager;
                 $objLeaveRequest->leave_type = $leave_type;
@@ -150,8 +145,7 @@ class LeaveRequest extends Model
                 $objLeaveRequest->updated_at = date('Y-m-d H:i:s');
                 if ($objLeaveRequest->save()) {
                     $inputData = [
-                        'start_date' => $start_date,
-                        'end_date' => $end_date,
+                        'date' => $date,
                         'leave_type' => $leave_type,
                         'manager' => $manager,
                         'reason' => $reason,
@@ -172,16 +166,14 @@ class LeaveRequest extends Model
 
     public function saveEdit($requestData){
         $checkLeaveRequest = LeaveRequest::from('leave_request')
-        ->where('leave_request.start_date', date('Y-m-d', strtotime($requestData['start_date'])))
-        ->where('leave_request.end_date', date('Y-m-d', strtotime($requestData['end_date'])))
+        ->where('leave_request.date', date('Y-m-d', strtotime($requestData['date'])))
         ->where('leave_request.employee_id', Auth()->guard('employee')->user()->id)
         ->where('leave_request.id', '!=', $requestData['leave_req_Id'])
         ->count();
 
         if($checkLeaveRequest == 0){
             $objLeaveRequest = LeaveRequest::find($requestData['leave_req_Id']);
-            $objLeaveRequest->start_date = date('Y-m-d', strtotime($requestData['start_date']));
-            $objLeaveRequest->end_date = date('Y-m-d', strtotime($requestData['end_date']));
+            $objLeaveRequest->date = date('Y-m-d', strtotime($requestData['date']));
             $objLeaveRequest->employee_id = Auth()->guard('employee')->user()->id;
             $objLeaveRequest->manager_id = $requestData['manager'];
             $objLeaveRequest->leave_type = $requestData['leave_type'];
@@ -206,7 +198,7 @@ class LeaveRequest extends Model
         return LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
             ->join("manager", "manager.id", "=", "leave_request.manager_id")
-            ->select('leave_request.id', 'leave_request.start_date', 'leave_request.end_date', 'leave_request.employee_id', 'leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status','employee.first_name','employee.last_name','manager.manager_name')
+            ->select('leave_request.id', 'leave_request.date', 'leave_request.employee_id', 'leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status','employee.first_name','employee.last_name','manager.manager_name')
             ->where('leave_request.id', $id)
             ->first();
     }

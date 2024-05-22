@@ -120,7 +120,7 @@ function displayTime(time) {
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-    console.log(hours, minutes, seconds);
+    // console.log(hours, minutes, seconds);
 
     document.getElementById("timer").innerText = hours + ":" + minutes + ":" + seconds;
 }

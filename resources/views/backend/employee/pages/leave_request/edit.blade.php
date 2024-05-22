@@ -19,19 +19,11 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Start Date
+                                        <label>Leave Date
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="hidden" name="leave_req_Id"  value="{{ $Leave_request_details->id}}">
-                                        <input type="text" name="start_date" id="datepicker_start_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->start_date) }}" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>End Date
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="end_date" id="datepicker_end_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->end_date) }}" autocomplete="off">
+                                        <input type="text" name="date" id="datepicker_start_date" class="form-control date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="{{ date_formate($Leave_request_details->date) }}" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-2">

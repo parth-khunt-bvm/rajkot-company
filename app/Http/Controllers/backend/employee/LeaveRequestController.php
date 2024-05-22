@@ -113,16 +113,10 @@ class LeaveRequestController extends Controller
         $objLeaveRequest = new LeaveRequest();
         $results = $objLeaveRequest->store($request);
 
-        $return = [
-            'status' => 'success',
-            'jscode' => '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();',
-            'message' => '',
-            'redirect' => ''
-        ];
-
         $addedCount = 0;
         $existsCount = 0;
         $errorCount = 0;
+        $return['message'] = '';
 
         foreach ($results as $result) {
             if ($result == 'added') {
@@ -135,18 +129,22 @@ class LeaveRequestController extends Controller
         }
 
         if ($addedCount > 0) {
+            $return['status'] = 'success';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] .= "$addedCount Leave Request(s) successfully added. ";
             $return['redirect'] = route('leave-request.index');
         }
 
         if ($existsCount > 0) {
-            $return['message'] .= "$existsCount Leave Request(s) already exist. ";
             $return['status'] = 'warning';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] .= "$existsCount Leave Request(s) already exist. ";
         }
 
         if ($errorCount > 0) {
-            $return['message'] .= "$errorCount Leave Request(s) failed to add.";
             $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] .= "$errorCount Leave Request(s) failed to add.";
         }
 
         echo json_encode($return);
