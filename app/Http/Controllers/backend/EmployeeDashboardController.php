@@ -126,9 +126,9 @@ class EmployeeDashboardController extends Controller
 
     public function editProfile(){
 
-        $data = Auth()->guard('employee')->user();
+        // $data = Auth()->guard('employee')->user();
         $objEmployee = new Employee();
-        $data['employee_details'] = $objEmployee->get_employee_details($data['id']);
+        $data['employee_details'] = $objEmployee->get_employee_details(1);
         
         $objTechnology = new Technology();
         $data['technology'] = $objTechnology->get_admin_technology_details();

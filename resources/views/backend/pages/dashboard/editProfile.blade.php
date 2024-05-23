@@ -63,7 +63,7 @@
                                             <label>Profile Image</label>
                                             <div class="">
                                                 <div class="image-input image-input-outline" id="kt_image_1">
-                                                    <div class="image-input-wrapper my-avtar"
+                                                    <div class="image-input-wrapper my-avtar pre-img"
                                                         style="background-image: url({{ $image }})"></div>
 
                                                     <label

@@ -21,7 +21,7 @@
                                         <label>Leave Date
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="date[]" class="form-control date datepicker_start_date" max="{{ date('Y-m-d') }}" placeholder="Select Date" value="" autocomplete="off">
+                                        <input type="text" name="date[]" class="form-control date datepicker_start_date" placeholder="Select Date" value="" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-2 leave-type-container">

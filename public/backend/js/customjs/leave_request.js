@@ -118,7 +118,7 @@ var LeaveRequest = function(){
         var message = {
             'date[]' : {required: "Please select date"},
             'manager[]' : {required: "Please select manager"},
-            'leave_type[]' : {required: "Please select leave type"},
+            'leave_type[]' : {required: "Please select leave type"}
         }
         handleFormValidateWithMsg(form, rules,message, function(form) {
             handleAjaxFormSubmit(form,true);
@@ -139,9 +139,9 @@ var LeaveRequest = function(){
             startDate: new Date()
         }).on("changeDate", function(e) {
             var dates = $(this).val().split(',');
-            
+            console.log(e);
             dates.sort(function(a, b) {
-                return new Date(a) - new Date(b);
+                return new Date(a.trim()) - new Date(b.trim());
             });
 
             $(this).val(dates.join(', '));
@@ -160,7 +160,7 @@ var LeaveRequest = function(){
                             <label>Leave Type for ${date}
                                 <span class="text-danger">*</span>
                             </label>
-                            <select class="form-control select2 leave_type" name="leave_type[]">
+                            <select class="form-control select2 leave_type leave_select" name="leave_type[]">
                                 <option value="">Please select Leave Type</option>
                                 <option value="1">Full Day Leave</option>
                                 <option value="2">Half Day Leave</option>
@@ -174,8 +174,8 @@ var LeaveRequest = function(){
                     $container.after(leaveTypeField);
                 }
                 $container = $leaveDateElement.nextAll('.leave-type-container').last();
-                $('.select2').select2();
             });
+            $('.select2').select2();
         }
 
         var index = 1;

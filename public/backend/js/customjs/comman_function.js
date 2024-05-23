@@ -277,7 +277,11 @@ function handleFormValidateWithMsg(form, rules, messages, submitCallback, showTo
                error.insertAfter(element);
             } else {
                 if (elem.hasClass("select2-hidden-accessible")) {
-                    element = $("#select2-" + elem.attr("id") + "-container").parent();
+                    if (elem.hasClass("leave_select")) {
+                        element = $(elem).next('.select2-container').find('.select2-selection');
+                    } else {
+                        element = $("#select2-" + elem.attr("id") + "-container").parent();
+                    }
                     error.insertAfter(element);
                 } else {
                     if (elem.hasClass("radio-btn")) {

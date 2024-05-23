@@ -28,8 +28,7 @@ $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_ty
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Date</th>
                             <th>Employee Name</th>
                             <th>Manager</th>
                             <th>Leave Type</th>

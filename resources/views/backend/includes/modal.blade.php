@@ -1263,8 +1263,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approved</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approve</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Reject</button>
             </div>
         </div>
     </div>

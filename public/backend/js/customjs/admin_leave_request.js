@@ -60,7 +60,7 @@ var AdminLeaveRequest = function(){
                     const year = inputDate.getFullYear();
                     return `${day}-${month}-${year}`;
                   }
-                  const inputStartDate = new Date(LeaveRequest.start_date);
+                  const inputStartDate = new Date(LeaveRequest.date);
                   const formattedStartDate = formatDate(inputStartDate);
 
                    $("#leave_start_date").text(formattedStartDate);

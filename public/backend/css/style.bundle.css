@@ -69865,7 +69865,7 @@ code {
   }
 }
 .page-loading * {
-  transition: none !important;
+  transition: none;
 }
 
 .page-loader {

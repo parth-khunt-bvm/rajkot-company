@@ -18,17 +18,17 @@ class EmpChangeRequest extends Model
 
         if ($countRequest === 0) {
 
-            $countEmployee = Employees::where("gmail", $request->input('gmail'))
-                ->where("id", '!=', $request->input('id'))
-                ->count();
+            // $countEmployee = Employees::where("gmail", $request->input('gmail'))
+            //     ->where("id", '!=', $request->input('id'))
+            //     ->count();
 
             // if ($countEmployee == 0) {
 
                 $objEmpChangeRequest = Employees::find($request->input('id'));
-                $request['DOB'] = $request['DOB'] != null && $request['DOB'] != '' ? date('Y-m-d', strtotime($request['DOB'])) : null ;
+                $request['DOB'] = $request['DOB'] != null && $request['DOB'] != '' ? date('Y-m-d', strtotime($request['DOB'])) : null;
                 $request['DOJ'] = $request['DOJ'] != null && $request['DOJ'] != '' ? date('Y-m-d', strtotime($request['DOJ'])) : null;
 
-                if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != $request['DOB'] || $objEmpChangeRequest->DOJ != $request['DOJ'] || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
+                if ($objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != $request['DOB'] || $objEmpChangeRequest->DOJ != $request['DOJ'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
                     $data = $request->input();
                     unset($data['_token']);
                     $objEmpChangeRequest = new EmpChangeRequest();

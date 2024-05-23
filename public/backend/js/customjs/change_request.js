@@ -107,10 +107,11 @@ var ChangeRequest = function () {
                         // }
 
                         if (data[index] != value) {
-                            temp = "<span style='color: red;'>" + displayIndex + " </span> : <span style='color: red;'>" + value + "</span><br>"; // If value doesn't match, color it red
-                        } else {
                             temp = displayIndex + " : " + value + "<br>";
-                        }
+                            // temp = "<span style='color: red;'>" + displayIndex + " </span> : <span style='color: red;'>" + value + "</span><br>"; // If value doesn't match, color it red
+                        } /*else {
+                            temp = displayIndex + " : " + value + "<br>";
+                        }*/
                         oldHtml = oldHtml + temp;
                     });
 
@@ -138,9 +139,9 @@ var ChangeRequest = function () {
 
                         if (oldData[index] != value) {
                             temp = "<span style='color: red;'>" + displayIndex + "</span> : <span style='color: red;'>" + value + "</span><br>"; // If value doesn't match, color it red
-                        } else {
+                        } /*else {
                             temp = displayIndex + " : " + value + "<br>";
-                        }
+                        }*/
                         newHtml = newHtml + temp;
                     });
 
