@@ -26,10 +26,11 @@ class EmpChangeRequestController extends Controller
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = " Change request details successfully added";
+            $return['reload'] = true;
         } else if($result = 'change_request_exit'){
             $return['status'] = 'warning';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = " Change request details allready added";
+            $return['message'] = " Change request details already added";
         }
         echo json_encode($return);
         exit;

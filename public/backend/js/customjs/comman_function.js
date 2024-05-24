@@ -140,7 +140,9 @@ function handleAjaxResponse(output) {
         }, 4000);
     }
     if (typeof output.reload !== 'undefined' && output.reload != '') {
-        window.location.href = location.reload();
+        setTimeout(function() {
+            window.location.reload();
+        }, 4000);
     }
     if (typeof output.jscode !== 'undefined' && output.jscode != '') {
         eval(output.jscode);

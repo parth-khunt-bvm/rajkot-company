@@ -108,6 +108,9 @@ var LeaveRequest = function(){
     }
 
     var addLeaveRequest = function(){
+        $.validator.methods.date = function(value, element) {
+            return true; // Always return true to bypass automatic date validation
+        };
         var form = $('#add-leave-request');
         var rules = {
             'date[]' : {required: true},
@@ -133,13 +136,14 @@ var LeaveRequest = function(){
         // $(".datepicker_end_date").val(today);
         $(".datepicker_start_date").datepicker({
             multidate: true,
+            clearBtn: true,
             format: 'd-M-yyyy',
             todayHighlight: true,
+            keyboardNavigation: false,
             orientation: "bottom auto",
             startDate: new Date()
         }).on("changeDate", function(e) {
             var dates = $(this).val().split(',');
-            console.log(e);
             dates.sort(function(a, b) {
                 return new Date(a.trim()) - new Date(b.trim());
             });
@@ -178,106 +182,120 @@ var LeaveRequest = function(){
             $('.select2').select2();
         }
 
-        var index = 1;
-
-        $('body').on('click', '.add-leave', function (e) {
-            e.preventDefault();
-            if(form.valid()){
-
-                var add_leave_row = `<div class="row new-leave-row" style="display: none;">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Start Date
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" name="start_date[]" class="form-control date datepicker_start_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>End Date
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" name="end_date[]" class="form-control date datepicker_end_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Leave Type
-                                <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control select2 leave_type leave_select" name="leave_type[]" id="leave_type_${index}">
-                                <option value="">Please select Leave Type</option>
-                                <option value="1">Full Day Leave</option>
-                                <option value="2">Half Day Leave</option>
-                                <option value="3">Short Leave</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Manager
-                                <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control select2 manager input-name" id="manager_${index}" name="manager[]">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Reason
-                            </label>
-                            <textarea class="form-control" id="" cols="40" rows="1" name="reason[]" id="reason"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-center">
-                        <button class="btn btn-primary font-weight-bolder mr-4 add-leave" id="">+</button>
-                        <button class="btn btn-danger font-weight-bolder remove-leave" id="">-</button>
-                    </div>
-                </div>`;
-                    $('.add-leave-body').append(add_leave_row);
-                    $('.new-leave-row').last().slideDown('slow').removeClass('new-leave-row');
-                    $('#leave_type_' + index).select2();
-                    $('#manager_' + index).select2();
-                    
-                    $.ajax({
-                        type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                    },
-                    url: baseurl + "employee/admin/leave-request/ajaxcall",
-                    data: { 'action': 'get-manager-detail' },
-                    success: function(data) {
-                        var manager = $('.add-leave-body').find('.row').last().find('.manager');
-                        $(manager).html(data);
-                    }
-                });
-
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = today.toLocaleString('en-US', { month: 'short' });
-                var yyyy = today.getFullYear();
-                today = dd + '-' + mm + '-' + yyyy;
-                $(".datepicker_start_date_" + index).val(today);
-                $(".datepicker_end_date_" + index).val(today);
-                $(".datepicker_start_date_" + index).datepicker({
-                    format: 'd-M-yyyy',
-                    todayHighlight: true,
-                    autoclose: true,
-                    orientation: "bottom auto",
-                    startDate: new Date()
-                });
-                $(".datepicker_end_date_" + index).datepicker({
-                    format: 'd-M-yyyy',
-                    todayHighlight: true,
-                    autoclose: true,
-                    orientation: "bottom auto",
-                    startDate: new Date()
+        $('body').on('keydown', '.date', function (e) {
+            if(e.keyCode == 13){
+                var dates = $(this).val().split(',');
+                dates.sort(function(a, b) {
+                    return new Date(a.trim()) - new Date(b.trim());
                 });
                 
-                index++;
+                $(this).val(dates.join(', '));
+                updateLeaveTypeFields(dates);
+            } else if (e.keyCode == 8 || e.keyCode == 46) {
+                e.preventDefault();
             }
         });
+
+        // var index = 1;
+
+        // $('body').on('click', '.add-leave', function (e) {
+        //     e.preventDefault();
+        //     if(form.valid()){
+
+        //         var add_leave_row = `<div class="row new-leave-row" style="display: none;">
+        //             <div class="col-md-2">
+        //                 <div class="form-group">
+        //                     <label>Start Date
+        //                         <span class="text-danger">*</span>
+        //                     </label>
+        //                     <input type="text" name="start_date[]" class="form-control date datepicker_start_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
+        //                 </div>
+        //             </div>
+        //             <div class="col-md-2">
+        //                 <div class="form-group">
+        //                     <label>End Date
+        //                         <span class="text-danger">*</span>
+        //                     </label>
+        //                     <input type="text" name="end_date[]" class="form-control date datepicker_end_date_${index}" max="${new Date().toISOString().split('T')[0]}" placeholder="Select Date" value="" autocomplete="off">
+        //                 </div>
+        //             </div>
+        //             <div class="col-md-2">
+        //                 <div class="form-group">
+        //                     <label>Leave Type
+        //                         <span class="text-danger">*</span>
+        //                     </label>
+        //                     <select class="form-control select2 leave_type leave_select" name="leave_type[]" id="leave_type_${index}">
+        //                         <option value="">Please select Leave Type</option>
+        //                         <option value="1">Full Day Leave</option>
+        //                         <option value="2">Half Day Leave</option>
+        //                         <option value="3">Short Leave</option>
+        //                     </select>
+        //                 </div>
+        //             </div>
+        //             <div class="col-md-2">
+        //                 <div class="form-group">
+        //                     <label>Manager
+        //                         <span class="text-danger">*</span>
+        //                     </label>
+        //                     <select class="form-control select2 manager input-name" id="manager_${index}" name="manager[]">
+        //                     </select>
+        //                 </div>
+        //             </div>
+        //             <div class="col-md-2">
+        //                 <div class="form-group">
+        //                     <label>Reason
+        //                     </label>
+        //                     <textarea class="form-control" id="" cols="40" rows="1" name="reason[]" id="reason"></textarea>
+        //                 </div>
+        //             </div>
+        //             <div class="col-md-2 d-flex align-items-center">
+        //                 <button class="btn btn-primary font-weight-bolder mr-4 add-leave" id="">+</button>
+        //                 <button class="btn btn-danger font-weight-bolder remove-leave" id="">-</button>
+        //             </div>
+        //         </div>`;
+        //             $('.add-leave-body').append(add_leave_row);
+        //             $('.new-leave-row').last().slideDown('slow').removeClass('new-leave-row');
+        //             $('#leave_type_' + index).select2();
+        //             $('#manager_' + index).select2();
+                    
+        //             $.ajax({
+        //                 type: "POST",
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+        //             },
+        //             url: baseurl + "employee/admin/leave-request/ajaxcall",
+        //             data: { 'action': 'get-manager-detail' },
+        //             success: function(data) {
+        //                 var manager = $('.add-leave-body').find('.row').last().find('.manager');
+        //                 $(manager).html(data);
+        //             }
+        //         });
+
+        //         var today = new Date();
+        //         var dd = String(today.getDate()).padStart(2, '0');
+        //         var mm = today.toLocaleString('en-US', { month: 'short' });
+        //         var yyyy = today.getFullYear();
+        //         today = dd + '-' + mm + '-' + yyyy;
+        //         $(".datepicker_start_date_" + index).val(today);
+        //         $(".datepicker_end_date_" + index).val(today);
+        //         $(".datepicker_start_date_" + index).datepicker({
+        //             format: 'd-M-yyyy',
+        //             todayHighlight: true,
+        //             autoclose: true,
+        //             orientation: "bottom auto",
+        //             startDate: new Date()
+        //         });
+        //         $(".datepicker_end_date_" + index).datepicker({
+        //             format: 'd-M-yyyy',
+        //             todayHighlight: true,
+        //             autoclose: true,
+        //             orientation: "bottom auto",
+        //             startDate: new Date()
+        //         });
+                
+        //         index++;
+        //     }
+        // });
 
         $('body').on('click', '.remove-leave', function (e) {
             e.preventDefault();

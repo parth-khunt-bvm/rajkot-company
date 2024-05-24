@@ -19,6 +19,7 @@ Route::group(['prefix' => 'employee'], function () {
     Route::resource('my-dashboard', EmployeeDashboardController::class);
     Route::get('edit-profile', [EmployeeDashboardController::class, 'editProfile'])->name('employee.edit-profile');
     Route::post('save-profile', [EmployeeDashboardController::class, 'saveProfile'])->name('employee.save-profile');
+    Route::post('save-profile/ajaxcall', [EmployeeDashboardController::class, 'ajaxcall'])->name('employee.save-profile.ajaxcall');
     Route::get('change-password', [EmployeeDashboardController::class, 'change_password'])->name('employee.change-password');
     Route::post('save-password', [EmployeeDashboardController::class, 'save_password'])->name('employee.save-password');
 

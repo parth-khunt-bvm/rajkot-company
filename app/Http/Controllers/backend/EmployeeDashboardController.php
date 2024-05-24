@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Attendance;
+use Config;
 use App\Models\Branch;
-use App\Models\Designation;
+use App\Models\Manager;
 use App\Models\Employee;
 use App\Models\Employees;
-use App\Models\Manager;
+use App\Models\Attendance;
 use App\Models\Technology;
+use App\Models\Designation;
 use Illuminate\Http\Request;
-use Config;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 class EmployeeDashboardController extends Controller
@@ -178,22 +180,40 @@ class EmployeeDashboardController extends Controller
         $result = $objEmployee->saveProfile($request);
         if ($result == "true") {
             $return['status'] = 'success';
-             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
             $return['message'] = 'Your profile successfully updated.';
             $return['redirect'] = route('employee.edit-profile');
+        } else if ($result == "no_change") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = "you don't have made any changes";
+        } else if ($result == "email_exist") {
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'The email address has already been registered.';
         } else {
-            if ($result == "email_exist") {
-                $return['status'] = 'error';
-                 $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-                $return['message'] = 'The email address has already been registered.';
-            }else{
-                $return['status'] = 'error';
-                 $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-                $return['message'] = 'Something goes to wrong';
-            }
+            $return['status'] = 'error';
+            $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
+            $return['message'] = 'Something goes to wrong';
         }
         echo json_encode($return);
         exit;
+    }
+
+    public function ajaxcall(Request $request){
+        if($request['action'] == 'check_password'){
+            $postData = $request['data'];
+            if (Auth::guard('employee')->attempt(['gmail' => $postData['gmail'], 'password' => $postData['password'], 'is_deleted'=>'N', 'status'=>'W'])) {
+                if (!empty(Auth()->guard('employee')->user())) {
+                    $data = Auth()->guard('employee')->user();
+                }
+                $response['status'] = true;
+                $response['data'] = ['gmail_password' => $data['gmail_password'], 'slack_password' => $data['slack_password']];
+                return json_encode($response);
+            } else {
+                return json_encode(false);
+            }
+        }
     }
 
     public function change_password(Request $request){

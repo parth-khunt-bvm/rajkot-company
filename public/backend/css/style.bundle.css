@@ -80261,5 +80261,11 @@ body {
     left: 70px;
   }
 }
+.showPassBtn, .hidePassBtn{
+  position: absolute;
+  top: 37px;
+  right: 23px;
+  transition: 0.3s;
+}
 
 /*# sourceMappingURL=style.bundle.css.map*/

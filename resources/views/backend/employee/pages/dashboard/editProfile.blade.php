@@ -13,7 +13,20 @@
         } else {
             $image = url('upload/userprofile/default.jpg');
         }
+        if ($data['gmail_password'] != '') {
+            $maskedGmailPass = '';
+            for ($i=1; $i <= strlen($data['gmail_password']); $i++) { 
+                $maskedGmailPass .= '#';
+            }
+        }
+        if ($data['slack_password'] != '') {
+            $maskedSlackPass = '';
+            for ($i=1; $i <= strlen($data['slack_password']); $i++) { 
+                $maskedSlackPass .= '#';
+            }
+        }
     @endphp
+    {{-- @dd($data) --}}
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
@@ -64,11 +77,11 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="hidden" name="id" class="form-control"
-                                                value="{{ $employee_details->id }}">
+                                                value="{{ $data['id'] }}">
                                             <input type="text" class="form-control" name="first_name"
-                                                id="first_name" value="{{ $employee_details->first_name }}"
+                                                id="first_name" value="{{ $data['first_name'] }}"
                                                 placeholder="First Name" autocomplete="off" />
-                                            <input type="hidden" value="{{ $employee_details->first_name }}"
+                                            <input type="hidden" value="{{ $data['first_name'] }}"
                                                 class="old_value" data-attribute="first_name">
                                         </div>
                                     </div>
@@ -78,27 +91,13 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control" name="last_name"
-                                                id="last_name" value="{{ $employee_details->last_name }}"
+                                                id="last_name" value="{{ $data['last_name'] }}"
                                                 placeholder="last Name" autocomplete="off" />
-                                            <input type="hidden" value="{{ $employee_details->last_name }}"
+                                            <input type="hidden" value="{{ $data['last_name'] }}"
                                                 class="old_value" data-attribute="last_name">
                                         </div>
                                     </div>
-                                    <div class="col-xl-4">
-                                        <div class="form-group">
-                                            <label>Company Gmail
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="email" class="form-control" name="gmail"
-                                                id="gmail" value="{{ $employee_details->gmail }}"
-                                                placeholder="Gmail" autocomplete="off" />
-                                            <input type="hidden" value="{{ $employee_details->gmail }}"
-                                                class="old_value" data-attribute="gmail">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12">
+                                    <div class="col-xl-4 pt-8">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary mr-2 green-btn submitbtn">Submit</button>
                                             <button type="reset" class="btn btn-secondary">Cancel</button>
@@ -247,10 +246,11 @@
                                                         <label>Gmail Password
                                                             <span class="text-danger">*</span>
                                                         </label>
+                                                        <a href="#" class="showPassBtn" data-toggle="modal" data-target="#unmask-pass-model" title="Show Password"><i class="fas fa-eye"></i></a>
                                                         <input type="text" class="form-control" name="gmail_password"
-                                                            id="gmail_password" value="{{ $data['gmail_password'] }}"
-                                                            placeholder="Gmail Password" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['gmail_password'] }}"
+                                                            id="gmail_password" value="{{ $maskedGmailPass }}"
+                                                            placeholder="Gmail Password" autocomplete="off" disabled />
+                                                        <input type="hidden" name="old_gmail_password" value="{{ $data['gmail_password'] }}"
                                                             class="old_value" data-attribute="gmail_password">
                                                     </div>
                                                 </div>
@@ -258,13 +258,28 @@
                                                     <div class="form-group">
                                                         <label>Slack Password
                                                         </label>
+                                                        <a href="#" class="showPassBtn" data-toggle="modal" data-target="#unmask-pass-model" title="Show Password"><i class="fas fa-eye"></i></a>
                                                         <input type="text" class="form-control" name="slack_password"
-                                                            id="slack_password" value="{{ $data['slack_password'] }}"
-                                                            placeholder="Slack Password" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['slack_password'] }}"
+                                                            id="slack_password" value="{{ $maskedSlackPass }}"
+                                                            placeholder="Slack Password" autocomplete="off" disabled />
+                                                        <input type="hidden" name="old_slack_password" value="{{ $data['slack_password'] }}"
                                                             class="old_value" data-attribute="slack_password">
                                                     </div>
                                                 </div>
+                                                <div class="col-xl-3">
+                                                    <div class="form-group">
+                                                        <label>Company Gmail
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="email" class="form-control" name="gmail"
+                                                            id="gmail" value="{{ $data['gmail'] }}"
+                                                            placeholder="Gmail" autocomplete="off" />
+                                                        <input type="hidden" value="{{ $data['gmail'] }}"
+                                                            class="old_value" data-attribute="gmail">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
                                                         <label>Personal Email

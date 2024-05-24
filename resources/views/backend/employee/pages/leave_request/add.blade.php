@@ -13,7 +13,7 @@
                         <h3 class="card-title">{{ $header['title'] }}</h3>
                     </div>
                     <!--begin::Form-->
-                    <form class="form" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}">@csrf
+                    <form class="form" id="add-leave-request" method="POST" action="{{ route('leave-request.store') }}" novalidate>@csrf
                         <div class="card-body add-leave-body">
                             <div class="row">
                                 <div class="col-md-2 leaveDate">

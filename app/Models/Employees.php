@@ -14,41 +14,45 @@ class Employees extends Model
     protected $table = 'employee';
 
     public function saveProfile($request){
-        $countEmployee = Employees::where("gmail", $request->input('gmail'))
-        ->where('id', '!=', $request->input('id'))
-        ->count();
+        // $countEmployee = Employees::where("gmail", $request->input('gmail'))
+        // ->where('id', '!=', $request->input('id'))
+        // ->count();
 
-        if($countEmployee == 0){
+        // if($countEmployee == 0){
             $objEmployees = Employees::find($request->input('id'));
 
-            $objEmployees->first_name = $request->input('first_name');
-            $objEmployees->last_name = $request->input('last_name');
-            $objEmployees->gmail = $request->input('gmail');
-            if($request->file('employee_image')){
-                $image = $request->file('employee_image');
-                $imagename = 'employee_image'.time().'.'.$image->getClientOriginalExtension();
-                $destinationPath = public_path('/upload/userprofile/');
-                $image->move($destinationPath, $imagename);
-                $objEmployees->employee_image = $imagename;
-            }
-            if($objEmployees->save()){
-                $currentRoute = Route::current()->getName();
-                $inputData = $request->input();
-                unset($inputData['_token']);
-                unset($inputData['profile_avatar_remove']);
-                unset($inputData['employee_image']);
+            if($objEmployees->first_name != $request->input('first_name') || $objEmployees->last_name != $request->input('last_name') || $request->hasFile('employee_image')){
+                $objEmployees->first_name = $request->input('first_name');
+                $objEmployees->last_name = $request->input('last_name');
+                // $objEmployees->gmail = $request->input('gmail');
                 if($request->file('employee_image')){
-                    $inputData['employee_image'] = $imagename;
+                    $image = $request->file('employee_image');
+                    $imagename = 'employee_image'.time().'.'.$image->getClientOriginalExtension();
+                    $destinationPath = public_path('/upload/userprofile/');
+                    $image->move($destinationPath, $imagename);
+                    $objEmployees->employee_image = $imagename;
                 }
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("U", $inputData, 'Update Profile');
-                return true;
-            }else{
-                return "false";
+                if($objEmployees->save()){
+                    $currentRoute = Route::current()->getName();
+                    $inputData = $request->input();
+                    unset($inputData['_token']);
+                    unset($inputData['profile_avatar_remove']);
+                    unset($inputData['employee_image']);
+                    if($request->file('employee_image')){
+                        $inputData['employee_image'] = $imagename;
+                    }
+                    $objAudittrails = new Audittrails();
+                    $objAudittrails->add_audit("U", $inputData, 'Update Profile');
+                    return true;
+                }else{
+                    return "false";
+                }
+            } else {
+                return "no_change";
             }
-        }else{
-            return "email_exist";
-        }
+        // }else{
+        //     return "email_exist";
+        // }
     }
 
     public function changepassword($request)
