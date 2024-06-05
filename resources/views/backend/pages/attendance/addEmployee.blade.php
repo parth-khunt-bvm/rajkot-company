@@ -45,8 +45,8 @@
     <div class="col-md-2 padding-left-5 padding-right-5">
         <div class="form-group">
             <label>&nbsp;</label><br>
-            <a href="javascript:;" class="my-btn btn btn-success add-attendance-button"><i class="my-btn fa fa-plus"></i></a>
-            <a href="javascript:;" class="my-btn btn btn-danger remove-attendance ml-2"><i class="my-btn fa fa-minus"></i></a>
+            <a href="javascript:;" class="my-btn btn btn-success add-attendance-button"><i class="my-btn fa fa-plus p-0"></i></a>
+            <a href="javascript:;" class="my-btn btn btn-danger remove-attendance ml-2"><i class="my-btn fa fa-minus p-0"></i></a>
         </div>
     </div>
 </div>

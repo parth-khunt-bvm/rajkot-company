@@ -126,30 +126,33 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <label>Login Email
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="email" class="form-control" name="login_email" id="login_email" placeholder="Login Email">
+            <form action="{{ route('employee.save-profile.ajaxcall') }}" method="POST" id="viewPassForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Login Email
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="email" class="form-control" name="login_email" id="login_email" placeholder="Login Email">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <label>Login Password
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="password" class="form-control" name="login_password" id="login_password" placeholder="Login Password">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Login Password
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="password" class="form-control" name="login_password" id="login_password" placeholder="Login Password">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light unhashPass">Submit</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light unhashPass">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

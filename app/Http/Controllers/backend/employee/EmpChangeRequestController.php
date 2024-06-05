@@ -21,7 +21,7 @@ class EmpChangeRequestController extends Controller
         } else if ($result == "no_change") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
+            $return['message'] = "You don't have made any changes";
         } else if ($result == "change") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -44,7 +44,7 @@ class EmpChangeRequestController extends Controller
         if ($result == "no_change") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
+            $return['message'] = "You don't have made any changes";
         } else if ($result == "change") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -67,7 +67,7 @@ class EmpChangeRequestController extends Controller
         if ($result == "no_change") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
+            $return['message'] = "You don't have made any changes";
         } else if ($result == "change") {
             $return['status'] = 'success';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

@@ -72,6 +72,17 @@ var EmployeeDashboard = function(){
             handleAjaxFormSubmit(form,true);
         });
 
+        var form = $('#viewPassForm');
+        var rules = {
+            login_email : {required: true},
+            login_password : {required: true}
+        };
+        var message = {
+            login_email : {required: "Please enter your Login Email"},
+            login_password : {required: "Please enter your Login Password"}
+        };
+        handleFormValidateWithMsg(form, rules,message);
+
 
         $(".datepicker_date").datepicker({
             format: 'd-M-yyyy',
@@ -87,41 +98,44 @@ var EmployeeDashboard = function(){
             endDate: new Date()
         });
 
-        $('body').on('click', '.unhashPass', function () {
-            var gmail = $('#login_email').val();
-            var password = $('#login_password').val();
-            var data = { 'gmail' : gmail, 'password' : password };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                },
-                url: baseurl + "employee/save-profile/ajaxcall",
-                data: { 'action': 'check_password', 'data': data },
-                success: function (data) {
-                    var response = JSON.parse(data);
-                    if(response.status == true){
-                        $('#unmask-pass-model').modal('toggle');
-                        $('#gmail_password').removeAttr('disabled');
-                        $('#gmail_password').val(response.data.gmail_password);
-                        $('#slack_password').removeAttr('disabled');
-                        $('#slack_password').val(response.data.slack_password);
-                        var showPassBtn = $('.showPassBtn').find();
-                        showPassBtn.prevObject.slideUp('slow', function() {
-                            $(this).remove();
-                        });
-                        showPassBtn.prevObject.each(function() {
-                            var newElement = $('<a href="#" class="hidePassBtn" title="Hide Password"><i class="fas fa-eye-slash"></i></a>');
-                            newElement.hide();
-                            $(this).after(newElement);
-                            newElement.delay(300).slideDown('slow');
-                        });
-                        showToster('success', 'Passwords are Successfully Showed.');
-                    } else {
-                        showToster('error', 'Invalid Login Credentials.');
-                    }
-                },
-            });
+        $('body').on('click', '.unhashPass', function (e) {
+            e.preventDefault();
+            if($('#viewPassForm').valid()){
+                var gmail = $('#login_email').val();
+                var password = $('#login_password').val();
+                var data = { 'gmail' : gmail, 'password' : password };
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "employee/save-profile/ajaxcall",
+                    data: { 'action': 'check_password', 'data': data },
+                    success: function (data) {
+                        var response = JSON.parse(data);
+                        if(response.status == true){
+                            $('#unmask-pass-model').modal('toggle');
+                            $('#gmail_password').removeAttr('disabled');
+                            $('#gmail_password').val(response.data.gmail_password);
+                            $('#slack_password').removeAttr('disabled');
+                            $('#slack_password').val(response.data.slack_password);
+                            var showPassBtn = $('.showPassBtn').find();
+                            showPassBtn.prevObject.slideUp('slow', function() {
+                                $(this).remove();
+                            });
+                            showPassBtn.prevObject.each(function() {
+                                var newElement = $('<a href="#" class="hidePassBtn" title="Hide Password"><i class="fas fa-eye-slash"></i></a>');
+                                newElement.hide();
+                                $(this).after(newElement);
+                                newElement.delay(300).fadeIn('slow');
+                            });
+                            showToster('success', 'Passwords are Successfully Showed.');
+                        } else {
+                            showToster('error', 'Invalid Login Credentials.');
+                        }
+                    },
+                });
+            }
         });
 
         $('body').on('click', '.hidePassBtn', function (e) {
@@ -142,7 +156,7 @@ var EmployeeDashboard = function(){
                 var newElement = $('<a href="#" class="showPassBtn" data-toggle="modal" data-target="#unmask-pass-model" title="Show Password"><i class="fas fa-eye"></i></a>');
                 newElement.hide();
                 $(this).after(newElement);
-                newElement.delay(300).slideDown('slow');
+                newElement.delay(300).fadeIn('slow');
             });
             showToster('success', 'Passwords Hidden Successfully.');
         });
@@ -172,7 +186,7 @@ var EmployeeDashboard = function(){
     }
     return {
         edit_profile:function(){
-            editProfile()
+            editProfile();
         },
         change_password:function(){
             password();

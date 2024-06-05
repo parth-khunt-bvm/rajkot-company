@@ -125,8 +125,41 @@
         </div>
         <!--end::Card-->
 
-         <!--begin::Card-->
-         <div class="card card-custom gutter-b">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header flex-wrap py-3">
+                <div class="card-title">
+                    <h3 class="card-label">Employee Time Tracking </h3>
+                 </div>
+                <div class="card-toolbar">
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="emp-overtime-day-list">
+                    <table class="table table-bordered table-checkable" id="emp-time-tracking-list">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Employee</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Working Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--end: Datatable-->
+                </div>
+
+            </div>
+        </div>
+        <!--end::Card-->
+
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">Employee Overtime </h3>

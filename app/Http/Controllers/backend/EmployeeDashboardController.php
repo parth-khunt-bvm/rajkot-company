@@ -186,7 +186,7 @@ class EmployeeDashboardController extends Controller
         } else if ($result == "no_change") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = "you don't have made any changes";
+            $return['message'] = "You don't have made any changes";
         } else if ($result == "email_exist") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';

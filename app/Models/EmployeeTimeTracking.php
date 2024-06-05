@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DateTime;
 use DateTimeZone;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeeTimeTracking extends Model
 {
@@ -99,6 +101,28 @@ class EmployeeTimeTracking extends Model
             "data" => $data   // total data array
         );
         return $json_data;
+    }
+
+    public function getAdminDatatable($request)
+    {
+        $dateObject = Carbon::createFromFormat('d-M-Y', $request['date']);
+        $outputDate = $dateObject->format('Y-m-d');
+        $employeeData = Employee::from('employee')
+            ->select('employee_code', DB::raw('CONCAT(first_name, " ", last_name) as fullName'))
+            ->get();
+        foreach(json_decode($employeeData) as $employee => $empCode) {
+            $empCodes[] = strtolower($empCode->employee_code);
+        }
+        foreach($empCodes as $empCode){
+            $tables[] = 'tracker_' . $empCode;
+        }
+        foreach($tables as $index => $table){
+            $query[] = EmployeeTimeTracking::from($table)
+                ->join('employee', 'employee.employee_code', '=', )
+                ->where("$table.date", $outputDate)
+                ->get();
+        }
+        return $empCodes;
     }
 
     public function storeStartTime($requestData)
