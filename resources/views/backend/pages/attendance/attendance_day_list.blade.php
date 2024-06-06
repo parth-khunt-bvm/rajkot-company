@@ -136,7 +136,7 @@
             </div>
             <div class="card-body">
 
-                <div class="emp-overtime-day-list">
+                <div class="emp-time-tracking-list">
                     <table class="table table-bordered table-checkable" id="emp-time-tracking-list">
                         <thead>
                             <tr>

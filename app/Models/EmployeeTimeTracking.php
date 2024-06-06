@@ -105,24 +105,64 @@ class EmployeeTimeTracking extends Model
 
     public function getAdminDatatable($request)
     {
+        $requestData = request()->all();
         $dateObject = Carbon::createFromFormat('d-M-Y', $request['date']);
         $outputDate = $dateObject->format('Y-m-d');
         $employeeData = Employee::from('employee')
             ->select('employee_code', DB::raw('CONCAT(first_name, " ", last_name) as fullName'))
+            ->where('is_deleted', '=', 'N')
             ->get();
         foreach(json_decode($employeeData) as $employee => $empCode) {
-            $empCodes[] = strtolower($empCode->employee_code);
+            $empCodes[] = [strtolower($empCode->employee_code), $empCode->fullName];
         }
+        $tables = [];
         foreach($empCodes as $empCode){
-            $tables[] = 'tracker_' . $empCode;
+            $tables[] = 'tracker_' . $empCode[0];
         }
         foreach($tables as $index => $table){
+
             $query[] = EmployeeTimeTracking::from($table)
-                ->join('employee', 'employee.employee_code', '=', )
-                ->where("$table.date", $outputDate)
+                ->where('date', '=', $outputDate)
                 ->get();
+            $columns = [
+                0 => $table . '.id',
+                1 => $table . '.date',
+                2 => $table . '.in_time',
+                3 => $table . '.out_time',
+            ];
+            if (!empty($requestData['search']['value'])) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
+                $searchVal = $requestData['search']['value'];
+                $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                    $flag = 0;
+                    foreach ($columns as $key => $value) {
+                        $searchVal = $requestData['search']['value'];
+                        if ($requestData['columns'][$key]['searchable'] == 'true') {
+                            if ($flag == 0) {
+                                $query->where($value, 'like', '%' . $searchVal . '%');
+                                $flag = $flag + 1;
+                            } else {
+                                $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                            }
+                        }
+                    }
+                });
+            }
+    
+            $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+    
+            $totalData = count($temp->get());
+            $totalFiltered = count($temp->get());
+    
+            $resultArr = $query->skip($requestData['start'])
+                ->take($requestData['length'])
+                ->select($table . '.id', $table . '.date', $table . '.in_time', $table . '.out_time',)
+                ->get();
+    
+            $data = array();
+            $i = 0;
+
         }
-        return $empCodes;
+        return $resultArr;
     }
 
     public function storeStartTime($requestData)
