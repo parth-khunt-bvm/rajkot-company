@@ -140,7 +140,9 @@ function handleAjaxResponse(output) {
         }, 4000);
     }
     if (typeof output.reload !== 'undefined' && output.reload != '') {
-        window.location.href = location.reload();
+        setTimeout(function() {
+            window.location.reload();
+        }, 4000);
     }
     if (typeof output.jscode !== 'undefined' && output.jscode != '') {
         eval(output.jscode);
@@ -277,7 +279,11 @@ function handleFormValidateWithMsg(form, rules, messages, submitCallback, showTo
                error.insertAfter(element);
             } else {
                 if (elem.hasClass("select2-hidden-accessible")) {
-                    element = $("#select2-" + elem.attr("id") + "-container").parent();
+                    if (elem.hasClass("leave_select")) {
+                        element = $(elem).next('.select2-container').find('.select2-selection');
+                    } else {
+                        element = $("#select2-" + elem.attr("id") + "-container").parent();
+                    }
                     error.insertAfter(element);
                 } else {
                     if (elem.hasClass("radio-btn")) {

@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Public Holiday name <span class="text-danger">*</span></label>
+                                            <label>Public Holiday Name <span class="text-danger">*</span></label>
                                             <input type="text" name="public_holiday_name" class="form-control"
                                                 placeholder="Enter public holiday name" autocomplete="off">
                                         </div>

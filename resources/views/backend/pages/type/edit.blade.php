@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-md-3">  
                                     <div class="form-group">
-                                        <label>Type name
+                                        <label>Type Name
                                         <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="type_name" class="form-control" placeholder="Enter type name" value="{{ $type_details->type_name}}" autocomplete="off">

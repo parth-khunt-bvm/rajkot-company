@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>minute (1 hour = 60 min)
+                                            <label>Minute (1 hour = 60 min)
                                             </label>
                                             <input type="number" name="minutes[]" id="minutes" class="form-control minutes" placeholder="Enter minutes" value="" autocomplete="off">
                                             <span class="minute_error text-danger"></span>
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Reson
+                                            <label>Reason
                                             </label>
                                             <textarea class="form-control" id="" cols="30" rows="1" name="reason[]" id="reason"></textarea>
                                         </div>
@@ -82,7 +82,7 @@
                                     <div class="col-md-2 padding-left-5 padding-right-5">
                                         <div class="form-group">
                                             <label>&nbsp;</label><br>
-                                            <a href="javascript:;" class="my-btn btn btn-success add-attendance-button"><i class="my-btn fa fa-plus"></i></a>
+                                            <a href="javascript:;" class="my-btn btn btn-success add-attendance-button"><i class="my-btn fa fa-plus p-0"></i></a>
                                         </div>
                                     </div>
                                 </div>

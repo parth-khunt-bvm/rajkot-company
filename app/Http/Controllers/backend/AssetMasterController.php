@@ -60,7 +60,7 @@ class AssetMasterController extends Controller
             'AssetMaster.add()'
         );
         $data['header'] = array(
-            'title' => 'Asset Master list',
+            'title' => 'Asset Master List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'AssetMaster list' => 'Asset Master list',
@@ -351,7 +351,7 @@ class AssetMasterController extends Controller
             'AssetMaster.trash_init()',
         );
         $data['header'] = array(
-            'title' => 'Asset Master Deleted list',
+            'title' => 'Asset Master Deleted List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'AssetMaster Deleted list' => 'Asset Master Deleted list',

@@ -18,19 +18,6 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Employee Name
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-control select2 employee_id" id="employee_id" name="employee_id">
-                                            <option value="">Please select Employee Name</option>
-                                            @foreach ($employee as $key => $value )
-                                            <option value="{{ $value['id'] }}">{{ $value['first_name'] . " ". $value['last_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
                                         <label>Branch Name
                                             <span class="text-danger">*</span>
                                         </label>
@@ -39,6 +26,19 @@
                                             @foreach (user_branch()  as $key => $value )
                                             <option value="{{ $value['id'] }}" {{  $_COOKIE['branch'] == $value['id'] ? 'selected="selected"' : '' }}>{{ $value['branch_name'] }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Employee Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control select2 employee_id" id="employee_id" name="employee_id">
+                                            <option value="">Please select Employee Name</option>
+                                            {{-- @foreach ($employee as $key => $value )
+                                            <option value="{{ $value['id'] }}">{{ $value['first_name'] . " ". $value['last_name'] }}</option>
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>

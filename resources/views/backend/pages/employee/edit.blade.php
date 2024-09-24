@@ -101,7 +101,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-group">
-                                                <label>Date Of joining
+                                                <label>Date Of Joining
                                                 </label>
                                                 <input type="text" class="form-control datepicker_date input-name" name="doj" id="doj" value="{{ $employee_details->DOJ != null && $employee_details->DOJ != '' ? date_formate($employee_details->DOJ) : '' }}" placeholder="Date Of Joining" autocomplete="off" />
                                                 <span class="type_error text-danger"></span>
@@ -388,7 +388,7 @@ if(file_exists( public_path().'/employee/cheque/'.$employee_details['cancel_cheq
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Cheque Status</label>
                                                 <div class="radio-inline" style="margin-top:10px">

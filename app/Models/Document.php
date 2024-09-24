@@ -154,45 +154,53 @@ class Document extends Model
         ->where('document.id', '!=', $requestData['editId'])
         ->count();
 
+        $countImage = DocumentType::from('document_type')
+        ->where('id', $requestData['document_type_id'])
+        ->value('image_requirement');
 
-        if($countDocument == 0){
+
+        if ($countDocument == 0) {
             $objDocument = Document::find($requestData['editId']);
             $objDocument->employee_id = $requestData['employee_id'];
             $objDocument->document_type = $requestData['document_type_id'];
+        
+            for ($imageIndex = 0; $imageIndex < $countImage; $imageIndex++) {
 
-            if ($requestData->hasFile('attachment')) {
-
+                $attachmentsIndex = $imageIndex + 1;
+                
                 $currentAttachments = explode(', ', $objDocument->attachement);
-
-                foreach ($currentAttachments as $attachment) {
-                    $path = public_path('/upload/document/') . $attachment;
-                    if (file_exists($path)) {
-                        unlink($path);
-                    }
-                }
-
-                $attachments = [];
-                foreach ($requestData->file('attachment') as $index => $image) {
-                    $increment = $index + 1;
-                    $imagename = 'att' . time() . '_' . $increment . '.' . $image->getClientOriginalExtension();
+                if ($requestData->hasFile("attachment_{$attachmentsIndex}")) {
+                    
+                    $image = $requestData->file("attachment_{$attachmentsIndex}");
+                        
+                    $imageName = 'att' . time() . '_' . $attachmentsIndex . '.' . $image->getClientOriginalExtension();
                     $destinationPath = public_path('/upload/document/');
-                    $image->move($destinationPath, $imagename);
-                    $attachments[] = $imagename;
+                    
+                    if ($image->isValid()) {
+                        if (isset($currentAttachments[$imageIndex])) {
+                            $existingImage = $currentAttachments[$imageIndex];
+                            if (file_exists($destinationPath . $existingImage)) {
+                                unlink($destinationPath . $existingImage);
+                            }
+                            $currentAttachments[$imageIndex] = $imageName;
+                        }
+                        $image->move($destinationPath, $imageName);
+                    }
+                    
+                    $attachmentString = implode(', ', $currentAttachments);
+                    $objDocument->attachement = $attachmentString;
                 }
-                $attachmentString = implode(', ', $attachments);
-                $objDocument->attachement = $attachmentString;
-                // $objDocument->save(); // Save the document model after updating the attachment column
             }
-
+        
             $objDocument->status = $requestData['status'];
             $objDocument->updated_at = date('Y-m-d H:i:s');
-            if($objDocument->save()){
+            if ($objDocument->save()) {
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
                 $objAudittrails->add_audit("U", $inputData, 'Document Type');
                 return 'updated';
-            }else{
+            } else {
                 return 'wrong';
             }
         }
@@ -243,6 +251,15 @@ class Document extends Model
                 ->where("document.id", $documentId)
                 ->select('document.id', 'document.employee_id', 'document.document_type', 'document.status', 'document.attachement' )
                 ->first();
+    }
+
+    public function get_document_for_employee($employeeId){
+        return Document::from('document')
+                ->join("document_type", "document_type.id", "=", "document.document_type")
+                ->select('document.id', 'document.employee_id', 'document.document_type', 'document.status', 'document.attachement', 'document_type.document_name', 'document_type.image_requirement' )
+                ->where("document.employee_id", $employeeId)
+                ->where("document.is_deleted", "N")
+                ->get();
     }
 }
 

@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label> Month
+                                    <label>Month
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 received_month" id="revenue_received_month"  name="received_month">
@@ -136,7 +136,7 @@
 
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>year
+                                    <label>Year
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 year" id="revenueYearId"  name="year">
@@ -150,7 +150,7 @@
 
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label>amount
+                                    <label>Amount
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" name="amount" class="form-control onlyNumber" placeholder="Enter Amount" autocomplete="off">
@@ -264,7 +264,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>year</label>
+                                    <label>Year</label>
                                     <select class="form-control select2 year change" id="revenueFillYearId"  name="year">
                                         <option value="">Select Year</option>
                                         @for ($i = 2019; $i <= date('Y'); $i++)

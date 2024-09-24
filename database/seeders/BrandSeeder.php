@@ -33,7 +33,7 @@ class BrandSeeder extends Seeder
                 'updated_at' => date("Y-m-d h:i:s"),
             ],
             [
-                'brand_name' => 'Lenova',
+                'brand_name' => 'Lenovo',
                 'status' => 'A',
                 'is_deleted' => 'N',
                 'created_at' => date("Y-m-d h:i:s"),

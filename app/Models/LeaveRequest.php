@@ -118,32 +118,50 @@ class LeaveRequest extends Model
 
     public function store($requestData)
     {
-        $checkLeaveRequest = LeaveRequest::from('leave_request')
-            ->where('leave_request.date', date('Y-m-d', strtotime($requestData['date'])))
+
+        $responses = [];
+        $dateArray = explode(',', $requestData['date'][0]);
+        
+        foreach ($dateArray as $index => $startDate) {
+            $date = date('Y-m-d', strtotime($startDate));
+            $leave_type = $requestData['leave_type'][$index];
+            $manager = $requestData['manager'][0];
+            $reason = isset($requestData['reason']) ? $requestData['reason'] : null;
+            
+            $checkLeaveRequest = LeaveRequest::from('leave_request')
+            ->where('leave_request.date', $date)
             ->where('leave_request.employee_id', Auth()->guard('employee')->user()->id)
             ->count();
-
-        if ($checkLeaveRequest == 0) {
-            $objLeaveRequest = new LeaveRequest();
-            $objLeaveRequest->date = date('Y-m-d', strtotime($requestData['date']));
-            $objLeaveRequest->employee_id = Auth()->guard('employee')->user()->id;
-            $objLeaveRequest->manager_id = $requestData['manager'];
-            $objLeaveRequest->leave_type = $requestData['leave_type'];
-            $objLeaveRequest->reason = $requestData['reason'];
-            $objLeaveRequest->leave_status = 'P';
-            $objLeaveRequest->created_at = date('Y-m-d H:i:s');
-            $objLeaveRequest->updated_at = date('Y-m-d H:i:s');
-            if ($objLeaveRequest->save()) {
-                $inputData = $requestData->input();
-                unset($inputData['_token']);
-                $objAudittrails = new Audittrails();
-                $objAudittrails->add_audit("I", $inputData, 'Leave Request');
-                return 'added';
+            
+            if ($checkLeaveRequest == 0) {
+                $objLeaveRequest = new LeaveRequest();
+                $objLeaveRequest->date = $date;
+                $objLeaveRequest->employee_id = Auth()->guard('employee')->user()->id;
+                $objLeaveRequest->manager_id = $manager;
+                $objLeaveRequest->leave_type = $leave_type;
+                $objLeaveRequest->reason = $reason;
+                $objLeaveRequest->leave_status = 'P';
+                $objLeaveRequest->created_at = date('Y-m-d H:i:s');
+                $objLeaveRequest->updated_at = date('Y-m-d H:i:s');
+                if ($objLeaveRequest->save()) {
+                    $inputData = [
+                        'date' => $date,
+                        'leave_type' => $leave_type,
+                        'manager' => $manager,
+                        'reason' => $reason,
+                    ];
+                    $objAudittrails = new Audittrails();
+                    $objAudittrails->add_audit("I", $inputData, 'Leave Request');
+                    $responses[] = 'added';
+                } else {
+                    $responses[] = 'wrong';
+                }
             } else {
-                return 'wrong';
+                $responses[] = 'leave_request_exists';
             }
+
         }
-        return 'leave_request_exists';
+        return $responses;
     }
 
     public function saveEdit($requestData){
@@ -180,7 +198,7 @@ class LeaveRequest extends Model
         return LeaveRequest::from('leave_request')
             ->join("employee", "employee.id", "=", "leave_request.employee_id")
             ->join("manager", "manager.id", "=", "leave_request.manager_id")
-            ->select('leave_request.id', 'leave_request.date','leave_request.employee_id','leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status','employee.first_name','employee.last_name','manager.manager_name')
+            ->select('leave_request.id', 'leave_request.date', 'leave_request.employee_id', 'leave_request.manager_id', 'leave_request.reason', 'leave_request.leave_type','leave_request.leave_status','employee.first_name','employee.last_name','manager.manager_name')
             ->where('leave_request.id', $id)
             ->first();
     }

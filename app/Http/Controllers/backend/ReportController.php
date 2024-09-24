@@ -156,7 +156,7 @@ class ReportController extends Controller
             'title' => 'Profit and Loss Reports',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Profit-loss Reports' => 'Profit-loss Reports',
+                'Profit-Loss Reports' => 'Profit-loss Reports',
             )
         );
         return view('backend.pages.report.profit_loss', $data);

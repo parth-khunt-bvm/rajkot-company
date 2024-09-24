@@ -13,8 +13,8 @@ class ChangeRequestController extends Controller
     public function list()
     {
 
-        $leaveUntilDate = 10; // Change this date as needed
-        calculateMonthlySalary($leaveUntilDate);
+        // $leaveUntilDate = 10; // Change this date as needed
+        // calculateMonthlySalary($leaveUntilDate);
         $data['title'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';
         $data['description'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';
         $data['keywords'] = Config::get('constants.PROJECT_NAME') . ' || Change Request List';

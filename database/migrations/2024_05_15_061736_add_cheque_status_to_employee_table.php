@@ -14,7 +14,7 @@ class AddChequeStatusToEmployeeTable extends Migration
     public function up()
     {
         Schema::table('employee', function (Blueprint $table) {
-            $table->enum('cheque_status',['S','P','R'])->default(null)->comment("S for submitted, P for pending, R for return")->after('cancel_cheque');
+            $table->enum('cheque_status',['S','P','R'])->default(null)->comment("S for submitted, P for pending, R for return")->after('cancel_cheque')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddChequeStatusToEmployeeTable extends Migration
     public function down()
     {
         Schema::table('employee', function (Blueprint $table) {
-            //
+            $table->dropColumn('cheque_status');
         });
     }
 }

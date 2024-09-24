@@ -61,10 +61,10 @@ class SalarySlipController extends Controller
             'SalarySlip.add()'
         );
         $data['header'] = array(
-            'title' => 'Salary Slip list',
+            'title' => 'Salary Slip List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Salary Slip list' => 'Salary Slip list',
+                'Salary Slip list' => 'Salary Slip List',
             )
         );
         return view('backend.pages.salary_slip.list', $data);
@@ -188,7 +188,7 @@ class SalarySlipController extends Controller
                 'SalarySlip.edit()'
             );
             $data['header'] = array(
-                'title' => 'Edit salary Slip',
+                'title' => 'Edit Salary Slip',
                 'breadcrumb' => array(
                     'My Dashboard' => route('my-dashboard'),
                     'Salary Slip List' => route('admin.employee-salaryslip.list'),

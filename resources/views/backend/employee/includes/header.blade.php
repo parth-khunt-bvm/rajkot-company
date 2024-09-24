@@ -7,7 +7,7 @@
     ) {
         $favicon = asset('upload/company_info/' . $data['systemDetails'][0]['favicon']);
     } else {
-        $favicon = asset('upload/company_image/favicon.png');
+        $favicon = asset('upload/company_image/favicon.jpg');
     }
 @endphp
 

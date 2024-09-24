@@ -63,7 +63,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
-                                        <option value="">Please select Suplier Name</option>
+                                        <option value="">Please select Supplier Name</option>
                                         @foreach ($suppier  as $key => $value )
                                         @if ($value['priority'] == '2')
                                                 <option value="{{ $value['id'] }}">{{ $value['suppiler_name'] }}[High]</option>
@@ -157,7 +157,7 @@
                             <div class="col-md-2">
                                 <div class="form-group mt-8">
                                     <button type="submit" class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                    <button type="reset" class="btn btn-secondary"><a href="{{route('admin.salary.list')}}">Cancel</a></button>
+                                    <button type="reset" class="btn btn-secondary"><a href="">Cancel</a></button>
                                 </div>
                             </div>
                         </div>
@@ -169,11 +169,11 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Suplier Name
+                                        <label>Supplier Name
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select class="form-control select2 asset_supplier_id asset_filter_master" id="asset_supplier_id"  name="supplier_id">
-                                            <option value="">Please select Suplier Name</option>
+                                            <option value="">Please select Supplier Name</option>
                                             @foreach ($suppier  as $key => $value )
                                             @if ($value['priority'] == '2')
                                                     <option value="{{ $value['id'] }}">{{ $value['suppiler_name'] }}[High]</option>
@@ -243,12 +243,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Asset Code</th>
-                                    <th>Suplier Name</th>
+                                    <th>Supplier Name</th>
                                     <th>Asset Name</th>
                                     <th>Branch Name</th>
                                     <th>Brand Name</th>
                                     <th>Price</th>
-                                    <th>status</th>
+                                    <th>Status</th>
                                     <th>Description</th>
                                     @php
                                         $target = [];

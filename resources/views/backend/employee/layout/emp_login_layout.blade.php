@@ -6,7 +6,7 @@
 		<meta name="description" content="{{ $description }}" />
 		<meta name="keywords" content="{{ $keywords }}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<link rel="canonical" href="{{  Config::get('constants.SYSTEM_NAME'); }}" />
+		<link rel="canonical" href="{{  Config::get('constants.SYSTEM_NAME') }}" />
 		<!--begin::Fonts-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 		<!--end::Fonts-->

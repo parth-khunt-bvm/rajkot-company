@@ -47,7 +47,7 @@ class SalaryIncrementController extends Controller
             'SalaryIncrement.init()',
         );
         $data['header'] = array(
-            'title' => 'Salary Increment list',
+            'title' => 'Salary Increment List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'Salary Increment List' => 'Salary Increment List',

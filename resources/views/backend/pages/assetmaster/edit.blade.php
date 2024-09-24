@@ -17,12 +17,12 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Suplier Name
+                                            <label>Supplier Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                            <input type="hidden" name="edit_id" class="form-control"  value="{{ $asset_master_details['id']}}">
                                             <select  class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
-                                                <option value="">Please select Suplier Name</option>
+                                                <option value="">Please select Supplier Name</option>
                                                 @foreach ($suppier  as $key => $value )
                                                 @if ($value['priority'] == '2')
                                                         <option value="{{ $value['id'] }}" {{ $value['id'] == $asset_master_details['supplier_id'] ? 'selected="selected"' : '' }}>{{ $value['suppiler_name'].' - '.$value['supplier_shop_name'] .' - '. "High"}}</option>

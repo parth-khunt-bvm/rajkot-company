@@ -992,7 +992,11 @@
                 <div class="row mt-5 mr-5 ml-5">
                     <div class="col-3">
                         <b>Date</b> <br>
-                        <span id="leave_date"></span>
+                        <span id="leave_start_date"></span>
+                    </div>
+                    <div class="col-3">
+                        <b>Date</b> <br>
+                        <span id="leave_end_date"></span>
                     </div>
                     <div class="col-3">
                         <b>Employee Name</b> <br>
@@ -1003,12 +1007,12 @@
                         <b>Manager Name</b> <br>
                         <span id="leave_man_name"></span>
                     </div>
-                    <div class="col-3">
-                        <b>Leave Type</b> <br>
-                        <span id="leeave_type"></span>
-                    </div>
                 </div>
                 <div class="row mt-5 mr-5 ml-5">
+                    <div class="col-3">
+                        <b>Leave Type</b> <br>
+                        <span id="leave_type"></span>
+                    </div>
                     <div class="col-3">
                         <b>Leave Status</b> <br>
                         <span id="leave_status"></span>
@@ -1177,7 +1181,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>year</label><br>
+                                <label>Year</label><br>
                                 <select class="form-control select2 year change-fillter" id="yearId"  name="year">
                                     <option value="">Select Year</option>
                                     @for ($i = 2019; $i <= date('Y'); $i++)
@@ -1259,14 +1263,18 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approved</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approve</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Reject</button>
             </div>
         </div>
     </div>
 </div>
 
-
+<!-- The Modal -->
+<div id="imagePreviewModal" class="previewModal">
+    <span class="imagePreviewClose">&times;</span>
+    <img class="imgPreview-modal-content" id="previewModalImage">
+</div>
 
 
 
