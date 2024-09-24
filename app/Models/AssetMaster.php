@@ -259,7 +259,7 @@ class AssetMaster extends Model
                 generateCode:
                 $codeNumber = get_no_by_name($assetCode->asset_type);
                 $code = $codeNumber->number > 0 && $codeNumber->number < 10 ? "0".$codeNumber->number : $codeNumber->number;
-                $asset_code = $assetCode->asset_code.date('dmY').$code.$supplierCode->sort_name;
+                $asset_code = $assetCode->asset_code.'00000000'.$code.$supplierCode->sort_name;
 
                 $count_code = AssetMaster::from('asset_master')
                 ->where("asset_master.asset_code", "=", $asset_code)

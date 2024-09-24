@@ -76434,9 +76434,9 @@ code {
   opacity: 0.5;
 }
 
-select.select2 {
+/* select.select2 {
   opacity: 0;
-}
+} */
 
 .select2 > select.form-control {
   opacity: 0;

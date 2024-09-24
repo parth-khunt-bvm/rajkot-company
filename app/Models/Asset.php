@@ -132,9 +132,10 @@ class Asset extends Model
     public function get_asset_list($branchid, $assetid, $assetMasterIdArray = []){
 
         $qurey = AssetMaster::from('asset_master')
+                    ->join('brand', 'brand.id', '=', 'asset_master.brand_id')
                     ->where('asset_master.asset_id',$assetid)
                     ->where('asset_master.branch_id',$branchid)
-                    ->select('asset_master.asset_code', 'asset_master.id');
+                    ->select('asset_master.asset_code', 'asset_master.id', 'brand.brand_name');
 
         if(!empty($assetMasterIdArray)){
             $qurey->whereNotIn('asset_master.id' ,$assetMasterIdArray) ;

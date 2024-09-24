@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\backend\AssetAllocationController;
 use App\Http\Controllers\backend\AttendanceController;
+use App\Http\Controllers\backend\CommonActivityController;
 use App\Http\Controllers\backend\ReportController;
 use App\Http\Controllers\backend\SalarySlipController;
 use Illuminate\Support\Facades\Route;
@@ -391,5 +392,8 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/change-request/list', [ChangeRequestController::class, 'list'])->name('admin.change-request.list');
     Route::post('admin/change-request/ajaxcall', [ChangeRequestController::class, 'ajaxcall'])->name('admin.change-request.ajaxcall');
     Route::post('admin/change-request/update', [ChangeRequestController::class, 'changeReqUpdate'])->name('admin.change-request.update');
+
+    // common activity
+    Route::post('admin/common-activity', [CommonActivityController::class, 'common_activity'])->name('admin.common-activity');
 
 });
