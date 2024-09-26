@@ -296,13 +296,17 @@ class AssetMaster extends Model
     {
         $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
             $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+            $sortNameLength = Supplier::from('supplier')
+                ->selectRaw('LENGTH(supplier.sort_name) AS sort_name_length')
+                ->where('supplier.id', $objAssetMaster->supplier_id)
+                ->value('sort_name_length');
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->brand_id = $requestData['brand_id'];
             $objAssetMaster->branch_id = $requestData['branch_id'];
             $objAssetMaster->description = $requestData['description']?? '-';
             $objAssetMaster->status = $requestData['status'];
             $objAssetMaster->price = $requestData['price'] ?? '-';
-            $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -2);
+            $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -$sortNameLength);
             $objAssetMaster->asset_code = $assetCode;
             $objAssetMaster->updated_at = date('Y-m-d H:i:s');
             if ($objAssetMaster->save()) {
