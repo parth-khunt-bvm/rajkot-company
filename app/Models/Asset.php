@@ -135,6 +135,7 @@ class Asset extends Model
                     ->join('brand', 'brand.id', '=', 'asset_master.brand_id')
                     ->where('asset_master.asset_id',$assetid)
                     ->where('asset_master.branch_id',$branchid)
+                    ->where('asset_master.allocated_user_id', '=', null)
                     ->select('asset_master.asset_code', 'asset_master.id', 'brand.brand_name');
 
         if(!empty($assetMasterIdArray)){
