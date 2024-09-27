@@ -26,17 +26,19 @@ class AssetMaster extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'asset_master.id',
-            1 => 'asset_master.asset_code',
-            2 => 'supplier.suppiler_name',
-            3 => 'asset.asset_type',
-            4 => 'branch.branch_name',
-            5 => 'brand.brand_name',
-            6 => 'asset_master.description',
-            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
-            8 => 'asset_master.price',
+            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => 'asset_master.asset_code',
+            3 => 'supplier.suppiler_name',
+            4 => 'asset.asset_type',
+            5 => 'branch.branch_name',
+            6 => 'brand.brand_name',
+            7 => 'asset_master.description',
+            8 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
+            9 => 'asset_master.price',
         );
 
         $query = AssetMaster::from('asset_master')
+            ->leftJoin("employee", "employee.id", "=", "asset_master.allocated_user_id")
             ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
@@ -82,7 +84,7 @@ class AssetMaster extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->select('asset_master.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
             ->get();
 
         $data = array();
@@ -117,6 +119,7 @@ class AssetMaster extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = $row['fullName'] ?? '-';
             $nestedData[] = $row['asset_code'];
             $nestedData[] = $row['suppiler_name'];
             $nestedData[] = $row['asset_type'];
@@ -150,17 +153,19 @@ class AssetMaster extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'asset_master.id',
-            1 => 'asset_master.asset_code',
-            2 => 'supplier.suppiler_name',
-            3 => 'asset.asset_type',
-            4 => 'branch.branch_name',
-            5 => 'brand.brand_name',
-            6 => 'asset_master.description',
-            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
-            8 => 'asset_master.price',
+            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => 'asset_master.asset_code',
+            3 => 'supplier.suppiler_name',
+            4 => 'asset.asset_type',
+            5 => 'branch.branch_name',
+            6 => 'brand.brand_name',
+            7 => 'asset_master.description',
+            8 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
+            9 => 'asset_master.price',
         );
 
         $query = AssetMaster::from('asset_master')
+            ->leftJoin("employee", "employee.id", "=", "asset_master.allocated_user_id")
             ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
@@ -193,7 +198,7 @@ class AssetMaster extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->select('asset_master.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
             ->get();
 
         $data = array();
@@ -221,6 +226,7 @@ class AssetMaster extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = $row['fullName'] ?? '-';
             $nestedData[] = $row['asset_code'];
             $nestedData[] = $row['suppiler_name'];
             $nestedData[] = $row['asset_type'];

@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Employee Name</th>
                                     <th>Asset Code</th>
                                     <th>Supplier Name</th>
                                     <th>Asset Name</th>
