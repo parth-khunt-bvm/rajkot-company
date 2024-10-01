@@ -186,6 +186,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/asset-master/save-edit-asset-master', [AssetMasterController::class, 'saveEdit'])->name('admin.asset-master.save-edit-asset-master');
     Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
     Route::get('admin/asset-master/deleted', [AssetMasterController::class, 'showDeletedData'])->name('admin.asset-master.deleted');
+    Route::get('admin/asset-master/excel', [AssetMasterController::class, 'assetMasterExcel'])->name('admin-asset-master.excel');
 
 
     //asset allocation
@@ -195,6 +196,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/asset-allocation/save-add-asset-allocation', [AssetAllocationController::class, 'saveAdd'])->name('admin.asset-allocation.save-add-asset-allocation');
     Route::get('admin/asset-allocation/edit/{id}', [AssetAllocationController::class, 'edit'])->name('admin.asset-allocation.edit');
     Route::post('admin/asset-allocation/save-edit-asset-allocation', [AssetAllocationController::class, 'saveEdit'])->name('admin.asset-allocation.save-edit-asset-allocation');
+    Route::get('admin/asset-allocation/excel', [AssetAllocationController::class, 'assetAllocationExcel'])->name('admin-asset-allocation.excel');
 
     // expense
     Route::get('admin/expense/list', [ExpenseController::class, 'list'])->name('admin.expense.list');

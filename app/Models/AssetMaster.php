@@ -19,6 +19,9 @@ class AssetMaster extends Model
         'description',
         'status',
         'price',
+        'purchase_date',
+        'warranty_guarantee',
+        'agreement',
     ];
 
     public function getdatatable($fillterdata)
@@ -265,7 +268,7 @@ class AssetMaster extends Model
                 generateCode:
                 $codeNumber = get_no_by_name($assetCode->asset_type);
                 $code = $codeNumber->number > 0 && $codeNumber->number < 10 ? "0".$codeNumber->number : $codeNumber->number;
-                $asset_code = $assetCode->asset_code.'00000000'.$code.$supplierCode->sort_name;
+                $asset_code = $assetCode->asset_code . $requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000' . $code . $supplierCode->sort_name;
 
                 $count_code = AssetMaster::from('asset_master')
                 ->where("asset_master.asset_code", "=", $asset_code)
@@ -279,6 +282,9 @@ class AssetMaster extends Model
                     $objAssetMaster->branch_id = $requestData['branch_id'];
                     $objAssetMaster->description = $requestData['description'] ?? '-';
                     $objAssetMaster->status = $requestData['status'];
+                    $objAssetMaster->purchase_date = $requestData['purchase_date'] != null ? date('Y-m-d', strtotime($requestData['purchase_date'])) : null;
+                    $objAssetMaster->warranty_guarantee = $requestData['warranty_guarantee'];
+                    $objAssetMaster->agreement = $requestData['agreement'];
                     $objAssetMaster->price = $requestData['price'] ?? '-';
                     $objAssetMaster->asset_code = $asset_code;
                     $objAssetMaster->is_deleted = 'N';
@@ -301,7 +307,8 @@ class AssetMaster extends Model
     public function saveEdit($requestData)
     {
         $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
-            $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+        $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+        $assetType = Asset::from('asset')->select('asset.asset_code', 'asset.asset_type')->where('asset.id', $objAssetMaster->asset_id)->first();
             $sortNameLength = Supplier::from('supplier')
                 ->selectRaw('LENGTH(supplier.sort_name) AS sort_name_length')
                 ->where('supplier.id', $objAssetMaster->supplier_id)
@@ -309,11 +316,26 @@ class AssetMaster extends Model
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->brand_id = $requestData['brand_id'];
             $objAssetMaster->branch_id = $requestData['branch_id'];
-            $objAssetMaster->description = $requestData['description']?? '-';
+            $objAssetMaster->description = $requestData['description'] ?? '-';
             $objAssetMaster->status = $requestData['status'];
+            $objAssetMaster->purchase_date = $requestData['purchase_date'] != null ? date('Y-m-d', strtotime($requestData['purchase_date'])) : null;
+            $purchase_date = $requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000';
+            $objAssetMaster->warranty_guarantee = $requestData['warranty_guarantee'];
+            $objAssetMaster->agreement = $requestData['agreement'];
             $objAssetMaster->price = $requestData['price'] ?? '-';
+
             $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -$sortNameLength);
-            $objAssetMaster->asset_code = $assetCode;
+
+            $updatedAssetCode = preg_replace_callback(
+                '/' . preg_quote($assetType->asset_code, '/') . '\d{8}/',
+                function ($matches) use ($assetType, $purchase_date) {
+                    return $assetType->asset_code . $purchase_date;
+                },
+                $assetCode
+            );
+
+            // dd($updatedAssetCode);
+            $objAssetMaster->asset_code = $updatedAssetCode;
             $objAssetMaster->updated_at = date('Y-m-d H:i:s');
             if ($objAssetMaster->save()) {
                 $inputData = $requestData->input();
@@ -328,7 +350,7 @@ class AssetMaster extends Model
     public function get_asset_master_details($assetMasterId){
         return AssetMaster::from('asset_master')
         ->where("asset_master.id", $assetMasterId)
-        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id' )
+        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id', 'asset_master.purchase_date', 'asset_master.warranty_guarantee', 'asset_master.agreement')
         ->first();
     }
 

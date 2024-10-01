@@ -45,9 +45,13 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>Add Assets Master
-                  </a>
-                  @endif
-                  <a href="{{ route('admin.asset-master.deleted') }}" class="btn btn-primary font-weight-bolder ml-5">Trash Data</a>
+                    </a>
+                    @endif
+                    <a href="{{ route('admin.asset-master.deleted') }}" class="btn btn-primary font-weight-bolder ml-5">Trash Data</a>
+
+                    <a href="{{ route('admin-asset-master.excel') }}" class="btn btn-icon btn-outline-success font-weight-bolder ml-5">
+                        <i class="fa fa-file-excel p-0"></i>
+                    </a>
 
                   <!--end::Button-->
                 </div>
