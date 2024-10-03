@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\AssetAllocation;
+use App\Models\AssetMaster;
 use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\CompanyInfo;
@@ -156,15 +157,15 @@ class EmployeeController extends Controller
         } elseif ($result == "pan_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee pan numbar has already exists.';
+            $return['message'] = 'employee pan number has already exists.';
         } elseif ($result == "aadhar_card_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee addhar card numbar has already exists.';
+            $return['message'] = 'employee addhar card number has already exists.';
         } elseif ($result == "personal_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee personal numbar has already exists.';
+            $return['message'] = 'employee personal number has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -347,6 +348,14 @@ class EmployeeController extends Controller
                 echo json_encode($objEmployee->cancel_cheque == null);
                 break;
 
+            case 'get-employee-assets':
+                $objAssetMaster = AssetMaster::leftJoin('asset', 'asset.id', '=', 'asset_master.asset_id')
+                                    ->where('asset_master.allocated_user_id', '=', $request->input('data.id'))
+                                    ->get(['asset.asset_type', 'asset_master.asset_code']);
+                
+                echo json_encode($objAssetMaster);
+                break;
+
             case 'get_employee_details' :
                 $inputData = $request->input('data');
 
@@ -407,7 +416,11 @@ class EmployeeController extends Controller
                         $return['redirect'] = route('admin.employee.list');
 
                     } elseif ($data['activity'] == 'left-employee') {
-                        $return['message'] = "Employee details successfully left.";
+                        $return['message'] = "Employee has been successfully left.";
+                        $return['redirect'] = route('admin.employee.list');
+
+                    } elseif ($data['activity'] == 'semi-left-employee') {
+                        $return['message'] = "Employee has been successfully semi left.";
                         $return['redirect'] = route('admin.employee.list');
 
                     } elseif ($data['activity'] == 'restore-records') {

@@ -462,7 +462,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>Cheque Status</label>
+                                                    <label>Cheque Status <span class="text-danger">*</span></label>
                                                     <div class="radio-inline" style="margin-top:10px">
                                                         <label class="radio radio-lg radio-success" >
                                                         <input type="radio" name="cheque_status" class="radio-btn" value="S"/>
