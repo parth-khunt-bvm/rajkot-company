@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Exports\AssetMasterExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AssetMaster;
 use App\Models\Branch;
 use App\Models\Supplier;
+use Maatwebsite\Excel\Facades\Excel;
 use Config;
 use App\Models\Brand;
 use App\Models\Asset;
@@ -358,6 +360,11 @@ class AssetMasterController extends Controller
             )
         );
         return view('backend.pages.assetmaster.trash', $data);
+    }
+
+    public function assetMasterExcel(){
+        
+        return Excel::download(new AssetMasterExport(), 'Assets-master.xlsx');
     }
 
 }

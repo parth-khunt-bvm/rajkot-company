@@ -871,7 +871,24 @@ $(".onlyNumber").keypress(function(e) {
     }
 });
 
+function humanReadableDateTime(dateString) {
+    const dateObject = new Date(dateString.replace(' ', 'T'));
 
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const year = dateObject.getFullYear();
+    
+    let hours = dateObject.getHours();
+    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+
+    const formattedHour = String(hours).padStart(2, '0');
+
+    return `${day}-${month}-${year} ${formattedHour}:${minutes}:${seconds} ${ampm}`;
+}
 
 
 
