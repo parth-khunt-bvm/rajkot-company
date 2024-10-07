@@ -5,10 +5,12 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\AssetAllocation;
+use App\Models\AssetMaster;
 use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\CompanyInfo;
 use App\Models\Designation;
+use App\Models\Document;
 use App\Models\Employee;
 use App\Models\Manager;
 use App\Models\SalarySlip;
@@ -17,6 +19,7 @@ use Illuminate\Http\Request;
 use Config;
 use DB;
 use PDF;
+use ZipArchive;
 
 class EmployeeController extends Controller
 {
@@ -154,15 +157,15 @@ class EmployeeController extends Controller
         } elseif ($result == "pan_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee pan numbar has already exists.';
+            $return['message'] = 'employee pan number has already exists.';
         } elseif ($result == "aadhar_card_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee addhar card numbar has already exists.';
+            $return['message'] = 'employee addhar card number has already exists.';
         } elseif ($result == "personal_number_exits") {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
-            $return['message'] = 'employee personal numbar has already exists.';
+            $return['message'] = 'employee personal number has already exists.';
         } else {
             $return['status'] = 'error';
             $return['jscode'] = '$(".submitbtn:visible").removeAttr("disabled");$("#loader").hide();';
@@ -345,6 +348,14 @@ class EmployeeController extends Controller
                 echo json_encode($objEmployee->cancel_cheque == null);
                 break;
 
+            case 'get-employee-assets':
+                $objAssetMaster = AssetMaster::leftJoin('asset', 'asset.id', '=', 'asset_master.asset_id')
+                                    ->where('asset_master.allocated_user_id', '=', $request->input('data.id'))
+                                    ->get(['asset.asset_type', 'asset_master.asset_code']);
+                
+                echo json_encode($objAssetMaster);
+                break;
+
             case 'get_employee_details' :
                 $inputData = $request->input('data');
 
@@ -405,7 +416,11 @@ class EmployeeController extends Controller
                         $return['redirect'] = route('admin.employee.list');
 
                     } elseif ($data['activity'] == 'left-employee') {
-                        $return['message'] = "Employee details successfully left.";
+                        $return['message'] = "Employee has been successfully left.";
+                        $return['redirect'] = route('admin.employee.list');
+
+                    } elseif ($data['activity'] == 'semi-left-employee') {
+                        $return['message'] = "Employee has been successfully semi left.";
                         $return['redirect'] = route('admin.employee.list');
 
                     } elseif ($data['activity'] == 'restore-records') {
@@ -443,6 +458,9 @@ class EmployeeController extends Controller
 
             $objSalaryslip = new SalarySlip();
             $data['salary_slip_details'] = $objSalaryslip->get_salary_slip_details_for_employee($viewId);
+
+            $objDocument = new Document();
+            $data['document_details'] = $objDocument->get_document_for_employee($viewId);
 
             $data['title'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
             $data['description'] = Config::get('constants.PROJECT_NAME') . " || View Employee";
@@ -579,6 +597,41 @@ class EmployeeController extends Controller
             return $pdf->download($data['employee_details']['first_name'].' '. $data['employee_details']['last_name'] .'_appoinment_letter.pdf');
         }else{
             return redirect()->route('my-dashboard');
+        }
+    }
+
+    public function document_zip($viewId){
+        $objDocument = Document::from('document')
+                ->select('attachement')
+                ->where('employee_id', $viewId)
+                ->where('is_deleted', 'N')
+                ->get();
+        
+        $images = [];
+        foreach($objDocument as $image){
+            $imageArray = explode(', ', $image->attachement);
+            $images[] = $imageArray;
+        }
+        $flatImages = call_user_func_array('array_merge', $images);
+
+        $fullPaths = array_map(function($value) {
+            return public_path('/upload/document/' . $value);
+        }, $flatImages);
+
+        $zip = new ZipArchive;
+        $zipFileName = 'Employee_documents.zip';
+
+        if($zip->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE){
+            $filesToZip = $fullPaths;
+
+            foreach ($filesToZip as $file) {
+                $zip->addFile($file, basename($file));
+            }
+
+            $zip->close();
+            return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
+        } else {
+            return "Failed to create the zip file.";
         }
     }
 }

@@ -25,12 +25,20 @@ class EmpChangeRequest extends Model
             // if ($countEmployee == 0) {
 
                 $objEmpChangeRequest = Employees::find($request->input('id'));
-                $request['DOB'] = $request['DOB'] != null && $request['DOB'] != '' ? date('Y-m-d', strtotime($request['DOB'])) : null ;
+                $request['DOB'] = $request['DOB'] != null && $request['DOB'] != '' ? date('Y-m-d', strtotime($request['DOB'])) : null;
                 $request['DOJ'] = $request['DOJ'] != null && $request['DOJ'] != '' ? date('Y-m-d', strtotime($request['DOJ'])) : null;
 
-                if ($objEmpChangeRequest->first_name != $request['first_name'] || $objEmpChangeRequest->last_name != $request['last_name'] || $objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != $request['DOB'] || $objEmpChangeRequest->DOJ != $request['DOJ'] || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $request['gmail_password'] || $objEmpChangeRequest->slack_password != $request['slack_password'] || $objEmpChangeRequest->personal_email != $request['personal_email']) {
+                if (!isset($request['gmail_password']) && !isset($request['slack_password'])) {
+                    $gmail_password = $request['old_gmail_password'];
+                    $slack_password = $request['old_slack_password'];
+                } else {
+                    $gmail_password = $request['gmail_password'];
+                    $slack_password = $request['slack_password'];
+                }
+
+                if ($objEmpChangeRequest->branch != $request['branch'] || $objEmpChangeRequest->department != $request['department'] || $objEmpChangeRequest->designation != $request['designation'] || $objEmpChangeRequest->DOB != $request['DOB'] || $objEmpChangeRequest->DOJ != $request['DOJ'] || $objEmpChangeRequest->gmail != $request['gmail'] || $objEmpChangeRequest->gmail_password != $gmail_password || $objEmpChangeRequest->slack_password != $slack_password || $objEmpChangeRequest->personal_email != $request['personal_email']) {
                     $data = $request->input();
-                    unset($data['_token']);
+                    unset($data['_token'], $data['old_gmail_password'], $data['old_slack_password']);
                     $objEmpChangeRequest = new EmpChangeRequest();
                     $objEmpChangeRequest->employee_id = Auth()->guard('employee')->user()->id;
                     $objEmpChangeRequest->request_type = "1";

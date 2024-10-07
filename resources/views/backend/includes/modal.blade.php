@@ -87,6 +87,29 @@
 </div>
 
 <!-- Employee status-->
+<div class="modal fade" id="semiLeftModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Semi Left Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Are you sure you want to left employee ? </p>
+                <div class="semi-left-employee-modal-body"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-deactive" disabled>Left</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-active">Working</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Employee status-->
 <div class="modal fade" id="leftModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -98,6 +121,7 @@
             </div>
             <div class="modal-body">
                 <p> Are you sure you want to left employee ? </p>
+                <div class="left-employee-modal-body"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
@@ -942,6 +966,13 @@
                         <span id="as_description"></span>
                     </div>
                 </div>
+
+                <div class="row mt-7 mr-5 mb-5 ml-5">
+                    <div class="col-12">
+                        <p class="mb-2"><b>Allocation History</b></p>
+                        <span id="allocation_history"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -992,7 +1023,11 @@
                 <div class="row mt-5 mr-5 ml-5">
                     <div class="col-3">
                         <b>Date</b> <br>
-                        <span id="leave_date"></span>
+                        <span id="leave_start_date"></span>
+                    </div>
+                    <div class="col-3">
+                        <b>Date</b> <br>
+                        <span id="leave_end_date"></span>
                     </div>
                     <div class="col-3">
                         <b>Employee Name</b> <br>
@@ -1003,12 +1038,12 @@
                         <b>Manager Name</b> <br>
                         <span id="leave_man_name"></span>
                     </div>
-                    <div class="col-3">
-                        <b>Leave Type</b> <br>
-                        <span id="leeave_type"></span>
-                    </div>
                 </div>
                 <div class="row mt-5 mr-5 ml-5">
+                    <div class="col-3">
+                        <b>Leave Type</b> <br>
+                        <span id="leave_type"></span>
+                    </div>
                     <div class="col-3">
                         <b>Leave Status</b> <br>
                         <span id="leave_status"></span>
@@ -1177,7 +1212,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>year</label><br>
+                                <label>Year</label><br>
                                 <select class="form-control select2 year change-fillter" id="yearId"  name="year">
                                     <option value="">Select Year</option>
                                     @for ($i = 2019; $i <= date('Y'); $i++)
@@ -1259,14 +1294,18 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approved</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Rejected</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure-approved">Approve</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light yes-sure">Reject</button>
             </div>
         </div>
     </div>
 </div>
 
-
+<!-- The Modal -->
+<div id="imagePreviewModal" class="previewModal">
+    <span class="imagePreviewClose">&times;</span>
+    <img class="imgPreview-modal-content" id="previewModalImage">
+</div>
 
 
 

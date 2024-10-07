@@ -41,10 +41,10 @@ class EmployeeBondLastDateController extends Controller
                 'EmployeeBondLastDate.init()',
             );
             $data['header'] = array(
-                'title' => 'Employee Bond Last Date list',
+                'title' => 'Employee Bond Last Date List',
                 'breadcrumb' => array(
                     'Dashboard' => route('my-dashboard'),
-                    'Employee Bond Last Date list' => 'Employee Bond Last Date list',
+                    'Employee Bond Last Date List' => 'Employee Bond Last Date list',
                 )
             );
             return view('backend.pages.employee.bond_last_date_list', $data);

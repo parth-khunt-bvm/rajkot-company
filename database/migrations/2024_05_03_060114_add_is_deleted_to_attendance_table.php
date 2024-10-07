@@ -14,7 +14,7 @@ class AddIsDeletedToAttendanceTable extends Migration
     public function up()
     {
         Schema::table('attendance', function (Blueprint $table) {
-            $table->enum('is_deleted',['Y','N'])->default("N")->comment("Y for deleted, N for not deleted")->after('reason');
+            // $table->enum('is_deleted',['Y','N'])->default("N")->comment("Y for deleted, N for not deleted")->after('reason');
         });
     }
 
@@ -26,7 +26,7 @@ class AddIsDeletedToAttendanceTable extends Migration
     public function down()
     {
         Schema::table('attendance', function (Blueprint $table) {
-            //
+            $table->dropColumn('is_deleted');
         });
     }
 }

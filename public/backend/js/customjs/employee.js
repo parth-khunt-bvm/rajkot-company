@@ -55,14 +55,101 @@ var Employee = function () {
 
         $("body").on("click", ".left-employee", function () {
             var id = $(this).data('id');
+
+            var semi_left = false;
+
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get-employee-assets', 'data': data },
+                success: function (data) {
+                    var assets = JSON.parse(data);
+                    console.log(assets);
+                    if(assets.length > 0){
+                        semi_left = true;
+
+                        $('.left-employee-modal-body').empty();
+                        $('.left-employee-modal-body').append('<p>This employee have following assets allocated :-</p>');
+
+                        var ul = $('<ul></ul>');
+                        $.each(assets, function(index, asset) {
+                            ul.append('<li>' + asset.asset_type + ' (' + asset.asset_code + ')</li>');
+                        });
+
+                        $('.left-employee-modal-body').append(ul);
+                        $('.left-employee-modal-body').append('<span class="text-dark-50">Please unallocate this assets to left employee or right now you can semi left the Employee.</span>');
+                    } else {
+                        $('.left-employee-modal-body').empty();
+                        $('.left-employee-modal-body').append('<p>This employee don\'t have any assets allocated.</p>');
+                    }
+                    handleAjaxResponse(data);
+                }
+            });
+
             setTimeout(function () {
                 $('.yes-sure-deactive:visible').attr('data-id', id);
+                $('.yes-sure-deactive:visible').attr('data-activity', semi_left == false ? 'left-employee' : 'semi-left-employee');
             }, 500);
-        })
+        });
+
+        $("body").on("click", ".semi-left-employee", function () {
+            var id = $(this).data('id');
+
+            var semi_left = false;
+
+            var data = { 'id': id, _token: $('#_token').val() };
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                },
+                url: baseurl + "admin/employee/ajaxcall",
+                data: { 'action': 'get-employee-assets', 'data': data },
+                success: function (data) {
+                    var assets = JSON.parse(data);
+                    console.log(assets);
+                    if(assets.length > 0){
+                        semi_left = true;
+
+                        $('.semi-left-employee-modal-body').empty();
+                        $('.semi-left-employee-modal-body').append('<p>This employee have following assets allocated :-</p>');
+
+                        var ul = $('<ul></ul>');
+                        $.each(assets, function(index, asset) {
+                            ul.append('<li>' + asset.asset_type + ' (' + asset.asset_code + ')</li>');
+                        });
+
+                        $('.semi-left-employee-modal-body').append(ul);
+                        $('.semi-left-employee-modal-body').append('<span class="text-dark-50">Please unallocate this assets to left employee or right now you can semi left the Employee.</span>');
+                    } else {
+                        $('.semi-left-employee-modal-body').empty();
+                        $('.semi-left-employee-modal-body').append('<p>This employee don\'t have any assets allocated.</p>');
+                    }
+                    handleAjaxResponse(data);
+                }
+            });
+
+            setTimeout(function () {
+                $('.yes-sure-active:visible').attr('data-id', id);
+                if(semi_left == false){
+                    $('.yes-sure-deactive:visible').attr('data-id', id);
+                    $('.yes-sure-deactive:visible').attr('data-activity', 'left-employee');
+                    $('.yes-sure-deactive:visible').enable();
+                } else {
+                    $('.yes-sure-deactive:visible').attr('data-id', '');
+                    $('.yes-sure-deactive:visible').disable();
+                }
+            }, 500);
+        });
 
         $('body').on('click', '.yes-sure-deactive', function () {
             var id = $(this).attr('data-id');
-            var data = { 'id': id, 'activity': 'left-employee', _token: $('#_token').val() };
+            var activity = $(this).attr('data-activity');
+            var data = { 'id': id, 'activity': activity, _token: $('#_token').val() };
             $.ajax({
                 type: "POST",
                 headers: {
@@ -259,10 +346,12 @@ var Employee = function () {
 
         var rules = {
             hired_by: { required: true },
+            cheque_status: { required: true },
         };
 
         var message = {
             hired_by: { required: "Please enter hired by" },
+            cheque_status: { required: "Please select Cheque status" },
         }
         handleFormValidateWithMsg(form, rules, message, function (form) {
             handleAjaxFormSubmit(form, true);
@@ -332,6 +421,11 @@ var Employee = function () {
                     notEmpty: { message: 'Please select manager' },
                 }
             },
+            // cheque_status: {
+            //     validators: {
+            //         notEmpty: { message: 'Please select Cheque status' },
+            //     }
+            // },
 
         };
 

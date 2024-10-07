@@ -13,7 +13,20 @@
         } else {
             $image = url('upload/userprofile/default.jpg');
         }
+        if ($data['gmail_password'] != '') {
+            $maskedGmailPass = '';
+            for ($i=1; $i <= strlen($data['gmail_password']); $i++) { 
+                $maskedGmailPass .= '#';
+            }
+        }
+        if ($data['slack_password'] != '') {
+            $maskedSlackPass = '';
+            for ($i=1; $i <= strlen($data['slack_password']); $i++) { 
+                $maskedSlackPass .= '#';
+            }
+        }
     @endphp
+    {{-- @dd($data) --}}
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
@@ -27,9 +40,79 @@
                     <h3 class="card-title">{{ $header['title'] }}</h3>
                 </div>
                 <div class="card-body">
+                    <form class="form" id="update-first-personal-info" method="POST" action="{{ route('employee.save-profile') }}"
+                        enctype="multipart/form-data">@csrf
+                        <div class="row">
+                            <div class="col-xl-2">
+                                <div class="form-group">
+                                    <label>Profile Image</label>
+                                    <div class="">
+                                        <div class="image-input image-input-outline" id="kt_image_1">
+                                            <div class="image-input-wrapper my-avtar pre-img"
+                                                style="background-image: url({{ $image }})"></div>
+                                            <label
+                                                class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                data-action="change" data-toggle="tooltip" title=""
+                                                data-original-title="Change avatar">
+                                                <i class="fa fa-pencil  icon-sm text-muted"></i>
+                                                <input type="file" name="employee_image" accept=".png, .jpg, .jpeg" />
+                                                <input type="hidden" name="profile_avatar_remove" />
+                                            </label>
+                                            <span
+                                                class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                            </span>
+                                        </div>
+                                        <span class="form-text text-muted">Allowed file types: png, jpg,
+                                            jpeg.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-10">
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="form-group">
+                                            <label>First Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="hidden" name="id" class="form-control"
+                                                value="{{ $data['id'] }}">
+                                            <input type="text" class="form-control" name="first_name"
+                                                id="first_name" value="{{ $data['first_name'] }}"
+                                                placeholder="First Name" autocomplete="off" />
+                                            <input type="hidden" value="{{ $data['first_name'] }}"
+                                                class="old_value" data-attribute="first_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="form-group">
+                                            <label>Last Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="last_name"
+                                                id="last_name" value="{{ $data['last_name'] }}"
+                                                placeholder="last Name" autocomplete="off" />
+                                            <input type="hidden" value="{{ $data['last_name'] }}"
+                                                class="old_value" data-attribute="last_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 pt-8">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary mr-2 green-btn submitbtn">Submit</button>
+                                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="card-footer">
                     <!--begin::Details-->
                     <!--begin::Items-->
-                    <div class="d-flex align-items-center flex-wrap mt-8">
+                    <div class="d-flex align-items-center flex-wrap">
                         <div class="">
                             <ul class="nav nav-success nav-pills" id="myTab2" role="tablist">
                                 <li class="nav-item">
@@ -40,7 +123,6 @@
                                         <span class="nav-text">Personal Information</span>
                                     </a>
                                 </li>
-
                                 <li class="nav-item">
                                     <a class="nav-link user-menu" id="bank-info-tab-2" data-toggle="tab" href="#bankInfo"
                                         aria-controls="bank-info">
@@ -50,7 +132,6 @@
                                         <span class="nav-text">Bank Information</span>
                                     </a>
                                 </li>
-
                                 <li class="nav-item">
                                     <a class="nav-link user-menu" id="parent-info-tab-2" data-toggle="tab"
                                         href="#parentInfo" aria-controls="parent-info">
@@ -75,45 +156,19 @@
                         <div class="col-md-12">
                             <!--begin::Card-->
                             <div class="card card-custom gutter-b example example-compact">
-                                {{-- <div class="card-header">
-                                    <h3 class="card-title">{{ $header['title'] }}</h3>
-                                </div> --}}
-                                <div class="card-body p-0">
-                                    <!--begin: Wizard-->
-                                    <form id="update-personal-info" action="{{ route('employee.save-personal-info') }}"
-                                        method="post" enctype="multipart/form-data" class="form update-profile">
+                                <div class="card-header">
+                                    <h3 class="card-title">Enter Personal Detail</h3>
+                                </div>
+                                <form id="update-personal-info" action="{{ route('employee.save-personal-info') }}"
+                                    method="post" enctype="multipart/form-data" class="form update-profile">
+                                    <div class="card-body">
+                                        <!--begin: Wizard-->
                                         @csrf
+                                        <input type="hidden" name="id" class="form-control"value="{{ $data['id'] }}">
                                         <!-- Step 1 -->
-                                        <div class="pb-5 step m-5" id="step1">
-                                            <h4 class="mb-10 font-weight-bold text-dark">Enter Personal Detail</h4>
+                                        <div class="step" id="step1">
 
                                             <div class="row">
-                                                <div class="col-xl-3">
-                                                    <div class="form-group">
-                                                        <label>First Name
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <input type="hidden" name="id" class="form-control"
-                                                            value="{{ $data['id'] }}">
-                                                        <input type="text" class="form-control" name="first_name"
-                                                            id="first_name" value="{{ $data['first_name'] }}"
-                                                            placeholder="First Name" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['first_name'] }}"
-                                                            class="old_value" data-attribute="first_name">
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3">
-                                                    <div class="form-group">
-                                                        <label>Last Name
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <input type="text" class="form-control" name="last_name"
-                                                            id="last_name" value="{{ $data['last_name'] }}"
-                                                            placeholder="last Name" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['last_name'] }}"
-                                                            class="old_value" data-attribute="last_name">
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Branch Name
@@ -124,7 +179,7 @@
                                                             <option value="">Please select Branch Name</option>
                                                             @foreach ($branch as $key => $value)
                                                                 <option value="{{ $value['id'] }}"
-                                                                    {{ $data['branch'] == $value['id'] ? 'selected="selected"' : '' }}>
+                                                                    {{ $data['branch'] == $value['id'] ? 'selected=selected' : '' }}>
                                                                     {{ $value['branch_name'] }}</option>
                                                             @endforeach
                                                         </select>
@@ -146,8 +201,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
                                                         <label>Designation Name
@@ -175,6 +228,8 @@
                                                             class="old_value" data-attribute="dob">
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
                                                         <label>Date Of joining</label>
@@ -184,6 +239,31 @@
                                                             placeholder="Date Of Joining" autocomplete="off" />
                                                         <input type="hidden" value="{{ date_formate($data['DOJ']) }}"
                                                             class="old_value" data-attribute="doj">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-3">
+                                                    <div class="form-group">
+                                                        <label>Gmail Password
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <a href="#" class="showPassBtn" data-toggle="modal" data-target="#unmask-pass-model" title="Show Password"><i class="fas fa-eye"></i></a>
+                                                        <input type="text" class="form-control" name="gmail_password"
+                                                            id="gmail_password" value="{{ $maskedGmailPass }}"
+                                                            placeholder="Gmail Password" autocomplete="off" disabled />
+                                                        <input type="hidden" name="old_gmail_password" value="{{ $data['gmail_password'] }}"
+                                                            class="old_value" data-attribute="gmail_password">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-3">
+                                                    <div class="form-group">
+                                                        <label>Slack Password
+                                                        </label>
+                                                        <a href="#" class="showPassBtn" data-toggle="modal" data-target="#unmask-pass-model" title="Show Password"><i class="fas fa-eye"></i></a>
+                                                        <input type="text" class="form-control" name="slack_password"
+                                                            id="slack_password" value="{{ $maskedSlackPass }}"
+                                                            placeholder="Slack Password" autocomplete="off" disabled />
+                                                        <input type="hidden" name="old_slack_password" value="{{ $data['slack_password'] }}"
+                                                            class="old_value" data-attribute="slack_password">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
@@ -202,29 +282,6 @@
                                             <div class="row">
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
-                                                        <label>Gmail Password
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <input type="text" class="form-control" name="gmail_password"
-                                                            id="gmail_password" value="{{ $data['gmail_password'] }}"
-                                                            placeholder="Gmail Password" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['gmail_password'] }}"
-                                                            class="old_value" data-attribute="gmail_password">
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3">
-                                                    <div class="form-group">
-                                                        <label>Slack Password
-                                                        </label>
-                                                        <input type="text" class="form-control" name="slack_password"
-                                                            id="slack_password" value="{{ $data['slack_password'] }}"
-                                                            placeholder="Slack Password" autocomplete="off" />
-                                                        <input type="hidden" value="{{ $data['slack_password'] }}"
-                                                            class="old_value" data-attribute="slack_password">
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3">
-                                                    <div class="form-group">
                                                         <label>Personal Email
                                                         </label>
                                                         <input type="email" class="form-control" name="personal_email"
@@ -235,15 +292,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer">
-                                                <button type="submit"
-                                                    class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                                            </div>
                                         </div>
-                                    </form>
-                                    <!--end: Wizard-->
-                                </div>
+                                        <!--end: Wizard-->
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit"
+                                        class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </form>
                             </div>
                             <!--end::Card-->
 
@@ -259,17 +316,16 @@
                         <div class="col-md-12">
                             <!--begin::Card-->
                             <div class="card card-custom gutter-b example example-compact">
-                                {{-- <div class="card-header">
-                                    <h3 class="card-title">{{ $header['title'] }}</h3>
-                                </div> --}}
-                                <div class="card-body p-0">
-                                    <!--begin: Wizard-->
-                                    <form id="update-bank-info" action="{{ route('employee.save-bank-info') }}"
-                                        method="post" enctype="multipart/form-data" class="form">
+                                <div class="card-header">
+                                    <h3 class="card-title">Enter Bank Detail</h3>
+                                </div>
+                                <form id="update-bank-info" action="{{ route('employee.save-bank-info') }}"
+                                    method="post" enctype="multipart/form-data" class="form">
+                                    <div class="card-body">
+                                        <!--begin: Wizard-->
                                         @csrf
                                         <!-- Step 2 -->
-                                        <div class="pb-5 step m-5 " id="step2">
-                                            <h4 class="mb-10 font-weight-bold text-dark">Enter Bank Detail</h4>
+                                        <div class="step" id="step2">
                                             <div class="row">
                                                 <div class="col-xl-3">
                                                     <div class="form-group">
@@ -344,15 +400,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer">
-                                                <button type="submit"
-                                                    class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                                            </div>
                                         </div>
-                                    </form>
-                                    <!--end: Wizard-->
-                                </div>
+                                        <!--end: Wizard-->
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit"
+                                        class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </form>
                             </div>
                             <!--end::Card-->
 
@@ -368,17 +424,16 @@
                         <div class="col-md-12">
                             <!--begin::Card-->
                             <div class="card card-custom gutter-b example example-compact">
-                                {{-- <div class="card-header">
-                                    <h3 class="card-title">{{ $header['title'] }}</h3>
-                                </div> --}}
-                                <div class="card-body p-0">
-                                    <!--begin: Wizard-->
-                                    <form id="update-parent-info" action="{{ route('employee.save-parent-info') }}"
-                                        method="post" enctype="multipart/form-data" class="form">
+                                <div class="card-header">
+                                    <h3 class="card-title">Enter Parent Detail</h3>
+                                </div>
+                                <form id="update-parent-info" action="{{ route('employee.save-parent-info') }}"
+                                    method="post" enctype="multipart/form-data" class="form">
+                                    <div class="card-body">
+                                        <!--begin: Wizard-->
                                         @csrf
                                         <!-- Step 3 -->
-                                        <div class="pb-5 step m-5 " id="step3">
-                                            <h4 class="mb-10 font-weight-bold text-dark">Enter Parent Detail</h4>
+                                        <div class="step" id="step3">
 
                                             <div class="row">
                                                 <div class="col-xl-3">
@@ -423,15 +478,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer">
-                                                <button type="submit"
-                                                    class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                                            </div>
                                         </div>
-                                    </form>
-                                    <!--end: Wizard-->
-                                </div>
+                                        <!--end: Wizard-->
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit"
+                                        class="btn btn-primary mr-2 submitbtn green-btn">Submit</button>
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </form>
                             </div>
                             <!--end::Card-->
 

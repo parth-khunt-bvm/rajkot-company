@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Branch name
+                                        <label>Branch Name
                                         <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="branch_name" class="form-control" placeholder="Enter branch name" autocomplete="off">

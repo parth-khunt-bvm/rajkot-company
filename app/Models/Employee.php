@@ -32,7 +32,7 @@ class Employee extends Authenticatable
             3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
             4 => 'employee.experience',
             5 => 'employee.google_pay_number',
-            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
+            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" WHEN employee.status = "S" THEN "Semi Left" ELSE "Left" END)'),
         );
 
         $query = Employee::from('employee')
@@ -117,11 +117,13 @@ class Employee extends Authenticatable
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(77, explode(',', $permission_array[0]['permission'])) ){
                 if ($row['status'] == 'W') {
-                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#leftModel" class="btn btn-icon  left-employee" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#leftModel" class="btn btn-icon left-employee" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
+                } else if ($row['status'] == 'S') {
+                    $actionhtml .= '<a href="#" data-toggle="modal" data-target="#semiLeftModel" class="btn btn-icon semi-left-employee" data-id="' . $row["id"] . '" ><i class="fa fa-times text-primary" ></i></a>';
                 } else {
                     $actionhtml .= '<a href="#" data-toggle="modal" data-target="#workingModel" class="btn btn-icon working-employee" data-id="' . $row["id"] . '" ><i class="fa fa-check text-primary" ></i></a>';
                 }
-             }
+            }
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(78, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
 
@@ -131,6 +133,15 @@ class Employee extends Authenticatable
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(80, explode(',', $permission_array[0]['permission'])) )
             $actionhtml .= '<a href="' . route('admin.employee.cover-letter', $row['id']) . '" class="btn btn-icon" title="cover letter pdf"><i class="far fa-file-pdf text-info"></i></a>';
 
+            $status = '';
+            if($row['status'] == 'W'){
+                $status = '<span class="label label-lg label-light-success label-inline">Working</span>';
+            } else if ($row['status'] == 'L') {
+                $status = '<span class="label label-lg label-light-danger  label-inline">Left</span>';
+            } else {
+                $status = '<span class="label label-lg label-light-warning  label-inline">Semi Left</span>';
+            }
+
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
@@ -139,7 +150,7 @@ class Employee extends Authenticatable
             $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
             $nestedData[] = numberformat($row['experience'], 0);
             $nestedData[] = $row['google_pay_number'];
-            $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
+            $nestedData[] = $status;
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
             }
@@ -164,7 +175,7 @@ class Employee extends Authenticatable
             3 => DB::raw('DATE_FORMAT(employee.DOJ, "%d-%b-%Y")'),
             4 => 'employee.experience',
             5 => 'employee.google_pay_number',
-            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" ELSE "Left" END)'),
+            6 => DB::raw('(CASE WHEN employee.status = "W" THEN "Working" WHEN employee.status = "S" THEN "Semi Left" ELSE "Left" END)'),
         );
 
         $query = Employee::from('employee')
@@ -217,6 +228,15 @@ class Employee extends Authenticatable
 
             $actionhtml .= '<a href="#" data-toggle="modal" data-target="#restoreDataModel" class="btn btn-icon restore-records" data-id="' . $row["id"] . '" ><i class="fa fa-undo text-danger" ></i></a>';
 
+            $status = '';
+            if($row['status'] == 'W'){
+                $status = '<span class="label label-lg label-light-success label-inline">Working</span>';
+            } else if ($row['status'] == 'L') {
+                $status = '<span class="label label-lg label-light-danger  label-inline">Left</span>';
+            } else {
+                $status = '<span class="label label-lg label-light-warning  label-inline">Semi Left</span>';
+            }
+
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
@@ -225,7 +245,7 @@ class Employee extends Authenticatable
             $nestedData[] = $row['DOJ'] != '' && $row['DOJ'] != NULL ? date_formate($row['DOJ']) : '-';
             $nestedData[] = numberformat($row['experience'], 0);
             $nestedData[] = $row['google_pay_number'];
-            $nestedData[] = $row['status'] == 'W' ? '<span class="label label-lg label-light-success label-inline">Working</span>' : '<span class="label label-lg label-light-danger  label-inline">Left</span>';
+            $nestedData[] = $status;
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
                 $nestedData[] = $actionhtml;
             }
@@ -479,7 +499,7 @@ class Employee extends Authenticatable
              ->join("technology", "technology.id", "=", "employee.department")
              ->join("designation", "designation.id", "=", "employee.designation")
              ->join("manager", "manager.id", "=", "employee.hired_by")
-             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.cheque_status','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password', 'manager.manager_name')
+             ->select('employee.id','employee.first_name','employee.last_name', 'employee.department','employee.designation','employee.DOJ','employee.gmail','employee.department','employee.password','employee.employee_image', 'employee.slack_password', 'employee.DOB','employee.bank_name','employee.acc_holder_name','employee.account_number','employee.ifsc_number','employee.personal_email','employee.pan_number','employee.aadhar_card_number','employee.parents_name','employee.personal_number','employee.google_pay_number','employee.address','employee.hired_by','employee.salary','employee.stipend_from','employee.bond_last_date','employee.resign_date','employee.last_date','employee.cancel_cheque','employee.cheque_status','employee.bond_file','employee.trainee_performance','technology.technology_name','employee.DOJ','employee.gmail','employee.emergency_number','employee.google_pay_number','employee.experience', 'employee.created_at','designation.designation_name', 'employee.branch', 'employee.status', 'employee.gmail_password', 'manager.manager_name')
              ->where('employee.id', $employeeId)
              ->first();
     }
@@ -495,6 +515,11 @@ class Employee extends Authenticatable
         if ($requestData['activity'] == 'restore-records') {
             $objEmployee->is_deleted = "N";
             $event = 'R';
+        }
+
+        if ($requestData['activity'] == 'semi-left-employee') {
+            $objEmployee->status = "S";
+            $event = 'S';
         }
 
         if ($requestData['activity'] == 'left-employee') {

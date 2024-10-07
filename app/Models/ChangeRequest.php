@@ -19,7 +19,7 @@ class ChangeRequest extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'change_request.id',
-            1 => \DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
+            1 => DB::raw('CONCAT(employee.first_name, " ", employee.last_name)'),
             2 => DB::raw('(CASE WHEN change_request.request_type = "1" THEN "Persona Info"
                                 WHEN change_request.request_type = "2" THEN "Bank Info"
                                 ELSE "Parent Info" END)'),
@@ -177,14 +177,11 @@ class ChangeRequest extends Model
             if ($objChangeRequest['request_type'] === "1") {
 
                 $objEmployee = Employee::find($objChangeRequest['employee_id']);
-                $objEmployee->first_name = $data['first_name'];
-                $objEmployee->last_name = $data['last_name'];
                 $objEmployee->branch = $data['branch'];
                 $objEmployee->department = $data['department'];
                 $objEmployee->designation = $data['designation'];
                 $objEmployee->DOB = date('Y-m-d', strtotime($data['DOB']));
                 $objEmployee->DOJ = date('Y-m-d', strtotime($data['DOJ']));
-                $objEmployee->gmail = $data['gmail'];
                 $objEmployee->gmail_password = $data['gmail_password'];
                 $objEmployee->slack_password = $data['slack_password'];
                 $objEmployee->personal_email = $data['personal_email'];

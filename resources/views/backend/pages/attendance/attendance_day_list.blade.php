@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>minute (1 hour = 60 min)
+                                        <label>Minute (1 hour = 60 min)
                                         </label>
                                         <input type="number" name="minutes[]" id="minutes" class="form-control minutes" placeholder="Enter minutes" value="" autocomplete="off">
                                         <span class="minute_error text-danger"></span>
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Reson
+                                        <label>Reason
                                         </label>
                                         <textarea class="form-control" id="" cols="30" rows="1" name="reason[]" id="reason"></textarea>
                                     </div>
@@ -111,7 +111,7 @@
                                 <th>Employee</th>
                                 <th>Attendance Type</th>
                                 <th>Minutes</th>
-                                <th>reason</th>
+                                <th>Reason</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -125,8 +125,41 @@
         </div>
         <!--end::Card-->
 
-         <!--begin::Card-->
-         <div class="card card-custom gutter-b">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header flex-wrap py-3">
+                <div class="card-title">
+                    <h3 class="card-label">Employee Time Tracking </h3>
+                 </div>
+                <div class="card-toolbar">
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="emp-time-tracking-list">
+                    <table class="table table-bordered table-checkable" id="emp-time-tracking-list">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Employee</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Working Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--end: Datatable-->
+                </div>
+
+            </div>
+        </div>
+        <!--end::Card-->
+
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
             <div class="card-header flex-wrap py-3">
                 <div class="card-title">
                     <h3 class="card-label">Employee Overtime </h3>

@@ -17,11 +17,11 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Suplier Name
+                                            <label>Supplier Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
-                                                <option value="">Please select Suplier Name</option>
+                                                <option value="">Please select Supplier Name</option>
                                                 @foreach ($suppier  as $key => $value )
                                                 @if ($value['priority'] == '2')
                                                         <option value="{{ $value['id'] }}">{{ $value['suppiler_name'].' - '.$value['supplier_shop_name'] .' - '. "High"}}</option>
@@ -110,8 +110,38 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Description
-                                            </label>
+                                            <label>Purchase Date</label>
+                                            <input type="text" name="purchase_date" id="datepicker_date" class="form-control date" placeholder="Enter Purchase Date" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Warranty/Guarantee (in year)</label>
+                                            <input type="number" id="warranty_guarantee" name="warranty_guarantee" class="form-control onlyNumber" placeholder="Enter Warranty/Guarantee" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Agreement</label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="W"/>
+                                                    <span></span>In Warranty
+                                                </label>
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="G"/>
+                                                    <span></span>In Guarantee
+                                                </label>
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="N"/>
+                                                    <span></span>None
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Description</label>
                                             <textarea class="form-control" id="" cols="30" rows="1" name="description" id="description"></textarea>
                                         </div>
                                     </div>

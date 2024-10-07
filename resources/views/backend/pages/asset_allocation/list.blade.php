@@ -40,7 +40,11 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>Add Asset Allocation
-                         </a>
+                        </a>
+
+                        <a href="{{ route('admin-asset-allocation.excel') }}" class="btn btn-icon btn-outline-success font-weight-bolder ml-5">
+                            <i class="fa fa-file-excel p-0"></i>
+                        </a>
                    @endif
 
                     <!--end::Button-->

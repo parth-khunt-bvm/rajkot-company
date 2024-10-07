@@ -11,11 +11,11 @@ class SendMail extends Model
 
     public function sendMailltesting(){
         $mailData['data']=[];
-        $mailData['data']['firstName']='Krina Kakadiya';
+        $mailData['data']['firstName']='Hello, Welcome to BVM infotech.';
         $mailData['subject'] = "Testing Mail";
         $mailData['attachment'] = array();
         $mailData['template'] ="emailtemplate.test";
-        $mailData['mailto'] = 'krina@yopmail.com';
+        $mailData['mailto'] = 'hil.bvminfotech@gmail.com';
         $sendMail = new Sendmail();
         return $sendMail->sendSMTPMail($mailData);
     }

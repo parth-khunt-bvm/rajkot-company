@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Exports\AssetMasterExport;
 use App\Http\Controllers\Controller;
+use App\Models\AssetAllocationHistory;
 use Illuminate\Http\Request;
 use App\Models\AssetMaster;
 use App\Models\Branch;
@@ -62,10 +63,10 @@ class AssetMasterController extends Controller
             'AssetMaster.add()'
         );
         $data['header'] = array(
-            'title' => 'Asset Master list',
+            'title' => 'Asset Master List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'AssetMaster list' => 'Asset Master list',
+                'Asset Master list' => 'Asset Master list',
             )
         );
         return view('backend.pages.assetmaster.list', $data);
@@ -353,18 +354,13 @@ class AssetMasterController extends Controller
             'AssetMaster.trash_init()',
         );
         $data['header'] = array(
-            'title' => 'Asset Master Deleted list',
+            'title' => 'Asset Master Deleted List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
                 'AssetMaster Deleted list' => 'Asset Master Deleted list',
             )
         );
         return view('backend.pages.assetmaster.trash', $data);
-    }
-
-    public function assetMasterExcel(){
-        
-        return Excel::download(new AssetMasterExport(), 'Assets-master.xlsx');
     }
 
 }

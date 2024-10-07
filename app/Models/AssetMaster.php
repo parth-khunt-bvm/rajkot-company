@@ -19,6 +19,9 @@ class AssetMaster extends Model
         'description',
         'status',
         'price',
+        'purchase_date',
+        'warranty_guarantee',
+        'agreement',
     ];
 
     public function getdatatable($fillterdata)
@@ -26,17 +29,19 @@ class AssetMaster extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'asset_master.id',
-            1 => 'asset_master.asset_code',
-            2 => 'supplier.suppiler_name',
-            3 => 'asset.asset_type',
-            4 => 'branch.branch_name',
-            5 => 'brand.brand_name',
-            6 => 'asset_master.description',
-            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
-            8 => 'asset_master.price',
+            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => 'asset_master.asset_code',
+            3 => 'supplier.suppiler_name',
+            4 => 'asset.asset_type',
+            5 => 'branch.branch_name',
+            6 => 'brand.brand_name',
+            7 => 'asset_master.description',
+            8 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
+            9 => 'asset_master.price',
         );
 
         $query = AssetMaster::from('asset_master')
+            ->leftJoin("employee", "employee.id", "=", "asset_master.allocated_user_id")
             ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
@@ -82,7 +87,7 @@ class AssetMaster extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->select('asset_master.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
             ->get();
 
         $data = array();
@@ -90,7 +95,7 @@ class AssetMaster extends Model
         $max_length = 30;
         foreach ($resultArr as $row) {
             $target = [];
-            $target = [111, 112,113,114,115];
+            $target = [111, 112, 113, 114, 115];
             $permission_array = get_users_permission(Auth()->guard('admin')->user()->user_type);
 
             if(Auth()->guard('admin')->user()->is_admin == 'Y' || count(array_intersect(explode(",", $permission_array[0]['permission']), $target)) > 0 ){
@@ -111,18 +116,26 @@ class AssetMaster extends Model
                 $status = '<span class="label label-lg label-light-danger label-inline">Not Working</span>';
             }
 
-            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(115, explode(',', $permission_array[0]['permission'])) )
-            $actionhtml .= '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon  delete-records" data-id="' . $row["id"] . '" ><i class="fa fa-trash text-danger" ></i></a>';
+            if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(115, explode(',', $permission_array[0]['permission'])) ){
+                $deleteBtn = '';
+                if($row['fullName'] == null){
+                    $deleteBtn = '<a href="#" data-toggle="modal" data-target="#deleteModel" class="btn btn-icon delete-records" data-id="' . $row['id'] . '"><i class="fa fa-trash text-danger"></i></a>';
+                } else {
+                    $deleteBtn = '<a href="javascript:;" class="btn btn-icon" title="Unallocate to Delete" disabled><i class="fa fa-trash text-gray"></i></a>';
+                }
+                $actionhtml .= $deleteBtn;
+            }
 
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = $row['fullName'] ?? '-';
             $nestedData[] = $row['asset_code'];
             $nestedData[] = $row['suppiler_name'];
             $nestedData[] = $row['asset_type'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['brand_name'];
-            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = numberformat($row['price']);
             $nestedData[] = $status;
 
             if (strlen($row['description']) > $max_length) {
@@ -150,17 +163,19 @@ class AssetMaster extends Model
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'asset_master.id',
-            1 => 'asset_master.asset_code',
-            2 => 'supplier.suppiler_name',
-            3 => 'asset.asset_type',
-            4 => 'branch.branch_name',
-            5 => 'brand.brand_name',
-            6 => 'asset_master.description',
-            7 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
-            8 => 'asset_master.price',
+            1 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            2 => 'asset_master.asset_code',
+            3 => 'supplier.suppiler_name',
+            4 => 'asset.asset_type',
+            5 => 'branch.branch_name',
+            6 => 'brand.brand_name',
+            7 => 'asset_master.description',
+            8 => DB::raw('(CASE WHEN asset_master.status = 1 THEN "Working" WHEN asset_master.status = 2 THEN "NeedToService" ELSE "Not Working" END)'),
+            9 => 'asset_master.price',
         );
 
         $query = AssetMaster::from('asset_master')
+            ->leftJoin("employee", "employee.id", "=", "asset_master.allocated_user_id")
             ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
             ->join("branch", "branch.id", "=", "asset_master.branch_id")
             ->join("asset", "asset.id", "=", "asset_master.asset_id")
@@ -193,7 +208,7 @@ class AssetMaster extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select('asset_master.id','asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
+            ->select('asset_master.id', DB::raw('CONCAT(first_name, " ", last_name) as fullName'),'asset_master.asset_code', 'supplier.suppiler_name', 'branch.branch_name', 'asset.asset_type','brand.brand_name','asset_master.description', 'asset_master.status', 'asset_master.price')
             ->get();
 
         $data = array();
@@ -221,12 +236,13 @@ class AssetMaster extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+            $nestedData[] = $row['fullName'] ?? '-';
             $nestedData[] = $row['asset_code'];
             $nestedData[] = $row['suppiler_name'];
             $nestedData[] = $row['asset_type'];
             $nestedData[] = $row['branch_name'];
             $nestedData[] = $row['brand_name'];
-            $nestedData[] = numberformat($row['price'], 2);
+            $nestedData[] = numberformat($row['price']);
             $nestedData[] = $status;
 
             if (strlen($row['description']) > $max_length) {
@@ -259,7 +275,7 @@ class AssetMaster extends Model
                 generateCode:
                 $codeNumber = get_no_by_name($assetCode->asset_type);
                 $code = $codeNumber->number > 0 && $codeNumber->number < 10 ? "0".$codeNumber->number : $codeNumber->number;
-                $asset_code = $assetCode->asset_code.date('dmY').$code.$supplierCode->sort_name;
+                $asset_code = $assetCode->asset_code . $requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000' . $code . $supplierCode->sort_name;
 
                 $count_code = AssetMaster::from('asset_master')
                 ->where("asset_master.asset_code", "=", $asset_code)
@@ -273,7 +289,10 @@ class AssetMaster extends Model
                     $objAssetMaster->branch_id = $requestData['branch_id'];
                     $objAssetMaster->description = $requestData['description'] ?? '-';
                     $objAssetMaster->status = $requestData['status'];
-                    $objAssetMaster->price = $requestData['price']?? '-';
+                    $objAssetMaster->purchase_date = $requestData['purchase_date'] != null ? date('Y-m-d', strtotime($requestData['purchase_date'])) : null;
+                    $objAssetMaster->warranty_guarantee = $requestData['warranty_guarantee'];
+                    $objAssetMaster->agreement = $requestData['agreement'];
+                    $objAssetMaster->price = $requestData['price'] ?? '-';
                     $objAssetMaster->asset_code = $asset_code;
                     $objAssetMaster->is_deleted = 'N';
                     $objAssetMaster->created_at = date('Y-m-d H:i:s');
@@ -295,15 +314,34 @@ class AssetMaster extends Model
     public function saveEdit($requestData)
     {
         $supplierCode = Supplier::from('supplier')->select('supplier.sort_name')->where('supplier.id', $requestData['supplier_id'])->first();
-            $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+        $objAssetMaster = AssetMaster::find($requestData['edit_id']);
+        $assetType = Asset::from('asset')->select('asset.asset_code', 'asset.asset_type')->where('asset.id', $objAssetMaster->asset_id)->first();
+            $sortNameLength = Supplier::from('supplier')
+                ->selectRaw('LENGTH(supplier.sort_name) AS sort_name_length')
+                ->where('supplier.id', $objAssetMaster->supplier_id)
+                ->value('sort_name_length');
             $objAssetMaster->supplier_id = $requestData['supplier_id'];
             $objAssetMaster->brand_id = $requestData['brand_id'];
             $objAssetMaster->branch_id = $requestData['branch_id'];
-            $objAssetMaster->description = $requestData['description']?? '-';
+            $objAssetMaster->description = $requestData['description'] ?? '-';
             $objAssetMaster->status = $requestData['status'];
+            $objAssetMaster->purchase_date = $requestData['purchase_date'] != null ? date('Y-m-d', strtotime($requestData['purchase_date'])) : null;
+            $purchase_date = $requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000';
+            $objAssetMaster->warranty_guarantee = $requestData['warranty_guarantee'];
+            $objAssetMaster->agreement = $requestData['agreement'];
             $objAssetMaster->price = $requestData['price'] ?? '-';
-            $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -2);
-            $objAssetMaster->asset_code = $assetCode;
+
+            $assetCode = substr_replace($objAssetMaster->asset_code, $supplierCode->sort_name, -$sortNameLength);
+
+            $updatedAssetCode = preg_replace_callback(
+                '/' . preg_quote($assetType->asset_code, '/') . '\d{8}/',
+                function ($matches) use ($assetType, $purchase_date) {
+                    return $assetType->asset_code . $purchase_date;
+                },
+                $assetCode
+            );
+
+            $objAssetMaster->asset_code = $updatedAssetCode;
             $objAssetMaster->updated_at = date('Y-m-d H:i:s');
             if ($objAssetMaster->save()) {
                 $inputData = $requestData->input();
@@ -317,8 +355,8 @@ class AssetMaster extends Model
 
     public function get_asset_master_details($assetMasterId){
         return AssetMaster::from('asset_master')
-        ->where("asset_master.id", $assetMasterId)
-        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id' )
+        ->where('asset_master.id', $assetMasterId)
+        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id' ,'asset_master.asset_code','asset_master.allocated_user_id', 'asset_master.purchase_date', 'asset_master.warranty_guarantee', 'asset_master.agreement')
         ->first();
     }
 
@@ -348,14 +386,59 @@ class AssetMaster extends Model
     }
 
     public function get_asset_master_details_view($assetMasterId){
-        return AssetMaster::from('asset_master')
-        ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
-        ->join("branch", "branch.id", "=", "asset_master.branch_id")
-        ->join("asset", "asset.id", "=", "asset_master.asset_id")
-        ->join("brand", "brand.id", "=", "asset_master.brand_id")
-        ->where("asset_master.id", $assetMasterId)
-        ->select('asset_master.id','asset_master.description', 'asset_master.status', 'asset_master.price', 'asset_master.asset_id', 'asset_master.brand_id', 'asset_master.branch_id', 'asset_master.supplier_id', 'supplier.suppiler_name','supplier.supplier_shop_name', 'branch.branch_name', 'asset.asset_type', 'brand.brand_name')
-        ->first();
+        $subQuery = DB::table('asset_allocation_history')
+            ->select(
+                DB::raw('COALESCE(employee_id, "0") as employee_id'),
+                DB::raw('COALESCE(CONCAT(first_name, " ", last_name), "0") as fullName'),
+                'asset_allocation_history.created_at'
+            )
+            ->leftJoin('employee', 'employee.id', '=', 'asset_allocation_history.employee_id')
+            ->where('asset_allocation_history.asset_id', $assetMasterId);
+
+        $results = AssetMaster::from('asset_master')
+            ->join("supplier", "supplier.id", "=", "asset_master.supplier_id")
+            ->join("branch", "branch.id", "=", "asset_master.branch_id")
+            ->join("asset", "asset.id", "=", "asset_master.asset_id")
+            ->join("brand", "brand.id", "=", "asset_master.brand_id")
+            ->leftJoin('asset_allocation_history', 'asset_allocation_history.asset_id', '=', 'asset_master.id')
+            ->where("asset_master.id", $assetMasterId)
+            ->select(
+                'asset_master.id',
+                'asset_master.description', 
+                'asset_master.status', 
+                'asset_master.price', 
+                'asset_master.asset_id', 
+                'asset_master.brand_id', 
+                'asset_master.branch_id', 
+                'asset_master.supplier_id', 
+                'supplier.suppiler_name', 
+                'supplier.supplier_shop_name', 
+                'branch.branch_name', 
+                'asset.asset_type', 
+                'brand.brand_name',
+                DB::raw('GROUP_CONCAT(DISTINCT CONCAT_WS("|", COALESCE(asset_allocation_history.employee_id, "0"), COALESCE(fullName, "0"), asset_allocation_history.created_at) ORDER BY asset_allocation_history.created_at DESC) as allocationData')
+            )
+            ->leftJoinSub($subQuery, 'employee_names', function ($join) {
+                $join->on('employee_names.employee_id', '=', 'asset_allocation_history.employee_id');
+            })
+            ->groupBy(
+                'asset_master.id',
+                'asset_master.description', 
+                'asset_master.status', 
+                'asset_master.price', 
+                'asset_master.asset_id', 
+                'asset_master.brand_id', 
+                'asset_master.branch_id', 
+                'asset_master.supplier_id', 
+                'supplier.suppiler_name', 
+                'supplier.supplier_shop_name', 
+                'branch.branch_name', 
+                'asset.asset_type', 
+                'brand.brand_name'
+            )
+            ->first();
+
+        return $results;
     }
 
     public function get_admin_asset_master_details(){

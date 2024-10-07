@@ -33,6 +33,8 @@ class Audittrails extends Model
             $activity = 'Working Employee';
         }elseif($event == 'L'){
             $activity = 'Left Employee';
+        }elseif($event == 'S'){
+            $activity = 'Semi-Left Employee';
         }elseif($event == 'R'){
             $activity = 'Restore Record';
         }else{

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Attendance;
+use Config;
 use App\Models\Employee;
+use App\Models\Attendance;
 use App\Models\EmpOvertime;
 use Illuminate\Http\Request;
-use Config;
+use App\Http\Controllers\Controller;
+use App\Models\EmployeeTimeTracking;
 
 class AttendanceController extends Controller
 {
@@ -85,16 +86,18 @@ class AttendanceController extends Controller
             'jquery.form.min.js',
             'attendance.js',
             'emp_overtime_day.js',
+            'emp_time_traking.js'
         );
         $data['funinit'] = array(
             'Attendance.list()',
             'EmployeeOverTimeDay.init()',
+            'EmpTimeTraking.admin_list()'
         );
         $data['header'] = array(
-            'title' => 'Attendance list',
+            'title' => 'Attendance List',
             'breadcrumb' => array(
                 'Dashboard' => route('my-dashboard'),
-                'Attendance list' => 'Attendance list',
+                'Attendance List' => 'Attendance list',
             )
         );
         return view('backend.pages.attendance.attendance_day_list', $data);
@@ -330,6 +333,12 @@ class AttendanceController extends Controller
                 $list = $objAttendance->get_admin_attendance_details_by_day($request->input('data'));
                 $details = view('backend.pages.attendance.attendance_day_list');
                 echo $details;
+                break;
+
+            case 'get_time_tracking_datatable':
+                $objEmployeeTimeTracking = new EmployeeTimeTracking();
+                $list = $objEmployeeTimeTracking->getAdminDatatable($request->input('data'));
+                echo json_encode($list);
                 break;
 
             case 'common-activity':

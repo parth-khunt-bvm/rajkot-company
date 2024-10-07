@@ -22,7 +22,7 @@
                 @endif
 
                 @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(37, explode(',', $permission_array[0]['permission'])) )
-                    <button data-toggle="modal" data-target="#importDesignation" class="import-designation btn btn-danger font-weight-bolder mr-5 ">Import designation</button>
+                    <button data-toggle="modal" data-target="#importDesignation" class="import-designation btn btn-danger font-weight-bolder mr-5 ">Import Designation</button>
                 @endif
                 <!--begin::Button-->
                 @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(38, explode(',', $permission_array[0]['permission'])) )
@@ -37,7 +37,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Add designation
+                        </span>Add Designation
                     </a>
                 @endif
                     <!--end::Button-->
@@ -49,7 +49,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>designation Name
+                                    <label>Designation Name
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" name="designation_name"  class="form-control" placeholder="Enter designation name" autocomplete="off">

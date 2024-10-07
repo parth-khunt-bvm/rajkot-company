@@ -84,7 +84,7 @@
                                                 <div class="image-input-wrapper my-avtar" style="background-image: url({{ asset('upload/document/' . $attachment) }})"></div>
                                                 <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="Change Attachment {{ $i }}">
                                                     <i class="fa fa-pencil icon-sm text-muted"></i>
-                                                    <input type="file" name="attachment[]" accept=".png, .jpg, .jpeg"/>
+                                                    <input type="file" name="attachment_{{ $i }}" accept=".png, .jpg, .jpeg"/>
                                                     <input type="hidden" name="profile_avatar_remove"/>
                                                 </label>
                                                 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel Attachment {{ $i }}">

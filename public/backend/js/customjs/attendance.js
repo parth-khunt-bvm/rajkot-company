@@ -158,6 +158,7 @@ var Attendance = function () {
 
         $('.select2').select2();
         $('body').on('click', '.add-attendance-button', function () {
+            
             var selected = true;
             var emaployeeArray = [];
             $('.employee_select').each(function () {

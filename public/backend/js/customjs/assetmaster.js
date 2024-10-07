@@ -7,6 +7,14 @@ var AssetMaster = function(){
         var branch = $("#branch_id").val();
         var dataArr = {  'supplier': supplier, 'asset': asset, 'brand': brand, 'branch': branch};
 
+        
+        $("#datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+
         var columnWidth = { "width": "5%", "targets": 0 };
         var arrList = {
             'tableID': '#admin-asset-master-list',
@@ -238,6 +246,13 @@ var AssetMaster = function(){
     var addAssetMaster= function(){
         $('.select2').select2();
 
+        $("#datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
+
         $.validator.addMethod("validateMaxValue", function(value, element) {
             return parseFloat(value.replace(/,/g, '')) <= 999999999999.9999;
         }, "Please enter a valid amount");
@@ -254,6 +269,9 @@ var AssetMaster = function(){
             price: {
                 validateMaxValue: true,
             },
+            // purchase_date: {required: true},
+            // warranty_guarantee: {required: true},
+            // agreement: {required: true},
             status: {required: true},
 
         };
@@ -279,17 +297,33 @@ var AssetMaster = function(){
             // description : {
             //     required : "Please Enter Description"
             // },
+            // purchase_date : {
+            //     required : "Please select Purchase Date"
+            // },
+            // warranty_guarantee : {
+            //     required : "Please enter Warranty/Guarantee"
+            // },
+            // agreement : {
+            //     required : "Please select Agreement"
+            // },
             status : {
                 required : "Please select status"
             },
 
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
+        handleFormValidateWithMsg(form, rules, message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
     }
     var editAssetMaster= function(){
         $('.select2').select2();
+
+        $("#datepicker_date").datepicker({
+            format: 'd-M-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "bottom auto"
+        });
         var form = $('#edit-asset-master-users');
 
         $.validator.addMethod("validateMaxValue", function(value, element) {
@@ -306,6 +340,9 @@ var AssetMaster = function(){
             price: {
                 validateMaxValue: true,
             },
+            // purchase_date: {required: true},
+            // warranty_guarantee: {required: true},
+            // agreement: {required: true},
             status: {required: true},
 
         };
@@ -328,12 +365,21 @@ var AssetMaster = function(){
             // description : {
             //     required : "Please Enter Description"
             // },
+            // purchase_date : {
+            //     required : "Please select Purchase Date"
+            // },
+            // warranty_guarantee : {
+            //     required : "Please enter Warranty/Guarantee"
+            // },
+            // agreement : {
+            //     required : "Please select Agreement"
+            // },
             status : {
                 required : "Please select status"
             },
 
         }
-        handleFormValidateWithMsg(form, rules,message, function(form) {
+        handleFormValidateWithMsg(form, rules, message, function(form) {
             handleAjaxFormSubmit(form,true);
         });
     }

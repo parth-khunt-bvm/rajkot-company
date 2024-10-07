@@ -17,12 +17,12 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Suplier Name
+                                            <label>Supplier Name
                                                 <span class="text-danger">*</span>
                                             </label>
                                            <input type="hidden" name="edit_id" class="form-control"  value="{{ $asset_master_details['id']}}">
                                             <select  class="form-control select2 supplier_id" id="supplier_id"  name="supplier_id">
-                                                <option value="">Please select Suplier Name</option>
+                                                <option value="">Please select Supplier Name</option>
                                                 @foreach ($suppier  as $key => $value )
                                                 @if ($value['priority'] == '2')
                                                         <option value="{{ $value['id'] }}" {{ $value['id'] == $asset_master_details['supplier_id'] ? 'selected="selected"' : '' }}>{{ $value['suppiler_name'].' - '.$value['supplier_shop_name'] .' - '. "High"}}</option>
@@ -100,7 +100,38 @@
                                             </select>
                                         </div>
                                     </div>
-
+                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Purchase Date</label>
+                                            <input type="text" name="purchase_date" value="{{ $asset_master_details->purchase_date != null ? date_formate($asset_master_details->purchase_date) : null }}" id="datepicker_date" class="form-control date" placeholder="Enter Purchase Date" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Warranty/Guarantee (in year)</label>
+                                            <input type="number" id="warranty_guarantee" name="warranty_guarantee" value="{{ $asset_master_details->warranty_guarantee }}" class="form-control onlyNumber" placeholder="Enter Warranty/Guarantee" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Agreement</label>
+                                            <div class="radio-inline" style="margin-top:10px">
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="W" {{ $asset_master_details->agreement == 'W' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>In Warranty
+                                                </label>
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="G" {{ $asset_master_details->agreement == 'G' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>In Guarantee
+                                                </label>
+                                                <label class="radio radio-lg radio-success">
+                                                    <input type="radio" name="agreement" class="radio-btn" value="N" {{ $asset_master_details->agreement == 'N' ? 'checked="checked"' : '' }}/>
+                                                    <span></span>None
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Description

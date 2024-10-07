@@ -92,6 +92,11 @@ class EmployeeTimeTrakingController extends Controller
                 $list = $objEmployeeTimeTracking->getdatatable($request->input('data'));
                 echo json_encode($list);
                 break;
+            case 'getAdminDatatable':
+                $objEmployeeTimeTracking = new EmployeeTimeTracking();
+                $list = $objEmployeeTimeTracking->getAdminDatatable($request->input('data'));
+                echo json_encode($list);
+                break;
         }
     }
 }

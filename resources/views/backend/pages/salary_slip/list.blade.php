@@ -30,7 +30,7 @@
                     {{-- <a href="{{ route('admin.all-employee-salaryslip.add') }}" class="btn btn-primary font-weight-bolder m-2">
                         Generate Salary Slip
                     </a> --}}
-                    <button data-toggle="modal" data-target="#send-create-salary-slip" class="send-create-salary-slip btn btn-primary font-weight-bolder mr-5 ">Send and create salary slip</button>
+                    <button data-toggle="modal" data-target="#send-create-salary-slip" class="send-create-salary-slip btn btn-primary font-weight-bolder mr-5 ">Send And Create Salary Slip</button>
 
                     @if(Auth()->guard('admin')->user()->is_admin == 'Y' || in_array(127, explode(',', $permission_array[0]['permission'])) )
 

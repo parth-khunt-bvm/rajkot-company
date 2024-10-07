@@ -175,6 +175,28 @@ var AssetAllocation = function(){
             var branchId = $(this).val();
             var selectedAsset= [];
             if(branchId != '' && branchId != null){
+
+                // Branch wise Employees
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                    },
+                    url: baseurl + "admin/common-activity",
+                    data: { 'action': 'get_employee_from_branch', 'branchId': branchId, },
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        
+                        var html = '';
+                        html += '<option value="">Please select Employee</option>';
+                        for (var i = 0; i < res.length; i++) {
+                            html += '<option value="'+ res[i].id +'">'+ res[i].first_name + ' ' + res[i].last_name +'</option>';
+                        }
+                        $('#employee_id').html(html);
+                        $('.select2').select2();
+                    }
+                });
+
                 $('.asset_select').each(function () {
                     var elem = $(this);
                     if (elem.is(':visible')) {
@@ -247,10 +269,11 @@ var AssetAllocation = function(){
                     data: { 'action': 'get_asset_list', 'selectedAsset': JSON.stringify(selectedAsset),'branchId': branchId,'assetTypeVal': assetTypeVal, },
                     success: function (data) {
                         var res = JSON.parse(data);
+                        
                         var html = '';
                         html += '<option value="">Please select asset code</option>';
                         for (var i = 0; i < res.length; i++) {
-                            html += '<option value="'+ res[i].id +'">'+ res[i].asset_code +'</option>';
+                            html += '<option value="'+ res[i].id +'">'+ res[i].asset_code + ' - ' + res[i].brand_name +'</option>';
                         }
                         $(elem).closest(".asset-list").find(".asset_master_select").html(html);
                         $('.select2').select2();

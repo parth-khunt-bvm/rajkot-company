@@ -32,13 +32,14 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Employee Name</th>
                                     <th>Asset Code</th>
-                                    <th>Suplier Name</th>
+                                    <th>Supplier Name</th>
                                     <th>Asset Name</th>
                                     <th>Branch Name</th>
                                     <th>Brand Name</th>
                                     <th>Price</th>
-                                    <th>status</th>
+                                    <th>Status</th>
                                     <th>Description</th>
                                     @php
                                         $target = [];

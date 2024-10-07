@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Exports\AssetAllocationExport;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetAllocation;
@@ -11,6 +12,7 @@ use App\Models\Brand;
 use App\Models\Employee;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Config;
 
 class AssetAllocationController extends Controller
@@ -265,6 +267,11 @@ class AssetAllocationController extends Controller
                     echo json_encode($return);
                     exit;
             }
+        }
+
+        public function assetAllocationExcel(){
+    
+            return Excel::download(new AssetAllocationExport(), 'Assets-allocation.xlsx');
         }
 
     }
