@@ -166,6 +166,35 @@ var AssetMaster = function(){
                    }
                    $("#as_status").text(status);
                    $("#as_description").text(assetMaster.description);
+
+                    var $allocationList = $("#allocation_history"); // Assuming you have a <ul> with id "allocation_history"
+                    $allocationList.empty(); // Clear any previous list items
+                    
+                    // Assuming assetMaster.allocationData contains the concatenated string like "employeeId|fullName|allocationDate"
+                    var allocationData = assetMaster.allocationData || ""; // Fallback to empty string if allocationData is undefined
+                    var allocations = allocationData.split(","); // Split the allocations by comma
+                    
+                    // Check if allocations have any entries
+                    if (allocations.length > 0 && allocations[0] !== "") {
+                        allocations.forEach((allocation, i) => {
+                            var parts = allocation.split("|");
+                            var employeeId = parts[0] || '0';
+                            var fullName = parts[1] || 'Not Allocated';
+                            var allocationDate = parts[2] || '';
+
+                            if (employeeId === '0') {
+                                fullName = '<b>Not Allocated</b>';
+                            }
+
+                            var listItem = $("<li></li>").html(i == 0 
+                                ? `<span class="label label-lg label-light-success label-inline">Now</span> - ${fullName}` 
+                                : `${allocationDate} - ${fullName}`);
+                    
+                            $allocationList.append(listItem);
+                        });
+                    } else {
+                        $allocationList.text('-');
+                    }
                 }
             });
         });

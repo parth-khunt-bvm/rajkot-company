@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Exports\AssetMasterExport;
 use App\Http\Controllers\Controller;
+use App\Models\AssetAllocationHistory;
 use Illuminate\Http\Request;
 use App\Models\AssetMaster;
 use App\Models\Branch;
@@ -365,6 +366,22 @@ class AssetMasterController extends Controller
     public function assetMasterExcel(){
         
         return Excel::download(new AssetMasterExport(), 'Assets-master.xlsx');
+    }
+
+    public function migrateAssetsToHistory()
+    {
+        $assets = AssetMaster::all();
+
+        foreach ($assets as $asset) {
+            AssetAllocationHistory::create([
+                'asset_id' => $asset->id,
+                'employee_id' => $asset->allocated_user_id,
+                'created_at' => $asset->created_at,
+                'updated_at' => $asset->created_at,
+            ]);
+        }
+
+        return 'Migration completed successfully';
     }
 
 }
