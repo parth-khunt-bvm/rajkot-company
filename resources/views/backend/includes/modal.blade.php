@@ -966,6 +966,13 @@
                         <span id="as_description"></span>
                     </div>
                 </div>
+
+                <div class="row mt-7 mr-5 mb-5 ml-5">
+                    <div class="col-12">
+                        <p class="mb-2"><b>Allocation History</b></p>
+                        <span id="allocation_history"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

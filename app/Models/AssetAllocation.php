@@ -123,7 +123,11 @@ class AssetAllocation extends Model
                 $assetAllocationId->allocated_user_id = $requestData['employee_id'];
                 $assetAllocationId->updated_at = date('Y-m-d H:i:s');
 
-                if ($assetAllocationId->save()) {
+                $objAssetAllocationHistory = new AssetAllocationHistory();
+                $objAssetAllocationHistory->asset_id = $assetAllocationId->id;
+                $objAssetAllocationHistory->employee_id = $requestData['employee_id'];
+
+                if ($assetAllocationId->save() && $objAssetAllocationHistory->save()) {
                     $objAudittrails = new Audittrails();
                     $objAudittrails->add_audit("U", $requestData, 'AssetAllocation');
                 }
@@ -135,9 +139,15 @@ class AssetAllocation extends Model
     public function saveEdit($requestData)
     {
             $objAssetAllocation = AssetAllocation::find($requestData['edit_id']);
+            
             $objAssetAllocation->allocated_user_id = $requestData['employee_id'];
             $objAssetAllocation->updated_at = date('Y-m-d H:i:s');
-            if ($objAssetAllocation->save()) {
+
+            $newAssetAllocationHistory = new AssetAllocationHistory();
+            $newAssetAllocationHistory->asset_id = $objAssetAllocation->id;
+            $newAssetAllocationHistory->employee_id = $requestData['employee_id'];
+
+            if ($objAssetAllocation->save() && $newAssetAllocationHistory->save()) {
                 $inputData = $requestData->input();
                 unset($inputData['_token']);
                 $objAudittrails = new Audittrails();
@@ -158,7 +168,12 @@ class AssetAllocation extends Model
         }
 
         $objAssetAllocation->updated_at = date("Y-m-d H:i:s");
-        if($objAssetAllocation->save()){
+
+        $objAssetAllocationHistory = new AssetAllocationHistory();
+        $objAssetAllocationHistory->asset_id = $objAssetAllocation->id;
+        $objAssetAllocationHistory->employee_id = null;
+
+        if($objAssetAllocation->save() && $objAssetAllocationHistory->save()){
             $objAudittrails = new Audittrails();
             $res = $objAudittrails->add_audit($event, $requestData, 'AssetAllocation');
             return true;

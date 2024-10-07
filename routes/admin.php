@@ -187,6 +187,7 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::get('admin/asset-master/view/{id}', [AssetMasterController::class, 'view'])->name('admin.asset-master.view');
     Route::get('admin/asset-master/deleted', [AssetMasterController::class, 'showDeletedData'])->name('admin.asset-master.deleted');
     Route::get('admin/asset-master/excel', [AssetMasterController::class, 'assetMasterExcel'])->name('admin-asset-master.excel');
+    Route::get('admin/asset-master/history', [AssetMasterController::class, 'migrateAssetsToHistory'])->name('admin-asset-master.history');
 
 
     //asset allocation
