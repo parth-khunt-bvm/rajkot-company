@@ -275,7 +275,10 @@ class AssetMaster extends Model
                 generateCode:
                 $codeNumber = get_no_by_name($assetCode->asset_type);
                 $code = $codeNumber->number > 0 && $codeNumber->number < 10 ? "0".$codeNumber->number : $codeNumber->number;
-                $asset_code = $assetCode->asset_code . $requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000' . $code . $supplierCode->sort_name;
+                $asset_code = $assetCode->asset_code . 
+                            ($requestData['purchase_date'] != null ? date('dmY', strtotime($requestData['purchase_date'])) : '00000000') . 
+                            $code . 
+                            $supplierCode->sort_name;
 
                 $count_code = AssetMaster::from('asset_master')
                 ->where("asset_master.asset_code", "=", $asset_code)
@@ -291,7 +294,7 @@ class AssetMaster extends Model
                     $objAssetMaster->status = $requestData['status'];
                     $objAssetMaster->purchase_date = $requestData['purchase_date'] != null ? date('Y-m-d', strtotime($requestData['purchase_date'])) : null;
                     $objAssetMaster->warranty_guarantee = $requestData['warranty_guarantee'];
-                    $objAssetMaster->agreement = $requestData['agreement'];
+                    $objAssetMaster->agreement = $requestData['agreement'] ?? 'N';
                     $objAssetMaster->price = $requestData['price'] ?? '-';
                     $objAssetMaster->asset_code = $asset_code;
                     $objAssetMaster->is_deleted = 'N';
