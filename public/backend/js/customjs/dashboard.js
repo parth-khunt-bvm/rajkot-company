@@ -86,15 +86,15 @@ var Dashboard = function () {
     var absentEmployeeList = function () {
         $('.select2').select2();
         var dataArr = {};
-        var columnWidth = { "width": "5%", "targets": 0 };
+        var columnWidth = {};
         var arrList = {
             'tableID': '#absent-emp-list',
             'ajaxURL': baseurl + "admin/dashboard/ajaxcall",
             'ajaxAction': 'absent-emp-list',
             'postData': dataArr,
             'hideColumnList': [],
-            'noSortingApply': [0, 5],
-            'noSearchApply': [0, 5],
+            'noSortingApply': [],
+            'noSearchApply': [],
             'defaultSortColumn': [0],
             'defaultSortOrder': 'DESC',
             'setColumnWidth': columnWidth

@@ -609,15 +609,15 @@ class Attendance extends Model
         $outputDate = date("Y-m-d");
         $requestData = $_REQUEST;
         $columns = array(
-            0 => 'attendance.id',
-            1 => 'attendance.date',
-            2 => DB::raw('CONCAT(first_name, " ", last_name)'),
-            3 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Present"
+            // 0 => 'attendance.id',
+            // 1 => 'attendance.date',
+            0 => DB::raw('CONCAT(first_name, " ", last_name)'),
+            1 => DB::raw('(CASE WHEN attendance.attendance_type = "0" THEN "Present"
                                 WHEN attendance.attendance_type = "1" THEN "Absent"
                                 WHEN attendance.attendance_type = "2" THEN "Half Day"
                                 ELSE "Short Leave" END)'),
-            4 => 'attendance.reason',
-            5 => 'attendance.minutes',
+            2 => 'attendance.reason',
+            // 5 => 'attendance.minutes',
             // 6 => 'emp_overtime.hours',
         );
         if ($outputDate != null && $outputDate != '') {
@@ -675,11 +675,11 @@ class Attendance extends Model
             }
             $i++;
             $nestedData = array();
-            $nestedData[] = $i;
-            $nestedData[] = date_formate($row['date']);
+            // $nestedData[] = $i;
+            // $nestedData[] = date_formate($row['date']);
             $nestedData[] = $row['fullName'];
             $nestedData[] = $attendance_type;
-            $nestedData[] = $row['minutes'];
+            // $nestedData[] = $row['minutes'];
             if (strlen($row['reason']) > $max_length) {
                 $nestedData[] = substr($row['reason'], 0, $max_length) . '...' ?? '-';
             } else {

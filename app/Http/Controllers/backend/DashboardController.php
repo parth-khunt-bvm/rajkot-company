@@ -28,11 +28,12 @@ class DashboardController extends Controller
         ->join("technology", "technology.id", "=", "employee.department")
         ->join("designation", "designation.id", "=", "employee.designation")
         ->join("branch", "branch.id", "=", "employee.branch")
-        ->select('employee.first_name', 'employee.last_name', 'technology.technology_name', 'employee.DOB','designation.designation_name')
+        ->select('employee.id', 'employee.first_name', 'employee.last_name', 'technology.technology_name', 'employee.DOB', 'designation.designation_name')
         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
         ->where("employee.is_deleted", "=", "N")
         ->where("employee.status", "=", "W")
         ->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today()->startOfMonth())), date("m-d", strtotime(today()->endOfMonth()))))
+        ->orderBy(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'))
         ->get();
 
         $data['date'] =  date_formate(date("Y-m-d"));

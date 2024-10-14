@@ -17,7 +17,7 @@ class PublicHolidayImport implements ToModel, WithStartRow
     {
         if (PublicHoliday::where('date', date('Y-m-d', strtotime($this->transformDate($row[0]))))->where('is_deleted', 'N')->count() == 0) {
             $objPublicHoliday = new PublicHoliday();
-            $objPublicHoliday->date =$this->transformDate($row[0]);
+            $objPublicHoliday->date = $this->transformDate($row[0]);
             $objPublicHoliday->holiday_name = $row[1];
             $objPublicHoliday->note = $row[2];
             $objPublicHoliday->is_deleted = 'N';
