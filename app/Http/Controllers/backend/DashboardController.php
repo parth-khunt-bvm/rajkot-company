@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\EmployeeBirthday;
 use App\Models\EmployeeBondLastDate;
+use App\Models\SocialMediaPost;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Users;
@@ -28,11 +29,11 @@ class DashboardController extends Controller
         ->join("technology", "technology.id", "=", "employee.department")
         ->join("designation", "designation.id", "=", "employee.designation")
         ->join("branch", "branch.id", "=", "employee.branch")
-        ->select('employee.id', 'employee.first_name', 'employee.last_name', 'technology.technology_name', 'employee.DOB', 'designation.designation_name')
+        ->select('employee.id', 'employee.first_name', 'employee.last_name', 'employee.employee_image', 'technology.technology_name', 'employee.DOB', 'designation.designation_name')
         ->whereIn('employee.branch', $_COOKIE['branch'] == 'all' ? user_branch(true) : [$_COOKIE['branch']])
         ->where("employee.is_deleted", "=", "N")
         ->where("employee.status", "=", "W")
-        ->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today()->startOfMonth())), date("m-d", strtotime(today()->endOfMonth()))))
+        ->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array(date("m-d", strtotime(today())), date("m-d", strtotime(today()->endOfMonth()))))
         ->orderBy(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'))
         ->get();
 
@@ -58,6 +59,7 @@ class DashboardController extends Controller
             'Dashboard.employee_birthday()',
             'Dashboard.employee_bond_last_date()',
             'Dashboard.absent_employee_list()',
+            'Dashboard.social_media_post_list()',
         );
         $data['header'] = array(
             'title' => 'Dashboard',
@@ -203,6 +205,12 @@ class DashboardController extends Controller
             case 'absent-emp-list':
                 $objTodayAttendance = new Attendance();
                 $list = $objTodayAttendance->getAbsentEmpList();
+                echo json_encode($list);
+                break;
+
+            case 'social-media-post-list':
+                $objSocialMediaPost = new SocialMediaPost();
+                $list = $objSocialMediaPost->getSocialMediaPostList();
                 echo json_encode($list);
                 break;
         }

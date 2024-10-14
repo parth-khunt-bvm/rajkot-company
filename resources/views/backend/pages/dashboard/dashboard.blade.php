@@ -2,7 +2,7 @@
 @section('section')
 
 @php
-    $image = url("upload/userprofile/default.jpg");
+    // $image = url("upload/userprofile/default.jpg");
 
 @endphp
     <!--begin::Entry-->
@@ -227,70 +227,120 @@
                     <!--begin::Advance Table Widget 2-->
                     <div class="card card-custom gutter-b">
                         <!--begin::Header-->
-                        <div class="card-header border-0 pt-5">
-                            <h3 class="card-title align-items-start flex-column">
+                        <div class="card-header border-0">
+                            <h3 class="card-title font-weight-bolder text-dark">Absent Employee</h3>
+                            {{-- <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label font-weight-bolder text-dark">Absent Employee</span>
-                            </h3>
-                            <div class="card-toolbar">
-                            </div>
+                            </h3> --}}
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                        <div class="card-body pt-2 pb-0 mt-n3 pb-5">
-                            <div class="tab-content mt-5" id="myTabTables11">
-                                <!--begin::Tap pane-->
-                                <div class="tab-pane fade show active" id="kt_tab_pane_11_3" role="tabpanel"
-                                    aria-labelledby="kt_tab_pane_11_3">
-                                    <!--begin::Table-->
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-checkable" id="absent-emp-list">
-                                            <thead>
-                                                <tr>
-                                                    {{-- <th>#</th> --}}
-                                                    {{-- <th>Date</th> --}}
-                                                    <th>Employee</th>
-                                                    <th>Attendance Type</th>
-                                                    {{-- <th>Minutes</th> --}}
-                                                    <th>Reason</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!--end::Table-->
+                        <div class="card-body pt-2">
+                            <div class="card-scroll" style="height: 300px;">
+                                <!--begin::Table-->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-checkable" id="absent-emp-list">
+                                        <thead>
+                                            <tr>
+                                                {{-- <th>#</th> --}}
+                                                {{-- <th>Date</th> --}}
+                                                <th>Employee</th>
+                                                <th>Attendance Type</th>
+                                                {{-- <th>Minutes</th> --}}
+                                                <th>Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!--end::Tap pane-->
+                                <!--end::Table-->
                             </div>
                         </div>
                         <!--end::Body-->
                     </div>
                     <!--end::Advance Table Widget 2-->
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-3">
                     <div class="card card-custom card-stretch gutter-b">
 
                         <div class="card-header border-0">
-                            <h3 class="card-title font-weight-bolder text-dark">Authors</h3>
+                            <h3 class="card-title font-weight-bolder text-dark">Employee Birthday List</h3>
                         </div>
                         
                         <div class="card-body pt-2">
-                            <div class="d-flex align-items-center mb-10">
-                                <div class="symbol symbol-40 symbol-light-success mr-5">
-                                    <span class="symbol-label">
-                                        <img src="{{ asset('backend/media/svg/avatars/009-boy-4.svg') }}" class="h-75 align-self-end" alt="">
-                                    </span>
+                            <div class="card-scroll" style="height: 300px;">
+                                @foreach ($employees as $employee)
+                                <div class="d-flex align-items-center mb-5">
+                                    <div class="symbol symbol-40 symbol-light-success mr-5">
+                                        @php
+                                            if(file_exists( public_path() . '/upload/userprofile/' . $employee['employee_image']) && $employee['employee_image'] != ''){
+                                                $image = url("upload/userprofile/" . $employee['employee_image']);
+                                            }else{
+                                                $image = url("upload/userprofile/default.jpg");
+                                            }
+                                        @endphp
+                                        <img src="{{ $image }}" class="h-75 align-self-end pre-img" alt="">
+                                    </div>
+                        
+                                    @php
+                                        $isBirthday = date('m-d', strtotime($employee['DOB'])) == date('m-d');
+                                        $birthdayClass = $isBirthday ? 'text-danger' : 'text-dark';
+                                        $detailsClass = $isBirthday ? 'text-danger' : 'text-muted';
+                                        $dobFormatted = \Carbon\Carbon::parse($employee['DOB'])->format('j M');
+                                    @endphp
+
+                                    <div class="d-flex flex-column flex-grow-1 font-weight-bold">
+                                        <a href="{{ route('admin.employee.view', $employee['id']) }}" class="{{ $birthdayClass }} text-hover-primary mb-1 font-size-lg">
+                                            {{ $employee['first_name'] . ' ' . $employee['last_name'] }}
+                                        </a>
+                                        <span class="{{ $detailsClass }}">
+                                            {{ $employee['technology_name'] . ' ' . $employee['designation_name'] }}
+                                        </span>
+                                        <span class="font-weight-bold {{ $detailsClass }}">
+                                            {{ $dobFormatted }}
+                                        </span>
+                                    </div>
                                 </div>
-                    
-                                <div class="d-flex flex-column flex-grow-1 font-weight-bold">
-                                    <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Ricky Hunt</a>
-                                    <span class="text-muted">PHP, SQLite, Artisan CLI</span>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-5">
+                    <!--begin::Advance Table Widget 2-->
+                    <div class="card card-custom gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0">
+                            <h3 class="card-title font-weight-bolder text-dark">Social Media Post</h3>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-2">
+                            <div class="card-scroll" style="height: 300px;">
+                                <!--begin::Table-->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-checkable" id="social-media-post-list">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Day</th>
+                                                <th>Post</th>
+                                                <th>Note</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end::Table-->
+                            </div>
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Advance Table Widget 2-->
+                </div>
+                {{-- <div class="col-xl-6">
                     <h2 class="mt-2 mb-2">Employee Birthday List</h2>
                     @php
                         $total_birthdays = count($employees);
@@ -304,6 +354,13 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0 mr-4 mt-lg-0 mt-3">
                                                 <div class="symbol symbol-circle symbol-lg-75">
+                                                    @php
+                                                        if(file_exists( public_path() . '/upload/userprofile/' . $employee['employee_image']) && $employee['employee_image'] != ''){
+                                                            $image = url("upload/userprofile/" . $employee['employee_image']);
+                                                        }else{
+                                                            $image = url("upload/userprofile/default.jpg");
+                                                        }
+                                                    @endphp
                                                     <img src="{{ $image }}" alt="image" />
                                                 </div>
                                                 <div class="symbol symbol-lg-75 symbol-circle symbol-primary d-none">
@@ -323,7 +380,7 @@
                         </div>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="row mt-5">
