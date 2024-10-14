@@ -14,7 +14,7 @@ class Audittrails extends Model
     use HasFactory;
     protected $table = 'audit_trails';
 
-    public function add_audit($event , $data, $module){
+    public function add_audit($event, $data, $module){
     //    dd($event);
         $agent = new Agent();
         $browser = $agent->browser();

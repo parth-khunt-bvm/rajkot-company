@@ -43,6 +43,7 @@ use App\Http\Controllers\backend\LatterTemplateController;
 use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 use App\Http\Controllers\backend\SalaryIncrementController;
+use App\Http\Controllers\backend\SocialMediaPostController;
 use App\Http\Controllers\EmployeeSalaryIncrementController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -313,6 +314,11 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::post('admin/public-holiday/save-edit-public-holiday', [PublicHolidayController::class, 'saveEdit'])->name('admin.public-holiday.save-edit-public-holiday');
     Route::post('admin/public-holiday/ajaxcall', [PublicHolidayController::class, 'ajaxcall'])->name('admin.public-holiday.ajaxcall');
     Route::post('admin/public-holiday/save-import-public-holiday', [PublicHolidayController::class, 'save_import'])->name('admin.public-holiday.save-import-public-holiday');
+
+    // Social media Posts
+    Route::resource('admin/social-media-post', SocialMediaPostController::class, ['names' => 'admin.social-media-post']);
+    Route::post('admin/social-media-post/ajaxcall', [SocialMediaPostController::class, 'ajaxcall'])->name('admin.social-media-post.ajaxcall');
+    Route::post('admin/social-media-post/import', [SocialMediaPostController::class, 'save_import'])->name('admin.social-media-post.import');
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');

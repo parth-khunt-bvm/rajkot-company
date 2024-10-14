@@ -234,6 +234,16 @@
                 ],
             ],
 
+            'social_media_post_menu' => [
+                'social_media_post_sub_menu' => [
+                    '165'  => 'Social Media Post list',
+                    '166'  => 'add Social Media Post',
+                    '167'  => 'view Social Media Post',
+                    '168'  => 'edit Social Media Post ',
+                    '169'  => 'delete Social Media Post',
+                ],
+            ],
+
             'attendance_menu' => [
                 'attendance_sub_menu' => [
                     '88'  => 'attendance list',
