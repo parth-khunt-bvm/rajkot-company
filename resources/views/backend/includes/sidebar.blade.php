@@ -188,6 +188,28 @@ if(file_exists( public_path().'/upload/company_info/'.$data['systemDetails'][0][
                 @endif
                 {{-- Attendance Menu End --}}
 
+                {{-- Interview Menu --}}
+
+                <li class="menu-item {{ ( $currentRoute  ==  "admin.interviews.index" || $currentRoute  ==  "admin.interviews.edit" || $currentRoute  ==  "admin.interviews.create" ? 'menu-item-active' : '' ) }}" aria-haspopup="true">
+                    <a href="{{ route('admin.interviews.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="6" cy="7" r="3" stroke="#000" stroke-width="2"/>
+                                <circle cx="18" cy="7" r="3" stroke="#000" stroke-width="2"/>
+                                <rect x="2" y="14" width="8" height="6" rx="2" stroke="#000" stroke-width="2"/>
+                                <rect x="14" y="14" width="8" height="6" rx="2" stroke="#000" stroke-width="2"/>
+                                <path d="M12 10 L12 14" stroke="#000" stroke-width="2"/>
+                                <path d="M10 16 L14 16" stroke="#000" stroke-width="2"/>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">Interview</span>
+                    </a>
+                </li>
+
+                {{-- Interview Menu End --}}
+
                 @php
                 $target = [];
                 $target = array(136, 137, 138, 139, 140);

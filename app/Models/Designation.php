@@ -179,10 +179,16 @@ class Designation extends Model
         }
     }
 
-        public function get_admin_designation_details(){
+    public function get_admin_designation_details(){
         return Designation::from('designation')
             ->select('designation.id','designation.designation_name','designation.status')
             ->get();
-      }
+    }
+
+    // Relationship to Interviews
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class, 'designation', 'id');
+    }
 
 }

@@ -341,7 +341,7 @@ class EmployeeController extends Controller
 
             case 'clear_cheque_image':
                 $objEmployee = Employee::find($request->input('user_id'));
-                
+
                 $objEmployee->cancel_cheque = null;
                 $objEmployee->save();
 
@@ -352,7 +352,7 @@ class EmployeeController extends Controller
                 $objAssetMaster = AssetMaster::leftJoin('asset', 'asset.id', '=', 'asset_master.asset_id')
                                     ->where('asset_master.allocated_user_id', '=', $request->input('data.id'))
                                     ->get(['asset.asset_type', 'asset_master.asset_code']);
-                
+
                 echo json_encode($objAssetMaster);
                 break;
 
@@ -606,7 +606,7 @@ class EmployeeController extends Controller
                 ->where('employee_id', $viewId)
                 ->where('is_deleted', 'N')
                 ->get();
-        
+
         $images = [];
         foreach($objDocument as $image){
             $imageArray = explode(', ', $image->attachement);

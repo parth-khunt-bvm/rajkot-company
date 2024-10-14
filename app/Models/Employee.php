@@ -472,7 +472,7 @@ class Employee extends Authenticatable
             $objEmployee->cheque_status = $requestData['cheque_status'];
             $objEmployee->updated_at = date('Y-m-d H:i:s');
             if ($objEmployee->save()) {
-                
+
                 $inputData['newData'] = Employee::find($requestData['employee_id']);
                 $inputData['employee_id'] = $requestData['employee_id'];
                 unset($inputData['newData']['_token']);
@@ -687,4 +687,9 @@ class Employee extends Authenticatable
              ->get();
     }
 
+    // Relationship to Interviews
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class, 'allocated_interviewer', 'id');
+    }
 }

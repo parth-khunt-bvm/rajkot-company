@@ -270,7 +270,7 @@ class AssetAllocationController extends Controller
         }
 
         public function assetAllocationExcel(){
-    
+
             return Excel::download(new AssetAllocationExport(), 'Assets-allocation.xlsx');
         }
 
