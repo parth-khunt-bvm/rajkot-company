@@ -180,4 +180,79 @@ class SocialMediaPost extends Model
                 ->select( 'social_media_post.id', 'social_media_post.date', 'social_media_post.post_detail', 'social_media_post.note')
                 ->first();
     }
+
+    public function getSocialMediaPostList(){
+
+        $requestData = $_REQUEST;
+        $columns = array(
+            0 => DB::raw('DATE_FORMAT(social_media_post.date, "%d-%b-%Y")'),
+            1 => DB::raw('DATE_FORMAT(social_media_post.date, "%W")'),
+            2 => 'social_media_post.post_detail',
+            3 => 'social_media_post.note',
+
+        );
+        $query = SocialMediaPost::from('social_media_post')
+            ->whereBetween('social_media_post.date', [
+                today()->toDateString(), 
+                today()->endOfMonth()->toDateString()
+            ])
+            ->where("social_media_post.is_deleted", "=", "N");
+
+        if (!empty($requestData['search']['value'])) {
+            $searchVal = $requestData['search']['value'];
+            $query->where(function ($query) use ($columns, $searchVal, $requestData) {
+                $flag = 0;
+                foreach ($columns as $key => $value) {
+                    $searchVal = $requestData['search']['value'];
+                    if ($requestData['columns'][$key]['searchable'] == 'true') {
+                        if ($flag == 0) {
+                            $query->where($value, 'like', '%' . $searchVal . '%');
+                            $flag = $flag + 1;
+                        } else {
+                            $query->orWhere($value, 'like', '%' . $searchVal . '%');
+                        }
+                    }
+                }
+            });
+        }
+
+        $temp = $query->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir']);
+
+        $totalData = count($temp->get());
+        $totalFiltered = count($temp->get());
+
+        $resultArr = $query->skip($requestData['start'])
+            ->take($requestData['length'])
+            ->select( 'social_media_post.id', 'social_media_post.date', 'social_media_post.post_detail', 'social_media_post.note')
+            ->get();
+
+        $data = array();
+        $max_length = 30;
+
+        foreach ($resultArr as $row) {
+            $formattedDate = date_formate($row['date']);
+            $isToday = date('d-M-Y') == $formattedDate;
+
+            $note = isset($row['note']) && strlen($row['note']) > $max_length 
+                ? substr($row['note'], 0, $max_length) . '...' 
+                : ($row['note'] ?? '-');
+
+            $dateClass = $isToday ? 'text-danger font-weight-bolder' : '';
+            $nestedData = [
+                "<span class=\"$dateClass\">$formattedDate</span>",
+                "<span class=\"$dateClass\">" . date("l", strtotime($row['date'])) . "</span>",
+                "<span class=\"$dateClass\">" . $row['post_detail'] . "</span>",
+                "<span class=\"$dateClass\">$note</span>",
+            ];
+        
+            $data[] = $nestedData;
+        }
+        $json_data = array(
+            "draw" => intval($requestData['draw']),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return $json_data;
+    }
 }

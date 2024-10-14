@@ -102,6 +102,25 @@ var Dashboard = function () {
         getDataTable(arrList);
     }
 
+    var socialMediaPostList = function () {
+        $('.select2').select2();
+        var dataArr = {};
+        var columnWidth = {};
+        var arrList = {
+            'tableID': '#social-media-post-list',
+            'ajaxURL': baseurl + "admin/dashboard/ajaxcall",
+            'ajaxAction': 'social-media-post-list',
+            'postData': dataArr,
+            'hideColumnList': [],
+            'noSortingApply': [],
+            'noSearchApply': [],
+            'defaultSortColumn': [0],
+            'defaultSortOrder': 'ASC',
+            'setColumnWidth': columnWidth
+        };
+        getDataTable(arrList);
+    }
+
 
     return {
         edit_profile: function () {
@@ -118,6 +137,9 @@ var Dashboard = function () {
         },
         absent_employee_list: function () {
             absentEmployeeList();
+        },
+        social_media_post_list: function () {
+            socialMediaPostList();
         },
     }
 }();

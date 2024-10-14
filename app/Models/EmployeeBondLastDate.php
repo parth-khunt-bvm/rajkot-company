@@ -119,8 +119,6 @@ class EmployeeBondLastDate extends Model
     public function employeeBondLastDateList()
     {
 
-        $image = url("upload/userprofile/default.jpg");
-
         $requestData = $_REQUEST;
         $columns = array(
             0 => 'employee.id',
@@ -165,7 +163,7 @@ class EmployeeBondLastDate extends Model
 
         $resultArr = $query->skip($requestData['start'])
             ->take($requestData['length'])
-            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'), 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date', 'employee.gmail','employee.personal_number')
+            ->select( 'employee.id', DB::raw('CONCAT(first_name, " ", last_name) as full_name'),  'employee.employee_image', 'technology.technology_name', 'designation.designation_name', 'employee.bond_last_date', 'employee.gmail','employee.personal_number')
             ->get();
 
         $data = array();
@@ -175,10 +173,17 @@ class EmployeeBondLastDate extends Model
             $i++;
             $nestedData = array();
             $nestedData[] = $i;
+
+            if(file_exists( public_path() . '/upload/userprofile/' . $row['employee_image']) && $row['employee_image'] != ''){
+                $image = url("upload/userprofile/" . $row['employee_image']);
+            } else {
+                $image = url("upload/userprofile/default.jpg");
+            }
+
             $nestedData[] = '<div class="d-flex align-items-center">'.
             '<div class="symbol symbol-50 symbol-sm flex-shrink-0">'.
             '<div class="symbol-label">'.
-            '<img height="48" class="align-self-end" src="' . $image . '" alt="photo"/>'.
+            '<img height="48" class="align-self-end pre-img" src="' . $image . '" alt="photo"/>'.
             '</div>'.
             '</div>'.
             '<div class="ml-4">'.
