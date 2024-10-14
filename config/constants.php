@@ -1,7 +1,7 @@
 <?php
     return [
         'PROJECT_NAME' => 'BVM Infotech - HRMS',
-
+        // 169
         'permission_master' => [
 
             'user_menu'=>[
@@ -241,6 +241,16 @@
                     '167'  => 'view Social Media Post',
                     '168'  => 'edit Social Media Post ',
                     '169'  => 'delete Social Media Post',
+                ],
+            ],
+
+            'interview_menu' => [
+                'interview_sub_menu' => [
+                    '170'  => 'Interview list',
+                    '171'  => 'add Interview',
+                    '172'  => 'Edit Interview',
+                    '173'  => 'View Interview',
+                    '174'  => 'Delete Interview',
                 ],
             ],
 

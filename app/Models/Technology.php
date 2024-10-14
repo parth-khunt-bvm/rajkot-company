@@ -188,8 +188,12 @@ class Technology extends Model
         return Designation::from('designation')
             ->select('designation.id','designation.designation_name','designation.status')
             ->get();
-        }
+    }
 
-
+    // Relationship to Technology model
+    public function technology()
+    {
+        return $this->belongsTo(Technology::class, 'technology', 'id');
+    }
 
 }

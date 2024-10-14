@@ -19,7 +19,7 @@
         'salary_slip_menu' => 'Salary Slip',
         'leave_request_menu'=> 'Leave Request',
         'employee_overtime_menu' => 'Employee Overtime',
-
+        'social_media_post_menu' => 'Social Media Posts',
 
         'user_sub_menu'=> 'Users',
         'user_role_sub_menu'=> 'User role',
@@ -58,6 +58,10 @@
         'salary_slip_sub_menu' => 'Salary Slip',
         'leave_request_sub_menu' => 'Leave Request',
         'employee_overtime_sub_menu' => 'Employee Overtime',
+        'social_media_post_sub_menu' => 'Social Media Posts',
+
+        'interview_menu' => 'Interview',
+        'interview_sub_menu' => 'Interview',
     ];
 
 ?>

@@ -44,6 +44,7 @@ use App\Http\Controllers\backend\LeaveRequestController;
 use App\Http\Controllers\backend\PublicHolidayController;
 use App\Http\Controllers\backend\SalaryIncrementController;
 use App\Http\Controllers\backend\SocialMediaPostController;
+use App\Http\Controllers\backend\InterviewsController;
 use App\Http\Controllers\EmployeeSalaryIncrementController;
 
 Route::get('admin-logout', [LoginController::class, 'adminLogout'])->name('admin-logout');
@@ -319,6 +320,10 @@ Route::group(['prefix' => $adminPrefix, 'middleware' => ['admin']], function() {
     Route::resource('admin/social-media-post', SocialMediaPostController::class, ['names' => 'admin.social-media-post']);
     Route::post('admin/social-media-post/ajaxcall', [SocialMediaPostController::class, 'ajaxcall'])->name('admin.social-media-post.ajaxcall');
     Route::post('admin/social-media-post/import', [SocialMediaPostController::class, 'save_import'])->name('admin.social-media-post.import');
+
+    // Interviews Posts
+    Route::resource('admin/interviews', InterviewsController::class, ['names' => 'admin.interviews']);
+    Route::post('admin/interviews/ajaxcall', [InterviewsController::class, 'ajaxcall'])->name('admin.interviews.ajaxcall');
 
     // Attendance
     Route::get('admin/attendance/list', [AttendanceController::class, 'list'])->name('admin.attendance.list');
