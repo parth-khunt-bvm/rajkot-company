@@ -20,7 +20,7 @@ class SocialMediaPostImport implements ToModel, WithStartRow
             $objSocialMediaPost = new SocialMediaPost();
             $objSocialMediaPost->date = $this->transformDate($row[0]);
             $objSocialMediaPost->post_detail = $row[1];
-            $objSocialMediaPost->note = $row[2];
+            $objSocialMediaPost->note = $row[2] ?? '-';
             $objSocialMediaPost->is_deleted = 'N';
             $objSocialMediaPost->created_at = date('Y-m-d H:i:s');
             $objSocialMediaPost->updated_at = date('Y-m-d H:i:s');
