@@ -48,13 +48,16 @@ class EmployeeBirthday extends Model
         }
 
         if ($fillterdata['bdayTime'] == 5) {
-            $startOfMonth = today()->addMonth()->startOfMonth();
-            $endOfMonth = today()->addMonth()->endOfMonth();
+            $currentMonth = today()->startOfMonth();
 
-            $startOfMonthFormatted = $startOfMonth->format('m-d');
-            $endOfMonthFormatted = $endOfMonth->format('m-d');
+            // Move to the next month
+            $nextMonth = $currentMonth->addMonth();
 
-            $query->whereBetween(DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'), array($startOfMonthFormatted, $endOfMonthFormatted));
+            // Apply whereBetween with correct formatting
+            $query->whereBetween(
+                DB::raw('DATE_FORMAT(employee.DOB, "%m-%d")'),
+                [$nextMonth->startOfMonth()->format('m-d'), $nextMonth->endOfMonth()->format('m-d')]
+            );
         }
 
         if (!empty($fillterdata['startDate'])) {
